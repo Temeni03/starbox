@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ShoppingBag, DollarSign, Clock, AlertTriangle } from 'lucide-react'
+import { ShoppingBag, Package, Truck, AlertTriangle } from 'lucide-react'
 import useSWR from 'swr'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
@@ -46,27 +46,28 @@ export default function AdminDashboard() {
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          label="Orders Today"
-          value={isLoading ? '…' : stats.ordersToday ?? 0}
+          label="Nombre de commandes"
+          value={isLoading ? '…' : stats.totalOrders ?? 0}
           icon={ShoppingBag}
           color="bg-brand-primary"
           href="/admin/orders"
         />
         <StatCard
-          label="Revenue Today"
-          value={isLoading ? '…' : `${(stats.revenueToday ?? 0).toLocaleString()} DA`}
-          icon={DollarSign}
+          label="Nombre de produits"
+          value={isLoading ? '…' : stats.totalProducts ?? 0}
+          icon={Package}
           color="bg-brand-secondary"
+          href="/admin/products"
         />
         <StatCard
-          label="Pending Orders"
-          value={isLoading ? '…' : stats.pendingOrders ?? 0}
-          icon={Clock}
+          label="Nombre de livreurs"
+          value={isLoading ? '…' : stats.totalDeliverers ?? 0}
+          icon={Truck}
           color="bg-status-pending"
-          href="/admin/orders?status=pending"
+          href="/admin/delivery"
         />
         <StatCard
-          label="Low Stock"
+          label="Stock faible"
           value={isLoading ? '…' : stats.lowStockProducts ?? 0}
           icon={AlertTriangle}
           color="bg-danger"

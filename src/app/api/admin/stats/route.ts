@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Order } from '@/models/Order'
 import { Product } from '@/models/Product'
+import { User } from '@/models/User'
 
 export async function GET() {
   const session = await auth()
@@ -12,28 +13,15 @@ export async function GET() {
 
   await connectDB()
 
-  const todayStart = new Date()
-  todayStart.setHours(0, 0, 0, 0)
-
   const [
-    ordersToday,
-    revenueTodayAgg,
-    pendingOrders,
     totalOrders,
-    totalRevenueAgg,
+    totalProducts,
+    totalDeliverers,
     lowStockProducts,
   ] = await Promise.all([
-    Order.countDocuments({ createdAt: { $gte: todayStart } }),
-    Order.aggregate([
-      { $match: { createdAt: { $gte: todayStart }, status: { $ne: 'cancelled' } } },
-      { $group: { _id: null, total: { $sum: '$grandTotal' } } },
-    ]),
-    Order.countDocuments({ status: 'pending' }),
     Order.countDocuments({}),
-    Order.aggregate([
-      { $match: { status: { $ne: 'cancelled' } } },
-      { $group: { _id: null, total: { $sum: '$grandTotal' } } },
-    ]),
+    Product.countDocuments({ isActive: true }),
+    User.countDocuments({ role: 'delivery' }),
     Product.countDocuments({
       isActive: true,
       $expr: { $lte: ['$quantity', '$lowStockThreshold'] },
@@ -41,11 +29,9 @@ export async function GET() {
   ])
 
   return NextResponse.json({
-    ordersToday,
-    revenueToday: revenueTodayAgg[0]?.total ?? 0,
-    pendingOrders,
     totalOrders,
-    totalRevenue: totalRevenueAgg[0]?.total ?? 0,
+    totalProducts,
+    totalDeliverers,
     lowStockProducts,
   })
 }

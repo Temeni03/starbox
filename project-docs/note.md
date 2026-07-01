@@ -1,9 +1,9 @@
 #admin
 ##dashboard
 -manque de page gerer le stock de produit
--list order manque la date
--si une demande delivrer je veux le supprimer dans la page de dashboard e aller au page de orders
--manque de nombre de produits,nombre d'orders,nombre de livraison
+-list order manque la date ✔
+-si une demande delivrer je veux le supprimer dans la page de dashboard e aller au page de orders✔
+-manque de nombre de produits,nombre d'orders,nombre de livraison ✔
 ##detail order 
 -unite de prix: DA--> MRU
 ##product
