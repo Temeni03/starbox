@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Starbox | Natural Blends for Your Star Glow</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#afa6ff",
+                    "tertiary-fixed-dim": "#c6bfff",
+                    "surface-container-high": "#e2e9ec",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#e5b4ff",
+                    "surface-container-low": "#eef5f7",
+                    "outline-variant": "#cfc2d2",
+                    "on-primary-container": "#622587",
+                    "inverse-surface": "#2b3234",
+                    "tertiary-fixed": "#e4dfff",
+                    "surface-variant": "#dde4e6",
+                    "on-tertiary-container": "#3c24b7",
+                    "inverse-on-surface": "#ebf2f4",
+                    "on-tertiary-fixed-variant": "#4029ba",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#4d4450",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#e8eff1",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffdbd0",
+                    "surface-tint": "#7f43a5",
+                    "on-secondary-container": "#795950",
+                    "on-secondary-fixed-variant": "#5d4037",
+                    "on-tertiary-fixed": "#160066",
+                    "background": "#f4fafd",
+                    "surface-bright": "#f4fafd",
+                    "secondary-fixed-dim": "#e6beb2",
+                    "surface-container-highest": "#dde4e6",
+                    "on-surface": "#161d1f",
+                    "primary-container": "#d896ff",
+                    "primary-fixed": "#f4d9ff",
+                    "on-primary-fixed": "#30004b",
+                    "inverse-primary": "#e5b4ff",
+                    "on-secondary-fixed": "#2c160f",
+                    "tertiary": "#5847d2",
+                    "secondary": "#76574e",
+                    "on-primary-fixed-variant": "#66298b",
+                    "secondary-container": "#fed4c8",
+                    "on-background": "#161d1f",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "outline": "#7e7381",
+                    "surface-dim": "#d4dbdd",
+                    "primary": "#7f43a5",
+                    "surface": "#f4fafd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "touch-target-min": "48px",
+                    "gutter": "16px",
+                    "margin-tablet": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Manrope"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f4fafd; /* Light Mode Base */
+            color: #161d1f;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(233, 213, 255, 0.3);
+        }
+        .product-shadow {
+            box-shadow: 0 10px 30px -10px rgba(216, 150, 255, 0.2);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(216, 150, 255, 0.15), transparent),
+                        radial-gradient(circle at bottom left, rgba(175, 166, 255, 0.1), transparent);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #d896ff; border-radius: 10px; }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-margin-mobile h-touch-target-min w-full">
+<div class="flex items-center gap-2">
+<button class="flex items-center justify-center w-10 h-10 active:scale-95 transition-transform hover:bg-primary-container/20 rounded-full">
+<span class="material-symbols-outlined text-primary">menu</span>
+</button>
+<span class="font-headline-xl text-headline-xl text-primary tracking-tight md:text-headline-xl-mobile">Starbox</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="flex items-center justify-center w-10 h-10 active:scale-95 transition-transform hover:bg-primary-container/20 rounded-full">
+<span class="material-symbols-outlined text-primary">search</span>
+</button>
+<div class="hidden md:flex gap-4 ml-4">
+<a class="font-label-lg text-label-lg text-primary" href="#">Home</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">Shop</a>
+<a class="font-label-lg text-label-lg text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-16 pb-24 md:pb-0">
+<!-- Hero Section -->
+<section class="hero-gradient px-margin-mobile pt-10 pb-16 flex flex-col items-center text-center relative overflow-hidden">
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-primary-container/20 rounded-full blur-3xl animate-pulse"></div>
+<div class="z-10 max-w-2xl mx-auto">
+<div class="mb-6 flex justify-center">
+<img alt="Starbox Luxury Brand Logo" class="h-20 w-auto object-contain drop-shadow-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-HDi8s5B1IqPrHvyKmkU3cgCYQMBoshaxo26qqWUQMPOVPB1L_LtvEBUlenXWvkBfhTXjHpkdXWNZKfSzRA6DuoJu_Jb92Y1xRgq2tQficaq_hIJ9SlTQUGPS_bF2hiqF7C7TvxVXtx9mN_UO16hWBHYeEl7RHzG8lSkgmEXTpobCZ94TElztzupOp0KPazBg1lBDjNmBWpUTGNc98rc-Z8s_S03N6KJ_0904BcrA3zv3l3WRm_3KRdFCtVoGBH-jnAXMeMEAC4o"/>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-4 leading-tight">
+                    Natural Blends for Your <span class="text-primary">Star Glow</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-8 max-w-md mx-auto">
+                    Curated botanical skincare designed to illuminate your natural radiance with sustainable, luxury ingredients.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center">
+<button class="bg-primary text-on-primary h-touch-target-min px-10 rounded-full font-label-lg text-label-lg shadow-lg active:scale-95 transition-all">
+                        Shop Now
+                    </button>
+<button class="bg-surface-container-high text-primary h-touch-target-min px-10 rounded-full font-label-lg text-label-lg border border-outline-variant/30 active:scale-95 transition-all">
+                        View Collection
+                    </button>
+</div>
+</div>
+<!-- Visual Anchor -->
+<div class="mt-12 w-full max-w-4xl mx-auto rounded-3xl overflow-hidden glass-card p-2 shadow-2xl relative">
+<div class="bg-cover bg-center w-full h-[300px] md:h-[500px] rounded-[1.25rem]" data-alt="A high-end commercial photograph of luxury skincare products arranged artistically on a white marble surface. Soft lavender and golden morning light filters through a nearby window, creating a serene and premium atmosphere. The scene features translucent glass bottles and minimalist packaging with clean typography. The aesthetic is clean, airy, and sophisticated, emphasizing the natural ingredients." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBQbLiEgc-64yrWVyaX3sL2M7wCXE2O-xrXBH5Es9RLFlzysDPJtuP7sljMEE6OIfMbpmKsnxkDXY68se0a9EvXr2XsabJbNIK2Zeh5-yxB9GLcCfz-wCEhN3G3z2_zBpofsqqmNh9UeuSyD7L5hhDQHJ6GsEVzlSreaKVCwUkEqlJbH5JsWuKJD-6E5yXP4O1O7r6L9d8_LcAYWRTz_1PXqbnNlmFK2a_LxwsJJdq4APHxe2Jj2vPACxS_VN04eOrRGirfxsb3Zyk')"></div>
+<div class="absolute bottom-6 left-6 right-6 glass-card p-6 rounded-2xl hidden md:flex justify-between items-center">
+<div class="flex gap-8">
+<div>
+<div class="text-primary font-headline-md">100%</div>
+<div class="text-label-sm text-on-surface-variant">Organic Blends</div>
+</div>
+<div>
+<div class="text-primary font-headline-md">24hr</div>
+<div class="text-label-sm text-on-surface-variant">Hydration</div>
+</div>
+</div>
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-white bg-secondary-container"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-tertiary-container"></div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-primary-container flex items-center justify-center text-[10px] font-bold">+5k</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Products -->
+<section class="py-16 px-margin-mobile">
+<div class="max-w-6xl mx-auto">
+<div class="flex items-end justify-between mb-10">
+<div>
+<span class="text-primary font-label-lg uppercase tracking-widest">Selected For You</span>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mt-2">Featured Products</h2>
+</div>
+<a class="text-primary font-label-lg flex items-center gap-1 hover:underline" href="#">
+                        See All <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<!-- Product 1 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-2xl overflow-hidden bg-surface-container-low mb-3">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium glass bottle of facial serum with a gold dropper, placed against a soft lavender fabric background. Soft-focus lighting creates an elegant glow on the bottle. The aesthetic is minimalist and high-end, matching a luxury boutique skincare brand's identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6On529ZsdXHA7YjoKQ4BnoXyuTbcWAAfqndDuAZnsQSYSNUMwNsbYdEaeGth-hDVaRczWxhXMBxaVjGxpATunaFqXfg2UBwMTQHmEkP9Mjilf39rdJjSN1SrdOfUb2bnAQWT3bcOATCi5JFGm96gmZeZ91DojEU0kgq69U2B5KYi7-V_7U4L_JjG1Dq3NIyX3NWR02gH4VVXdmcO_MnHBUYAxSeK2oX4fF9I01QLvtQZSLOARISxcBrXi_Rr55J9LuPq5l9quxgc"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<h3 class="font-body-lg font-semibold text-on-surface">Celestial Mist</h3>
+<p class="text-label-sm text-on-surface-variant">Hydrating Tonic</p>
+<p class="text-primary font-bold mt-1">$48.00</p>
+</div>
+<!-- Product 2 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-2xl overflow-hidden bg-surface-container-low mb-3">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A jar of luxurious white face cream with a wooden lid, sitting on a smooth stone in a shallow pool of water. Soft ripples in the water reflect the gentle pink morning sky. The lighting is ethereal and clean, emphasizing purity and natural hydration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKw2oQUJ9nIFBie0EqyGEm7rifri18HXtwqWcNsjEBsiX84wDdYTxKiYxVwxI_nL_xcFXhrNe84a779BETMYystUSSSrNq2DiGx78qSYkM7uQPUU3cbmxX9jUjeLcgWB7H8owFrw604i_o_GbjVVYHLzKn5IEjpD22PS7xScnwKhq_bcpq_IHY7C490YhOjNf92HtW_oSjo9X-i3tqukSh_KO_xCxvKBvDtN_dRooJ2GTxqhRov9nhpZfFsUzm-8ahWO5_35rM_mw"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<h3 class="font-body-lg font-semibold text-on-surface">Moonlight Cream</h3>
+<p class="text-label-sm text-on-surface-variant">Night Repair</p>
+<p class="text-primary font-bold mt-1">$62.00</p>
+</div>
+<!-- Product 3 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-2xl overflow-hidden bg-surface-container-low mb-3">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="An amber glass bottle containing a golden botanical oil, surrounded by dried lavender sprigs and small white flowers. The lighting is warm and golden-hour inspired, casting soft shadows. The overall feel is organic, earthy, and deeply relaxing." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyZYoAWhGB_Abu747lilGyu6Ba5T1htOlo2SxfGAD3yNyCNGfzDrELR0BZMFhIRIkEc1sJw-_SuHrsypKHekib9CnUTuwf9NsthHfjoObwoNGM8MKgO7exuIrHL6L20gQBFU_5sCvPGqwzL9MbHhGYI9PWX1K1bG2fcspW8jkyaccB8Nmy7qTYpGoymFF2NkRSiRERdIEg3XyzsOxidvhnBJwcxHvtdUGaEOPVeL7IdS1Kzm4HOgIOvKGSp-ZLpg8L0CiUblYmC6I"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<h3 class="font-body-lg font-semibold text-on-surface">Stellar Elixir</h3>
+<p class="text-label-sm text-on-surface-variant">Deep Nourishment</p>
+<p class="text-primary font-bold mt-1">$75.00</p>
+</div>
+<!-- Product 4 -->
+<div class="group cursor-pointer">
+<div class="relative aspect-[3/4] rounded-2xl overflow-hidden bg-surface-container-low mb-3">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist white tube of luxury sunscreen placed on a bright, sunny pool deck next to clear blue water. Bright, high-contrast sunlight creates sharp shadows and a clean, refreshing summer vibe. The aesthetic is modern, healthy, and vibrant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-Gc9ef_hzzMh50En74mopRwywHqXq52FQj_EGVLlYrrAgtw9qWDuoKJ2QjbxUtDAL7uUFJ_CS-tZhVIZNmY5gn0IbbtT8S5xbV2wZqMTYgvZbLeN-E1XNALltTU_Ix67ExYvIVRBPvMlNd6Y83v7rbiiGeQvsKgBrtJ6AYZWn6N_V3hhiZ8Luw7c31ZARReRgE6mZwVrEnBcvhySNuFXgKifXko3hetIX7JL1Fc1yeChvtO3rVMgQ2rZ20Bh8643AAhyMn-YXQIk"/>
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<h3 class="font-body-lg font-semibold text-on-surface">Solar Shield</h3>
+<p class="text-label-sm text-on-surface-variant">Daily SPF 50</p>
+<p class="text-primary font-bold mt-1">$35.00</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Starbox -->
+<section class="py-20 bg-surface-container-low relative overflow-hidden">
+<div class="max-w-6xl mx-auto px-margin-mobile text-center relative z-10">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-12">The Starbox Promise</h2>
+<div class="grid md:grid-cols-3 gap-12">
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-3xl bg-primary-container/30 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-primary text-[32px]">local_shipping</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">Fast Delivery</h3>
+<p class="text-on-surface-variant max-w-xs">Premium shipping partners ensure your glow arrives within 48 hours, wherever you are.</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-3xl bg-tertiary-container/30 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-tertiary text-[32px]">lock</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">Secure Payments</h3>
+<p class="text-on-surface-variant max-w-xs">Your data is protected by bank-grade encryption for a worry-free luxury checkout experience.</p>
+</div>
+<div class="flex flex-col items-center">
+<div class="w-16 h-16 rounded-3xl bg-secondary-container/30 flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-[32px]">eco</span>
+</div>
+<h3 class="font-headline-md text-headline-md mb-3">Ethical Sourcing</h3>
+<p class="text-on-surface-variant max-w-xs">We partner with local growers to ensure every drop is cruelty-free and sustainably harvested.</p>
+</div>
+</div>
+</div>
+<!-- Decorative circle -->
+<div class="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-container/10 rounded-full blur-3xl"></div>
+</section>
+<!-- Newsletter / Footer-ish Section -->
+<section class="py-20 px-margin-mobile bg-primary text-on-primary">
+<div class="max-w-4xl mx-auto text-center">
+<h2 class="font-headline-lg text-headline-lg mb-4">Join the Starbox Circle</h2>
+<p class="font-body-lg mb-8 opacity-90">Get early access to new blends and exclusive skincare tips.</p>
+<form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="event.preventDefault(); alert('Subscribed!')">
+<input class="flex-1 px-6 h-touch-target-min rounded-full border-none bg-white/20 text-white placeholder:text-white/60 focus:ring-2 focus:ring-white outline-none" placeholder="Email Address" type="email"/>
+<button class="bg-white text-primary h-touch-target-min px-8 rounded-full font-label-lg shadow-lg hover:bg-surface-container-low transition-colors">
+                        Subscribe
+                    </button>
+</form>
+</div>
+</section>
+<!-- Main Footer Links (Desktop Only) -->
+<footer class="hidden md:block py-12 px-margin-mobile bg-surface-container-highest border-t border-outline-variant/20">
+<div class="max-w-6xl mx-auto grid grid-cols-4 gap-8">
+<div>
+<span class="font-headline-xl text-primary mb-6 block">Starbox</span>
+<p class="text-on-surface-variant text-label-sm">Defining luxury skincare through botanical science and sustainable elegance since 2024.</p>
+</div>
+<div>
+<h4 class="font-label-lg mb-4 text-on-surface">Collection</h4>
+<ul class="space-y-2 text-label-sm text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">Face Serums</a></li>
+<li><a class="hover:text-primary" href="#">Hydration Creams</a></li>
+<li><a class="hover:text-primary" href="#">Night Rituals</a></li>
+<li><a class="hover:text-primary" href="#">Limited Editions</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-lg mb-4 text-on-surface">Company</h4>
+<ul class="space-y-2 text-label-sm text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">Our Story</a></li>
+<li><a class="hover:text-primary" href="#">Sustainability</a></li>
+<li><a class="hover:text-primary" href="#">Journal</a></li>
+<li><a class="hover:text-primary" href="#">Stockists</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-label-lg mb-4 text-on-surface">Support</h4>
+<ul class="space-y-2 text-label-sm text-on-surface-variant">
+<li><a class="hover:text-primary" href="#">Help Center</a></li>
+<li><a class="hover:text-primary" href="#">Shipping Policy</a></li>
+<li><a class="hover:text-primary" href="#">Returns</a></li>
+<li><a class="hover:text-primary" href="#">Contact Us</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-6xl mx-auto mt-12 pt-8 border-t border-outline-variant/10 flex justify-between items-center text-label-sm text-on-surface-variant/60">
+<span>© 2024 Starbox Cosmetics Ltd.</span>
+<div class="flex gap-4">
+<a href="#">Instagram</a>
+<a href="#">Pinterest</a>
+<a href="#">TikTok</a>
+</div>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-lg rounded-t-xl">
+<div class="flex justify-around items-center h-16 w-full px-2 pb-safe">
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200 hover:opacity-80" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200 hover:opacity-80" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200 hover:opacity-80" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</div>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('button, a').forEach(el => {
+            el.addEventListener('click', (e) => {
+                const ripple = document.createElement('div');
+                ripple.className = 'absolute bg-white/20 rounded-full animate-ping pointer-events-none';
+                ripple.style.width = '20px';
+                ripple.style.height = '20px';
+                ripple.style.left = `${e.clientX}px`;
+                ripple.style.top = `${e.clientY}px`;
+                // This is a simple visual feedback, real ripples would need relative parent
+            });
+        });
+
+        // Intersection observer for fade-in effects
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
+</body></html>

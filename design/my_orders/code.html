@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#ebf2f4",
+                    "on-secondary-fixed-variant": "#5d4037",
+                    "surface-container-high": "#e2e9ec",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#4029ba",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#7f43a5",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#afa6ff",
+                    "surface-variant": "#dde4e6",
+                    "on-surface": "#161d1f",
+                    "outline-variant": "#cfc2d2",
+                    "background": "#f4fafd",
+                    "surface-container-highest": "#dde4e6",
+                    "on-primary-container": "#622587",
+                    "surface-dim": "#d4dbdd",
+                    "on-secondary-container": "#795950",
+                    "on-primary-fixed": "#30004b",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#e5b4ff",
+                    "outline": "#7e7381",
+                    "on-surface-variant": "#4d4450",
+                    "on-surface": "#161d1f",
+                    "surface": "#f4fafd",
+                    "secondary": "#76574e",
+                    "surface-bright": "#f4fafd",
+                    "tertiary": "#5847d2",
+                    "inverse-surface": "#2b3234",
+                    "tertiary-fixed": "#e4dfff",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#c6bfff",
+                    "secondary-fixed": "#ffdbd0",
+                    "secondary-fixed-dim": "#e6beb2",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#160066",
+                    "secondary-container": "#fed4c8",
+                    "surface-container": "#e8eff1",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#f4d9ff",
+                    "on-background": "#161d1f",
+                    "primary-container": "#d896ff",
+                    "on-secondary-fixed": "#2c160f",
+                    "on-primary-fixed-variant": "#66298b",
+                    "surface-container-low": "#eef5f7",
+                    "primary": "#7f43a5",
+                    "inverse-primary": "#e5b4ff",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-tablet": "24px",
+                    "gutter": "16px",
+                    "touch-target-min": "48px",
+                    "unit": "4px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Manrope"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Manrope"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Manrope"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            user-select: none;
+        }
+        .status-badge {
+            @apply px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1 w-fit;
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-24">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-margin-mobile h-touch-target-min w-full">
+<button class="text-primary active:scale-95 transition-transform p-2 hover:bg-primary-container/20 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-xl text-headline-xl text-primary dark:text-primary-fixed-dim tracking-tight">Starbox</h1>
+<button class="text-primary active:scale-95 transition-transform p-2 hover:bg-primary-container/20 rounded-full">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-20 px-margin-mobile">
+<div class="flex flex-col gap-6">
+<!-- Header Section -->
+<div class="flex flex-col gap-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Order History</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Track and manage your luxury purchases.</p>
+</div>
+<!-- Filter Chips -->
+<div class="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full font-label-sm text-label-sm whitespace-nowrap active:scale-95 transition-all">All Orders</button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-2 rounded-full font-label-sm text-label-sm whitespace-nowrap active:scale-95 transition-all">Active</button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-2 rounded-full font-label-sm text-label-sm whitespace-nowrap active:scale-95 transition-all">Delivered</button>
+<button class="bg-surface-container-high text-on-surface-variant px-4 py-2 rounded-full font-label-sm text-label-sm whitespace-nowrap active:scale-95 transition-all">Cancelled</button>
+</div>
+<!-- Orders List -->
+<div class="flex flex-col gap-4">
+<!-- Order Card 1: Active -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex flex-col gap-4 hover:shadow-md transition-shadow active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Order #SB-98234</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Oct 24, 2023</span>
+</div>
+<div class="bg-primary-container/20 text-on-primary-container px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">local_shipping</span>
+                            In Transit
+                        </div>
+</div>
+<div class="flex gap-3 overflow-x-auto">
+<div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close-up shot of a high-end designer leather handbag in a soft lavender hue, resting on a marble surface with soft, cinematic light-mode lighting. The aesthetic is clean and minimal, emphasizing quality textures and the brand's sophisticated Starbox color palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCskjM36xyVY2r4NNhcxHQbd-g0hhppC60W9U1z_1joEtcy6zZu0XlnJkamMLmf2qGboUlUkRdghC2ySAfEqu03QtIIZv0QsDDWelc9c5g5_XTUMyzs987_AGPUP0QgkC9nkCoJGczvslbvJOPQdTXZksGQ2JsfNsbRvRN1ex-MiiaFJcuCPIwuM7PdzFC0C-cMF507LSmb_tMH-Qql3uk66gZnJE6sLcFB6DCz09u1bABa5-0Qs4I9naVb1pDEz5iiLgNJbgZ8Mk"/>
+</div>
+<div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close-up of a premium minimalist wristwatch with a silver mesh strap and a white dial, photographed in a bright, airy studio environment. The image uses soft pink and lavender shadows to create a luxurious and feminine feel consistent with modern e-commerce branding." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtDIz7l3GmzVvqA4Kt3YxszZoRs-W7GXW4NQGcm77plrvI3VgqAhE8TxZbbmraG95rEhWvyWyTHQAn7eAEGLSz-f5GzVCopUpUDBhYyn63DGb0ZKNnnUtyXnGO3ZtwZlDHrK8C6t1csT8tL2o1yrEf0K7xENACpvcKpEvtQuzUaqM24g3m0HTvt8US0jUxoJqg5Z8kAcV2F_rSZ6l7LrjbDRa2tFEpLCx9w-SEzdE1f-K2MYHIPXw597EJPhAYey-47PmroLglVfY"/>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/20">
+<span class="font-body-md text-body-md text-on-surface-variant">Total (2 items)</span>
+<span class="font-headline-md text-headline-md text-primary">$1,240.00</span>
+</div>
+</div>
+<!-- Order Card 2: Confirmed -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex flex-col gap-4 hover:shadow-md transition-shadow active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Order #SB-98112</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Oct 21, 2023</span>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+                            Confirmed
+                        </div>
+</div>
+<div class="flex gap-3">
+<div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A pair of luxury silk pajamas folded neatly on a plush white chair. The setting is a brightly lit, high-end bedroom with soft pastel pink accents. High-key lighting creates a professional, curated e-commerce look that feels calm and premium." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZqgzavfLg2KqdSWLqGJE6fkey2BffiCDEU8N_STpa7Uaj2u3TjaTFcsVQvrR0gz5E_n7drdJw0OQ0DeizzEhxdfB25ZhHwR4KHV4smd93lrH3ScUm7XIb4YvDmGO0J2VZ5osceIjBo3sW1xmR3OXWYG58yq3uRWk1Q8dGk6eEygTmtSoIugczzHsH9QchR32s2mFu985Vq-TOZX2cKaNPieoKjGiWCsZt5-au-LT3RVVqg_cvaE61gUgRtanBClRbZFKpOnnqhkE"/>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/20">
+<span class="font-body-md text-body-md text-on-surface-variant">Total (1 item)</span>
+<span class="font-headline-md text-headline-md text-primary">$345.50</span>
+</div>
+</div>
+<!-- Order Card 3: Delivered -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex flex-col gap-4 opacity-80 hover:opacity-100 transition-all active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Order #SB-97550</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Oct 12, 2023</span>
+</div>
+<div class="bg-surface-container-high text-on-surface-variant px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+                            Delivered
+                        </div>
+</div>
+<div class="flex gap-3">
+<div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="A collection of high-end skincare bottles with minimalist labeling arranged on a frosted glass tray. The scene is illuminated by soft, cool-toned daylight, creating a clean and clinical yet luxurious feel. The color palette features whites, silvers, and hints of lavender." src="https://lh3.googleusercontent.com/aida-public/AB6AXuABiubicMtuScJ7XJon214JL-zcSgH0HchKOn0zk5rx8YC8j3Xh8b1OKGJVYxyWshmk7Rq5dH4CPzTWK-prkiv84O7TgrrhQ19EsJMM7iYSUIilZ7xQvC-Zvc0t6U06GECQ7WanlOBoT2EKkVta8UbbYST5mDh3LYJbjej14-fbN2K9alT_QXnuwij62ev3EiSd4Bg27tFuFZQVEA8K7WwIfxABWOBb_aASMicdh7y6j4DFVfZRMWUEK8L-08SrMbv1vIUkVMwhCNM"/>
+</div>
+<div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Scented candle in a minimalist ceramic jar with a soft lavender flame reflection. The background is a blurred, airy living space with light-colored textiles. This high-end product photography uses depth of field to create an intimate and premium shopping experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7H3iZYNwnxvxm4IBnpwtanA-qqa8cqO-TjnUS5SuAjRtPXUdA44pQGo9UfhP8gzGip5V_T3Y-eGPyD3rFXDOLrLrA1GdzvHrN_OXc0U8y8pme43lgA07cKWSB6NEF_zhH0AMHdaTxNgTPwRBgTEogjYwbxcawLwecyGxaR8qDCziF2hq2ORHG7AmV-7CctG86FOp_AKGbLWGOj8e90wMm4XEkHAiCp3zmwBI010k0nOLkrzMYEM-2IA5eMq1_xVr93K9NC6fCscA"/>
+</div>
+<div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-surface-container flex items-center justify-center border border-dashed border-outline-variant">
+<span class="font-label-sm text-label-sm text-on-surface-variant">+1</span>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/20">
+<span class="font-body-md text-body-md text-on-surface-variant">Total (3 items)</span>
+<span class="font-headline-md text-headline-md text-primary">$512.00</span>
+</div>
+<div class="flex gap-2 mt-2">
+<button class="flex-1 py-2 rounded-lg border border-primary text-primary font-label-lg text-label-lg hover:bg-primary/5 active:scale-95 transition-all">Reorder</button>
+<button class="flex-1 py-2 rounded-lg bg-surface-container-high text-on-surface-variant font-label-lg text-label-lg hover:bg-surface-container-highest active:scale-95 transition-all">Leave Review</button>
+</div>
+</div>
+<!-- Order Card 4: Pending -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/30 flex flex-col gap-4 hover:shadow-md transition-shadow active:scale-[0.98]">
+<div class="flex justify-between items-start">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Order #SB-97001</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">Oct 05, 2023</span>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                            Pending
+                        </div>
+</div>
+<div class="flex gap-3">
+<div class="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="An assortment of premium artisan chocolates in a sophisticated velvet box. The box is deep purple with gold foil lettering. The lighting is focused and dramatic, highlighting the intricate details of the chocolates and the soft texture of the lavender-tinted box." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDg1y5QrcAVELUEVYa4sFJzmatVgFCr6ib7X-NtAI3ML25kXna8xTUttW-gLo1EcY2SrTA0PzN--uv5vKrtu7cB82RqLG4i1Rl7ZKogGsrXixZziReTg7qx33ncAEA7FftdYBIsThJi1O7LmsYjnM7ADu4q-xCrnL86qpqUivHxtU-a1fBsOL9cdEkdM28jKAaL0WJ1jWCUGLDxALzj-UDYvNztgl1LCtp_RQ5dTHdsAgj60C6v3CRZ2uRy76jan2haXiFRJ0AaWXs"/>
+</div>
+</div>
+<div class="flex justify-between items-center pt-2 border-t border-outline-variant/20">
+<span class="font-body-md text-body-md text-on-surface-variant">Total (1 item)</span>
+<span class="font-headline-md text-headline-md text-primary">$89.00</span>
+</div>
+</div>
+</div>
+<!-- Empty State / Recommendation Section (Asymmetric UI Pattern) -->
+<div class="mt-8 bg-gradient-to-br from-primary-container/20 to-tertiary-container/20 rounded-2xl p-6 relative overflow-hidden">
+<div class="relative z-10 flex flex-col gap-4">
+<h3 class="font-headline-md text-headline-md text-primary">Need help with an order?</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-[70%]">Our concierge team is available 24/7 for any questions regarding your delivery or returns.</p>
+<button class="bg-primary text-on-primary w-fit px-6 py-2 rounded-full font-label-lg text-label-lg shadow-md active:scale-95 transition-all">Chat with Us</button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-9xl text-primary/10 rotate-12" style="font-variation-settings: 'FILL' 1;">support_agent</span>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-lg">
+<div class="flex justify-around items-center h-16 w-full px-2 pb-safe">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</button>
+<div class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</div>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</div>
+</nav>
+<script>
+        // Simple filter chip interaction
+        const chips = document.querySelectorAll('.flex.gap-2.overflow-x-auto button');
+        chips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chips.forEach(c => {
+                    c.classList.remove('bg-primary', 'text-on-primary');
+                    c.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+                });
+                chip.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+                chip.classList.add('bg-primary', 'text-on-primary');
+            });
+        });
+
+        // Pull to refresh simulation or other micro-interactions could go here
+    </script>
+</body></html>

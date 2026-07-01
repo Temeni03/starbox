@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Starbox Admin | Order Management</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-on-surface": "#ebf2f4",
+                        "on-secondary-fixed-variant": "#5d4037",
+                        "surface-container-high": "#e2e9ec",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#4029ba",
+                        "on-secondary": "#ffffff",
+                        "surface-tint": "#7f43a5",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#afa6ff",
+                        "surface-variant": "#dde4e6",
+                        "on-surface": "#161d1f",
+                        "outline-variant": "#cfc2d2",
+                        "background": "#f4fafd",
+                        "surface-container-highest": "#dde4e6",
+                        "on-primary-container": "#622587",
+                        "surface-dim": "#d4dbdd",
+                        "on-secondary-container": "#795950",
+                        "on-primary-fixed": "#30004b",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#e5b4ff",
+                        "outline": "#7e7381",
+                        "on-surface-variant": "#4d4450",
+                        "on-surface": "#161d1f",
+                        "surface": "#f4fafd",
+                        "secondary": "#76574e",
+                        "surface-bright": "#f4fafd",
+                        "tertiary": "#5847d2",
+                        "inverse-surface": "#2b3234",
+                        "tertiary-fixed": "#e4dfff",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#c6bfff",
+                        "secondary-fixed": "#ffdbd0",
+                        "secondary-fixed-dim": "#e6beb2",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#160066",
+                        "secondary-container": "#fed4c8",
+                        "surface-container": "#e8eff1",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#f4d9ff",
+                        "on-background": "#161d1f",
+                        "primary-container": "#d896ff",
+                        "on-secondary-fixed": "#2c160f",
+                        "on-primary-fixed-variant": "#66298b",
+                        "surface-container-low": "#eef5f7",
+                        "primary": "#7f43a5",
+                        "inverse-primary": "#e5b4ff",
+                        "error": "#ba1a1a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-tablet": "24px",
+                        "gutter": "16px",
+                        "touch-target-min": "48px",
+                        "unit": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Manrope"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Manrope"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Manrope"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .order-scroll::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex flex-col">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-sm flex items-center justify-between px-margin-mobile h-touch-target-min">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">Starbox</h1>
+</div>
+<button class="active:scale-95 transition-transform text-primary">
+<span class="material-symbols-outlined">search</span>
+</button>
+</header>
+<main class="flex-1 mt-16 mb-20 px-margin-mobile pt-4">
+<!-- Stats Overview (Bento Style) -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="glass-card p-4 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Pending</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">12</span>
+</div>
+<div class="glass-card p-4 rounded-xl border border-outline-variant shadow-sm flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Processing</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-secondary">08</span>
+</div>
+</div>
+<!-- Section Title -->
+<div class="flex items-center justify-between mb-4">
+<h2 class="font-headline-md text-headline-md">New Orders</h2>
+<span class="bg-primary-container text-on-primary-container font-label-sm text-label-sm px-3 py-1 rounded-full">Today</span>
+</div>
+<!-- Orders List -->
+<div class="flex flex-col gap-4">
+<!-- Order Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant transition-all hover:shadow-md">
+<div class="flex justify-between items-start mb-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">#ORD-8821</span>
+<h3 class="font-body-lg text-body-lg font-bold">Alexander Wright</h3>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-body-lg text-body-lg font-bold text-primary">$492.00</span>
+<span class="flex items-center gap-1 text-[10px] uppercase tracking-wider font-bold text-error">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                            Unverified
+                        </span>
+</div>
+</div>
+<!-- Payment Proof Section -->
+<div class="flex gap-4 mb-4 items-center bg-surface-container-low p-2 rounded-lg">
+<div class="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 group cursor-pointer" onclick="openProof(this)">
+<img class="w-full h-full object-cover" data-alt="A professional high-resolution photograph of a mobile banking transaction receipt screen on a smartphone, displaying a successful transfer amount. The image uses a clean, light-mode interface with soft lavender accents and minimalist typography. The background is a soft-focus studio setting with natural morning light, emphasizing a high-end, secure digital financial atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH5AgJilSmxuVf5O4JEyXpHKAl_2fstuyCbt4WVABEhEiMOK6k0qo-BycM6i7cjfu_D0DHtpMxdMbiDzpCDtIeu0lwfvTdaIEU71ASOObQPpz1NU4vhVlAFyEvL5cbDQZBzHqrzJ6Keqs7c-gyCTb_eqFB--X6_SkmUn4py2PC2ooS3LhIi4SOoZKliU7ekGNeGhVrm10mQ8yL-1185gmqIM0gKW_OjTWXJhuS0MrTsqMpjw6asWOITjlARppupZ48_ZHe0E79vvs"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-sm">visibility</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold">Payment Receipt</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Uploaded 5m ago</span>
+</div>
+<button class="ml-auto text-primary p-2 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<!-- Action Bar -->
+<div class="flex gap-2">
+<button class="flex-1 h-10 flex items-center justify-center gap-2 bg-primary text-on-primary rounded-lg font-label-lg text-label-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                        Approve
+                    </button>
+<button class="flex-1 h-10 flex items-center justify-center gap-2 border border-outline text-on-surface-variant rounded-lg font-label-lg text-label-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">close</span>
+                        Reject
+                    </button>
+<button class="w-12 h-10 flex items-center justify-center border border-primary text-primary rounded-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined">local_shipping</span>
+</button>
+</div>
+</div>
+<!-- Order Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant transition-all hover:shadow-md">
+<div class="flex justify-between items-start mb-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">#ORD-8819</span>
+<h3 class="font-body-lg text-body-lg font-bold">Sophia Martinez</h3>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-body-lg text-body-lg font-bold text-primary">$1,205.50</span>
+<span class="flex items-center gap-1 text-[10px] uppercase tracking-wider font-bold text-tertiary">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                            Verified
+                        </span>
+</div>
+</div>
+<!-- Payment Proof Section -->
+<div class="flex gap-4 mb-4 items-center bg-surface-container-low p-2 rounded-lg">
+<div class="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 group cursor-pointer">
+<img class="w-full h-full object-cover" data-alt="A premium close-up photo of a printed bank transfer confirmation slip with elegant purple branding. The slip is resting on a textured light-colored marble surface with soft, cinematic lighting. The atmosphere is professional, sophisticated, and trustworthy, reflecting a high-end luxury e-commerce brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRtAO--OIMnbCp7fysffJ-OgUqIBZIcQWUGn9sz56LX5qVwkRlXUbt51nknMmfeaAL-jgOsCIe0RbN1EveTITGeWz1NoH3DsW-YzIsL8Qq14GViGERExbiu5sxSJZrr1ARj0rj7MC_FjfF1tVeVzanFKzYuqwB8NsaWBEt3WCYANFK3tyvWorF6dkXNiE7EQ9g56rcX_thKTw_LuGrwuYIUctkCErkcQOxISFGQSGc7T5UsscNkAP6q7bjugeK4TRiKxSL2om_NW8"/>
+<div class="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-sm">visibility</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm font-bold">Wire Transfer Doc</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Uploaded 1h ago</span>
+</div>
+<button class="ml-auto text-primary p-2 active:scale-90 transition-transform">
+<span class="material-symbols-outlined">download</span>
+</button>
+</div>
+<!-- Action Bar -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center justify-between bg-tertiary-container/20 p-3 rounded-lg border border-tertiary-container/30">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">person_pin_circle</span>
+<span class="font-label-lg text-label-lg text-on-tertiary-container">No driver assigned</span>
+</div>
+<button class="bg-tertiary text-on-tertiary px-3 py-1.5 rounded-full font-label-sm text-label-sm active:scale-95 transition-all">
+                            Assign Now
+                        </button>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 h-10 flex items-center justify-center gap-2 bg-primary text-on-primary rounded-lg font-label-lg text-label-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+                            Confirm Delivery
+                        </button>
+<button class="w-12 h-10 flex items-center justify-center border border-outline text-on-surface-variant rounded-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Order Card 3 (Simple) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant opacity-80">
+<div class="flex justify-between items-start mb-3">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">#ORD-8815</span>
+<h3 class="font-body-lg text-body-lg font-bold">James O'Connor</h3>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-body-lg text-body-lg font-bold text-on-surface-variant">$88.00</span>
+<span class="flex items-center gap-1 text-[10px] uppercase tracking-wider font-bold text-on-surface-variant">
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant"></span>
+                            Processing
+                        </span>
+</div>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">schedule</span>
+                    Next step: Confirm package pickup
+                </div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md rounded-t-xl shadow-lg flex justify-around items-center h-16 px-2 pb-safe">
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</nav>
+<!-- Simple Feedback Toast -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full font-label-lg text-label-lg shadow-xl opacity-0 transition-opacity duration-300 pointer-events-none" id="toast">
+        Action successful
+    </div>
+<!-- Proof Preview Modal (Hidden) -->
+<div class="fixed inset-0 z-[60] bg-black/90 flex items-center justify-center hidden opacity-0 transition-opacity duration-300" id="proof-modal">
+<div class="relative w-[90%] max-w-sm">
+<button class="absolute -top-12 right-0 text-white flex items-center gap-2" onclick="closeProof()">
+                Close <span class="material-symbols-outlined">close</span>
+</button>
+<img class="w-full h-auto rounded-lg shadow-2xl" data-alt="High-resolution payment confirmation receipt image." id="modal-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGNoFsVLE3Y_fBCYJAofjWcQ2keB-ky1QDfViaYuvAtdhh9D6BTI-fZgI3-nDeGaMQvBy1sm_3374QYTJ2NmdHWaupLA9YrNHTi4T9izoqY-MxhbrXDPoVekguAALcx2O-Ovi6rLizpJhCV7y_-Lg8cTtM_brDrsw6nwzZWEMH7xm4C2yKL_BKVCrsXiVzRk1jm33xpqKlk1RRpcU_92FiCuRQaOu_8rcBNgNpTT_HBLLahEN6GdNEV5F7pwf1jh_rDRCtAXxcLTU"/>
+</div>
+</div>
+<script>
+        function openProof(el) {
+            const modal = document.getElementById('proof-modal');
+            const img = el.querySelector('img').src;
+            document.getElementById('modal-img').src = img;
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.add('opacity-100'), 10);
+        }
+
+        function closeProof() {
+            const modal = document.getElementById('proof-modal');
+            modal.classList.remove('opacity-100');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 2000);
+        }
+
+        // Attach toast to buttons for interactivity demo
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(btn.innerText.trim() !== '' && !btn.closest('nav') && !btn.closest('header')) {
+                    showToast(btn.innerText.trim() + " initiated");
+                }
+            });
+        });
+    </script>
+</body></html>

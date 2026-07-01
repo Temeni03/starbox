@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Starbox | Delivery Personnel Management</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@100..900&family=Plus+Jakarta+Sans:wght@100..900&display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#dde4e6",
+                    "tertiary-container": "#afa6ff",
+                    "inverse-surface": "#2b3234",
+                    "tertiary": "#5847d2",
+                    "secondary-fixed": "#ffdbd0",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#c6bfff",
+                    "on-tertiary-fixed-variant": "#4029ba",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#f4d9ff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface": "#161d1f",
+                    "surface-container-low": "#eef5f7",
+                    "surface": "#f4fafd",
+                    "background": "#f4fafd",
+                    "surface-container-high": "#e2e9ec",
+                    "outline-variant": "#cfc2d2",
+                    "on-secondary-container": "#795950",
+                    "surface-container": "#e8eff1",
+                    "surface-bright": "#f4fafd",
+                    "primary-fixed-dim": "#e5b4ff",
+                    "inverse-on-surface": "#ebf2f4",
+                    "surface-container-highest": "#dde4e6",
+                    "secondary": "#76574e",
+                    "on-primary-fixed": "#30004b",
+                    "on-secondary-fixed-variant": "#5d4037",
+                    "on-error-container": "#93000a",
+                    "on-primary-container": "#622587",
+                    "surface-tint": "#7f43a5",
+                    "secondary-fixed-dim": "#e6beb2",
+                    "primary": "#7f43a5",
+                    "on-secondary-fixed": "#2c160f",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#160066",
+                    "on-tertiary-container": "#3c24b7",
+                    "on-surface-variant": "#4d4450",
+                    "on-primary": "#ffffff",
+                    "on-primary-fixed-variant": "#66298b",
+                    "on-background": "#161d1f",
+                    "surface-dim": "#d4dbdd",
+                    "inverse-primary": "#e5b4ff",
+                    "secondary-container": "#fed4c8",
+                    "tertiary-fixed": "#e4dfff",
+                    "primary-container": "#d896ff",
+                    "outline": "#7e7381",
+                    "error": "#ba1a1a",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "margin-tablet": "24px",
+                    "touch-target-min": "48px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-md": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Manrope"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(244, 250, 253, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d896ff;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-margin-mobile h-touch-target-min w-full max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<button class="text-primary dark:text-primary-fixed-dim active:scale-95 transition-transform duration-200 h-10 w-10 flex items-center justify-center hover:bg-surface-container-high rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed-dim tracking-tight">Starbox</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant h-10 w-10 flex items-center justify-center hover:bg-surface-container-high rounded-full active:scale-95 transition-transform">
+<span class="material-symbols-outlined">search</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-primary/20">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female administrator in a clean modern office, soft lavender lighting, high-end photography, 8k resolution, minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcbJE9VzY2tAUB6gWP4xVghK5dEAoeuFwbKhY_QtrURdu2nKK53bTxcr3LYwGm1Td4gqRXA7-Pe9nEmH4JGVbrQsOXiPaUW0zjdt1lkfTed2pE0TSAwckX4ACGITwh7d-fO4WNP62I1-YSqCxWaljdHTuXoIwn9jcZ8xh0KSf7dCOfYJP_LywvrfcaPVBe9TwpCBCEpbhNL5g2two5dmvISktN7zdvjelA66oqQ8dA8CQAwYqDJvkH9VLknZ7BraleTB6HtQ-bspQ"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-20 px-margin-mobile max-w-2xl mx-auto">
+<!-- Header Section -->
+<section class="mb-8">
+<h2 class="font-headline-xl text-headline-xl text-on-surface mb-2">Personnel</h2>
+<p class="font-body-md text-on-surface-variant mb-6">Manage your fleet of 24 active delivery partners.</p>
+<!-- Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined">person_search</span>
+</div>
+<input class="w-full h-12 pl-12 pr-4 rounded-xl border-none bg-surface-container-low focus:ring-2 focus:ring-primary transition-all font-body-md shadow-sm" placeholder="Search by name or ID..." type="text"/>
+</div>
+</section>
+<!-- Stats Overview (Bento Style) -->
+<section class="grid grid-cols-2 gap-4 mb-8">
+<div class="bg-primary-container/20 p-4 rounded-2xl border border-primary-container">
+<p class="font-label-sm text-on-primary-container uppercase tracking-wider">Active Staff</p>
+<p class="font-headline-lg text-headline-lg text-primary">18 / 24</p>
+</div>
+<div class="bg-surface-container p-4 rounded-2xl border border-outline-variant">
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider">Avg. Time</p>
+<p class="font-headline-lg text-headline-lg text-on-surface">24m</p>
+</div>
+</section>
+<!-- Delivery Personnel List -->
+<section class="space-y-4">
+<!-- Entry 1 -->
+<div class="glass-card p-4 rounded-2xl border border-white shadow-sm flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="A professional portrait of a delivery person wearing a stylish purple vest, friendly smile, studio lighting with soft pink and lavender highlights, modern e-commerce branding, high-quality digital photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2m2hiYsZhfPG8ETXmaOd24GGru3JCznG2-sS0djd6y7zFS9h-Mi6JPG-KKwkFcRhpLfDfodmkJl7IDf-iJ2OtcmpUXHGB5scxSkAAQLlDhPhUBpMO7k9rEcfRFjAv-fQJvwHxrRGwv6C8hqDTmh5WsNdV-lHKv23Nb2E77tHqYQR4_ziED20CHznsNu_KeoYfHGCIrOmooYI_DQ97gR4rsWgxdFH8feVShdc_ccB17v_rm5eaWe8v-mLwS0AszIXQzvAx0QybZus"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full shadow-sm"></div>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Alex Rivera</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px] text-primary">shopping_bag</span>
+<span class="font-label-sm text-on-surface-variant">3 Active Orders</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 font-label-lg text-xs">On Duty</span>
+</div>
+</div>
+<!-- Entry 2 -->
+<div class="glass-card p-4 rounded-2xl border border-white shadow-sm flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-surface-variant">
+<img class="w-full h-full object-cover" data-alt="Close up portrait of a young male delivery professional, neutral expression, soft indoor lighting, lavender background, minimalist fashion, high resolution photography, clean aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvpuD6sP9uGoXHPQl97BkgxBeCcD-5srWRfOLYV9CJc6cS-l25LnEJi-Ef4cMyfIYsvePihVzSd5ru5HOtovHJcXXY6UfnTU2NsVtunL7Nxsgk1maLznqFefpFr6WSYDNCzD8pTV4Z_MeWrFATEMqy7hEEGY8_2mP-nyIjS7tlYAWe4svwsYi8FbDKlpz5jIr6TOeoQ83BfbjradzBE-lSS7BThqvg2-T-p-nUn3ppj0MXU8g3IBCPPUh-cQQAWcXfB0seRUx10K4"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-gray-400 border-2 border-white rounded-full shadow-sm"></div>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Jordan Smith</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px] text-outline">timer</span>
+<span class="font-label-sm text-on-surface-variant">Shift ended 2h ago</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block px-3 py-1 rounded-full bg-surface-container-high text-on-surface-variant font-label-lg text-xs">Off Duty</span>
+</div>
+</div>
+<!-- Entry 3 -->
+<div class="glass-card p-4 rounded-2xl border border-white shadow-sm flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="Modern lifestyle portrait of a female delivery partner, urban setting blurred in background, wearing branded soft-lavender apparel, vibrant warm lighting, clear eyes, cinematic professional photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGDPDSCf208pWY7r736u6PL5DNVWQeCmLuv3Jt2i3Yslqq7MVCcfyawBnLBB7bmoHSlc1GVQPnXaEat74QawLs4LJmcUByv3dHSKatPKyiNoyMEA-pE_1qpC1o_v4nM1GbKg1r5GhaxRIW6H_kzrtOxIwNImWvr1RititreA_UVXXGJHJj6Zxg6bNJN8oVgRzUwu1-RYk3iwqNIv-2l-PR1Xg0Fs1j7napNVdFioM1_5a1C72_yJhxSfT2n6ts-U9AgljJsvMqJZ8"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full shadow-sm"></div>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Elena Vance</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px] text-primary">shopping_bag</span>
+<span class="font-label-sm text-on-surface-variant">1 Active Order</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 font-label-lg text-xs">On Duty</span>
+</div>
+</div>
+<!-- Entry 4 -->
+<div class="glass-card p-4 rounded-2xl border border-white shadow-sm flex items-center justify-between hover:shadow-md transition-shadow cursor-pointer active:scale-[0.98]">
+<div class="flex items-center gap-4">
+<div class="relative">
+<div class="w-14 h-14 rounded-full overflow-hidden border-2 border-primary-container">
+<img class="w-full h-full object-cover" data-alt="Portrait of a cheerful delivery staff member, professional uniform in soft lavender, bright daylight photography, luxury e-commerce service aesthetic, clean background, high detail." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxm4fszsYU7J1u8wRL1ImHjS9Cphda6vt8qWztoVUK-VS74CPQIKOGb7mCw6bvpNJGYIq8tNKaUv8JW8nZ-iFxoIi3ewusRoTA4l9BubfYVzM9fICQIMGFs8srwuK6Pnvf2_vZ1q93ITLgqH_vCxyQCM-GgHCt9q2RSiDxL2z070arcpk043J4uR6q0VWW8y4rLC3e5D7UMISnFDUgZcjtUEYg41hc7JkW-P5GYcEHxtjyVf96KI0OKCZhjcb3oS7AobaggklUbyg"/>
+</div>
+<div class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full shadow-sm"></div>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Marcus Wright</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="material-symbols-outlined text-[16px] text-primary">shopping_bag</span>
+<span class="font-label-sm text-on-surface-variant">5 Active Orders</span>
+</div>
+</div>
+</div>
+<div class="text-right">
+<span class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-700 font-label-lg text-xs">On Duty</span>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-2xl shadow-xl flex items-center justify-center active:scale-90 transition-transform duration-200 z-40 hover:bg-surface-tint">
+<span class="material-symbols-outlined text-[32px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-lg h-16 flex justify-around items-center px-4 pb-safe z-50">
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-label-sm text-label-sm mt-1">Cart</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low transition-colors active:scale-90 duration-200">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm mt-1">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform duration-200">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-label-sm text-label-sm mt-1">Profile</span>
+</button>
+</nav>
+<script>
+        // Micro-interaction: Search animation
+        const searchInput = document.querySelector('input');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.02]');
+            searchInput.parentElement.classList.add('transition-transform');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.02]');
+        });
+
+        // Micro-interaction: Card hover effects
+        const cards = document.querySelectorAll('.glass-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-2px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body></html>

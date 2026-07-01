@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Starbox | Login &amp; Register</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#ebf2f4",
+                    "on-secondary-fixed-variant": "#5d4037",
+                    "surface-container-high": "#e2e9ec",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed-variant": "#4029ba",
+                    "on-secondary": "#ffffff",
+                    "surface-tint": "#7f43a5",
+                    "on-primary": "#ffffff",
+                    "tertiary-container": "#afa6ff",
+                    "surface-variant": "#dde4e6",
+                    "on-surface": "#161d1f",
+                    "outline-variant": "#cfc2d2",
+                    "background": "#f4fafd",
+                    "surface-container-highest": "#dde4e6",
+                    "on-primary-container": "#622587",
+                    "surface-dim": "#d4dbdd",
+                    "on-secondary-container": "#795950",
+                    "on-primary-fixed": "#30004b",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#e5b4ff",
+                    "outline": "#7e7381",
+                    "on-surface-variant": "#4d4450",
+                    "on-tertiary-container": "#3c24b7",
+                    "surface": "#f4fafd",
+                    "secondary": "#76574e",
+                    "surface-bright": "#f4fafd",
+                    "tertiary": "#5847d2",
+                    "inverse-surface": "#2b3234",
+                    "tertiary-fixed": "#e4dfff",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#c6bfff",
+                    "secondary-fixed": "#ffdbd0",
+                    "secondary-fixed-dim": "#e6beb2",
+                    "error-container": "#ffdad6",
+                    "on-tertiary-fixed": "#160066",
+                    "secondary-container": "#fed4c8",
+                    "surface-container": "#e8eff1",
+                    "on-tertiary": "#ffffff",
+                    "primary-fixed": "#f4d9ff",
+                    "on-background": "#161d1f",
+                    "primary-container": "#d896ff",
+                    "on-secondary-fixed": "#2c160f",
+                    "on-primary-fixed-variant": "#66298b",
+                    "surface-container-low": "#eef5f7",
+                    "primary": "#7f43a5",
+                    "inverse-primary": "#e5b4ff",
+                    "error": "#ba1a1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-tablet": "24px",
+                    "gutter": "16px",
+                    "touch-target-min": "48px",
+                    "unit": "4px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Manrope"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Manrope"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Manrope"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #f4fafd;
+            color: #161d1f;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 213, 255, 0.5);
+        }
+
+        .auth-transition {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        .btn-active-state:active {
+            transform: scale(0.96);
+        }
+
+        /* Ambient Lavender Glow */
+        .ambient-glow {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(216, 150, 255, 0.15) 0%, rgba(216, 150, 255, 0) 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md min-h-screen flex flex-col items-center">
+<!-- Atmospheric Elements -->
+<div class="ambient-glow top-[-50px] right-[-50px]"></div>
+<div class="ambient-glow bottom-[10%] left-[-100px]"></div>
+<!-- Main Content Canvas -->
+<main class="w-full max-w-md px-margin-mobile flex flex-col min-h-screen pt-12 pb-8">
+<!-- Brand Identity Section -->
+<header class="flex flex-col items-center mb-10">
+<div class="w-24 h-24 mb-4 rounded-3xl overflow-hidden shadow-lg border-4 border-surface-container-lowest">
+<img alt="Starbox Luxury Brand Logo" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbcgrN4TQTfKVewOp6yVMdbJk4bVjfLut3Sl_TN6VHgP-8OnVWT2G9TphtYAF-SYCvbjM2Sy6pnOsq-k94aUH2c8he7mlqQwXR6wHT9tlrSjlZdU8GqRmeohWB-dkiawlbdeGsEjRSGdHye3G57hI6qeuhVua19ZIJBuix1A6GfpvJplVEpRBk_9c0dt57DJwbgXUGctknVCb2HrEPOcBq6ZDSrWSSNwpd9wNs6RhXMiFNiC7N1ocZ7aWUBXyjhqAYrJr3W3NHomU"/>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">Starbox</h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Curated Luxury Shopping</p>
+</header>
+<!-- Dynamic Auth Container -->
+<div class="relative flex-grow">
+<!-- Login View -->
+<section class="auth-transition opacity-100 translate-x-0" id="login-section">
+<div class="glass-card rounded-3xl p-6 shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Welcome Back</h2>
+<form class="space-y-5" onsubmit="event.preventDefault();">
+<div class="space-y-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1">Phone Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">call</span>
+<input class="w-full h-touch-target-min pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<div class="space-y-1.5">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">lock</span>
+<input class="w-full h-touch-target-min pl-12 pr-12 bg-surface-container-lowest border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<div class="flex justify-end">
+<a class="font-label-sm text-label-sm text-primary font-semibold" href="#">Forgot Password?</a>
+</div>
+<button class="w-full h-touch-target-min bg-primary text-on-primary font-label-lg text-label-lg rounded-xl shadow-md btn-active-state transition-all hover:bg-primary/90 mt-2">
+                            Sign In
+                        </button>
+</form>
+<div class="mt-8 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Don't have an account? 
+                            <button class="text-primary font-bold ml-1" onclick="toggleAuth('register')">Create Account</button>
+</p>
+</div>
+</div>
+<!-- Social Login -->
+<div class="mt-8 space-y-4">
+<div class="flex items-center gap-4">
+<div class="h-[1px] flex-grow bg-outline-variant"></div>
+<span class="font-label-sm text-label-sm text-on-surface-variant">OR CONTINUE WITH</span>
+<div class="h-[1px] flex-grow bg-outline-variant"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<button class="h-touch-target-min glass-card rounded-xl flex items-center justify-center gap-2 btn-active-state">
+<img alt="Google" class="w-5 h-5" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSLpO8yyd1ucNAoMUj_1ayj3PUl_jGwbwZcwV3kULfAjei8Do77giTzJO8OQB7266iveu1V14cFaEDuI5cyhNjS5R2Y3XSDKz1eDRajxDY1oZrhLCvAMuLu3rRNIS8z0R-rsxnceF5suyyW-Sd78RMHF31th9utOEBgghn2gsQNlAbao7aVCB2gqva5JRLeieSqHPm8SZpG_Uv4MOwGunDsCtobGQxHWY3ZW_H3QowEEluvTKsoOg_8AQw0NcAH0xbs3mdUmr2_TU"/>
+<span class="font-label-sm text-label-sm">Google</span>
+</button>
+<button class="h-touch-target-min glass-card rounded-xl flex items-center justify-center gap-2 btn-active-state">
+<span class="material-symbols-outlined text-[#1877F2]" style="font-variation-settings: 'FILL' 1;">face_nod</span>
+<span class="font-label-sm text-label-sm">Facebook</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Registration View (Hidden by default) -->
+<section class="auth-transition opacity-0 translate-x-full absolute inset-0 pointer-events-none" id="register-section">
+<div class="glass-card rounded-3xl p-6 shadow-sm">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-6">Join Starbox</h2>
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">person</span>
+<input class="w-full h-touch-target-min pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="John Doe" type="text"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1">Phone Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">call</span>
+<input class="w-full h-touch-target-min pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1">Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">lock</span>
+<input class="w-full h-touch-target-min pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Min. 8 characters" type="password"/>
+</div>
+</div>
+<div class="space-y-1">
+<label class="font-label-sm text-label-sm text-on-surface-variant ml-1">Confirm Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">lock_reset</span>
+<input class="w-full h-touch-target-min pl-12 pr-4 bg-surface-container-lowest border border-outline-variant rounded-xl focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" placeholder="Repeat password" type="password"/>
+</div>
+</div>
+<div class="flex items-start gap-2 pt-2">
+<input class="mt-1 rounded text-primary focus:ring-primary border-outline-variant" type="checkbox"/>
+<p class="font-label-sm text-label-sm text-on-surface-variant">
+                                I agree to the <a class="text-primary underline" href="#">Terms of Service</a> and <a class="text-primary underline" href="#">Privacy Policy</a>.
+                            </p>
+</div>
+<button class="w-full h-touch-target-min bg-primary text-on-primary font-label-lg text-label-lg rounded-xl shadow-md btn-active-state transition-all hover:bg-primary/90 mt-2">
+                            Create Account
+                        </button>
+</form>
+<div class="mt-6 text-center">
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            Already have an account? 
+                            <button class="text-primary font-bold ml-1" onclick="toggleAuth('login')">Sign In</button>
+</p>
+</div>
+</div>
+</section>
+</div>
+<!-- Footer -->
+<footer class="mt-auto pt-8 text-center">
+<p class="font-label-sm text-label-sm text-outline">© 2024 Starbox Global. All rights reserved.</p>
+</footer>
+</main>
+<script>
+        function toggleAuth(view) {
+            const loginSection = document.getElementById('login-section');
+            const registerSection = document.getElementById('register-section');
+
+            if (view === 'register') {
+                // Hide Login
+                loginSection.classList.remove('opacity-100', 'translate-x-0');
+                loginSection.classList.add('opacity-0', '-translate-x-full', 'pointer-events-none');
+                
+                // Show Register
+                registerSection.classList.remove('opacity-0', 'translate-x-full', 'pointer-events-none');
+                registerSection.classList.add('opacity-100', 'translate-x-0');
+                registerSection.classList.remove('absolute'); // Ensure it takes up space
+                loginSection.classList.add('absolute'); // Move hidden to absolute
+            } else {
+                // Hide Register
+                registerSection.classList.remove('opacity-100', 'translate-x-0');
+                registerSection.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
+                registerSection.classList.add('absolute');
+                
+                // Show Login
+                loginSection.classList.remove('opacity-0', '-translate-x-full', 'pointer-events-none', 'absolute');
+                loginSection.classList.add('opacity-100', 'translate-x-0');
+            }
+        }
+
+        // Simple touch interaction for inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.parentElement.classList.add('scale-[1.02]');
+                input.parentElement.parentElement.style.transition = 'transform 0.2s ease';
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.parentElement.classList.remove('scale-[1.02]');
+            });
+        });
+    </script>
+</body></html>

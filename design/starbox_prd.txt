@@ -1,0 +1,412 @@
+# Starbox E-Commerce Platform
+## Product Design Requirements Document (PRD)
+
+### Version
+1.0
+
+### Product Type
+Multi-role E-commerce Platform
+
+### Platforms
+* Mobile-First Web Application
+* Responsive Desktop Experience
+
+### User Roles
+1. Customer
+2. Administrator
+3. Delivery Personnel
+
+---
+
+# 1. Product Overview
+Starbox is an e-commerce platform that allows customers to browse products, place orders, choose delivery options, and track order status. Administrators manage products, inventory, orders, and delivery personnel, while delivery personnel handle assigned deliveries and update delivery statuses.
+
+---
+
+# 2. Product Goals
+### Business Goals
+* Increase online product sales.
+* Simplify order management.
+* Reduce manual delivery coordination.
+* Improve customer order tracking.
+* Enable efficient inventory monitoring.
+
+### User Goals
+#### Customer
+* Find products quickly.
+* Purchase products with minimal steps.
+* Track orders in real time.
+* Manage personal information easily.
+
+#### Administrator
+* Manage products efficiently.
+* Monitor inventory levels.
+* Process orders quickly.
+* Assign deliveries easily.
+
+#### Delivery Personnel
+* Receive assigned deliveries.
+* View customer information.
+* Update delivery progress.
+
+---
+
+# 3. Design Principles
+### Simplicity
+The platform should be easy to use for first-time users.
+### Speed
+Users should be able to place an order in less than 3 minutes.
+### Mobile First
+The experience should prioritize smartphone users.
+### Trust
+Pricing, delivery fees, and order status should always be transparent.
+### Accessibility
+Text should remain readable and actions easy to perform on small screens.
+
+---
+
+# 4. Customer Experience
+## 4.1 Landing Page
+### Purpose
+Introduce the store, products, promotions, and encourage users to start shopping.
+### Sections
+#### Hero Section
+* Store logo
+* Store name
+* Main headline
+* Call-to-action button:
+  * Shop Now
+  * Browse Products
+#### Featured Products
+* Product cards
+* Product image
+* Product name
+* Price
+#### Benefits Section
+* Fast delivery
+* Secure payments
+* Quality products
+#### Footer
+* Contact information
+* Social media links
+* Terms & Conditions
+* Privacy Policy
+
+---
+
+## 4.2 Authentication
+### Login
+Fields:
+* Phone Number
+* Password
+Actions:
+* Login
+* Forgot Password
+* Create Account
+
+### Registration
+Fields:
+* Full Name
+* Phone Number
+* Password
+* Confirm Password
+Success State:
+* Redirect to Home Page
+
+---
+
+## 4.3 Home Page
+### Header
+Contains:
+* Logo
+* Search Bar
+### Product Listing
+Each card contains:
+* Product Image
+* Product Name
+* Price
+* Short Usage Description
+* Add to Cart
+* Buy Now
+### Bottom Navigation
+* Home
+* Cart
+* Orders
+* Profile
+### Empty State
+If no products exist:
+* Display "No Products Available"
+
+---
+
+## 4.4 Product Details
+### Information
+* Product Gallery
+* Product Name
+* Price
+* Usage Instructions
+* Available Quantity
+### Actions
+* Quantity Selector
+* Add to Cart
+* Buy Now
+### Validation
+If stock reaches zero:
+* Disable purchase actions
+* Show "Out of Stock"
+
+---
+
+## 4.5 Cart
+### Display
+For each item:
+* Product Image
+* Product Name
+* Unit Price
+* Quantity
+### Actions
+* Increase Quantity
+* Decrease Quantity
+* Remove Product
+### Summary
+* Subtotal
+* Checkout Button
+### Empty State
+* Cart Illustration
+* "Your Cart is Empty"
+
+---
+
+## 4.6 Checkout
+### Step 1: Delivery Selection
+Options:
+1. Store Delivery Location
+2. Custom User Address
+
+### Step 2: Address Information
+#### Store Delivery
+Show:
+* User Location
+* Available Delivery Destinations
+#### Custom Delivery
+Fields:
+* Address
+* Location Pin
+* Notes (Optional)
+
+---
+
+### Step 3: Order Summary
+Display:
+* Cart Total
+* Delivery Fee
+* Grand Total
+### Calculation Rules
+Grand Total =
+Cart Total + Delivery Fee
+Updates automatically when delivery option changes.
+
+---
+
+### Step 4: Payment Method
+#### Cash on Delivery
+Display:
+* Total Amount Due
+Action:
+* Submit Order
+#### Bank Transfer
+Display:
+* Store Payment Code
+* Transfer Amount
+Upload:
+* Payment Screenshot
+Action:
+* Submit Order
+### Validation
+Order submission requires:
+* Delivery option selected
+* Payment method selected
+* Screenshot uploaded when bank transfer is chosen
+
+---
+
+## 4.7 Orders
+### Order List
+Each order card shows:
+* Order Number
+* Date
+* Total Amount
+* Status
+### Status Types
+* Pending Review
+* Confirmed
+* In Transit
+* Delivered
+* Cancelled
+### Order Details
+* Products
+* Quantities
+* Total Price
+* Payment Method
+* Delivery Address
+* Current Status
+
+---
+
+## 4.8 Profile
+### Personal Information
+* Profile Photo
+* Name
+* Phone Number
+* Address
+### Actions
+* Edit Profile
+* Logout
+
+---
+
+# 5. Administrator Experience
+## 5.1 Dashboard
+### KPI Cards
+* Total Products
+* Total Orders
+* New Orders
+* Orders In Transit
+* Delivery Personnel Count
+### Purpose
+Provide a quick operational overview.
+
+---
+
+## 5.2 Product Management
+### Features
+* Product Search
+* Add Product
+* Edit Product
+* Delete Product
+### Product Fields
+* Name
+* Price
+* Usage Instructions
+* Images
+* Available Quantity
+
+---
+
+## 5.3 Inventory Management
+### Features
+* View Stock Levels
+* Increase Stock
+* Decrease Stock
+### Alerts
+Low Stock Warning appears when quantity falls below a configurable threshold.
+
+---
+
+## 5.4 Order Management
+### Order Information
+* Customer Details
+* Delivery Address
+* Payment Method
+* Payment Screenshot
+* Products
+* Quantities
+* Total Amount
+### Actions
+* Approve Order
+* Reject Order
+* Assign Delivery Personnel
+* Update Status
+
+---
+
+## 5.5 Delivery Personnel Management
+### Features
+* Add Delivery Personnel
+* Edit Delivery Personnel
+* Delete Delivery Personnel
+### Information
+* Name
+* Phone Number
+* Assigned Orders Count
+* Status
+
+---
+
+# 6. Delivery Personnel Experience
+## 6.1 Dashboard
+### Sections
+* New Orders
+* Active Deliveries
+* Completed Deliveries
+
+---
+
+## 6.2 Delivery Details
+### Customer Information
+* Customer Name
+* Phone Number
+* Delivery Address
+### Payment Information
+If Cash on Delivery:
+* Amount to Collect
+### Actions
+* Start Delivery
+* Mark as Delivered
+
+---
+
+## 6.3 Profile
+### Information
+* Delivery Personnel Details
+* Completed Deliveries Count
+* Activity Status
+### Actions
+* Logout
+
+---
+
+# 7. Global UX Requirements
+## Notifications
+Customers should receive notifications for:
+* Order Submitted
+* Order Confirmed
+* Order Shipped
+* Order Delivered
+* Order Cancelled
+
+---
+
+## Search
+Users can search products by:
+* Product Name
+* Keywords
+
+---
+
+## Error Handling
+### Network Error
+Display:
+"Connection Lost. Please Try Again."
+### Payment Validation Error
+Display:
+"Payment Proof Required."
+### Empty Results
+Display:
+"No Matching Products Found."
+
+---
+
+# 8. Success Metrics
+### Customer Metrics
+* Checkout Completion Rate
+* Cart Abandonment Rate
+* Repeat Purchase Rate
+### Operational Metrics
+* Order Processing Time
+* Delivery Completion Rate
+* Inventory Accuracy
+### Business Metrics
+* Total Orders
+* Revenue
+* Average Order Value

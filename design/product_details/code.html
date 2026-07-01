@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ethereal Lavender - Starbox Luxury</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "tertiary-container": "#afa6ff",
+                    "on-primary-fixed-variant": "#66298b",
+                    "secondary-fixed-dim": "#e6beb2",
+                    "tertiary-fixed-dim": "#c6bfff",
+                    "outline-variant": "#cfc2d2",
+                    "secondary-fixed": "#ffdbd0",
+                    "on-secondary-fixed-variant": "#5d4037",
+                    "on-tertiary": "#ffffff",
+                    "inverse-surface": "#2b3234",
+                    "outline": "#7e7381",
+                    "secondary": "#76574e",
+                    "tertiary": "#5847d2",
+                    "primary-fixed-dim": "#e5b4ff",
+                    "inverse-primary": "#e5b4ff",
+                    "surface-dim": "#d4dbdd",
+                    "surface": "#f4fafd",
+                    "surface-container": "#e8eff1",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#4029ba",
+                    "on-primary-container": "#622587",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#795950",
+                    "on-tertiary-fixed": "#160066",
+                    "secondary-container": "#fed4c8",
+                    "primary-fixed": "#f4d9ff",
+                    "on-error": "#ffffff",
+                    "surface-container-high": "#e2e9ec",
+                    "on-secondary-fixed": "#2c160f",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#e4dfff",
+                    "primary-container": "#d896ff",
+                    "on-secondary": "#ffffff",
+                    "on-background": "#161d1f",
+                    "background": "#f4fafd",
+                    "surface-bright": "#f4fafd",
+                    "surface-tint": "#7f43a5",
+                    "on-tertiary-container": "#3c24b7",
+                    "surface-variant": "#dde4e6",
+                    "on-primary-fixed": "#30004b",
+                    "surface-container-low": "#eef5f7",
+                    "primary": "#7f43a5",
+                    "on-surface-variant": "#4d4450",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#ebf2f4",
+                    "surface-container-highest": "#dde4e6",
+                    "on-surface": "#161d1f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-tablet": "24px",
+                    "margin-mobile": "16px",
+                    "gutter": "16px",
+                    "touch-target-min": "48px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Manrope"],
+                    "headline-md": ["Manrope"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-margin-mobile h-touch-target-min transition-all duration-200">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary hover:bg-primary-container/20 p-2 rounded-full transition-all active:scale-95">arrow_back</button>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary">Starbox</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined text-primary hover:bg-primary-container/20 p-2 rounded-full transition-all active:scale-95">favorite</button>
+<button class="material-symbols-outlined text-primary hover:bg-primary-container/20 p-2 rounded-full transition-all active:scale-95">share</button>
+</div>
+</nav>
+<main class="pt-16 pb-32">
+<!-- Hero Gallery Section -->
+<section class="relative w-full aspect-[4/5] md:aspect-video overflow-hidden">
+<div class="flex h-full overflow-x-auto snap-x snap-mandatory hide-scrollbar" id="gallery">
+<div class="min-w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="A premium close-up of a frosted purple glass essential oil bottle labeled Ethereal Lavender, sitting on a marble surface. The background features soft, blurred lavender sprigs and warm sunlight filtering through a window, creating a serene, luxurious atmosphere. The lighting is soft and airy, emphasizing a high-end e-commerce aesthetic with soft pink and lavender tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4XOg1ubCtref6G_2IxOwrX2JzXzdPCWG6oYKkjB126PO3DgFiDmquhFhQdJKz8t9F3YnfqyucgF3zJtQj4lXIoGVnM_-JbVyACwck90kxwdmrnEqo7_iOI-IfL8oKASDZ7J9HdaETa5Iu3j89vXbhUK2_KsiE8Y8M6cA5xBR_D8UP0nJZBDAJjDk7zBRhXD4UnXrJmOJIMV-sf_aaLDIfXvdPPfn3PybILBywxp_QSxSng8-B1_xAjwWNdW0ZH6KAha9Wz9zZvp4"/>
+</div>
+<div class="min-w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="A lifestyle shot of a woman gently applying a drop of lavender oil to her wrist. The setting is a minimalist, modern spa-like bathroom with soft towels and a hint of steam. The color palette is composed of soft whites, pale lavenders, and gentle rose tones, conveying a sense of calm, luxury, and professional wellness. High-key lighting with soft shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJcxi8fHB9dWPcvW5vYnO98fc1BOooJqTTanHYDl1ZaVkhhH_UySvgbM94zO7Fbk0IcF_DZ9svew_xGOE0qSzMzcDcqcijf386WbYDAu6qUqZiyOWXOkAXozi2N9u32pgaHPV1JzFoi41FflHPkD1BQAJ0bVJcVlAQkzc6EGkdVdRz9fMBTGWm8CuB7ewR1LMQyZf__SxHWDDcFrILNN5okr1hZZzGaYuhqdFsQj4rOl1gDs-OTbQWyZdYO_i0Kyr4Wu5oTf6lLFk"/>
+</div>
+<div class="min-w-full h-full snap-center">
+<img class="w-full h-full object-cover" data-alt="An artistic composition showing an essential oil diffuser releasing a fine mist into a bright, airy living room. The Ethereal Lavender bottle stands elegantly in the foreground. The scene is bathed in natural morning light, emphasizing a clean, modern, and professional aesthetic with a soft lavender and pink-infused color scheme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9kxa9MjMI0q8hPL3QsHiyJrFzuXjEMKmnCE6N32F_hgawGFvxQsjcq8XfqZQdfQ8jHHh4-Wr3jZYkrnQjleJ3x-E3QU51PGPL849jQp2ONOdFSqauDF6DLSXRjmuWyWcsFDuK4tPmt57RqiAEqyMvsM9go-xneHqoyp6OCGQcairJ6UQ65waX3IBI7U_x6Zm8kSA6cTZ_h2jDivmTbdyl33osIQiP1k4C9yoffVeo1wzH0HQ9K5F9P74T8q1UB4BnLUmKD3mykLE"/>
+</div>
+</div>
+<!-- Gallery Indicators -->
+<div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
+<div class="w-2 h-2 rounded-full bg-primary transition-all duration-300"></div>
+<div class="w-2 h-2 rounded-full bg-primary/30 transition-all duration-300"></div>
+<div class="w-2 h-2 rounded-full bg-primary/30 transition-all duration-300"></div>
+</div>
+</section>
+<!-- Product Info Canvas -->
+<article class="px-margin-mobile -mt-8 relative z-10">
+<div class="bg-surface rounded-t-[32px] p-6 shadow-xl shadow-primary/5">
+<!-- Title & Price -->
+<div class="flex justify-between items-start mb-4">
+<div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm mb-2">Luxury Collection</span>
+<h1 class="font-headline-xl text-headline-xl text-on-surface">Ethereal Lavender</h1>
+<p class="font-body-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings: 'FILL' 1;">star</span>
+                            4.9 (124 Reviews)
+                        </p>
+</div>
+<div class="text-right">
+<span class="font-headline-xl text-headline-xl text-primary">$45.00</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">15ml / 0.5oz</p>
+</div>
+</div>
+<!-- Stock & Fast Actions -->
+<div class="flex items-center gap-4 py-4 border-y border-outline-variant/30 mb-6">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">In Stock</span>
+</div>
+<div class="flex items-center gap-2 border-l border-outline-variant/30 pl-4">
+<span class="material-symbols-outlined text-on-surface-variant">local_shipping</span>
+<span class="font-label-lg text-label-lg text-on-surface-variant">Fast Delivery</span>
+</div>
+</div>
+<!-- Quantity Selector -->
+<div class="mb-8">
+<label class="font-label-sm text-label-sm text-on-surface-variant block mb-3">Quantity</label>
+<div class="inline-flex items-center bg-surface-container rounded-full p-1">
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-primary-container/20 active:scale-90 transition-all" onclick="updateQty(-1)">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<span class="w-12 text-center font-headline-md text-headline-md" id="qty">1</span>
+<button class="w-10 h-10 flex items-center justify-center rounded-full text-primary hover:bg-primary-container/20 active:scale-90 transition-all" onclick="updateQty(1)">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<!-- Bento Style Feature Cards -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="bg-primary-container/10 p-4 rounded-xl border border-primary/10">
+<span class="material-symbols-outlined text-primary mb-2">science</span>
+<h3 class="font-label-lg text-label-lg text-on-primary-container">100% Pure</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Therapeutic grade, steam distilled organic flowers.</p>
+</div>
+<div class="bg-secondary-container/10 p-4 rounded-xl border border-secondary/10">
+<span class="material-symbols-outlined text-secondary mb-2">eco</span>
+<h3 class="font-label-lg text-label-lg text-on-secondary-container">Ethical</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Sustainably sourced from high-altitude fields.</p>
+</div>
+</div>
+<!-- Usage Tabs -->
+<div class="mb-8">
+<div class="flex gap-6 border-b border-outline-variant/30 mb-4">
+<button class="pb-2 border-b-2 border-primary text-primary font-label-lg text-label-lg" id="tab-diffuse" onclick="switchTab('diffuse')">Diffusing</button>
+<button class="pb-2 border-b-2 border-transparent text-on-surface-variant font-label-lg text-label-lg" id="tab-skin" onclick="switchTab('skin')">Skin Application</button>
+</div>
+<div class="space-y-3 animate-fade-in" id="content-diffuse">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Add 3-5 drops of Ethereal Lavender to your Starbox ultrasonic diffuser. Let the micro-mist transform your space into a sanctuary of peace. Ideal for bedtime rituals or high-stress work hours.</p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-on-surface-variant font-body-md">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                Purifies indoor air quality
+                            </li>
+<li class="flex items-center gap-2 text-on-surface-variant font-body-md">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                Enhances sleep duration
+                            </li>
+</ul>
+</div>
+<div class="hidden space-y-3 animate-fade-in" id="content-skin">
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Dilute with a carrier oil (like jojoba or coconut) at a 1% ratio. Gently massage into temples, wrists, or neck. Perfect for soothing skin irritations or muscular tension.</p>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 text-on-surface-variant font-body-md">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                Calms topical inflammation
+                            </li>
+<li class="flex items-center gap-2 text-on-surface-variant font-body-md">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                                Non-greasy therapeutic finish
+                            </li>
+</ul>
+</div>
+</div>
+<!-- Recommendations (Micro Carousel) -->
+<div class="mb-8">
+<h3 class="font-headline-md text-headline-md mb-4">You May Also Like</h3>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar">
+<div class="min-w-[140px] bg-surface-container-low p-2 rounded-xl border border-outline-variant/10">
+<div class="aspect-square rounded-lg mb-2 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A beautiful amber glass bottle of peppermint oil on a light wooden background, surrounded by fresh mint leaves. Soft, bright lighting matching the lavender theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAx6WMMHaLYTFYpObcVM1UDty68z2fGMPcnZ2qtSbRgUMArKO7YQdbd03JZGa74fbWYLsrivPd13HshtxNm1WHCXyfQwO-m_cPBzVewYcTNSAE7o_Aykhhu7lw8gIfnJ43FTKDgxXpE2XxfD2LH5QQ1I54UrOeCbUSbBnlvTj1DQxscsQjwkRw1mFhwBoaEmEJNjocbUdY8-PlsmO26B5uAAm1xbYs2rW8Rg4IOO8TR8J4SmVq11NY4Dmh39K54AZVQLtAaGbkSQDA"/>
+</div>
+<p class="font-label-lg text-label-lg truncate">Arctic Peppermint</p>
+<p class="font-body-md text-body-md text-primary">$38.00</p>
+</div>
+<div class="min-w-[140px] bg-surface-container-low p-2 rounded-xl border border-outline-variant/10">
+<div class="aspect-square rounded-lg mb-2 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A stylish ceramic ultrasonic essential oil diffuser in a soft lavender color, puffing white mist. Placed on a minimalist nightstand beside a small candle." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgREnNbldgcOJToq8GNqeW0oSSy3L8vl23CJ-WmZnpffaI_SwHopFJC0BiTSE3pRWRfi3WT4wnWunFp7nSLTVfClU_Xjpfe6GAMakBHfmpOoes6xItybleQmcqjh5CtMdS4GeeLAxq8o-tu5otWFparB_DSvOme-6ioTC0vhCOIZaJxTHz72GSh4wyJ18aSD96LpzhWhc4EtHZcVyzK9-iH9jrrvDq-nvd8gBXz8ghEN28HI2TkWElTW47vkC1giRDngnc_FUIRvk"/>
+</div>
+<p class="font-label-lg text-label-lg truncate">Luna Diffuser</p>
+<p class="font-body-md text-body-md text-primary">$85.00</p>
+</div>
+<div class="min-w-[140px] bg-surface-container-low p-2 rounded-xl border border-outline-variant/10">
+<div class="aspect-square rounded-lg mb-2 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A bottle of citrus essential oil with vibrant orange and lemon peel around it, high-key bright lighting, modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAak95xVaUUauSOeCjModhfWj-YVPOZYfsy8Yv-H329AW3GLeMxlq90v0ol40yueCEHmO9wKAg5JJC7TRHmmaXchOwxhuTTc6mY3rPR_APyyoAnlM_lH9GOooFkoP8WFZ4_J4GMiSURQt5nVLsmANzzYhGAxc34cW_4jhCK_O0StmelfZV_fYRsRBL13_DgDB-ZE1j-0a00eYAlzmSAGlJazev9YqMoyV_YAUORKXE2_Xr9Re9_z0PvoOEKX6EnBLyEiqJCvZwqcIs"/>
+</div>
+<p class="font-label-lg text-label-lg truncate">Golden Citrus</p>
+<p class="font-body-md text-body-md text-primary">$42.00</p>
+</div>
+</div>
+</div>
+</div>
+</article>
+</main>
+<!-- Fixed Bottom Actions -->
+<footer class="fixed bottom-0 w-full z-50 bg-surface/90 backdrop-blur-md px-margin-mobile py-4 shadow-[0_-8px_24px_rgba(127,67,165,0.08)]">
+<div class="flex gap-3 max-w-lg mx-auto">
+<button class="flex-1 h-touch-target-min border border-primary text-primary font-headline-md rounded-xl hover:bg-primary-container/10 active:scale-[0.98] transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">shopping_cart</span>
+                Add to Cart
+            </button>
+<button class="flex-[1.5] h-touch-target-min bg-primary text-on-primary font-headline-md rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 active:scale-[0.98] transition-all">
+                Buy Now
+            </button>
+</div>
+</footer>
+<!-- Bottom Navigation Mock (Only if top-level, but here it's a detail page so usually suppressed or simple) -->
+<!-- We focus on the product actions as requested -->
+<script>
+        function updateQty(delta) {
+            const qtyEl = document.getElementById('qty');
+            let current = parseInt(qtyEl.innerText);
+            current = Math.max(1, current + delta);
+            qtyEl.innerText = current;
+        }
+
+        function switchTab(tab) {
+            const diffTab = document.getElementById('tab-diffuse');
+            const skinTab = document.getElementById('tab-skin');
+            const diffCont = document.getElementById('content-diffuse');
+            const skinCont = document.getElementById('content-skin');
+
+            if (tab === 'diffuse') {
+                diffTab.classList.add('border-primary', 'text-primary');
+                diffTab.classList.remove('border-transparent', 'text-on-surface-variant');
+                skinTab.classList.remove('border-primary', 'text-primary');
+                skinTab.classList.add('border-transparent', 'text-on-surface-variant');
+                diffCont.classList.remove('hidden');
+                skinCont.classList.add('hidden');
+            } else {
+                skinTab.classList.add('border-primary', 'text-primary');
+                skinTab.classList.remove('border-transparent', 'text-on-surface-variant');
+                diffTab.classList.remove('border-primary', 'text-primary');
+                diffTab.classList.add('border-transparent', 'text-on-surface-variant');
+                skinCont.classList.remove('hidden');
+                diffCont.classList.add('hidden');
+            }
+        }
+
+        // Simple scroll indicator logic
+        const gallery = document.getElementById('gallery');
+        const dots = document.querySelectorAll('.absolute.bottom-6 .rounded-full');
+        
+        gallery.addEventListener('scroll', () => {
+            const scrollPos = gallery.scrollLeft;
+            const width = gallery.offsetWidth;
+            const activeIndex = Math.round(scrollPos / width);
+            
+            dots.forEach((dot, index) => {
+                if (index === activeIndex) {
+                    dot.classList.remove('bg-primary/30');
+                    dot.classList.add('bg-primary');
+                } else {
+                    dot.classList.add('bg-primary/30');
+                    dot.classList.remove('bg-primary');
+                }
+            });
+        });
+
+        // Entrance animation
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.querySelector('article');
+            canvas.style.opacity = '0';
+            canvas.style.transform = 'translateY(40px)';
+            setTimeout(() => {
+                canvas.style.transition = 'all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1)';
+                canvas.style.opacity = '1';
+                canvas.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body></html>

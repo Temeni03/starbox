@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Starbox | Empty Cart</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-variant": "#dde4e6",
+                      "tertiary-container": "#afa6ff",
+                      "inverse-surface": "#2b3234",
+                      "tertiary": "#5847d2",
+                      "secondary-fixed": "#ffdbd0",
+                      "on-error": "#ffffff",
+                      "tertiary-fixed-dim": "#c6bfff",
+                      "on-tertiary-fixed-variant": "#4029ba",
+                      "on-tertiary": "#ffffff",
+                      "primary-fixed": "#f4d9ff",
+                      "surface-container-lowest": "#ffffff",
+                      "on-surface": "#161d1f",
+                      "surface-container-low": "#eef5f7",
+                      "surface": "#f4fafd",
+                      "background": "#f4fafd",
+                      "surface-container-high": "#e2e9ec",
+                      "outline-variant": "#cfc2d2",
+                      "on-secondary-container": "#795950",
+                      "surface-container": "#e8eff1",
+                      "surface-bright": "#f4fafd",
+                      "primary-fixed-dim": "#e5b4ff",
+                      "inverse-on-surface": "#ebf2f4",
+                      "surface-container-highest": "#dde4e6",
+                      "secondary": "#76574e",
+                      "on-primary-fixed": "#30004b",
+                      "on-secondary-fixed-variant": "#5d4037",
+                      "on-error-container": "#93000a",
+                      "on-primary-container": "#622587",
+                      "surface-tint": "#7f43a5",
+                      "secondary-fixed-dim": "#e6beb2",
+                      "primary": "#7f43a5",
+                      "on-secondary-fixed": "#2c160f",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-fixed": "#160066",
+                      "on-tertiary-container": "#3c24b7",
+                      "on-surface-variant": "#4d4450",
+                      "on-primary": "#ffffff",
+                      "on-primary-fixed-variant": "#66298b",
+                      "on-background": "#161d1f",
+                      "surface-dim": "#d4dbdd",
+                      "inverse-primary": "#e5b4ff",
+                      "secondary-container": "#fed4c8",
+                      "tertiary-fixed": "#e4dfff",
+                      "primary-container": "#d896ff",
+                      "outline": "#7e7381",
+                      "error": "#ba1a1a",
+                      "error-container": "#ffdad6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-mobile": "16px",
+                      "unit": "4px",
+                      "margin-tablet": "24px",
+                      "touch-target-min": "48px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Plus Jakarta Sans"],
+                      "headline-md": ["Manrope"],
+                      "headline-lg-mobile": ["Manrope"],
+                      "headline-lg": ["Manrope"],
+                      "label-lg": ["Plus Jakarta Sans"],
+                      "headline-xl": ["Manrope"],
+                      "body-lg": ["Plus Jakarta Sans"],
+                      "body-md": ["Plus Jakarta Sans"]
+              },
+              "fontSize": {
+                      "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                      "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 213, 255, 0.3);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-margin-mobile h-touch-target-min w-full max-w-7xl mx-auto">
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 rounded-full">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed-dim tracking-tight">Starbox</h1>
+<button class="w-touch-target-min h-touch-target-min flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high transition-colors active:scale-95 rounded-full">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-margin-mobile max-w-7xl mx-auto overflow-x-hidden">
+<!-- Empty State Section -->
+<section class="flex flex-col items-center justify-center text-center py-12 space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+<!-- Illustration Container -->
+<div class="relative w-64 h-64 flex items-center justify-center">
+<!-- Background Glow -->
+<div class="absolute inset-0 bg-primary-container/30 blur-3xl rounded-full"></div>
+<!-- Main Illustration -->
+<div class="relative z-10 glass-card p-8 rounded-full border-2 border-primary-container/50">
+<div class="w-32 h-32 rounded-full overflow-hidden flex items-center justify-center bg-surface-container-lowest">
+<img class="w-full h-full object-cover" data-alt="A minimalist and soft 3D digital illustration of a single lavender flower sprig resting inside a transparent, iridescent shopping bag. The style is ethereal and premium, using a palette of soft lavender, pastel pink, and airy whites. Gentle cinematic lighting creates soft shadows and a dreamy, high-end ecommerce feel against a clean, light-mode background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiNPZwEpSyDqm3f2hSC2Yyam-FbEb-3N6XWqWnsX1_tivWXbBBJXCn5yp1Cp4fbiCGL7SQdielZ0TFpv58j3n9HfZiGdTakgrS4mREFWyEpYeCS2QLhTlEkUCtiERG1-ami2_pONSWixTZivoT2dorQjX0M_pFQOJIp8IxY4tNidlgtoewWA6M85GlPN2vGS7iBi3uRj5Mg8hU6G5R1Vak-hFBwTcirFXphEj4rU06qE6n7iPodmKMGAlsgKanLu3CUBjbFCxorn8"/>
+</div>
+</div>
+<!-- Floating Elements (Micro-interactions) -->
+<div class="absolute top-4 right-8 animate-bounce transition-all duration-1000" style="animation-delay: 0.2s;">
+<span class="material-symbols-outlined text-primary text-3xl opacity-40">local_florist</span>
+</div>
+<div class="absolute bottom-10 left-4 animate-pulse duration-[3000ms]">
+<span class="material-symbols-outlined text-tertiary text-2xl opacity-30">spark</span>
+</div>
+</div>
+<!-- Content -->
+<div class="max-w-md space-y-4">
+<h2 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">Your cart is empty</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant px-4">
+                    Discover our latest luxury blends and start your self-care journey.
+                </p>
+</div>
+<!-- CTA -->
+<div class="pt-4">
+<button class="bg-primary text-on-primary font-label-lg text-label-lg px-10 h-touch-target-min rounded-full shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all duration-200">
+                    Explore Products
+                </button>
+</div>
+</section>
+<!-- Recommended Section -->
+<section class="mt-12 space-y-6">
+<div class="flex items-center justify-between px-2">
+<h3 class="font-headline-md text-headline-md text-on-surface">Recommended for You</h3>
+<button class="text-primary font-label-lg text-label-lg flex items-center gap-1 hover:underline">
+                    View All <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+<!-- Horizontal Scroll Cards -->
+<div class="flex gap-gutter overflow-x-auto hide-scrollbar snap-x snap-mandatory pb-4 -mx-margin-mobile px-margin-mobile">
+<!-- Product Card 1 -->
+<div class="min-w-[280px] w-[280px] snap-start group">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-outline-variant/30">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A premium close-up of a luxury organic tea blend container with a minimalist lavender design. The aesthetic is high-end skincare-like packaging with metallic silver accents. Soft, natural morning light filters through a window, casting gentle shadows on a clean white marble surface. The color palette features soothing lavender and soft white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJZJtrsWM22F0NpkE3ON4Q1h8ZpsbHmTenhTd0w2wE3usSAdLGnu0vvnUF4EAhf0mx0HGL7QUYRMlBIZ9UDwdCTkQiFDbUXflMH3puS_kyn8vSeqORSZFRwTsjk7ko8pVrdQYNwHr7w3OXVilNWujKTkhjpzbQLwIJp1MB7wMR3FPlqm4out2nXd-a8gSmbvhnFrZNRikuZRppVPdaTHs4dNxZECh8U4PrhwHEZEDa0npZgmgqye-gppsDY7kJ6UQ39DgadMQBauM"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+</button>
+</div>
+<div class="p-4 space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate pr-2">Midnight Lavender Blend</h4>
+<span class="font-label-lg text-label-lg text-primary">$32.00</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Soothing &amp; Calming</p>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="min-w-[280px] w-[280px] snap-start group">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-outline-variant/30">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A stylish lifestyle shot of a high-end ceramic diffuser emitting a fine mist. The diffuser has a soft-touch matte finish in a dusty rose color. The scene is set in a modern, minimalist living room with lush green plants and natural wood textures. Bright, airy, and professional photography style with soft focus on the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7nvv2ryjGbDVmrmpX8b-iJnMD8QulLXLpZfEjerWCvdstsdm5NOKJz2U0mi3Lfk60CWRjzQAbVFQPzTjLW6zB5ONS4wtcukgOz8pyjz_uSUM5hycn_cN-ho7iLt0HDf0CuwbQ05-ybJeDdOo0m0CS-ZesfbeTEXDPgrPOqnewE457TVyvoBMWrYwtTj8GgrKGXFXToXVHTAQbBvKm_65cbtcSRF39f0sxXRRAGkOf6EslhncNximreob3p-1FIOUnM7N7Q6OgI4Q"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+</button>
+</div>
+<div class="p-4 space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate pr-2">Aura Mist Diffuser</h4>
+<span class="font-label-lg text-label-lg text-primary">$89.00</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Essential Home Spa</p>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="min-w-[280px] w-[280px] snap-start group">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-outline-variant/30">
+<div class="aspect-[4/5] relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="A flat lay composition of premium organic botanical ingredients including dried lavender flowers and chamomile buds. The shot is meticulously arranged on a soft linen textured background in a muted lavender color. Crisp focus and professional studio lighting highlight the organic textures of the plants, following a modern wellness aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6ZouACOvRaPVNqXvOGiEoyAY4wyBHGwQRD4f4G6jA40w0uNwzUZzQFlYK1HPuxd-agFNP0-TwDpqe1o6-bBMOfbSBZSumbRUUyu7yY7IP8ofKA-dn1uj8pBPfnBF-R9P3QQo2J1nNqzFRSf1gk5_zQ_HLigF19E69-TqlUjdklFdhKideU0409nPRtCfQtwkqiGKdu1Cg11yfRcPS11QyEk97l49co4fR6otcXI_3qtYOBqT9_7g9MWCcwXnEGB8kuLrcUMSjKO0"/>
+<button class="absolute bottom-4 right-4 bg-primary text-on-primary w-10 h-10 rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add_shopping_cart</span>
+</button>
+</div>
+<div class="p-4 space-y-1">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-label-lg text-on-surface truncate pr-2">Botanical Wellness Kit</h4>
+<span class="font-label-lg text-label-lg text-primary">$45.00</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Curated Self-Care</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md shadow-lg h-16 px-4 pb-safe flex justify-around items-center">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low transition-colors active:scale-90" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Cart (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-primary text-on-primary-container dark:text-on-primary rounded-full px-4 py-1 active:scale-90 transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low transition-colors active:scale-90" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-surface-variant px-4 py-1 hover:bg-surface-container-low transition-colors active:scale-90" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+<script>
+        // Simple micro-interaction for the explore button
+        document.querySelector('button').addEventListener('mouseenter', function() {
+            this.classList.add('shadow-xl');
+        });
+        document.querySelector('button').addEventListener('mouseleave', function() {
+            this.classList.remove('shadow-xl');
+        });
+    </script>
+</body></html>

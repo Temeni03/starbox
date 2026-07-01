@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Delivery Details | Starbox</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#3c24b7",
+                        "surface-variant": "#dde4e6",
+                        "tertiary-fixed": "#e4dfff",
+                        "inverse-surface": "#2b3234",
+                        "surface-container-low": "#eef5f7",
+                        "primary-fixed-dim": "#e5b4ff",
+                        "outline-variant": "#cfc2d2",
+                        "on-primary-container": "#622587",
+                        "tertiary-fixed-dim": "#c6bfff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e2e9ec",
+                        "tertiary-container": "#afa6ff",
+                        "background": "#f4fafd",
+                        "on-tertiary-fixed": "#160066",
+                        "surface-tint": "#7f43a5",
+                        "secondary-fixed": "#ffdbd0",
+                        "on-secondary-container": "#795950",
+                        "on-secondary-fixed-variant": "#5d4037",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#e8eff1",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#4029ba",
+                        "on-surface-variant": "#4d4450",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#ebf2f4",
+                        "tertiary": "#5847d2",
+                        "secondary": "#76574e",
+                        "primary-fixed": "#f4d9ff",
+                        "primary-container": "#d896ff",
+                        "on-primary-fixed": "#30004b",
+                        "on-secondary-fixed": "#2c160f",
+                        "inverse-primary": "#e5b4ff",
+                        "surface-container-highest": "#dde4e6",
+                        "on-surface": "#161d1f",
+                        "secondary-fixed-dim": "#e6beb2",
+                        "surface-bright": "#f4fafd",
+                        "surface": "#f4fafd",
+                        "primary": "#7f43a5",
+                        "outline": "#7e7381",
+                        "surface-dim": "#d4dbdd",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#fed4c8",
+                        "on-background": "#161d1f",
+                        "on-primary-fixed-variant": "#66298b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "touch-target-min": "48px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "margin-tablet": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Manrope"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #f4fafd; /* surface */
+            color: #161d1f; /* on-surface */
+            -webkit-tap-highlight-color: transparent;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(244, 250, 253, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(233, 213, 255, 0.5); /* subtle lavender stroke */
+        }
+        .safe-bottom {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-sm flex items-center justify-between px-margin-mobile h-touch-target-min">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined text-primary">arrow_back</span>
+</button>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary tracking-tight">Delivery Details</h1>
+</div>
+<div class="flex gap-2">
+<button class="active:scale-95 transition-transform p-2">
+<span class="material-symbols-outlined text-on-surface-variant">search</span>
+</button>
+</div>
+</header>
+<main class="mt-16 pb-32 px-margin-mobile max-w-2xl mx-auto space-y-6 pt-4">
+<!-- Status Badge -->
+<div class="flex justify-center">
+<span class="px-4 py-1 rounded-full bg-primary-container/20 text-on-primary-container font-label-lg text-label-lg border border-primary-container/30">
+                Awaiting Pickup
+            </span>
+</div>
+<!-- Customer Details Card (Bento Style) -->
+<section class="glass-card rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary">Customer</h2>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="space-y-1">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Name</p>
+<p class="font-body-lg text-body-lg font-semibold">Julianna V. Sterling</p>
+</div>
+<div class="space-y-1">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Phone</p>
+<div class="flex items-center gap-2">
+<p class="font-body-lg text-body-lg font-semibold">+1 (555) 892-0144</p>
+<button class="bg-primary-container/20 p-1 rounded-lg">
+<span class="material-symbols-outlined text-primary text-sm">call</span>
+</button>
+</div>
+</div>
+<div class="col-span-full space-y-1">
+<p class="font-label-sm text-label-sm text-on-surface-variant">Delivery Address</p>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-1">location_on</span>
+<p class="font-body-md text-body-md leading-relaxed">
+                            482 Lavender Lane, Apt 4C<br/>
+                            Soft Petals District, Crystal City, 90210
+                        </p>
+</div>
+</div>
+</div>
+<!-- Mini Map Placeholder -->
+<div class="w-full h-32 rounded-xl overflow-hidden mt-4 relative group cursor-pointer">
+<div class="w-full h-full bg-cover bg-center" data-alt="A clean, minimalist vector map illustration of a city neighborhood featuring soft lavender and pink color coding for parks and buildings. The lighting is bright and even, evoking a premium digital interface style. A central marker indicates a delivery destination with a soft shadow." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBPXFKZCspW7bnrnuyfqTb80GBuxNereEubXe_BJBrMAdfb8KijnFKHW5DzGQuVZ46j_c6mEqMm42brT48lFEkJV3MS3a8_RbJLChOuiN3RWgKxZ_aqg-l-CILJ8DiiMP9MqdTcn7EqF835Gd0QINGrAN2l582bRPTVGQj0zEGSzeUalGr6-bgwIalqiph-YwAxiV_humfB-F_c8ja7yNNo0waHTUyt_c-fX1c91VF9LfaVBeHjtzkeyYX8jMn9jsVCO05Rc0uRj30')"></div>
+<div class="absolute inset-0 bg-primary/10 group-hover:bg-primary/0 transition-colors"></div>
+<div class="absolute bottom-2 right-2 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full border border-primary-container/30 text-primary text-label-sm font-label-sm">
+                    Open Navigation
+                </div>
+</div>
+</section>
+<!-- Payment Info Card -->
+<section class="glass-card rounded-xl p-5 shadow-sm space-y-4">
+<div class="flex items-center justify-between">
+<h2 class="font-headline-md text-headline-md text-primary">Payment Status</h2>
+<span class="material-symbols-outlined text-primary">payments</span>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl bg-surface-container-low border border-outline-variant/30">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-full bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined">account_balance</span>
+</div>
+<div>
+<p class="font-label-lg text-label-lg">Bank Transfer</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Confirmed at 09:24 AM</p>
+</div>
+</div>
+<p class="font-headline-md text-headline-md text-primary">$248.00</p>
+</div>
+<div class="flex items-center gap-2 p-3 rounded-lg bg-surface-container-highest/30">
+<span class="material-symbols-outlined text-primary text-[20px]">info</span>
+<p class="font-label-sm text-label-sm text-on-surface-variant">No cash collection required at the doorstep.</p>
+</div>
+</section>
+<!-- Order Items Section -->
+<section class="space-y-4">
+<h2 class="font-headline-md text-headline-md text-primary px-1">Order Items (3)</h2>
+<div class="space-y-3">
+<!-- Item 1 -->
+<div class="flex gap-4 p-3 glass-card rounded-xl">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-end luxury minimalist perfume bottle with a soft lavender label, sitting on a translucent glass surface with soft pink ambient lighting. The background is a clean, bright studio setting with airy whitespace, emphasizing a curated e-commerce product photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTEQviDqRupUB2b4c0M3BShj2HNCb5nHXZFgG1MZRRqS1c2DY67EbE6c_jYsQbr94nb_3__3IMLOFVQtrUQM3jJ0PthIV8wZQ1q15d-JC6RWo3KJK9tZLLFLrZiWOak_LQQVV7Odp5Z0SS-HO-z5EUZX2djZCKF_2KTBVcQQlGKWPEG5tWXd8MMUXaugTpRy695093YKCAY-eOFvJ1uXOMRWfhh7QNft82fKk06t0zKlkXs_0d0usgT5amJQm1GrCebeZckPqqrgc"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Ethereal Bloom EDP</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">50ml • Limited Edition</p>
+</div>
+<div class="flex justify-between items-center">
+<p class="font-label-lg text-label-lg text-primary">Qty: 1</p>
+<p class="font-label-lg text-label-lg font-bold">$125.00</p>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-4 p-3 glass-card rounded-xl">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A sleek, designer silk scarf with delicate lavender and gold patterns, draped elegantly over a soft white pedestal. The lighting is soft and warm, highlighting the high-quality textile textures. The aesthetic is modern minimalism, typical of a high-end luxury fashion brand catalog." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5cx4r3fMgd_vFCa-RDMVLnV2njdBDpbn2s3llpFdVb64g8fqNWxkGqF9SAi57zJGy7VY6k1NF2XFzVpplGd-JuuI5AmC2rKYvGWw9YBJas9okJjsLUPPBDGK0-xY1Lk0v8TbZr9jEOmUF3pYnX18uGuW30qK_vqk610JfA51GbfXogbX7_oh-MkMxMuZ-w7ng8Ke0Pt2EEvto0UM7Q4rtw2ACZ-7nwpDYFE8G_Vxo6mZ7tmZhfiaNM8-7gdqRXWAxCZS2UydY4-Y"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Silk Whisper Scarf</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Hand-woven • Lavender/Gold</p>
+</div>
+<div class="flex justify-between items-center">
+<p class="font-label-lg text-label-lg text-primary">Qty: 2</p>
+<p class="font-label-lg text-label-lg font-bold">$110.00</p>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex gap-4 p-3 glass-card rounded-xl">
+<div class="w-20 h-20 rounded-lg overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A high-quality handcrafted ceramic candle with a matte lavender finish and a minimalist wooden wick. The candle is placed in a bright, modern interior setting with soft shadows and a hint of green flora in the background. The visual style is premium concierge luxury with a calm, tactile mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6Ghf4qwPV490q4kpH0BtuPmO8hTIXnAI7dAxpXDv5OKbb9c0vyKLFqxYh5lLsTwPU8VoLz1xw6o0XqWPDacmb94DhnBIDLxZ8KBezvP8-wkPpE0DNo9hJabN9wTZ_BEo-z0Nl8Bwmd-sPFrQpSJ_omrp-_Tb_jyVqhZhU8KcA_ojMZOkuo5yYbBOvrC0bN7oMX_NQc1qQVBkAttbSTAtFw1JqCxhwkZAlP-fjPeNw0I3zTlJchxzc0gJmSQDpQ8i_tR6hqshWBds"/>
+</div>
+<div class="flex-1 flex flex-col justify-between py-1">
+<div>
+<p class="font-label-lg text-label-lg text-on-surface">Twilight Scented Candle</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Sandalwood &amp; Iris</p>
+</div>
+<div class="flex justify-between items-center">
+<p class="font-label-lg text-label-lg text-primary">Qty: 1</p>
+<p class="font-label-lg text-label-lg font-bold">$13.00</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Order Summary Detail -->
+<section class="p-4 border-t border-outline-variant/30 space-y-2">
+<div class="flex justify-between text-on-surface-variant">
+<p>Subtotal</p>
+<p>$235.00</p>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<p>Delivery Fee</p>
+<p>$13.00</p>
+</div>
+<div class="flex justify-between font-bold text-on-surface pt-2">
+<p class="font-headline-md text-headline-md">Total Amount</p>
+<p class="font-headline-md text-headline-md text-primary">$248.00</p>
+</div>
+</section>
+</main>
+<!-- Sticky Footer Actions -->
+<footer class="fixed bottom-0 w-full bg-surface/90 backdrop-blur-xl px-margin-mobile py-4 safe-bottom shadow-[0_-10px_20px_rgba(216,150,255,0.08)] z-50">
+<div class="flex gap-3 max-w-2xl mx-auto">
+<button class="flex-1 h-touch-target-min bg-surface border-2 border-primary text-primary rounded-xl font-label-lg text-label-lg hover:bg-primary/5 active:scale-95 transition-all flex items-center justify-center gap-2" id="start-delivery" onclick="handleStart()">
+<span class="material-symbols-outlined text-[20px]">directions_run</span>
+                Start Delivery
+            </button>
+<button class="flex-1 h-touch-target-min bg-primary text-white rounded-xl font-label-lg text-label-lg shadow-lg active:scale-95 transition-all flex items-center justify-center gap-2" id="mark-delivered" onclick="handleDelivered()">
+<span class="material-symbols-outlined text-[20px]">task_alt</span>
+                Mark as Delivered
+            </button>
+</div>
+</footer>
+<!-- Micro-interaction Scripts -->
+<script>
+        function handleStart() {
+            const btn = document.getElementById('start-delivery');
+            btn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-spin">sync</span> Starting...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.classList.add('bg-primary', 'text-white');
+                btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">check_circle</span> En Route`;
+                btn.style.borderColor = '#7f43a5';
+            }, 1000);
+        }
+
+        function handleDelivered() {
+            const btn = document.getElementById('mark-delivered');
+            btn.innerHTML = `<span class="material-symbols-outlined text-[20px] animate-bounce">celebration</span> Sending...`;
+            btn.disabled = true;
+            setTimeout(() => {
+                alert('Delivery successfully recorded! 📦');
+                btn.innerHTML = `<span class="material-symbols-outlined text-[20px]">done_all</span> Delivered`;
+                btn.classList.replace('bg-primary', 'bg-tertiary');
+            }, 1200);
+        }
+    </script>
+</body></html>

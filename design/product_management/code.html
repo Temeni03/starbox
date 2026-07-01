@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Starbox | Admin Inventory Management</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#3c24b7",
+                        "surface-variant": "#dde4e6",
+                        "tertiary-fixed": "#e4dfff",
+                        "inverse-surface": "#2b3234",
+                        "surface-container-low": "#eef5f7",
+                        "primary-fixed-dim": "#e5b4ff",
+                        "outline-variant": "#cfc2d2",
+                        "on-primary-container": "#622587",
+                        "tertiary-fixed-dim": "#c6bfff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e2e9ec",
+                        "tertiary-container": "#afa6ff",
+                        "background": "#f4fafd",
+                        "on-tertiary-fixed": "#160066",
+                        "surface-tint": "#7f43a5",
+                        "secondary-fixed": "#ffdbd0",
+                        "on-secondary-container": "#795950",
+                        "on-secondary-fixed-variant": "#5d4037",
+                        "on-primary": "#ffffff",
+                        "surface-container": "#e8eff1",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#4029ba",
+                        "on-surface-variant": "#4d4450",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#ebf2f4",
+                        "tertiary": "#5847d2",
+                        "secondary": "#76574e",
+                        "primary-fixed": "#f4d9ff",
+                        "primary-container": "#d896ff",
+                        "on-primary-fixed": "#30004b",
+                        "on-secondary-fixed": "#2c160f",
+                        "inverse-primary": "#e5b4ff",
+                        "surface-container-highest": "#dde4e6",
+                        "on-surface": "#161d1f",
+                        "secondary-fixed-dim": "#e6beb2",
+                        "surface-bright": "#f4fafd",
+                        "surface": "#f4fafd",
+                        "primary": "#7f43a5",
+                        "outline": "#7e7381",
+                        "surface-dim": "#d4dbdd",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#fed4c8",
+                        "on-background": "#161d1f",
+                        "on-primary-fixed-variant": "#66298b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "4px",
+                        "touch-target-min": "48px",
+                        "gutter": "16px",
+                        "margin-mobile": "16px",
+                        "margin-tablet": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "label-sm": ["Plus Jakarta Sans"],
+                        "headline-xl": ["Manrope"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "label-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-panel {
+            background: rgba(244, 250, 253, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        body {
+            background-color: #f4fafd; /* surface color */
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm flex items-center justify-between px-margin-mobile h-touch-target-min">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary active:scale-95 transition-transform p-2 hover:bg-primary-container/20 rounded-full">menu</button>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-tight">Starbox</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="material-symbols-outlined text-primary active:scale-95 transition-transform p-2 hover:bg-primary-container/20 rounded-full">search</button>
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border-2 border-white shadow-sm">
+<img class="w-full h-full object-cover" data-alt="Professional studio headshot of a boutique store manager with a warm smile, set against a soft lavender and white minimalist interior background, reflecting a high-end and approachable e-commerce brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4PqpcyZnCtiQtSMABnzUx9KpTPw5gCTfw6U25jtGGXOogNueGj2Fkntl9BQtaKBxta-pm_2cwnLb2b4cjUmI24fF_oAvRU7l2hYjp-MHOaZYyt1bK_2EATn468nWakGry6d80rweLEK5VlgjflgIX9QrTVFBbZluHYlKlbPzb0DfQx_qiYkAiKprGLQZ8YAjMr3PU2ZrmQVdEamoKtPiZ9Cn6IzVGjQXSI4nY8mvvxH7E0NdrA4uk6hm1DlPMgL5gcjGbzNYMiWY"/>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-20 px-margin-mobile max-w-5xl mx-auto">
+<!-- Welcome & Search Section -->
+<section class="mb-10">
+<div class="flex flex-col gap-2 mb-8">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Inventory Management</h2>
+<p class="font-body-md text-on-surface-variant">Manage your luxury product catalog and stock levels.</p>
+</div>
+<!-- Enhanced Search Bar -->
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-outline">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="w-full h-12 pl-12 pr-4 bg-surface-container rounded-xl border-none focus:ring-2 focus:ring-primary transition-all duration-300 font-body-md shadow-sm group-hover:shadow-md" placeholder="Search by product name, SKU or category..." type="text"/>
+<button class="absolute inset-y-0 right-2 flex items-center px-4 my-1.5 bg-primary text-on-primary rounded-lg font-label-lg active:scale-95 transition-transform">
+                    Filter
+                </button>
+</div>
+</section>
+<!-- Metrics Bento Grid (High-end UI Pattern) -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+<div class="bg-surface-container-lowest p-5 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-2">
+<span class="font-label-sm text-on-surface-variant uppercase tracking-wider">Total Products</span>
+<span class="font-headline-lg text-primary">1,248</span>
+</div>
+<div class="bg-error-container p-5 rounded-2xl shadow-sm border border-error/10 flex flex-col gap-2">
+<span class="font-label-sm text-on-error-container uppercase tracking-wider">Low Stock Alerts</span>
+<span class="font-headline-lg text-error">12 Items</span>
+</div>
+<div class="bg-tertiary-container p-5 rounded-2xl shadow-sm border border-tertiary/10 flex flex-col gap-2">
+<span class="font-label-sm text-on-tertiary-container uppercase tracking-wider">Total Value</span>
+<span class="font-headline-lg text-on-tertiary-container">$42.5k</span>
+</div>
+<div class="bg-secondary-container p-5 rounded-2xl shadow-sm border border-secondary/10 flex flex-col gap-2">
+<span class="font-label-sm text-on-secondary-container uppercase tracking-wider">Out of Stock</span>
+<span class="font-headline-lg text-on-secondary-container">3</span>
+</div>
+</section>
+<!-- Product List -->
+<section class="flex flex-col gap-4">
+<div class="flex items-center justify-between mb-2">
+<h3 class="font-label-lg text-on-surface">Product Catalog</h3>
+<span class="text-on-surface-variant font-label-sm">Showing 15 of 1,248</span>
+</div>
+<!-- Product Rows -->
+<div class="space-y-3">
+<!-- Row Item 1 (Low Stock) -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-center gap-4 border border-outline-variant/20 hover:border-primary/40 transition-colors group">
+<div class="w-16 h-16 rounded-xl bg-surface-container-highest flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A macro photography shot of a luxury lavender-scented candle in a frosted glass jar with a minimalist label. Soft, ethereal lighting with pastel pink and light purple shadows creating a premium and calming aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7AOvuwVkgXiB2rrUJYpVqHu9RLTy5RSVezUd1Nk_QgzUhpqFyCLcRIE6TJe3hRmV3ZOalotEvjcJr6bl99P7W43BDMwz3IToVa4n65hPMPdY4yjeczY0ZteDZNFiI0xUzIo73uIhtmUauN5NYpZVbGDMx7kaV6yV5DjOAghk-6pxvq6Qm-PtiQ7w6GBR4cBs0MPn4B7bnDubkKkSMtbd5kSkA9HAOpdtaoovyzW6vQwtgcJGXVU0fo6jmTk8sqCNg-zwCk1dyWks"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-on-surface">Serene Lavender Candle</h4>
+<span class="font-label-sm text-primary font-bold">$24.00</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="font-body-md text-on-surface-variant">Stock: <span class="text-error font-semibold">8 units</span></span>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container text-[10px] font-bold rounded-full uppercase tracking-tighter flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span> Low Stock
+                            </span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-primary p-2">more_vert</button>
+</div>
+<!-- Row Item 2 (Healthy Stock) -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-center gap-4 border border-outline-variant/20 hover:border-primary/40 transition-colors group">
+<div class="w-16 h-16 rounded-xl bg-surface-container-highest flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A high-fashion product shot of an organic silk sleep mask in a soft dusty rose color, laid on a bed of fresh pink rose petals. The lighting is bright and airy, with soft focus edges and a sophisticated minimalist composition." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuMNIv-G_zhiRh33dUen5liMCA6VGFJCNC6ehU_X9e2ykLehOcW7T4ORxkAh8WRiadSArgES58GmpBDzdcg51hc6iRTF9j4TzppO2GEi7uxhq-uT2YTlhJnksGJgGHKMeQeheTuTN6C7JJHEoKEzXpD1hoPpCaC4xdF4mShbsci5c2wzZgaMLzrHfb_5GnHNvFKt3Hq28fNXR7ayrmBB9IluiImVhkz1RcleeDID66JMZwZKC2yC-IdiZ7GQYx_QhGQk6msSLRu7g"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-on-surface">Silk Dream Mask - Rose</h4>
+<span class="font-label-sm text-primary font-bold">$45.00</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="font-body-md text-on-surface-variant">Stock: <span class="text-on-surface font-semibold">142 units</span></span>
+<span class="px-2 py-0.5 bg-surface-container-high text-on-surface-variant text-[10px] font-bold rounded-full uppercase tracking-tighter">SKU: SDM-042</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-primary p-2">more_vert</button>
+</div>
+<!-- Row Item 3 (Healthy Stock) -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-center gap-4 border border-outline-variant/20 hover:border-primary/40 transition-colors group">
+<div class="w-16 h-16 rounded-xl bg-surface-container-highest flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A luxury wellness product bottle featuring a gold-foiled label on a dark amber glass bottle, containing artisanal bath salts. The background is a clean, bright white bathroom marble counter with soft morning sunlight casting gentle shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzBFB1oSQohLufyk9Me14s5aodfQJ6P_ByW2FpZ7fCCgHhh63Dxc71bbhejJzr4r2Pwlo1EtV_1vVD696or0dcIvchQSBTEA_9p-fpA2mkG9g9NxtSRh8XskVMg0Ksakbc_CqX_Oy2uAIB6eTv5VSVGMjeoZRi5VrjZ3t9nuOJvsaGUox4kbDxn9zUWcfA3wrHrZbTfySGNLrbwc4jnBuD-Zejkunv36PAZQPfeHgQ-mMXT1sGTqvdXluDY8w-JW9dfsFq1Lw1xsw"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-on-surface">Artisanal Bath Salts</h4>
+<span class="font-label-sm text-primary font-bold">$32.00</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="font-body-md text-on-surface-variant">Stock: <span class="text-on-surface font-semibold">86 units</span></span>
+<span class="px-2 py-0.5 bg-surface-container-high text-on-surface-variant text-[10px] font-bold rounded-full uppercase tracking-tighter">SKU: ABS-910</span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-primary p-2">more_vert</button>
+</div>
+<!-- Row Item 4 (Low Stock) -->
+<div class="bg-surface-container-lowest p-4 rounded-2xl shadow-sm flex items-center gap-4 border border-outline-variant/20 hover:border-primary/40 transition-colors group">
+<div class="w-16 h-16 rounded-xl bg-surface-container-highest flex-shrink-0 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A minimalist ceramic mug with a matte lavender finish, sitting on a light oak wood tray next to a single eucalyptus branch. High-key lighting, soft textures, and a calm, curated lifestyle aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfz-Rx55E5HosA3rTY_bc_2XXCi-yG_ykKJaaO1WTbfbsg3HEBAw9UnBuSnQWkCaHst59pM4w3Kxww__5EAnqC0PL9f-B8NNxl9IbA58kdZ7_Bd6WI2UZUKlwEhw2w3vYyIZUkyZLanD9M_DA2ZX3rW0TIKvBoAdTTGneu_HxncBIZ5pdNrNndYKQxjwVctY2FUUggyi0DRdsm2yvF2mGJa2Dfjw1rKzx8ks8b3JICrCU87pv_cXwlG0RuhxgRpYwvpnX3OCTGvt0"/>
+</div>
+<div class="flex-grow flex flex-col">
+<div class="flex justify-between items-start">
+<h4 class="font-label-lg text-on-surface">Matte Ceramic Mug</h4>
+<span class="font-label-sm text-primary font-bold">$18.00</span>
+</div>
+<div class="flex items-center gap-3 mt-1">
+<span class="font-body-md text-on-surface-variant">Stock: <span class="text-error font-semibold">3 units</span></span>
+<span class="px-2 py-0.5 bg-error-container text-on-error-container text-[10px] font-bold rounded-full uppercase tracking-tighter flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span> Low Stock
+                            </span>
+</div>
+</div>
+<button class="material-symbols-outlined text-outline hover:text-primary p-2">more_vert</button>
+</div>
+</div>
+</section>
+</main>
+<!-- FAB: Add Product -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all duration-200 z-50">
+<span class="material-symbols-outlined text-[28px]">add</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/80 backdrop-blur-md shadow-lg flex justify-around items-center h-16 px-2 pb-safe">
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</button>
+<button class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</button>
+<button class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</button>
+</nav>
+<script>
+        // Simple search micro-interaction
+        const searchInput = document.querySelector('input[type="text"]');
+        searchInput.addEventListener('focus', () => {
+            searchInput.parentElement.classList.add('scale-[1.01]');
+        });
+        searchInput.addEventListener('blur', () => {
+            searchInput.parentElement.classList.remove('scale-[1.01]');
+        });
+
+        // Toggle row highlights on click
+        document.querySelectorAll('.bg-surface-container-lowest').forEach(row => {
+            row.addEventListener('click', function() {
+                this.classList.toggle('border-primary/60');
+                this.classList.toggle('shadow-md');
+            });
+        });
+    </script>
+</body></html>

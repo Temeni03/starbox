@@ -1,0 +1,357 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<title>Starbox | Curated Luxury Shopping</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#afa6ff",
+                    "tertiary-fixed-dim": "#c6bfff",
+                    "surface-container-high": "#e2e9ec",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#e5b4ff",
+                    "surface-container-low": "#eef5f7",
+                    "outline-variant": "#cfc2d2",
+                    "on-primary-container": "#622587",
+                    "inverse-surface": "#2b3234",
+                    "tertiary-fixed": "#e4dfff",
+                    "surface-variant": "#dde4e6",
+                    "on-tertiary-container": "#3c24b7",
+                    "inverse-on-surface": "#ebf2f4",
+                    "on-tertiary-fixed-variant": "#4029ba",
+                    "error-container": "#ffdad6",
+                    "on-surface-variant": "#4d4450",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#e8eff1",
+                    "on-secondary": "#ffffff",
+                    "secondary-fixed": "#ffdbd0",
+                    "surface-tint": "#7f43a5",
+                    "on-secondary-container": "#795950",
+                    "on-secondary-fixed-variant": "#5d4037",
+                    "on-tertiary-fixed": "#160066",
+                    "background": "#f4fafd",
+                    "surface-bright": "#f4fafd",
+                    "secondary-fixed-dim": "#e6beb2",
+                    "surface-container-highest": "#dde4e6",
+                    "on-surface": "#161d1f",
+                    "primary-container": "#d896ff",
+                    "primary-fixed": "#f4d9ff",
+                    "on-primary-fixed": "#30004b",
+                    "inverse-primary": "#e5b4ff",
+                    "on-secondary-fixed": "#2c160f",
+                    "tertiary": "#5847d2",
+                    "secondary": "#76574e",
+                    "on-primary-fixed-variant": "#66298b",
+                    "secondary-container": "#fed4c8",
+                    "on-background": "#161d1f",
+                    "on-error": "#ffffff",
+                    "error": "#ba1a1a",
+                    "on-error-container": "#93000a",
+                    "outline": "#7e7381",
+                    "surface-dim": "#d4dbdd",
+                    "primary": "#7f43a5",
+                    "surface": "#f4fafd"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "margin-mobile": "16px",
+                    "touch-target-min": "48px",
+                    "gutter": "16px",
+                    "margin-tablet": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "label-lg": ["Plus Jakarta Sans"],
+                    "headline-xl": ["Manrope"],
+                    "label-sm": ["Plus Jakarta Sans"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["22px", {"lineHeight": "30px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.5px", "fontWeight": "600"}],
+                    "headline-xl": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        
+        .glass-panel {
+            background: rgba(244, 250, 253, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cfc2d2; border-radius: 10px; }
+
+        .product-card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(216, 150, 255, 0.1), 0 8px 10px -6px rgba(216, 150, 255, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container" style="min-height: auto;">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-sm">
+<div class="flex items-center justify-between px-margin-mobile h-touch-target-min w-full max-w-screen-xl mx-auto">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary-container/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">menu</span>
+</button>
+<h1 class="font-headline-xl text-headline-xl text-primary dark:text-primary-fixed-dim tracking-tight">Starbox</h1>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary-container/20 active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">notifications</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-20 px-margin-mobile max-w-screen-xl mx-auto pb-16">
+<!-- Search & Filter Area -->
+<section class="mb-8">
+<div class="relative group">
+<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline">search</span>
+</div>
+<input class="w-full h-12 pl-12 pr-4 rounded-xl border border-outline-variant bg-surface-container-low focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none text-body-lg font-body-lg" placeholder="Search curated luxury..." type="text">
+</div>
+
+</section>
+<!-- Featured Banner (Asymmetric Layout) -->
+<section class="mb-10 relative overflow-hidden rounded-3xl aspect-[16/9] md:aspect-[21/9]">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="A luxurious high-end vanity table bathed in soft golden hour light, featuring elegant skincare bottles in frosted glass and pastel lavender tones. The setting is a minimalist, modern penthouse bedroom with airy silk curtains. Soft pink and lavender highlights create a dreamlike, premium atmosphere for an e-commerce brand called Starbox." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn3jBp-kU6rV-30C3DUsDrHmujmfXYw3ik0uD4dxvGhodNjuq3-bJ0rmftzg9akROFQfIvCwQVptHub9c23SFJBUD4x8O-tnLQ1nBN8-2hK6cw50EV5N4lEOnX7-Dh6rzl3dzBr4772_M3-LqXvyifNRhPgx4nuwHcX09SdhWEH4HO8i87W5t3YF4LiN1BVtHbMKVMJcZeGQj7oCwH4cXuNEkF7NpyRbMW9NPQzNguw9qy_DHQ5CiHDW8LhTMeJc5wVLKpOqeKcNQ">
+</div>
+<div class="absolute inset-0 bg-gradient-to-r from-on-primary-fixed/60 to-transparent flex flex-col justify-center p-8 z-10">
+<span class="text-primary-fixed font-label-lg mb-2">LIMITED EDITION</span>
+<h2 class="text-white font-headline-xl text-headline-xl max-w-xs leading-tight mb-4">The Summer Glow Collection</h2>
+<button class="bg-primary text-on-primary w-max px-6 py-3 rounded-full font-label-lg hover:shadow-lg transition-shadow">Shop Collection</button>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter mb-0">
+<!-- Product Card 1 -->
+<div class="group flex flex-col">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-3 bg-surface-container-high product-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A minimalist studio product shot of an Organic Rose Glow Serum in a sleek, frosted lavender glass bottle with a gold dropper. The background is a clean, soft pink gradient with gentle lighting that emphasizes the premium texture of the packaging. The aesthetic is clean, professional, and sophisticated for a luxury beauty brand." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGcIVnL5D4AZlHWUEQ1LzbUAinx77P0LSs29rDU7FnicS-U8rp0pl6HlMj5wEmCWueWgoop1VEQ7Qcmdf1qqnCzX8ilc3LDvsPY3DC6Q5VcsQlM1vE1BomSVmWHbjd6mnW4AP29psle0_jzxajWGTljM9ZaUNwvqUCKeexVhf-53pAVtj83UJqd1hH_Y0v9DNYPS-4tYvKc5LipP9vXLznXHu5xrW3Bx5gxJqUJR5NHQq-FKWoUHQQUDgqZ1jrVoQvLZ-iRvIOcBc">
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+<div class="absolute top-3 left-3 bg-surface/90 backdrop-blur-sm px-2 py-1 rounded-md text-[10px] font-bold text-primary uppercase tracking-wider">New</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 truncate">Organic Rose Glow Serum</h3>
+<p class="font-label-sm text-on-surface-variant mb-2">30ml • Radiant Finish</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-primary">$48.00</span>
+<span class="flex items-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm ml-1">4.9</span>
+</span>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="group flex flex-col">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-3 bg-surface-container-high product-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek, designer perfume bottle titled 'Midnight Lavande' made of deep purple translucent glass with a minimalist silver cap. The product is set on a reflective marble surface with soft lavender floral accents blurred in the background. The lighting is moody yet bright, capturing a high-end luxury aesthetic for Starbox." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDn_zoZFcwXS_4Pp-1Y61uHi3yyVfvu8Qvhwd0kWZEEIhajy4ab1qZmK_VPrRw-kMNOoGzfRtfe9z0MBC8WNuStVAl3DFLAqctxavC9LhivSXB5ZiB-QXpVjU1ilpmBUQcEmGup8MIjbvc4QzS3idqPJyZwnQY4OeuTcPSRPcDza4lG9mLQ-BAGpNso98JTem4n0T18sez_4WS7sGPUx1ZlehlKXQmJifwzLetcVuGaGVtTfdGzZLxGTp8Pkuv6eKaFtIh9b1VjLAs">
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 truncate">Midnight Lavande</h3>
+<p class="font-label-sm text-on-surface-variant mb-2">Eau de Parfum • 50ml</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-primary">$125.00</span>
+<span class="flex items-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm ml-1">4.8</span>
+</span>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="group flex flex-col">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-3 bg-surface-container-high product-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A premium aesthetic jar of 'Botanical Sleep Mask' with a soft matte finish in a pale lavender color. The jar is partially opened to reveal a creamy, white texture. Soft, diffused lighting highlights the creamy substance against a background of light grey and pastel pink fabrics. Modern, minimalist, and expensive feel." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDePIod4yhgGDBY0NikHbvvcXLTlVu3vY-oA9eEpLhFhwfyZXrV0xojg9UvmvhUVaMIH1D8r6Es5PQeX6DJwsTVZhutRu1KkhHlFoFcY6-a4qvUgbxyYDoce298rmfvKe2abhsxisZu9T9_FhHIoZOltNe4gepXyXhVghiWX88aP3IK0mh7mwaVRD81s8XYZydt1VG90KtQjuzydE0kMmbQGeLt3Wct_UQRbxuluL5M_Ga8080ia6cwsDoVzGjWTz0_Fus5XcLNHFc">
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+<div class="absolute top-3 right-3 bg-error text-on-error px-2 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider">-20%</div>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 truncate">Botanical Sleep Mask</h3>
+<p class="font-label-sm text-on-surface-variant mb-2">Restorative Night Therapy</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex gap-2 items-baseline">
+<span class="font-headline-md text-primary">$32.00</span>
+<span class="text-label-sm text-outline line-through">$40.00</span>
+</div>
+<span class="flex items-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm ml-1">5.0</span>
+</span>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="group flex flex-col">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-3 bg-surface-container-high product-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A pair of high-end, artisanal soy candles in minimalist ceramic holders with a soft lavender tint. The candles are displayed on a wooden tray with a small sprig of dried lavender. The background is a clean, sunlit living room with neutral tones, conveying a sense of calm, wellness, and luxury home decor." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBacvQEbtmHkKAEwX1L7gC-C1Mu91o9pDR39CGYx4GkoXpjxXuXKmSDnQUuaLNIqSuzHeVnuRopr1qgb0pD7DGYUeaphFUBv0p-me9WaGz04hp6msIFvEJAmrd1Hd5_KQnSJQwB-S_lr2PnZoa0rAhVfR4q_0bvovk2AVGTLDTXspouyJfqJ09686aBaWef1S61BjXksIJNhQkn2e98O1Pbs-KfzWP7N3xY0IZ-w23tdPogYhobdOYMLut6MQivjAjaz582K9-9hDw">
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 truncate">Amethyst Aura Candle</h3>
+<p class="font-label-sm text-on-surface-variant mb-2">Hand-poured Soy • Lavender</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-primary">$38.00</span>
+<span class="flex items-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm ml-1">4.7</span>
+</span>
+</div>
+</div>
+<!-- Product Card 5 -->
+<div class="group flex flex-col">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-3 bg-surface-container-high product-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A luxury facial roller set made of amethyst stone with silver hardware, presented in a velvet-lined lavender box. The setting is a clean white marble background with soft shadows. The visual style is crisp, sophisticated, and focused on wellness and luxury lifestyle products for a high-end e-commerce experience." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1OOZeoOZ7Mkpx3sfLWB4GNtRIvd7ZRg4AJrlgGazBb8mQZIs8uUOCdhwXzUuA1ZPfyFte2ImQfkwCvYAyHhgZy3MCRBE8JUaFkeJJDM_CIMzEf45VYkrQFvVjN89CyasKc-rhwnKBf6uLq_lpa1j1wWMZVd6OKT99be5OYWnI4hy_3CwOngOGflLLf_uRDWAQeGV7MdyX5dZ8zBAOM7fdsDCSw5MQbnEPfx2FptUSX13hn5ORO45ehcfhwvUzCg5rYmHgCiRdFHE">
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 truncate">Amethyst Roller Set</h3>
+<p class="font-label-sm text-on-surface-variant mb-2">Natural Stone • Cooling</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-primary">$55.00</span>
+<span class="flex items-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm ml-1">4.9</span>
+</span>
+</div>
+</div>
+<!-- Product Card 6 -->
+<div class="group flex flex-col">
+<div class="relative aspect-[4/5] rounded-2xl overflow-hidden mb-3 bg-surface-container-high product-card-shadow">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A sleek minimalist tube of luxury hand cream in a matte lavender finish with elegant silver typography. The tube is resting on a clean, architectural concrete pedestal with a single pink petal next to it. Soft morning light creates long, elegant shadows. Professional e-commerce product photography with a high-end minimalist aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_VkhUKVrl7lahMbOGt_gC02dDYLuN-SlcLMBPRh33N0FmVC09vHoA1sNL7eWwAgRe_LRdiwI7JMI-PJ5WtUJ65AD43mcX-JodO4mtEICc-q7k0Bb8xIBiVNBP16ih4-a2D4wZ_xkWmjnKyyOPqsgG_4OzETLT-KqS_zoZlp3wPN4zlLvRFHa2O18Oo-wyLPRN--b44NCiiFu-PVquvKQHCflF-R2ZDdaohY3yAiYrPWyIUaHPHcbAWaLmbp6HmOJbqxWfA7nZ4Oc">
+<button class="absolute bottom-3 right-3 w-10 h-10 bg-primary text-on-primary rounded-full flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_shopping_cart</span>
+</button>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-1 truncate">Silk Velvet Hand Cream</h3>
+<p class="font-label-sm text-on-surface-variant mb-2">Shea Butter • 75ml</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-headline-md text-primary">$24.00</span>
+<span class="flex items-center text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="text-label-sm ml-1">4.8</span>
+</span>
+</div>
+</div>
+</section>
+<!-- Newsletter Subscription (Glassmorphism Bento Box) -->
+
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/80 dark:bg-inverse-surface/80 backdrop-blur-md shadow-lg shadow-[0_-2px_10px_rgba(216,150,255,0.1)]">
+<div class="flex justify-around items-center h-16 w-full px-2 pb-safe max-w-screen-xl mx-auto">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-label-sm">Home</span>
+</a>
+<!-- Cart -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-label-sm text-label-sm">Cart</span>
+</a>
+<!-- Orders -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-label-sm text-label-sm">Orders</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:opacity-80 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</div>
+</nav>
+<script>
+        // Simple Interaction logic
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.classList.add('scale-95');
+            });
+            button.addEventListener('mouseup', () => {
+                button.classList.remove('scale-95');
+            });
+            button.addEventListener('mouseleave', () => {
+                button.classList.remove('scale-95');
+            });
+        });
+
+        // Add to cart toast simulation
+        const cartButtons = document.querySelectorAll('.group button');
+        cartButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const productName = btn.closest('.group').querySelector('h3').textContent;
+                showToast(`Added ${productName} to your cart`);
+            });
+        });
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-20 left-1/2 -translate-x-1/2 bg-inverse-surface text-inverse-on-surface px-6 py-3 rounded-full text-label-lg shadow-xl z-[60] transition-all transform translate-y-10 opacity-0';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-y-10', 'opacity-0');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+    </script>
+
+
+</body></html>
