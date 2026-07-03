@@ -47,7 +47,7 @@ export default function AdminConfigPage() {
   const fields = [
     {
       key: 'delivery_fee',
-      label: 'Delivery Fee (DA)',
+      label: 'Delivery Fee (MRU)',
       type: 'number',
       hint: 'Fee charged for home delivery orders',
     },

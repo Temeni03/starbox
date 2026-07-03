@@ -1,0 +1,20 @@
+'use client'
+
+import Link from 'next/link'
+import { Bell } from 'lucide-react'
+import { useNotifications } from '@/hooks/useNotifications'
+
+export function NotificationBell({ href, className = '' }: { href: string; className?: string }) {
+  const { unreadCount } = useNotifications()
+
+  return (
+    <Link href={href} title="Notifications" className={`relative inline-flex ${className}`}>
+      <Bell size={20} />
+      {unreadCount > 0 && (
+        <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+          {unreadCount > 9 ? '9+' : unreadCount}
+        </span>
+      )}
+    </Link>
+  )
+}

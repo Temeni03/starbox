@@ -131,14 +131,14 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
                 <p className="text-xs text-neutral-400">× {item.quantity}</p>
               </div>
               <p className="text-sm font-medium text-neutral-600">
-                {(item.price * item.quantity).toLocaleString()} DA
+                {(item.price * item.quantity).toLocaleString()} MRU
               </p>
             </div>
           ))}
         </div>
         <div className="border-t border-neutral-100 mt-3 pt-3 flex justify-between font-bold text-neutral-800">
           <span>Total</span>
-          <span>{order.grandTotal?.toLocaleString()} DA</span>
+          <span>{order.grandTotal?.toLocaleString()} MRU</span>
         </div>
       </div>
 

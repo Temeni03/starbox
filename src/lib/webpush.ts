@@ -40,12 +40,14 @@ export async function sendPushToUser(userId: string, payload: PushPayload) {
   }
 }
 
-export async function sendPushToRole(role: 'admin' | 'delivery', payload: PushPayload) {
+export async function sendPushToRole(role: 'admin' | 'delivery', payload: PushPayload, excludeUserId?: string) {
   init()
   if (!initialized) return
 
   await connectDB()
-  const users = await User.find({ role, isActive: true, 'pushSubscription.endpoint': { $exists: true } })
+  const filter: Record<string, unknown> = { role, isActive: true, 'pushSubscription.endpoint': { $exists: true } }
+  if (excludeUserId) filter._id = { $ne: excludeUserId }
+  const users = await User.find(filter)
     .select('pushSubscription')
     .lean()
 

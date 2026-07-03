@@ -1,0 +1,92 @@
+'use client'
+
+import Link from 'next/link'
+import { Bell } from 'lucide-react'
+import { useNotifications, type AppNotification } from '@/hooks/useNotifications'
+
+function timeAgo(dateStr: string) {
+  const seconds = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000)
+  if (seconds < 60) return 'just now'
+  const minutes = Math.floor(seconds / 60)
+  if (minutes < 60) return `${minutes}m ago`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours}h ago`
+  const days = Math.floor(hours / 24)
+  if (days < 7) return `${days}d ago`
+  return new Date(dateStr).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+}
+
+function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: string) => void }) {
+  const content = (
+    <div className="flex items-start gap-3 px-4 py-3">
+      <span
+        className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${n.read ? 'bg-transparent' : 'bg-brand-primary'}`}
+      />
+      <div className="flex-1 min-w-0">
+        <p className={`text-sm ${n.read ? 'text-neutral-600' : 'font-semibold text-neutral-800'}`}>
+          {n.title}
+        </p>
+        <p className="text-sm text-neutral-500 mt-0.5">{n.body}</p>
+        <p className="text-xs text-neutral-400 mt-1">{timeAgo(n.createdAt)}</p>
+      </div>
+    </div>
+  )
+
+  function handleClick() {
+    if (!n.read) onRead(n._id)
+  }
+
+  if (n.url) {
+    return (
+      <Link href={n.url} onClick={handleClick} className="block hover:bg-neutral-50 transition">
+        {content}
+      </Link>
+    )
+  }
+  return (
+    <button onClick={handleClick} className="block w-full text-left hover:bg-neutral-50 transition">
+      {content}
+    </button>
+  )
+}
+
+export function NotificationsList() {
+  const { notifications, unreadCount, isLoading, markAsRead, markAllAsRead } = useNotifications(50)
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl font-bold text-neutral-800">Notifications</h1>
+        {unreadCount > 0 && (
+          <button onClick={markAllAsRead} className="text-sm text-brand-secondary hover:underline">
+            Mark all as read
+          </button>
+        )}
+      </div>
+
+      <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+        {isLoading ? (
+          <div className="divide-y divide-neutral-100">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="px-4 py-3 animate-pulse space-y-2">
+                <div className="h-4 bg-neutral-100 rounded w-2/3" />
+                <div className="h-3 bg-neutral-100 rounded w-1/3" />
+              </div>
+            ))}
+          </div>
+        ) : notifications.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-16 text-neutral-400">
+            <Bell size={40} className="mb-3 opacity-50" />
+            <p className="text-sm">No notifications yet</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-neutral-100">
+            {notifications.map((n) => (
+              <NotificationRow key={n._id} n={n} onRead={markAsRead} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

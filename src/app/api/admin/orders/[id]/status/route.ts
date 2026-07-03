@@ -3,7 +3,7 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Order } from '@/models/Order'
-import { sendPushToUser } from '@/lib/webpush'
+import { notifyUser } from '@/lib/notify'
 
 const StatusSchema = z.object({
   status: z.enum(['pending', 'confirmed', 'transit', 'delivered', 'cancelled']),
@@ -40,17 +40,36 @@ export async function PATCH(
   })
   await order.save()
 
-  const statusLabels: Record<string, string> = {
-    confirmed: 'confirmed',
-    transit: 'on its way',
-    delivered: 'delivered',
-    cancelled: 'cancelled',
-  }
-  const label = statusLabels[parsed.data.status]
-  if (label) {
-    sendPushToUser(order.customer.toString(), {
-      title: 'StarBox — Order Update',
-      body: `Your order ${order.orderNumber} has been ${label}.`,
+  const { status, note } = parsed.data
+
+  if (status === 'confirmed') {
+    notifyUser(order.customer.toString(), {
+      type: 'order_confirmed',
+      title: 'StarBox — Order confirmed',
+      body: `Your order ${order.orderNumber} has been confirmed.`,
+      url: `/orders/${order._id}`,
+    }).catch(() => {})
+  } else if (status === 'cancelled') {
+    notifyUser(order.customer.toString(), {
+      type: 'order_cancelled',
+      title: 'StarBox — Order cancelled',
+      body: note
+        ? `Your order ${order.orderNumber} has been cancelled. Reason: ${note}`
+        : `Your order ${order.orderNumber} has been cancelled.`,
+      url: `/orders/${order._id}`,
+    }).catch(() => {})
+  } else if (status === 'transit') {
+    notifyUser(order.customer.toString(), {
+      type: 'order_transit',
+      title: 'StarBox — Order on its way',
+      body: `Your order ${order.orderNumber} is on its way.`,
+      url: `/orders/${order._id}`,
+    }).catch(() => {})
+  } else if (status === 'delivered') {
+    notifyUser(order.customer.toString(), {
+      type: 'order_delivered',
+      title: 'StarBox — Order delivered',
+      body: `Your order ${order.orderNumber} has been delivered.`,
       url: `/orders/${order._id}`,
     }).catch(() => {})
   }

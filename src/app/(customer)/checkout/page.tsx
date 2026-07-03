@@ -1,14 +1,16 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { Package } from 'lucide-react'
+import { Package, Copy, Check } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCartStore } from '@/store/cartStore'
 import { UploadButton } from '@/lib/uploadthing-components'
+import { LocationSelect } from '@/components/ui/LocationSelect'
+import type { DeliveryLocation } from '@/hooks/useDeliveryLocations'
 
-const DELIVERY_FEE = 500
+const BANK_PAYMENT_CODE = 'STORE-001'
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -17,22 +19,37 @@ export default function CheckoutPage() {
   const clearCart = useCartStore((s) => s.clear)
 
   const [deliveryOption, setDeliveryOption] = useState<'home' | 'pickup'>('home')
-  const [address, setAddress] = useState('')
+  const [location, setLocation] = useState<DeliveryLocation | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<'cash' | 'bank_transfer'>('cash')
   const [screenshot, setScreenshot] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [codeCopied, setCodeCopied] = useState(false)
 
-  const deliveryFee = deliveryOption === 'home' ? DELIVERY_FEE : 0
+  async function handleCopyCode() {
+    try {
+      await navigator.clipboard.writeText(BANK_PAYMENT_CODE)
+      setCodeCopied(true)
+      toast.success('Code copied')
+      setTimeout(() => setCodeCopied(false), 2000)
+    } catch {
+      toast.error('Failed to copy code')
+    }
+  }
+
+  const deliveryFee = deliveryOption === 'home' ? (location?.price ?? 0) : 0
   const grandTotal = totalPrice + deliveryFee
 
+  useEffect(() => {
+    if (items.length === 0) router.replace('/cart')
+  }, [items.length, router])
+
   if (items.length === 0) {
-    router.replace('/cart')
     return null
   }
 
   async function handleConfirm() {
-    if (deliveryOption === 'home' && !address.trim()) {
-      toast.error('Please enter your delivery address')
+    if (deliveryOption === 'home' && !location) {
+      toast.error('Please select your delivery location')
       return
     }
     if (paymentMethod === 'bank_transfer' && !screenshot) {
@@ -47,7 +64,7 @@ export default function CheckoutPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           deliveryOption,
-          deliveryAddress: deliveryOption === 'home' ? address.trim() : undefined,
+          deliveryLocationId: deliveryOption === 'home' ? location?._id : undefined,
           paymentMethod,
           paymentScreenshot: paymentMethod === 'bank_transfer' ? screenshot : undefined,
         }),
@@ -93,7 +110,7 @@ export default function CheckoutPage() {
                 <p className="text-xs text-neutral-500">× {item.quantity}</p>
               </div>
               <p className="text-sm font-medium text-neutral-700">
-                {(item.price * item.quantity).toLocaleString()} DA
+                {(item.price * item.quantity).toLocaleString()} MRU
               </p>
             </div>
           ))}
@@ -105,7 +122,11 @@ export default function CheckoutPage() {
         <h2 className="text-sm font-semibold text-neutral-700 mb-3">Delivery Option</h2>
         <div className="space-y-2">
           {[
-            { value: 'home', label: 'Home Delivery', sub: `+${DELIVERY_FEE.toLocaleString()} DA` },
+            {
+              value: 'home',
+              label: 'Home Delivery',
+              sub: location ? `+${location.price.toLocaleString()} MRU` : 'Select location',
+            },
             { value: 'pickup', label: 'Store Pickup', sub: 'Free' },
           ].map(({ value, label, sub }) => (
             <label
@@ -130,13 +151,7 @@ export default function CheckoutPage() {
         </div>
 
         {deliveryOption === 'home' && (
-          <textarea
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="Enter your full delivery address…"
-            rows={2}
-            className="mt-3 w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary resize-none"
-          />
+          <LocationSelect value={location} onChange={setLocation} />
         )}
       </div>
 
@@ -171,9 +186,28 @@ export default function CheckoutPage() {
         {paymentMethod === 'bank_transfer' && (
           <div className="mt-3 p-3 bg-neutral-50 rounded-lg border border-neutral-200 space-y-3">
             <p className="text-xs text-neutral-600">
-              Transfer <strong>{grandTotal.toLocaleString()} DA</strong> using code{' '}
-              <strong className="text-brand-primary">STORE-001</strong>, then upload your receipt.
+              Transfer <strong>{grandTotal.toLocaleString()} MRU</strong> using the code below, then upload your receipt.
             </p>
+            <button
+              type="button"
+              onClick={handleCopyCode}
+              className="flex items-center justify-between gap-2 w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 hover:border-brand-secondary transition"
+            >
+              <span className="text-sm font-mono font-semibold text-brand-primary tracking-wide">
+                {BANK_PAYMENT_CODE}
+              </span>
+              <span className="flex items-center gap-1 text-xs text-neutral-500">
+                {codeCopied ? (
+                  <>
+                    <Check size={14} className="text-success" /> Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy size={14} /> Copy
+                  </>
+                )}
+              </span>
+            </button>
             {screenshot ? (
               <div className="flex items-center gap-2">
                 <Image src={screenshot} alt="Receipt" width={60} height={60} className="rounded object-cover" />
@@ -201,15 +235,15 @@ export default function CheckoutPage() {
       <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-2">
         <div className="flex justify-between text-sm text-neutral-600">
           <span>Subtotal</span>
-          <span>{totalPrice.toLocaleString()} DA</span>
+          <span>{totalPrice.toLocaleString()} MRU</span>
         </div>
         <div className="flex justify-between text-sm text-neutral-600">
           <span>Delivery</span>
-          <span>{deliveryFee === 0 ? 'Free' : `${deliveryFee.toLocaleString()} DA`}</span>
+          <span>{deliveryFee === 0 ? 'Free' : `${deliveryFee.toLocaleString()} MRU`}</span>
         </div>
         <div className="border-t border-neutral-100 pt-2 flex justify-between font-bold text-neutral-800">
           <span>Total</span>
-          <span>{grandTotal.toLocaleString()} DA</span>
+          <span>{grandTotal.toLocaleString()} MRU</span>
         </div>
       </div>
 

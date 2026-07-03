@@ -9,19 +9,23 @@ import {
   Package,
   Users,
   Settings,
+  Bell,
   LogOut,
 } from 'lucide-react'
+import { useNotifications } from '@/hooks/useNotifications'
 
 const links = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin/notifications', label: 'Notifications', icon: Bell },
   { href: '/admin/config', label: 'Settings', icon: Settings },
 ]
 
 export function AdminSidebar({ userName }: { userName: string }) {
   const pathname = usePathname()
+  const { unreadCount } = useNotifications()
 
   function isActive(href: string, exact?: boolean) {
     return exact ? pathname === href : pathname.startsWith(href)
@@ -47,7 +51,14 @@ export function AdminSidebar({ userName }: { userName: string }) {
                   : 'hover:bg-white/10 text-white/80'
               }`}
             >
-              <Icon size={18} />
+              <span className="relative">
+                <Icon size={18} />
+                {label === 'Notifications' && unreadCount > 0 && (
+                  <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
+              </span>
               {label}
             </Link>
           ))}
@@ -73,9 +84,14 @@ export function AdminSidebar({ userName }: { userName: string }) {
               key={href}
               href={href}
               title={label}
-              className={`transition ${isActive(href, exact) ? 'text-white' : 'text-white/60'}`}
+              className={`relative transition ${isActive(href, exact) ? 'text-white' : 'text-white/60'}`}
             >
               <Icon size={20} />
+              {label === 'Notifications' && unreadCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                  {unreadCount > 9 ? '9+' : unreadCount}
+                </span>
+              )}
             </Link>
           ))}
         </div>

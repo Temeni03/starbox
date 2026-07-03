@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { Order } from '@/models/Order'
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -19,5 +20,20 @@ export async function GET(req: Request) {
     .sort({ createdAt: -1 })
     .lean()
 
-  return NextResponse.json({ users })
+  if (role !== 'delivery' || users.length === 0) {
+    return NextResponse.json({ users })
+  }
+
+  const counts = await Order.aggregate([
+    { $match: { assignedTo: { $in: users.map((u) => u._id) }, status: 'delivered' } },
+    { $group: { _id: '$assignedTo', count: { $sum: 1 } } },
+  ])
+  const countByUser = new Map(counts.map((c) => [String(c._id), c.count]))
+
+  const usersWithCounts = users.map((u) => ({
+    ...u,
+    deliveryCount: countByUser.get(String(u._id)) ?? 0,
+  }))
+
+  return NextResponse.json({ users: usersWithCounts })
 }

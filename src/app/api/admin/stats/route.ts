@@ -13,25 +13,46 @@ export async function GET() {
 
   await connectDB()
 
+  const todayStart = new Date()
+  todayStart.setHours(0, 0, 0, 0)
+
   const [
+    ordersToday,
+    revenueTodayAgg,
+    pendingOrders,
     totalOrders,
-    totalProducts,
-    totalDeliverers,
+    totalRevenueAgg,
     lowStockProducts,
+    totalProducts,
+    totalDelivery,
   ] = await Promise.all([
+    Order.countDocuments({ createdAt: { $gte: todayStart } }),
+    Order.aggregate([
+      { $match: { createdAt: { $gte: todayStart }, status: { $ne: 'cancelled' } } },
+      { $group: { _id: null, total: { $sum: '$grandTotal' } } },
+    ]),
+    Order.countDocuments({ status: 'pending' }),
     Order.countDocuments({}),
-    Product.countDocuments({ isActive: true }),
-    User.countDocuments({ role: 'delivery' }),
+    Order.aggregate([
+      { $match: { status: { $ne: 'cancelled' } } },
+      { $group: { _id: null, total: { $sum: '$grandTotal' } } },
+    ]),
     Product.countDocuments({
       isActive: true,
       $expr: { $lte: ['$quantity', '$lowStockThreshold'] },
     }),
+    Product.countDocuments({}),
+    User.countDocuments({ role: 'delivery' }),
   ])
 
   return NextResponse.json({
+    ordersToday,
+    revenueToday: revenueTodayAgg[0]?.total ?? 0,
+    pendingOrders,
     totalOrders,
-    totalProducts,
-    totalDeliverers,
+    totalRevenue: totalRevenueAgg[0]?.total ?? 0,
     lowStockProducts,
+    totalProducts,
+    totalDelivery,
   })
 }

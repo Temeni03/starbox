@@ -92,7 +92,7 @@ export default function DeliveryDashboard() {
                       {' · '}
                       {order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''}
                       {' · '}
-                      <span className="font-medium text-neutral-600">{order.grandTotal?.toLocaleString()} DA</span>
+                      <span className="font-medium text-neutral-600">{order.grandTotal?.toLocaleString()} MRU</span>
                     </p>
                   </div>
                   <StatusBadge status={order.status as OrderStatus} />

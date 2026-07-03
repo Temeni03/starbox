@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ShoppingCart, ClipboardList, User, Home } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
+import { NotificationBell } from '@/components/ui/NotificationBell'
 
 export function CustomerNav({ userName }: { userName: string }) {
   const pathname = usePathname()
@@ -21,9 +22,12 @@ export function CustomerNav({ userName }: { userName: string }) {
       {/* Top header */}
       <header className="bg-white border-b border-neutral-200 sticky top-0 z-40">
         <div className="container mx-auto px-4 max-w-4xl h-14 flex items-center justify-between">
-          <Link href="/" className="text-xl font-bold text-brand-primary tracking-tight">
-            StarBox
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-xl font-bold text-brand-primary tracking-tight">
+              StarBox
+            </Link>
+            <NotificationBell href="/notifications" className="text-neutral-500 hover:text-brand-primary transition" />
+          </div>
           <span className="text-sm text-neutral-500 hidden sm:block">{userName}</span>
         </div>
       </header>

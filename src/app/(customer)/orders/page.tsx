@@ -66,7 +66,7 @@ export default function OrdersPage() {
               </div>
             </div>
             <div className="mt-2 text-sm font-bold text-brand-primary">
-              {order.grandTotal?.toLocaleString()} DA
+              {order.grandTotal?.toLocaleString()} MRU
             </div>
           </Link>
         ))}

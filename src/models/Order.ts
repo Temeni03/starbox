@@ -23,6 +23,7 @@ export interface IOrder extends Document {
 
   deliveryOption: DeliveryOption
   deliveryAddress?: string
+  deliveryLocation?: Types.ObjectId
 
   paymentMethod: PaymentMethod
   paymentScreenshot?: string
@@ -64,6 +65,7 @@ const OrderSchema = new Schema<IOrder>(
 
     deliveryOption: { type: String, enum: ['home', 'pickup'], required: true },
     deliveryAddress: { type: String },
+    deliveryLocation: { type: Schema.Types.ObjectId, ref: 'Location' },
 
     paymentMethod: { type: String, enum: ['cash', 'bank_transfer'], required: true },
     paymentScreenshot: { type: String },

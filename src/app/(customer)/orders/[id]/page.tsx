@@ -114,7 +114,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                 <p className="text-sm text-neutral-700 truncate">{item.name}</p>
                 <p className="text-xs text-neutral-400">× {item.quantity}</p>
               </div>
-              <p className="text-sm font-medium">{(item.price * item.quantity).toLocaleString()} DA</p>
+              <p className="text-sm font-medium">{(item.price * item.quantity).toLocaleString()} MRU</p>
             </div>
           ))}
         </div>
@@ -145,15 +145,15 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-2">
         <div className="flex justify-between text-sm text-neutral-600">
           <span>Subtotal</span>
-          <span>{order.cartTotal?.toLocaleString()} DA</span>
+          <span>{order.cartTotal?.toLocaleString()} MRU</span>
         </div>
         <div className="flex justify-between text-sm text-neutral-600">
           <span>Delivery</span>
-          <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} DA`}</span>
+          <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
         </div>
         <div className="border-t border-neutral-100 pt-2 flex justify-between font-bold text-neutral-800">
           <span>Total</span>
-          <span>{order.grandTotal?.toLocaleString()} DA</span>
+          <span>{order.grandTotal?.toLocaleString()} MRU</span>
         </div>
       </div>
     </div>

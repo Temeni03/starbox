@@ -83,7 +83,7 @@ export default function AdminOrdersPage() {
                 </div>
                 <div className="flex items-center gap-3 flex-shrink-0">
                   <p className="text-sm font-bold text-neutral-700">
-                    {order.grandTotal?.toLocaleString()} DA
+                    {order.grandTotal?.toLocaleString()} MRU
                   </p>
                   <ChevronRight size={16} className="text-neutral-300" />
                 </div>

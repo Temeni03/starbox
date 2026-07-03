@@ -10,10 +10,26 @@ export async function GET() {
 
   await connectDB()
   const cart = await Cart.findOne({ user: session.user.id })
-    .populate('items.product', 'name price images quantity isActive')
-    .lean()
+  if (!cart) return NextResponse.json({ cart: { items: [] } })
 
-  return NextResponse.json({ cart: cart ?? { items: [] } })
+  // Drop items whose product was deleted (e.g. removed and re-created), which would
+  // otherwise leave a stale reference that always fails at checkout.
+  const existingIds = new Set(
+    (
+      await Product.find({ _id: { $in: cart.items.map((i: any) => i.product) } })
+        .select('_id')
+        .lean()
+    ).map((p: any) => p._id.toString())
+  )
+  const originalCount = cart.items.length
+  cart.items = cart.items.filter((i: any) => existingIds.has(i.product.toString())) as any
+  if (cart.items.length !== originalCount) {
+    await cart.save()
+  }
+
+  await cart.populate('items.product', 'name price images quantity isActive')
+
+  return NextResponse.json({ cart: cart.toObject() })
 }
 
 export async function POST(req: Request) {
@@ -60,4 +76,14 @@ export async function POST(req: Request) {
 
   await cart.save()
   return NextResponse.json({ success: true, itemCount: cart.items.length })
+}
+
+export async function DELETE() {
+  const session = await auth()
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  await connectDB()
+  await Cart.findOneAndUpdate({ user: session.user.id }, { items: [] })
+
+  return NextResponse.json({ success: true })
 }

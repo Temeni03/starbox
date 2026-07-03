@@ -7,6 +7,7 @@ export interface IUser extends Document {
   role: 'customer' | 'admin' | 'delivery'
   address?: string
   profilePhoto?: string
+  language: 'ar' | 'fr' | 'en'
   pushSubscription?: {
     endpoint: string
     keys: {
@@ -32,6 +33,7 @@ const UserSchema = new Schema<IUser>(
     },
     address: { type: String, trim: true },
     profilePhoto: { type: String },
+    language: { type: String, enum: ['ar', 'fr', 'en'], default: 'fr' },
     pushSubscription: {
       endpoint: String,
       keys: {

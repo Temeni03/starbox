@@ -17,6 +17,7 @@ export default function NewProductPage() {
         name: data.name,
         price: Number(data.price),
         description: data.description,
+        usageInstructions: data.usageInstructions,
         quantity: Number(data.quantity),
         lowStockThreshold: Number(data.lowStockThreshold),
         images: data.images,

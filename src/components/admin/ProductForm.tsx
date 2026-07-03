@@ -10,6 +10,7 @@ interface ProductFormData {
   name: string
   price: string
   description: string
+  usageInstructions: string
   quantity: string
   lowStockThreshold: string
   images: string[]
@@ -27,6 +28,7 @@ export function ProductForm({ initialData, onSubmit, submitLabel }: Props) {
     name: initialData?.name ?? '',
     price: initialData?.price ?? '',
     description: initialData?.description ?? '',
+    usageInstructions: initialData?.usageInstructions ?? '',
     quantity: initialData?.quantity ?? '',
     lowStockThreshold: initialData?.lowStockThreshold ?? '10',
     images: initialData?.images ?? [],
@@ -75,7 +77,7 @@ export function ProductForm({ initialData, onSubmit, submitLabel }: Props) {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">Price (DA) *</label>
+            <label className="block text-sm font-medium text-neutral-700 mb-1">Price (MRU) *</label>
             <input
               name="price"
               type="number"
@@ -112,6 +114,18 @@ export function ProductForm({ initialData, onSubmit, submitLabel }: Props) {
             onChange={handleChange}
             rows={3}
             placeholder="Product description…"
+            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary resize-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-neutral-700 mb-1">How to use</label>
+          <textarea
+            name="usageInstructions"
+            value={form.usageInstructions}
+            onChange={handleChange}
+            rows={3}
+            placeholder="e.g. Apply a small amount and massage gently…"
             className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary resize-none"
           />
         </div>

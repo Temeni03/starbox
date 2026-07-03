@@ -1,16 +1,20 @@
 'use client'
 
+import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Minus, Plus, Trash2, Package, ShoppingBag } from 'lucide-react'
+import { Minus, Plus, Trash2, Package, ShoppingBag, AlertTriangle } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/store/cartStore'
 import toast from 'react-hot-toast'
 
 export default function CartPage() {
-  const { isLoading, updateQuantity, removeFromCart } = useCart()
+  const { isLoading, updateQuantity, removeFromCart, clearCart } = useCart()
   const items = useCartStore((s) => s.items)
   const totalPrice = useCartStore((s) => s.totalPrice())
+
+  const [confirmClear, setConfirmClear] = useState(false)
+  const [clearing, setClearing] = useState(false)
 
   async function handleQuantity(productId: string, quantity: number) {
     try {
@@ -26,6 +30,19 @@ export default function CartPage() {
       toast.success('Item removed')
     } catch {
       toast.error('Failed to remove item')
+    }
+  }
+
+  async function handleClearCart() {
+    setClearing(true)
+    try {
+      await clearCart()
+      toast.success('Cart cleared')
+      setConfirmClear(false)
+    } catch {
+      toast.error('Failed to clear cart')
+    } finally {
+      setClearing(false)
     }
   }
 
@@ -59,7 +76,16 @@ export default function CartPage() {
 
   return (
     <div className="pb-32 sm:pb-6">
-      <h1 className="text-xl font-bold text-neutral-800 mb-4">My Cart</h1>
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-xl font-bold text-neutral-800">My Cart</h1>
+        <button
+          onClick={() => setConfirmClear(true)}
+          className="flex items-center gap-1.5 text-sm text-danger hover:underline"
+        >
+          <Trash2 size={14} />
+          Clear cart
+        </button>
+      </div>
 
       <div className="space-y-3 mb-6">
         {items.map((item) => (
@@ -80,7 +106,7 @@ export default function CartPage() {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-neutral-800 line-clamp-2">{item.name}</p>
               <p className="text-sm text-brand-primary font-semibold mt-0.5">
-                {item.price.toLocaleString()} DA
+                {item.price.toLocaleString()} MRU
               </p>
 
               <div className="flex items-center justify-between mt-2">
@@ -106,7 +132,7 @@ export default function CartPage() {
 
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-bold text-neutral-700">
-                    {(item.price * item.quantity).toLocaleString()} DA
+                    {(item.price * item.quantity).toLocaleString()} MRU
                   </span>
                   <button
                     onClick={() => handleRemove(item.product)}
@@ -125,11 +151,11 @@ export default function CartPage() {
       <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
         <div className="flex justify-between text-sm text-neutral-600">
           <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
-          <span>{totalPrice.toLocaleString()} DA</span>
+          <span>{totalPrice.toLocaleString()} MRU</span>
         </div>
         <div className="border-t border-neutral-100 pt-3 flex justify-between font-bold text-neutral-800">
           <span>Total</span>
-          <span>{totalPrice.toLocaleString()} DA</span>
+          <span>{totalPrice.toLocaleString()} MRU</span>
         </div>
         <Link
           href="/checkout"
@@ -138,6 +164,40 @@ export default function CartPage() {
           Proceed to Checkout
         </Link>
       </div>
+
+      {confirmClear && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center flex-shrink-0">
+                <AlertTriangle size={20} />
+              </div>
+              <div>
+                <h2 className="font-semibold text-neutral-800">Clear cart</h2>
+                <p className="text-sm text-neutral-500 mt-1">
+                  Are you sure you want to remove all items from your cart? This action cannot be undone.
+                </p>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setConfirmClear(false)}
+                disabled={clearing}
+                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleClearCart}
+                disabled={clearing}
+                className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
+              >
+                {clearing ? 'Clearing…' : 'Clear cart'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

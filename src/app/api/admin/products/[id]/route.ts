@@ -3,11 +3,13 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Product } from '@/models/Product'
+import { notifyRole } from '@/lib/notify'
 
 const UpdateSchema = z.object({
   name: z.string().min(1).max(100).trim().optional(),
   price: z.number().min(0).optional(),
   description: z.string().trim().optional(),
+  usageInstructions: z.string().trim().optional(),
   images: z.array(z.string()).optional(),
   quantity: z.number().int().min(0).optional(),
   lowStockThreshold: z.number().int().min(0).optional(),
@@ -36,7 +38,8 @@ export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  if (!(await requireAdmin())) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  const session = await requireAdmin()
+  if (!session) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const { id } = await params
   const body = await req.json()
@@ -49,6 +52,19 @@ export async function PATCH(
   const product = await Product.findByIdAndUpdate(id, parsed.data, { new: true })
   if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 })
 
+  if (
+    parsed.data.quantity !== undefined &&
+    product.isActive &&
+    product.quantity <= product.lowStockThreshold
+  ) {
+    notifyRole('admin', {
+      type: 'low_stock',
+      title: 'StarBox — Low stock',
+      body: `"${product.name}" is running low (${product.quantity} left).`,
+      url: `/admin/products`,
+    }, session.user.id).catch(() => {})
+  }
+
   return NextResponse.json({ product })
 }
 
@@ -60,6 +76,7 @@ export async function DELETE(
 
   const { id } = await params
   await connectDB()
-  await Product.findByIdAndUpdate(id, { isActive: false })
+  const product = await Product.findByIdAndDelete(id)
+  if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 })
   return NextResponse.json({ success: true })
 }

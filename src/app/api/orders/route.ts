@@ -5,12 +5,12 @@ import { connectDB } from '@/lib/mongodb'
 import { Cart } from '@/models/Cart'
 import { Order } from '@/models/Order'
 import { Product } from '@/models/Product'
-import { AppConfig } from '@/models/AppConfig'
-import { sendPushToRole } from '@/lib/webpush'
+import { Location } from '@/models/Location'
+import { notifyRole, notifyUser } from '@/lib/notify'
 
 const CheckoutSchema = z.object({
   deliveryOption: z.enum(['home', 'pickup']),
-  deliveryAddress: z.string().trim().optional(),
+  deliveryLocationId: z.string().optional(),
   paymentMethod: z.enum(['cash', 'bank_transfer']),
   paymentScreenshot: z.string().url().optional(),
 })
@@ -25,10 +25,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: parsed.error.errors[0].message }, { status: 400 })
   }
 
-  const { deliveryOption, deliveryAddress, paymentMethod, paymentScreenshot } = parsed.data
+  const { deliveryOption, deliveryLocationId, paymentMethod, paymentScreenshot } = parsed.data
 
-  if (deliveryOption === 'home' && !deliveryAddress) {
-    return NextResponse.json({ error: 'Delivery address is required' }, { status: 400 })
+  if (deliveryOption === 'home' && !deliveryLocationId) {
+    return NextResponse.json({ error: 'Please select a delivery location' }, { status: 400 })
   }
   if (paymentMethod === 'bank_transfer' && !paymentScreenshot) {
     return NextResponse.json({ error: 'Payment screenshot is required' }, { status: 400 })
@@ -36,15 +36,33 @@ export async function POST(req: Request) {
 
   await connectDB()
 
+  let deliveryLocation = null
+  if (deliveryOption === 'home') {
+    if (!/^[0-9a-fA-F]{24}$/.test(deliveryLocationId!)) {
+      return NextResponse.json({ error: 'Please select a delivery location' }, { status: 400 })
+    }
+    deliveryLocation = await Location.findOne({ _id: deliveryLocationId, isActive: true })
+    if (!deliveryLocation) {
+      return NextResponse.json({ error: 'Selected delivery location is not available' }, { status: 400 })
+    }
+  }
+
   const cart = await Cart.findOne({ user: session.user.id })
   if (!cart || cart.items.length === 0) {
     return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
   }
 
-  // Validate stock for all items
+  // Validate stock for all items. A missing product means the cart is holding a stale
+  // reference (e.g. the product was deleted and re-created) — prune it instead of
+  // permanently blocking checkout on an item the customer can't act on.
+  const staleItems: { name: string; productId: string }[] = []
   for (const item of cart.items) {
     const product = await Product.findById(item.product)
-    if (!product || !product.isActive) {
+    if (!product) {
+      staleItems.push({ name: item.name, productId: item.product.toString() })
+      continue
+    }
+    if (!product.isActive) {
       return NextResponse.json(
         { error: `Product "${item.name}" is no longer available` },
         { status: 409 }
@@ -58,8 +76,22 @@ export async function POST(req: Request) {
     }
   }
 
-  const feeConfig = await AppConfig.findOne({ key: 'delivery_fee' })
-  const deliveryFee = deliveryOption === 'home' ? parseInt(feeConfig?.value ?? '500') : 0
+  if (staleItems.length > 0) {
+    const staleIds = new Set(staleItems.map((i) => i.productId))
+    cart.items = cart.items.filter((item: any) => !staleIds.has(item.product.toString()))
+    await cart.save()
+    const names = staleItems.map((i) => `"${i.name}"`).join(', ')
+    return NextResponse.json(
+      {
+        error: `${names} ${staleItems.length > 1 ? 'are' : 'is'} no longer available and ${
+          staleItems.length > 1 ? 'have' : 'has'
+        } been removed from your cart. Please review your cart and try again.`,
+      },
+      { status: 409 }
+    )
+  }
+
+  const deliveryFee = deliveryOption === 'home' ? deliveryLocation!.price : 0
   const cartTotal = cart.items.reduce(
     (sum: number, i: any) => sum + i.price * i.quantity,
     0
@@ -82,7 +114,8 @@ export async function POST(req: Request) {
     deliveryFee,
     grandTotal: cartTotal + deliveryFee,
     deliveryOption,
-    deliveryAddress,
+    deliveryAddress: deliveryLocation ? `${deliveryLocation.nameFr} — ${deliveryLocation.nameAr}` : undefined,
+    deliveryLocation: deliveryLocation?._id,
     paymentMethod,
     paymentScreenshot,
     status: 'pending',
@@ -96,11 +129,13 @@ export async function POST(req: Request) {
   })
 
   // Decrement stock
-  await Promise.all(
+  const updatedProducts = await Promise.all(
     cart.items.map((item: any) =>
-      Product.findByIdAndUpdate(item.product, {
-        $inc: { quantity: -item.quantity },
-      })
+      Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { quantity: -item.quantity } },
+        { new: true }
+      )
     )
   )
 
@@ -108,11 +143,39 @@ export async function POST(req: Request) {
   cart.items = []
   await cart.save()
 
-  sendPushToRole('admin', {
+  notifyUser(session.user.id, {
+    type: 'order_submitted',
+    title: 'StarBox — Order submitted',
+    body: `Your order ${order.orderNumber} has been sent for review.`,
+    url: `/orders/${order._id}`,
+  }).catch(() => {})
+
+  notifyRole('admin', {
+    type: 'new_order',
     title: 'StarBox — New Order',
-    body: `${session.user.name} placed order ${order.orderNumber} (${(cartTotal + deliveryFee).toLocaleString()} DA)`,
+    body: `${session.user.name} placed order ${order.orderNumber} (${(cartTotal + deliveryFee).toLocaleString()} MRU)`,
     url: `/admin/orders/${order._id}`,
   }).catch(() => {})
+
+  if (paymentMethod === 'bank_transfer') {
+    notifyRole('admin', {
+      type: 'payment_submitted',
+      title: 'StarBox — Payment proof submitted',
+      body: `${session.user.name} submitted a bank transfer receipt for order ${order.orderNumber}.`,
+      url: `/admin/orders/${order._id}`,
+    }).catch(() => {})
+  }
+
+  for (const product of updatedProducts) {
+    if (product?.isActive && product.quantity <= product.lowStockThreshold) {
+      notifyRole('admin', {
+        type: 'low_stock',
+        title: 'StarBox — Low stock',
+        body: `"${product.name}" is running low (${product.quantity} left).`,
+        url: `/admin/products`,
+      }).catch(() => {})
+    }
+  }
 
   return NextResponse.json({ success: true, orderId: order._id, orderNumber: order.orderNumber }, { status: 201 })
 }

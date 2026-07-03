@@ -18,7 +18,8 @@ export const authConfig: NextAuthConfig = {
         pathname === '/login' ||
         pathname === '/register' ||
         pathname.startsWith('/api/auth') ||
-        pathname.startsWith('/api/products')
+        pathname.startsWith('/api/products') ||
+        pathname.startsWith('/api/locations')
 
       if (isPublic) return true
       if (!isLoggedIn) return false
@@ -42,11 +43,15 @@ export const authConfig: NextAuthConfig = {
       return true
     },
 
-    jwt({ token, user }) {
+    jwt({ token, user, trigger, session }) {
       if (user) {
         token.id = user.id as string
         token.role = (user as any).role
         token.phone = (user as any).phone
+      }
+      if (trigger === 'update' && session) {
+        if (session.name) token.name = session.name
+        if (session.phone) token.phone = session.phone
       }
       return token
     },

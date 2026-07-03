@@ -8,6 +8,7 @@ const ProductSchema = z.object({
   name: z.string().min(1).max(100).trim(),
   price: z.number().min(0),
   description: z.string().trim().optional(),
+  usageInstructions: z.string().trim().optional(),
   images: z.array(z.string().url()).optional(),
   quantity: z.number().int().min(0),
   lowStockThreshold: z.number().int().min(0).optional(),

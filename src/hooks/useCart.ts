@@ -8,6 +8,8 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json())
 export function useCart() {
   const { data, error, isLoading, mutate } = useSWR('/api/cart', fetcher)
   const setItems = useCartStore((s) => s.setItems)
+  const addItem = useCartStore((s) => s.addItem)
+  const clear = useCartStore((s) => s.clear)
 
   useEffect(() => {
     if (data?.cart?.items) {
@@ -22,7 +24,7 @@ export function useCart() {
     }
   }, [data, setItems])
 
-  async function addToCart(productId: string, quantity = 1) {
+  async function addToCart(productId: string, quantity = 1, item?: Omit<CartItem, 'product' | 'quantity'>) {
     const res = await fetch('/api/cart', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -31,6 +33,9 @@ export function useCart() {
     if (!res.ok) {
       const d = await res.json()
       throw new Error(d.error ?? 'Failed to add to cart')
+    }
+    if (item) {
+      addItem({ product: productId, quantity, ...item })
     }
     mutate()
   }
@@ -50,5 +55,12 @@ export function useCart() {
     mutate()
   }
 
-  return { cart: data?.cart, isLoading, error, addToCart, updateQuantity, removeFromCart, mutate }
+  async function clearCart() {
+    const res = await fetch('/api/cart', { method: 'DELETE' })
+    if (!res.ok) throw new Error('Failed to clear cart')
+    clear()
+    mutate()
+  }
+
+  return { cart: data?.cart, isLoading, error, addToCart, updateQuantity, removeFromCart, clearCart, mutate }
 }

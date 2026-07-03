@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import { ShoppingCart, Package } from 'lucide-react'
 import toast from 'react-hot-toast'
@@ -16,7 +17,9 @@ export function ProductCard({ product, onAddToCart }: Props) {
   const outOfStock = product.quantity === 0
   const lowStock = !outOfStock && product.quantity <= product.lowStockThreshold
 
-  async function handleAdd() {
+  async function handleAdd(e: React.MouseEvent) {
+    e.preventDefault()
+    e.stopPropagation()
     if (outOfStock) return
     setLoading(true)
     try {
@@ -30,7 +33,10 @@ export function ProductCard({ product, onAddToCart }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow">
+    <Link
+      href={`/products/${product._id}`}
+      className="bg-white rounded-xl border border-neutral-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow"
+    >
       <div className="relative aspect-square bg-neutral-100">
         {product.images?.[0] ? (
           <Image
@@ -65,7 +71,7 @@ export function ProductCard({ product, onAddToCart }: Props) {
         </h3>
         <div className="flex items-center justify-between gap-2">
           <span className="text-base font-bold text-brand-primary">
-            {product.price.toLocaleString()} DA
+            {product.price.toLocaleString()} MRU
           </span>
           <button
             onClick={handleAdd}
@@ -77,6 +83,6 @@ export function ProductCard({ product, onAddToCart }: Props) {
           </button>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

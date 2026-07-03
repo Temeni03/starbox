@@ -7,6 +7,7 @@ export interface Product {
   name: string
   price: number
   description?: string
+  usageInstructions?: string
   images: string[]
   quantity: number
   lowStockThreshold: number

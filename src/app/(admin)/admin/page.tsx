@@ -46,28 +46,27 @@ export default function AdminDashboard() {
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
-          label="Nombre de commandes"
+          label="Total Orders"
           value={isLoading ? '…' : stats.totalOrders ?? 0}
           icon={ShoppingBag}
           color="bg-brand-primary"
           href="/admin/orders"
         />
         <StatCard
-          label="Nombre de produits"
+          label="Total Products"
           value={isLoading ? '…' : stats.totalProducts ?? 0}
           icon={Package}
           color="bg-brand-secondary"
           href="/admin/products"
         />
         <StatCard
-          label="Nombre de livreurs"
-          value={isLoading ? '…' : stats.totalDeliverers ?? 0}
+          label="Livreurs"
+          value={isLoading ? '…' : stats.totalDelivery ?? 0}
           icon={Truck}
           color="bg-status-pending"
-          href="/admin/delivery"
         />
         <StatCard
-          label="Stock faible"
+          label="Low Stock"
           value={isLoading ? '…' : stats.lowStockProducts ?? 0}
           icon={AlertTriangle}
           color="bg-danger"
@@ -98,7 +97,7 @@ export default function AdminDashboard() {
                 <p className="text-xs text-neutral-400">{order.customer?.name} · {order.customer?.phone}</p>
               </div>
               <div className="text-right">
-                <p className="text-sm font-semibold text-neutral-700">{order.grandTotal?.toLocaleString()} DA</p>
+                <p className="text-sm font-semibold text-neutral-700">{order.grandTotal?.toLocaleString()} MRU</p>
                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                   order.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
                   order.status === 'confirmed' ? 'bg-blue-100 text-blue-700' :

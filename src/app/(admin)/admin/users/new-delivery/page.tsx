@@ -48,9 +48,9 @@ export default function NewDeliveryPage() {
       <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
         {[
           { name: 'name', label: 'Full name', type: 'text', placeholder: 'Karim Benali' },
-          { name: 'phone', label: 'Phone number', type: 'tel', placeholder: '0612345678' },
-          { name: 'password', label: 'Password', type: 'password', placeholder: 'Min. 8 characters' },
-        ].map(({ name, label, type, placeholder }) => (
+          { name: 'phone', label: 'Phone number', type: 'tel', placeholder: '2XXXXXXX', pattern: '[234][0-9]{7}', maxLength: 8, title: '8 digits starting with 2, 3 or 4' },
+          { name: 'password', label: 'Password', type: 'password', placeholder: 'Min. 6 characters', minLength: 6 },
+        ].map(({ name, label, type, placeholder, pattern, maxLength, minLength, title }) => (
           <div key={name}>
             <label className="block text-sm font-medium text-neutral-700 mb-1">{label}</label>
             <input
@@ -59,6 +59,10 @@ export default function NewDeliveryPage() {
               value={form[name as keyof typeof form]}
               onChange={handleChange}
               placeholder={placeholder}
+              pattern={pattern}
+              maxLength={maxLength}
+              minLength={minLength}
+              title={title}
               required
               className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
             />

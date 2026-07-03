@@ -195,23 +195,23 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-neutral-700 truncate">{item.name}</p>
-                <p className="text-xs text-neutral-400">× {item.quantity} · {item.price.toLocaleString()} DA each</p>
+                <p className="text-xs text-neutral-400">× {item.quantity} · {item.price.toLocaleString()} MRU each</p>
               </div>
-              <p className="text-sm font-medium">{(item.price * item.quantity).toLocaleString()} DA</p>
+              <p className="text-sm font-medium">{(item.price * item.quantity).toLocaleString()} MRU</p>
             </div>
           ))}
         </div>
 
         <div className="border-t border-neutral-100 mt-4 pt-3 space-y-1.5">
           <div className="flex justify-between text-sm text-neutral-500">
-            <span>Subtotal</span><span>{order.cartTotal?.toLocaleString()} DA</span>
+            <span>Subtotal</span><span>{order.cartTotal?.toLocaleString()} MRU</span>
           </div>
           <div className="flex justify-between text-sm text-neutral-500">
             <span>Delivery</span>
-            <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} DA`}</span>
+            <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
           </div>
           <div className="flex justify-between font-bold text-neutral-800">
-            <span>Total</span><span>{order.grandTotal?.toLocaleString()} DA</span>
+            <span>Total</span><span>{order.grandTotal?.toLocaleString()} MRU</span>
           </div>
         </div>
       </div>

@@ -7,8 +7,8 @@ import { User } from '@/models/User'
 
 const DeliverySchema = z.object({
   name: z.string().min(2).max(100).trim(),
-  phone: z.string().regex(/^[0-9]{9,15}$/, 'Phone must be 9–15 digits'),
-  password: z.string().min(8),
+  phone: z.string().regex(/^[234][0-9]{7}$/, 'Phone must be 8 digits starting with 2, 3 or 4'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
 export async function POST(req: Request) {

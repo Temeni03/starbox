@@ -3,7 +3,7 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Order } from '@/models/Order'
 import { User } from '@/models/User'
-import { sendPushToUser } from '@/lib/webpush'
+import { notifyUser } from '@/lib/notify'
 
 export async function PATCH(
   req: Request,
@@ -31,10 +31,18 @@ export async function PATCH(
   )
   if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 })
 
-  sendPushToUser(deliveryPersonId, {
+  notifyUser(deliveryPersonId, {
+    type: 'delivery_new_mission',
     title: 'StarBox — New Delivery',
     body: `Order ${order.orderNumber} has been assigned to you.`,
     url: `/delivery/orders/${order._id}`,
+  }).catch(() => {})
+
+  notifyUser(order.customer.toString(), {
+    type: 'order_assigned',
+    title: 'StarBox — Delivery assigned',
+    body: `Your order ${order.orderNumber} has been handed to a delivery person.`,
+    url: `/orders/${order._id}`,
   }).catch(() => {})
 
   return NextResponse.json({ success: true })
