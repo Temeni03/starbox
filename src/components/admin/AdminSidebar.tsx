@@ -11,6 +11,7 @@ import {
   Settings,
   Bell,
   LogOut,
+  MapPin,
 } from 'lucide-react'
 import { useNotifications } from '@/hooks/useNotifications'
 
@@ -18,6 +19,7 @@ const links = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
   { href: '/admin/products', label: 'Products', icon: Package },
+  { href: '/admin/locations', label: 'Locations', icon: MapPin },
   { href: '/admin/users', label: 'Users', icon: Users },
   { href: '/admin/notifications', label: 'Notifications', icon: Bell },
   { href: '/admin/config', label: 'Settings', icon: Settings },
