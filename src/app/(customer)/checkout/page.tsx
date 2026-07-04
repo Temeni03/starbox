@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Package, Copy, Check } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCartStore } from '@/store/cartStore'
-import { UploadButton } from '@/lib/uploadthing-components'
+import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
 import { LocationSelect } from '@/components/ui/LocationSelect'
 import type { DeliveryLocation } from '@/hooks/useDeliveryLocations'
 
@@ -219,12 +219,11 @@ export default function CheckoutPage() {
                 </button>
               </div>
             ) : (
-              <UploadButton
-                endpoint="paymentScreenshot"
-                onClientUploadComplete={(res) => {
-                  if (res?.[0]) setScreenshot(res[0].ufsUrl)
+              <ImageUploadButton
+                type="paymentScreenshot"
+                onUploaded={(urls) => {
+                  if (urls[0]) setScreenshot(urls[0])
                 }}
-                onUploadError={(err) => { toast.error(err.message) }}
               />
             )}
           </div>

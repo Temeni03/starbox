@@ -32,7 +32,6 @@
 -manque de notification ✅
 ##cart
 ###page checkout
--manque de selection localisation actuelle 🛑
 -choissure une adresse dans la liste d'adresses ✅
 -manque de code de peiment avec copie ✅ 
 ##profile

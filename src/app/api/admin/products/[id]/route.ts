@@ -11,6 +11,7 @@ const UpdateSchema = z.object({
   description: z.string().trim().optional(),
   usageInstructions: z.string().trim().optional(),
   images: z.array(z.string()).optional(),
+  video: z.string().optional(),
   quantity: z.number().int().min(0).optional(),
   lowStockThreshold: z.number().int().min(0).optional(),
   isActive: z.boolean().optional(),

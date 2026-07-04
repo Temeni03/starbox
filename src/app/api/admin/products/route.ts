@@ -10,6 +10,7 @@ const ProductSchema = z.object({
   description: z.string().trim().optional(),
   usageInstructions: z.string().trim().optional(),
   images: z.array(z.string().url()).optional(),
+  video: z.string().url().optional(),
   quantity: z.number().int().min(0),
   lowStockThreshold: z.number().int().min(0).optional(),
   isActive: z.boolean().optional(),

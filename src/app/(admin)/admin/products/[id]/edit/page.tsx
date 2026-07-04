@@ -27,6 +27,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         quantity: Number(formData.quantity),
         lowStockThreshold: Number(formData.lowStockThreshold),
         images: formData.images,
+        video: formData.video ?? '',
         isActive: formData.isActive,
       }),
     })
@@ -63,6 +64,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           quantity: String(p.quantity),
           lowStockThreshold: String(p.lowStockThreshold),
           images: p.images ?? [],
+          video: p.video ?? '',
           isActive: p.isActive,
         }}
         onSubmit={handleSubmit}

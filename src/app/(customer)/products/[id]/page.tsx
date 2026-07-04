@@ -156,6 +156,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         </div>
       )}
 
+      {/* Video */}
+      {product.video && (
+        <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-1">
+          <h2 className="font-semibold text-neutral-700">Product video</h2>
+          <video src={product.video} controls className="w-full rounded-lg" />
+        </div>
+      )}
+
       {/* How to use */}
       {product.usageInstructions && (
         <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-1">

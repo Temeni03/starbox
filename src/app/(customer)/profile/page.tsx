@@ -5,8 +5,9 @@ import { useSession } from 'next-auth/react'
 import { signOut } from 'next-auth/react'
 import { LogOut, User as UserIcon } from 'lucide-react'
 import Image from 'next/image'
-import useSWR from 'swr'
+import useSWR, { mutate } from 'swr'
 import toast from 'react-hot-toast'
+import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
@@ -16,6 +17,27 @@ export default function ProfilePage() {
   const [name, setName] = useState(session?.user?.name ?? '')
   const [phone, setPhone] = useState(session?.user?.phone ?? '')
   const [saving, setSaving] = useState(false)
+
+  async function handlePhotoUploaded(urls: string[]) {
+    const url = urls[0]
+    if (!url) return
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profilePhoto: url }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        toast.error(data.error ?? 'Failed to update photo')
+        return
+      }
+      await mutate('/api/profile')
+      toast.success('Profile photo updated')
+    } catch {
+      toast.error('Failed to update photo')
+    }
+  }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
@@ -44,8 +66,8 @@ export default function ProfilePage() {
     <div className="pb-24 sm:pb-6 max-w-sm mx-auto space-y-4">
       <h1 className="text-xl font-bold text-neutral-800 flex justify-center">Profile</h1>
 
-      {/* Avatar (read-only) */}
-      <div className="flex justify-center">
+      {/* Avatar */}
+      <div className="flex flex-col items-center gap-3">
         <div className="relative w-24 h-24 rounded-full bg-brand-light border border-neutral-200 overflow-hidden flex items-center justify-center">
           {profileData?.profilePhoto ? (
             <Image src={profileData.profilePhoto} alt={name} fill className="object-cover" sizes="96px" />
@@ -53,6 +75,7 @@ export default function ProfilePage() {
             <UserIcon size={40} className="text-brand-primary" />
           )}
         </div>
+        <ImageUploadButton type="profilePhoto" label="Change photo" onUploaded={handlePhotoUploaded} />
       </div>
 
       {/* Form */}

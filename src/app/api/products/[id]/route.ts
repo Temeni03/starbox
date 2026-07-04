@@ -11,7 +11,7 @@ export async function GET(
     await connectDB()
 
     const product = await Product.findOne({ _id: id, isActive: true })
-      .select('name price description usageInstructions images quantity lowStockThreshold')
+      .select('name price description usageInstructions images video quantity lowStockThreshold')
       .lean()
 
     if (!product) {

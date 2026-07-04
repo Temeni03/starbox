@@ -21,6 +21,7 @@ export default function NewProductPage() {
         quantity: Number(data.quantity),
         lowStockThreshold: Number(data.lowStockThreshold),
         images: data.images,
+        video: data.video || undefined,
         isActive: data.isActive,
       }),
     })

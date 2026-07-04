@@ -4,7 +4,9 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { X } from 'lucide-react'
 import toast from 'react-hot-toast'
-import { UploadButton } from '@/lib/uploadthing-components'
+import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
+
+const MAX_PRODUCT_IMAGES = 5
 
 interface ProductFormData {
   name: string
@@ -14,6 +16,7 @@ interface ProductFormData {
   quantity: string
   lowStockThreshold: string
   images: string[]
+  video?: string
   isActive: boolean
 }
 
@@ -32,6 +35,7 @@ export function ProductForm({ initialData, onSubmit, submitLabel }: Props) {
     quantity: initialData?.quantity ?? '',
     lowStockThreshold: initialData?.lowStockThreshold ?? '10',
     images: initialData?.images ?? [],
+    video: initialData?.video ?? '',
     isActive: initialData?.isActive ?? true,
   })
   const [saving, setSaving] = useState(false)
@@ -177,14 +181,42 @@ export function ProductForm({ initialData, onSubmit, submitLabel }: Props) {
             </div>
           ))}
         </div>
-        <UploadButton
-          endpoint="productImage"
-          onClientUploadComplete={(res) => {
-            const urls = res.map((f) => f.ufsUrl)
-            setForm((prev) => ({ ...prev, images: [...prev.images, ...urls] }))
-          }}
-          onUploadError={(err) => { toast.error(err.message) }}
-        />
+        {form.images.length < MAX_PRODUCT_IMAGES && (
+          <ImageUploadButton
+            type="productImage"
+            multiple
+            onUploaded={(urls) => {
+              setForm((prev) => ({
+                ...prev,
+                images: [...prev.images, ...urls].slice(0, MAX_PRODUCT_IMAGES),
+              }))
+            }}
+          />
+        )}
+      </div>
+
+      {/* Video */}
+      <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
+        <h2 className="font-semibold text-neutral-700">Video (optional)</h2>
+        {form.video ? (
+          <div className="relative w-full max-w-xs">
+            <video src={form.video} controls className="w-full rounded-lg border border-neutral-200" />
+            <button
+              type="button"
+              onClick={() => setForm((prev) => ({ ...prev, video: '' }))}
+              className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center"
+            >
+              <X size={12} />
+            </button>
+          </div>
+        ) : (
+          <ImageUploadButton
+            type="productVideo"
+            onUploaded={(urls) => {
+              if (urls[0]) setForm((prev) => ({ ...prev, video: urls[0] }))
+            }}
+          />
+        )}
       </div>
 
       <button

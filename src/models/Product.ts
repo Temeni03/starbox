@@ -6,6 +6,7 @@ export interface IProduct extends Document {
   description?: string
   usageInstructions?: string
   images: string[]
+  video?: string
   quantity: number
   isActive: boolean
   lowStockThreshold: number
@@ -20,6 +21,7 @@ const ProductSchema = new Schema<IProduct>(
     description: { type: String, trim: true },
     usageInstructions: { type: String, trim: true },
     images: [{ type: String }],
+    video: { type: String },
     quantity: { type: Number, required: true, default: 0, min: 0 },
     isActive: { type: Boolean, default: true },
     lowStockThreshold: {
