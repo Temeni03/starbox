@@ -8,13 +8,15 @@ export function NotificationBell({ href, className = '' }: { href: string; class
   const { unreadCount } = useNotifications()
 
   return (
-    <Link href={href} title="Notifications" className={`relative inline-flex ${className}`}>
-      <Bell size={20} />
-      {unreadCount > 0 && (
-        <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-          {unreadCount > 9 ? '9+' : unreadCount}
-        </span>
-      )}
+    <Link href={href} title="Notifications" className={className}>
+      <span className="relative inline-flex">
+        <Bell size={20} />
+        {unreadCount > 0 && (
+          <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+            {unreadCount > 9 ? '9+' : unreadCount}
+          </span>
+        )}
+      </span>
     </Link>
   )
 }

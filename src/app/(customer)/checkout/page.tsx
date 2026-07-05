@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import Image from 'next/image'
-import { Package, Copy, Check } from 'lucide-react'
+import { Package, Copy, Check, ArrowLeft, ChevronRight, Store, Truck, Landmark, Banknote } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCartStore } from '@/store/cartStore'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
@@ -87,16 +88,65 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="pb-24 sm:pb-6 max-w-lg mx-auto space-y-4">
-      <h1 className="text-xl font-bold text-neutral-800">Checkout</h1>
+    <div className="pb-44 sm:pb-28 max-w-lg mx-auto">
+      <div className="flex items-center gap-2 mb-6">
+        <Link
+          href="/cart"
+          aria-label="Back to cart"
+          className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-brand-light/50 transition -ml-1.5"
+        >
+          <ArrowLeft size={20} className="text-brand-primary" />
+        </Link>
+        <h1 className="text-2xl font-bold text-neutral-800">Checkout</h1>
+      </div>
+
+      {/* Delivery Method */}
+      <section className="mb-6">
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">Delivery Method</h2>
+        <div className="grid grid-cols-2 gap-3">
+          {(
+            [
+              { value: 'pickup', label: 'Store Pickup', sub: 'Free', icon: Store },
+              {
+                value: 'home',
+                label: 'Home Delivery',
+                sub: location ? `${location.price.toLocaleString()} MRU` : 'Select zone',
+                icon: Truck,
+              },
+            ] as const
+          ).map(({ value, label, sub, icon: Icon }) => (
+            <label key={value} className="relative cursor-pointer">
+              <input
+                type="radio"
+                name="delivery"
+                value={value}
+                checked={deliveryOption === value}
+                onChange={() => setDeliveryOption(value)}
+                className="peer sr-only"
+              />
+              <div className="p-4 rounded-xl border-2 border-neutral-200 bg-white peer-checked:border-brand-primary peer-checked:bg-brand-light/50 transition-all flex flex-col items-center text-center gap-1.5">
+                <Icon size={22} className="text-brand-primary" />
+                <span className="text-sm font-semibold text-neutral-800">{label}</span>
+                <span className="text-xs text-neutral-500">{sub}</span>
+              </div>
+            </label>
+          ))}
+        </div>
+
+        {deliveryOption === 'home' && (
+          <div className="mt-3">
+            <LocationSelect value={location} onChange={setLocation} />
+          </div>
+        )}
+      </section>
 
       {/* Order items summary */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <h2 className="text-sm font-semibold text-neutral-700 mb-3">Order Summary</h2>
+      <section className="mb-6 bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4">
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">Order Summary</h2>
         <div className="space-y-2">
           {items.map((item) => (
             <div key={item.product} className="flex items-center gap-3">
-              <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-neutral-100 flex-shrink-0">
+              <div className="relative w-12 h-12 rounded-lg overflow-hidden bg-surface-high shrink-0">
                 {item.image ? (
                   <Image src={item.image} alt={item.name} fill className="object-cover" sizes="48px" />
                 ) : (
@@ -115,83 +165,50 @@ export default function CheckoutPage() {
             </div>
           ))}
         </div>
-      </div>
-
-      {/* Delivery option */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <h2 className="text-sm font-semibold text-neutral-700 mb-3">Delivery Option</h2>
-        <div className="space-y-2">
-          {[
-            {
-              value: 'home',
-              label: 'Home Delivery',
-              sub: location ? `+${location.price.toLocaleString()} MRU` : 'Select location',
-            },
-            { value: 'pickup', label: 'Store Pickup', sub: 'Free' },
-          ].map(({ value, label, sub }) => (
-            <label
-              key={value}
-              className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition ${
-                deliveryOption === value
-                  ? 'border-brand-secondary bg-brand-light'
-                  : 'border-neutral-200'
-              }`}
-            >
-              <input
-                type="radio"
-                value={value}
-                checked={deliveryOption === value}
-                onChange={() => setDeliveryOption(value as 'home' | 'pickup')}
-                className="accent-brand-primary"
-              />
-              <span className="text-sm font-medium text-neutral-700 flex-1">{label}</span>
-              <span className="text-sm text-neutral-500">{sub}</span>
-            </label>
-          ))}
-        </div>
-
-        {deliveryOption === 'home' && (
-          <LocationSelect value={location} onChange={setLocation} />
-        )}
-      </div>
+      </section>
 
       {/* Payment method */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <h2 className="text-sm font-semibold text-neutral-700 mb-3">Payment Method</h2>
-        <div className="space-y-2">
-          {[
-            { value: 'cash', label: 'Cash on Delivery / Pickup' },
-            { value: 'bank_transfer', label: 'Bank Transfer' },
-          ].map(({ value, label }) => (
+      <section className="mb-6">
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">Payment Method</h2>
+        <div className="space-y-3">
+          {(
+            [
+              { value: 'bank_transfer', label: 'Bank Transfer', sub: 'Confirm with a receipt upload', icon: Landmark },
+              { value: 'cash', label: 'Cash on Delivery / Pickup', sub: 'Pay when your order arrives', icon: Banknote },
+            ] as const
+          ).map(({ value, label, sub, icon: Icon }) => (
             <label
               key={value}
-              className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition ${
-                paymentMethod === value
-                  ? 'border-brand-secondary bg-brand-light'
-                  : 'border-neutral-200'
+              className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition ${
+                paymentMethod === value ? 'border-brand-primary bg-brand-light/50' : 'border-neutral-200 bg-white'
               }`}
             >
               <input
                 type="radio"
+                name="payment"
                 value={value}
                 checked={paymentMethod === value}
-                onChange={() => setPaymentMethod(value as 'cash' | 'bank_transfer')}
-                className="accent-brand-primary"
+                onChange={() => setPaymentMethod(value)}
+                className="accent-brand-primary w-5 h-5"
               />
-              <span className="text-sm font-medium text-neutral-700">{label}</span>
+              <div className="flex-1">
+                <div className="text-sm font-semibold text-neutral-800">{label}</div>
+                <div className="text-xs text-neutral-500">{sub}</div>
+              </div>
+              <Icon size={20} className="text-brand-primary" />
             </label>
           ))}
         </div>
 
         {paymentMethod === 'bank_transfer' && (
-          <div className="mt-3 p-3 bg-neutral-50 rounded-lg border border-neutral-200 space-y-3">
+          <div className="mt-3 p-4 rounded-xl border border-neutral-200 bg-surface-low space-y-3">
             <p className="text-xs text-neutral-600">
               Transfer <strong>{grandTotal.toLocaleString()} MRU</strong> using the code below, then upload your receipt.
             </p>
             <button
               type="button"
               onClick={handleCopyCode}
-              className="flex items-center justify-between gap-2 w-full bg-white border border-neutral-200 rounded-lg px-3 py-2 hover:border-brand-secondary transition"
+              className="flex items-center justify-between gap-2 w-full bg-white border border-neutral-200 rounded-xl px-3 py-2.5 hover:border-brand-primary transition"
             >
               <span className="text-sm font-mono font-semibold text-brand-primary tracking-wide">
                 {BANK_PAYMENT_CODE}
@@ -210,7 +227,7 @@ export default function CheckoutPage() {
             </button>
             {screenshot ? (
               <div className="flex items-center gap-2">
-                <Image src={screenshot} alt="Receipt" width={60} height={60} className="rounded object-cover" />
+                <Image src={screenshot} alt="Receipt" width={60} height={60} className="rounded-lg object-cover" />
                 <button
                   onClick={() => setScreenshot(null)}
                   className="text-xs text-danger hover:underline"
@@ -219,40 +236,50 @@ export default function CheckoutPage() {
                 </button>
               </div>
             ) : (
-              <ImageUploadButton
-                type="paymentScreenshot"
-                onUploaded={(urls) => {
-                  if (urls[0]) setScreenshot(urls[0])
-                }}
-              />
+              <div className="rounded-xl border-2 border-dashed border-brand-primary/30 bg-brand-container/5">
+                <ImageUploadButton
+                  type="paymentScreenshot"
+                  onUploaded={(urls) => {
+                    if (urls[0]) setScreenshot(urls[0])
+                  }}
+                />
+              </div>
             )}
           </div>
         )}
-      </div>
+      </section>
 
       {/* Totals */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-2">
-        <div className="flex justify-between text-sm text-neutral-600">
+      <section className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-5 space-y-3">
+        <div className="flex justify-between items-center text-sm text-neutral-600">
           <span>Subtotal</span>
-          <span>{totalPrice.toLocaleString()} MRU</span>
+          <span className="font-medium text-neutral-700">{totalPrice.toLocaleString()} MRU</span>
         </div>
-        <div className="flex justify-between text-sm text-neutral-600">
-          <span>Delivery</span>
-          <span>{deliveryFee === 0 ? 'Free' : `${deliveryFee.toLocaleString()} MRU`}</span>
+        <div className="flex justify-between items-center text-sm text-neutral-600">
+          <span>Delivery Fee</span>
+          <span className="font-medium text-neutral-700">
+            {deliveryFee === 0 ? 'Free' : `${deliveryFee.toLocaleString()} MRU`}
+          </span>
         </div>
-        <div className="border-t border-neutral-100 pt-2 flex justify-between font-bold text-neutral-800">
-          <span>Total</span>
-          <span>{grandTotal.toLocaleString()} MRU</span>
+        <div className="flex justify-between items-center border-t border-neutral-200 pt-3">
+          <span className="text-lg font-semibold text-neutral-800">Total</span>
+          <span className="text-2xl font-bold text-brand-primary">{grandTotal.toLocaleString()} MRU</span>
+        </div>
+      </section>
+
+      {/* Fixed bottom action bar */}
+      <div className="fixed bottom-16 sm:bottom-0 inset-x-0 z-40 bg-white/80 backdrop-blur-md border-t border-neutral-200/60 px-4 py-3">
+        <div className="max-w-lg mx-auto">
+          <button
+            onClick={handleConfirm}
+            disabled={loading}
+            className="w-full h-14 bg-brand-primary text-white rounded-full font-semibold text-base flex items-center justify-center gap-1.5 shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+          >
+            {loading ? 'Placing order…' : 'Complete Order'}
+            {!loading && <ChevronRight size={20} />}
+          </button>
         </div>
       </div>
-
-      <button
-        onClick={handleConfirm}
-        disabled={loading}
-        className="w-full bg-brand-primary text-white py-3.5 rounded-xl font-semibold text-base hover:bg-brand-secondary disabled:opacity-60 disabled:cursor-not-allowed transition"
-      >
-        {loading ? 'Placing order…' : 'Confirm Order'}
-      </button>
     </div>
   )
 }

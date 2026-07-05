@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { signIn, getSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff } from 'lucide-react'
-import type { Metadata } from 'next'
+import { Eye, EyeOff, Phone, Lock, Gem } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
@@ -55,35 +54,44 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="w-full max-w-sm">
-      <div className="bg-white rounded-2xl shadow-sm border border-neutral-200 p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-brand-primary">StarBox</h1>
-          <p className="text-neutral-500 text-sm mt-1">Sign in to your account</p>
+    <div className="w-full max-w-md flex flex-col">
+      <div className="flex flex-col items-center mb-8">
+        <div className="w-20 h-20 mb-4 rounded-3xl bg-linear-to-br from-brand-primary to-brand-container flex items-center justify-center shadow-lg border-4 border-white">
+          <Gem size={32} className="text-white" />
         </div>
+        <h1 className="text-3xl font-bold text-brand-primary tracking-tight">Starbox</h1>
+        <p className="text-sm text-neutral-500 mt-1">Curated Luxury Shopping</p>
+      </div>
+
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-3xl p-6 shadow-sm">
+        <h2 className="text-xl font-semibold text-neutral-800 mb-6">Welcome Back</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-neutral-700 mb-1">
+          <div className="space-y-1.5">
+            <label htmlFor="phone" className="block text-xs font-medium text-neutral-500 ml-1">
               Phone number
             </label>
-            <input
-              id="phone"
-              type="tel"
-              value={phone}
-              onChange={e => setPhone(e.target.value)}
-              placeholder="0612345678"
-              required
-              autoComplete="tel"
-              className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:border-transparent transition"
-            />
+            <div className="relative">
+              <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <input
+                id="phone"
+                type="tel"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                placeholder="0612345678"
+                required
+                autoComplete="tel"
+                className="w-full h-12 pl-12 pr-4 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary focus:border-brand-primary transition"
+              />
+            </div>
           </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-1">
+          <div className="space-y-1.5">
+            <label htmlFor="password" className="block text-xs font-medium text-neutral-500 ml-1">
               Password
             </label>
             <div className="relative">
+              <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -92,22 +100,22 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 required
                 autoComplete="current-password"
-                className="w-full px-3 py-2.5 pr-10 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary focus:border-transparent transition"
+                className="w-full h-12 pl-12 pr-12 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary focus:border-brand-primary transition"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(prev => !prev)}
                 tabIndex={-1}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
 
           {error && (
-            <p className="text-sm text-danger bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+            <p className="text-sm text-danger bg-red-50 border border-red-200 rounded-xl px-3 py-2">
               {error}
             </p>
           )}
@@ -115,19 +123,23 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-brand-secondary disabled:opacity-60 disabled:cursor-not-allowed transition"
+            className="w-full h-12 bg-brand-primary text-white font-semibold text-sm rounded-xl shadow-md hover:bg-brand-secondary active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed transition"
           >
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? 'Signing in…' : 'Sign In'}
           </button>
         </form>
 
         <p className="text-center text-sm text-neutral-500 mt-6">
           Don&apos;t have an account?{' '}
-          <Link href="/register" className="text-brand-secondary font-medium hover:underline">
-            Register
+          <Link href="/register" className="text-brand-primary font-bold">
+            Create Account
           </Link>
         </p>
       </div>
+
+      <p className="text-center text-xs text-neutral-400 mt-8">
+        © {new Date().getFullYear()} Starbox. All rights reserved.
+      </p>
     </div>
   )
 }

@@ -94,7 +94,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
       </Link>
 
       {/* Header */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-5">
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5">
         <div className="flex items-start justify-between">
           <div>
             <p className="text-xl font-bold text-neutral-800">{order.orderNumber}</p>
@@ -118,13 +118,13 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
       {/* Status change */}
       {nextStatuses.length > 0 && (
         <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="font-semibold text-neutral-700">Change Status</h2>
+          <h2 className="font-semibold text-neutral-800">Change Status</h2>
           <input
             type="text"
             value={statusNote}
             onChange={(e) => setStatusNote(e.target.value)}
             placeholder="Optional note for customer…"
-            className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+            className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
           />
           <div className="flex gap-2 flex-wrap">
             {nextStatuses.map((s) => (
@@ -132,7 +132,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
                 key={s}
                 onClick={() => changeStatus(s)}
                 disabled={updatingStatus}
-                className={`px-4 py-2 rounded-lg text-sm font-medium capitalize transition disabled:opacity-50 ${
+                className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition disabled:opacity-50 ${
                   s === 'cancelled'
                     ? 'bg-red-50 text-danger border border-red-200 hover:bg-red-100'
                     : 'bg-brand-primary text-white hover:bg-brand-secondary'
@@ -148,7 +148,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
       {/* Assign delivery */}
       {(order.status === 'confirmed' || order.status === 'transit') && (
         <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="font-semibold text-neutral-700">
+          <h2 className="font-semibold text-neutral-800">
             Assign Delivery
             {order.assignedTo && (
               <span className="ml-2 text-sm font-normal text-neutral-400">
@@ -160,7 +160,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
             <select
               value={selectedDelivery}
               onChange={(e) => setSelectedDelivery(e.target.value)}
-              className="flex-1 px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+              className="flex-1 px-3 py-2.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
             >
               <option value="">Select delivery person…</option>
               {deliveryUsers.map((u: any) => (
@@ -170,7 +170,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
             <button
               onClick={assignDelivery}
               disabled={assigning || !selectedDelivery}
-              className="px-4 py-2 bg-brand-primary text-white rounded-lg text-sm font-medium hover:bg-brand-secondary disabled:opacity-50 transition"
+              className="px-4 py-2 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-50 transition"
             >
               {assigning ? '…' : 'Assign'}
             </button>
@@ -180,11 +180,11 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
 
       {/* Items */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h2 className="font-semibold text-neutral-700 mb-3">Items</h2>
+        <h2 className="font-semibold text-neutral-800 mb-3">Items</h2>
         <div className="space-y-3">
           {order.items?.map((item: any, i: number) => (
             <div key={i} className="flex items-center gap-3">
-              <div className="relative w-12 h-12 bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="relative w-12 h-12 bg-surface-high rounded-lg overflow-hidden shrink-0">
                 {item.image ? (
                   <Image src={item.image} alt={item.name} fill className="object-cover" sizes="48px" />
                 ) : (
@@ -211,7 +211,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
             <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
           </div>
           <div className="flex justify-between font-bold text-neutral-800">
-            <span>Total</span><span>{order.grandTotal?.toLocaleString()} MRU</span>
+            <span>Total</span><span className="text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
           </div>
         </div>
       </div>
@@ -253,11 +253,11 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
 
       {/* Status history */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h2 className="font-semibold text-neutral-700 mb-3">Status History</h2>
+        <h2 className="font-semibold text-neutral-800 mb-3">Status History</h2>
         <div className="space-y-2">
           {order.statusHistory?.map((h: any, i: number) => (
             <div key={i} className="flex items-start gap-3 text-sm">
-              <div className="w-2 h-2 rounded-full bg-brand-secondary mt-1.5 flex-shrink-0" />
+              <div className="w-2 h-2 rounded-full bg-brand-primary mt-1.5 shrink-0" />
               <div>
                 <span className="font-medium capitalize text-neutral-700">{h.status}</span>
                 {h.note && <span className="text-neutral-400 ml-1">— {h.note}</span>}

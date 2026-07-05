@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Minus, Plus, Trash2, Package, ShoppingBag, AlertTriangle } from 'lucide-react'
+import { Minus, Plus, Trash2, Package, ShoppingBag, AlertTriangle, ArrowRight, Lock } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/store/cartStore'
 import toast from 'react-hot-toast'
@@ -12,6 +12,7 @@ export default function CartPage() {
   const { isLoading, updateQuantity, removeFromCart, clearCart } = useCart()
   const items = useCartStore((s) => s.items)
   const totalPrice = useCartStore((s) => s.totalPrice())
+  const totalCount = items.reduce((s, i) => s + i.quantity, 0)
 
   const [confirmClear, setConfirmClear] = useState(false)
   const [clearing, setClearing] = useState(false)
@@ -50,11 +51,11 @@ export default function CartPage() {
     return (
       <div className="space-y-3 pb-20 sm:pb-6">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="bg-white rounded-xl border border-neutral-200 p-4 flex gap-3 animate-pulse">
-            <div className="w-20 h-20 bg-neutral-100 rounded-lg flex-shrink-0" />
+          <div key={i} className="bg-white/70 rounded-xl border border-brand-light/60 p-4 flex gap-3 animate-pulse">
+            <div className="w-24 h-24 bg-surface-high rounded-lg flex-shrink-0" />
             <div className="flex-1 space-y-2">
-              <div className="h-4 bg-neutral-100 rounded w-3/4" />
-              <div className="h-4 bg-neutral-100 rounded w-1/4" />
+              <div className="h-4 bg-surface-high rounded w-3/4" />
+              <div className="h-4 bg-surface-high rounded w-1/4" />
             </div>
           </div>
         ))}
@@ -64,11 +65,24 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-neutral-400 pb-24 sm:pb-6">
-        <ShoppingBag size={48} className="mb-4 opacity-50" />
-        <p className="text-lg font-medium">Your cart is empty</p>
-        <Link href="/" className="mt-4 text-sm text-brand-secondary hover:underline">
-          Browse products
+      <div className="flex flex-col items-center justify-center text-center py-12 space-y-6 pb-24 sm:pb-6">
+        <div className="relative w-48 h-48 flex items-center justify-center">
+          <div className="absolute inset-0 bg-brand-container/30 blur-3xl rounded-full" />
+          <div className="relative z-10 bg-white/70 backdrop-blur-md p-8 rounded-full border-2 border-brand-container/50">
+            <ShoppingBag size={56} className="text-brand-primary" />
+          </div>
+        </div>
+        <div className="max-w-xs space-y-2">
+          <h2 className="text-2xl font-bold text-neutral-800 tracking-tight">Your cart is empty</h2>
+          <p className="text-sm text-neutral-500">
+            Discover our latest luxury blends and start your self-care journey.
+          </p>
+        </div>
+        <Link
+          href="/"
+          className="inline-flex items-center bg-brand-primary text-white text-sm font-semibold px-8 h-12 rounded-full shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 transition-all"
+        >
+          Explore Products
         </Link>
       </div>
     )
@@ -76,26 +90,31 @@ export default function CartPage() {
 
   return (
     <div className="pb-32 sm:pb-6">
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-bold text-neutral-800">My Cart</h1>
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-neutral-800">Your Cart</h1>
+          <span className="bg-brand-container text-brand-secondary text-xs font-semibold px-3 py-1 rounded-full">
+            {totalCount} {totalCount === 1 ? 'Item' : 'Items'}
+          </span>
+        </div>
         <button
           onClick={() => setConfirmClear(true)}
           className="flex items-center gap-1.5 text-sm text-danger hover:underline"
         >
           <Trash2 size={14} />
-          Clear cart
+          Clear
         </button>
       </div>
 
-      <div className="space-y-3 mb-6">
+      <div className="flex flex-col gap-4 mb-8">
         {items.map((item) => (
           <div
             key={item.product}
-            className="bg-white rounded-xl border border-neutral-200 p-4 flex gap-3"
+            className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4 flex gap-4"
           >
-            <div className="relative w-20 h-20 rounded-lg overflow-hidden bg-neutral-100 flex-shrink-0">
+            <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-surface-high flex-shrink-0">
               {item.image ? (
-                <Image src={item.image} alt={item.name} fill className="object-cover" sizes="80px" />
+                <Image src={item.image} alt={item.name} fill className="object-cover" sizes="96px" />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
                   <Package size={24} />
@@ -103,42 +122,39 @@ export default function CartPage() {
               )}
             </div>
 
-            <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-neutral-800 line-clamp-2">{item.name}</p>
-              <p className="text-sm text-brand-primary font-semibold mt-0.5">
-                {item.price.toLocaleString()} MRU
-              </p>
+            <div className="flex flex-col justify-between flex-1 min-w-0">
+              <div className="flex justify-between items-start gap-2">
+                <h3 className="text-base font-semibold text-neutral-800 truncate">{item.name}</h3>
+                <button
+                  onClick={() => handleRemove(item.product)}
+                  className="text-neutral-400 hover:text-danger transition flex-shrink-0"
+                  aria-label="Remove item"
+                >
+                  <Trash2 size={18} />
+                </button>
+              </div>
 
-              <div className="flex items-center justify-between mt-2">
-                <div className="flex items-center gap-2">
+              <div className="flex justify-between items-end mt-2">
+                <span className="text-base font-semibold text-brand-primary">
+                  {item.price.toLocaleString()} MRU
+                </span>
+                <div className="flex items-center bg-surface-high rounded-full p-1 border border-neutral-200">
                   <button
                     onClick={() =>
                       item.quantity > 1
                         ? handleQuantity(item.product, item.quantity - 1)
                         : handleRemove(item.product)
                     }
-                    className="w-7 h-7 rounded-full border border-neutral-300 flex items-center justify-center hover:bg-neutral-50 transition"
+                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white active:scale-90 transition"
                   >
                     <Minus size={14} />
                   </button>
-                  <span className="text-sm font-medium w-6 text-center">{item.quantity}</span>
+                  <span className="w-8 text-center text-sm font-semibold">{item.quantity}</span>
                   <button
                     onClick={() => handleQuantity(item.product, item.quantity + 1)}
-                    className="w-7 h-7 rounded-full border border-neutral-300 flex items-center justify-center hover:bg-neutral-50 transition"
+                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white active:scale-90 transition"
                   >
                     <Plus size={14} />
-                  </button>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-bold text-neutral-700">
-                    {(item.price * item.quantity).toLocaleString()} MRU
-                  </span>
-                  <button
-                    onClick={() => handleRemove(item.product)}
-                    className="text-neutral-400 hover:text-danger transition"
-                  >
-                    <Trash2 size={16} />
                   </button>
                 </div>
               </div>
@@ -148,26 +164,32 @@ export default function CartPage() {
       </div>
 
       {/* Summary */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
-        <div className="flex justify-between text-sm text-neutral-600">
-          <span>Subtotal ({items.reduce((s, i) => s + i.quantity, 0)} items)</span>
+      <div className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex justify-between items-center text-neutral-600 text-sm">
+          <span>Subtotal ({totalCount} items)</span>
           <span>{totalPrice.toLocaleString()} MRU</span>
         </div>
-        <div className="border-t border-neutral-100 pt-3 flex justify-between font-bold text-neutral-800">
-          <span>Total</span>
-          <span>{totalPrice.toLocaleString()} MRU</span>
+        <div className="flex justify-between items-center border-t border-neutral-200 pt-4">
+          <span className="text-lg font-semibold text-neutral-800">Total</span>
+          <span className="text-2xl font-bold text-brand-primary">{totalPrice.toLocaleString()} MRU</span>
         </div>
         <Link
           href="/checkout"
-          className="block w-full bg-brand-primary text-white text-center py-3 rounded-xl font-medium hover:bg-brand-secondary transition"
+          className="mt-2 w-full h-12 bg-brand-primary text-white rounded-full text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all flex items-center justify-center gap-2"
         >
           Proceed to Checkout
+          <ArrowRight size={16} />
         </Link>
       </div>
 
+      <p className="text-center text-xs text-neutral-400 flex items-center justify-center gap-1 mt-6">
+        <Lock size={14} />
+        Secure checkout
+      </p>
+
       {confirmClear && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center flex-shrink-0">
                 <AlertTriangle size={20} />

@@ -45,7 +45,7 @@ export default function NewDeliveryPage() {
       </Link>
       <h1 className="text-2xl font-bold text-neutral-800">Add Delivery Staff</h1>
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-4">
         {[
           { name: 'name', label: 'Full name', type: 'text', placeholder: 'Karim Benali' },
           { name: 'phone', label: 'Phone number', type: 'tel', placeholder: '2XXXXXXX', pattern: '[234][0-9]{7}', maxLength: 8, title: '8 digits starting with 2, 3 or 4' },
@@ -64,7 +64,7 @@ export default function NewDeliveryPage() {
               minLength={minLength}
               title={title}
               required
-              className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+              className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
             />
           </div>
         ))}
@@ -78,7 +78,7 @@ export default function NewDeliveryPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-brand-secondary disabled:opacity-60 transition"
+          className="w-full h-12 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
         >
           {loading ? 'Creating…' : 'Create Account'}
         </button>

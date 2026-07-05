@@ -1,10 +1,13 @@
 @import "tailwindcss";
 
 @theme {
-  /* Brand */
-  --color-brand-primary: #1B4332;
-  --color-brand-secondary: #40916C;
-  --color-brand-light: #D8F3DC;
+  /* Brand — derived from logo color #E9AFFC */
+  --color-brand-primary: #9731B9;
+  --color-brand-secondary: #6B1F84;
+  --color-brand-light: #F9E5FF;
+  --color-brand-container: #E9AFFC;
+  --color-surface-low: #EEF5F7;
+  --color-surface-high: #E2E9EC;
 
   /* Neutral */
   --color-neutral-50: #FAFAFA;

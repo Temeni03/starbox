@@ -33,17 +33,14 @@ export function ProductCard({ product, onAddToCart }: Props) {
   }
 
   return (
-    <Link
-      href={`/products/${product._id}`}
-      className="bg-white rounded-xl border border-neutral-200 overflow-hidden flex flex-col hover:shadow-md transition-shadow"
-    >
-      <div className="relative aspect-square bg-neutral-100">
+    <Link href={`/products/${product._id}`} className="group flex flex-col">
+      <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-3 bg-surface-high shadow-[0_10px_25px_-5px_rgba(216,150,255,0.25),0_8px_10px_-6px_rgba(216,150,255,0.15)]">
         {product.images?.[0] ? (
           <Image
             src={product.images[0]}
             alt={product.name}
             fill
-            className="object-cover"
+            className="object-cover group-hover:scale-105 transition-transform duration-500"
             sizes="(max-width: 640px) 50vw, 25vw"
           />
         ) : (
@@ -59,29 +56,30 @@ export function ProductCard({ product, onAddToCart }: Props) {
           </div>
         )}
         {lowStock && (
-          <span className="absolute top-2 left-2 bg-warning text-white text-xs font-medium px-2 py-0.5 rounded">
+          <span className="absolute top-3 left-3 bg-warning text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">
             Low stock
           </span>
         )}
+        <button
+          onClick={handleAdd}
+          disabled={outOfStock || loading}
+          aria-label="Add to cart"
+          className="absolute bottom-3 right-3 w-10 h-10 bg-brand-primary text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed transition-transform"
+        >
+          <ShoppingCart size={18} />
+        </button>
       </div>
 
-      <div className="p-3 flex flex-col flex-1 gap-2">
-        <h3 className="text-sm font-medium text-neutral-800 line-clamp-2 flex-1">
-          {product.name}
-        </h3>
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-base font-bold text-brand-primary">
-            {product.price.toLocaleString()} MRU
-          </span>
-          <button
-            onClick={handleAdd}
-            disabled={outOfStock || loading}
-            className="flex items-center gap-1 bg-brand-primary text-white text-xs font-medium px-3 py-1.5 rounded-lg hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
-          >
-            <ShoppingCart size={14} />
-            {loading ? '…' : 'Add'}
-          </button>
-        </div>
+      <h3 className="text-base font-semibold text-neutral-800 truncate mb-1">
+        {product.name}
+      </h3>
+      {product.description && (
+        <p className="text-xs text-neutral-500 mb-2 truncate">{product.description}</p>
+      )}
+      <div className="mt-auto">
+        <span className="text-base font-semibold text-brand-primary">
+          {product.price.toLocaleString()} MRU
+        </span>
       </div>
     </Link>
   )

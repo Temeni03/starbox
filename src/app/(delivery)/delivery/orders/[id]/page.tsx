@@ -3,7 +3,7 @@
 import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ArrowLeft, MapPin, Phone, Package, Truck, CheckCircle } from 'lucide-react'
+import { ArrowLeft, MapPin, Phone, Package, Truck, CheckCircle, Landmark, Banknote, Navigation, Info } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -54,114 +54,169 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
     )
   }
 
+  const mapsUrl = order.deliveryAddress
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.deliveryAddress)}`
+    : null
+
   return (
-    <div className="space-y-4 pb-6">
+    <div className="space-y-4 pb-32">
       <Link href="/delivery" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
         <ArrowLeft size={16} /> Back
       </Link>
 
-      {/* Header */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <p className="text-lg font-bold text-neutral-800">{order.orderNumber}</p>
-            <p className="text-xs text-neutral-400 mt-0.5">
-              {new Date(order.createdAt).toLocaleString('en-GB', {
-                day: '2-digit', month: 'short', year: 'numeric',
-                hour: '2-digit', minute: '2-digit',
-              })}
-            </p>
-          </div>
-          <StatusBadge status={order.status as OrderStatus} />
-        </div>
+      <div className="flex justify-center">
+        <StatusBadge status={order.status as OrderStatus} />
       </div>
 
       {/* Customer */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
-        <h2 className="text-sm font-semibold text-neutral-700">Customer</h2>
-        <div className="flex items-center gap-2">
-          <Phone size={15} className="text-neutral-400" />
-          <span className="text-sm font-medium">{order.customer?.name}</span>
-          <a
-            href={`tel:${order.customer?.phone}`}
-            className="text-sm text-brand-secondary hover:underline font-medium"
-          >
-            {order.customer?.phone}
-          </a>
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-4">
+        <div className="flex items-center justify-between">
+          <h2 className="text-base font-semibold text-brand-primary">Customer</h2>
+          <p className="text-xs text-neutral-400">{order.orderNumber}</p>
         </div>
-        {order.deliveryOption === 'home' && order.deliveryAddress && (
-          <div className="flex items-start gap-2">
-            <MapPin size={15} className="text-neutral-400 mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-neutral-700">{order.deliveryAddress}</p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-1">
+            <p className="text-xs text-neutral-500">Name</p>
+            <p className="text-sm font-semibold text-neutral-800">{order.customer?.name}</p>
           </div>
-        )}
-        {order.deliveryOption === 'pickup' && (
+          <div className="space-y-1">
+            <p className="text-xs text-neutral-500">Phone</p>
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-semibold text-neutral-800">{order.customer?.phone}</p>
+              <a
+                href={`tel:${order.customer?.phone}`}
+                className="bg-brand-container/20 p-1.5 rounded-lg text-brand-primary"
+              >
+                <Phone size={13} />
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {order.deliveryOption === 'home' && order.deliveryAddress ? (
+          <div className="space-y-1">
+            <p className="text-xs text-neutral-500">Delivery Address</p>
+            <div className="flex items-start justify-between gap-2">
+              <div className="flex items-start gap-2">
+                <MapPin size={16} className="text-brand-primary mt-0.5 shrink-0" />
+                <p className="text-sm text-neutral-700 leading-relaxed">{order.deliveryAddress}</p>
+              </div>
+              {mapsUrl && (
+                <a
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 shrink-0 px-3 py-1.5 bg-white rounded-full border border-brand-container/40 text-brand-primary text-xs font-semibold"
+                >
+                  <Navigation size={13} /> Navigate
+                </a>
+              )}
+            </div>
+          </div>
+        ) : (
           <div className="flex items-center gap-2">
-            <MapPin size={15} className="text-neutral-400" />
+            <MapPin size={16} className="text-neutral-400" />
             <p className="text-sm text-neutral-500">Store pickup</p>
           </div>
         )}
-        <div className="pt-1 text-sm">
-          <span className="text-neutral-500">Payment: </span>
-          <span className="font-medium text-neutral-700">
-            {order.paymentMethod === 'cash' ? 'Cash on delivery' : 'Bank transfer (paid)'}
-          </span>
+      </div>
+
+      {/* Payment */}
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-3">
+        <h2 className="text-base font-semibold text-brand-primary">Payment Status</h2>
+        <div className="flex items-center justify-between p-3.5 rounded-xl bg-surface-low border border-neutral-100">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-full bg-brand-container/20 text-brand-primary">
+              {order.paymentMethod === 'cash' ? <Banknote size={18} /> : <Landmark size={18} />}
+            </div>
+            <p className="text-sm font-semibold text-neutral-800">
+              {order.paymentMethod === 'cash' ? 'Cash on Delivery' : 'Bank Transfer'}
+            </p>
+          </div>
+          <p className="text-lg font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</p>
+        </div>
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-surface-high/60">
+          <Info size={16} className="text-brand-primary shrink-0" />
+          <p className="text-xs text-neutral-500">
+            {order.paymentMethod === 'cash'
+              ? 'Collect payment from the customer upon delivery.'
+              : 'No cash collection required — payment already received.'}
+          </p>
         </div>
       </div>
 
       {/* Items */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <h2 className="text-sm font-semibold text-neutral-700 mb-3">
-          Items ({order.items?.length})
+      <div className="bg-white rounded-xl border border-neutral-200 p-5">
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">
+          Order Items ({order.items?.length})
         </h2>
         <div className="space-y-3">
           {order.items?.map((item: any, i: number) => (
             <div key={i} className="flex items-center gap-3">
-              <div className="relative w-11 h-11 bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="relative w-16 h-16 bg-surface-high rounded-lg overflow-hidden shrink-0">
                 {item.image ? (
-                  <Image src={item.image} alt={item.name} fill className="object-cover" sizes="44px" />
+                  <Image src={item.image} alt={item.name} fill className="object-cover" sizes="64px" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                    <Package size={14} />
+                    <Package size={18} />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-neutral-700 truncate">{item.name}</p>
-                <p className="text-xs text-neutral-400">× {item.quantity}</p>
+                <p className="text-sm font-medium text-neutral-800 truncate">{item.name}</p>
+                <div className="flex justify-between items-center mt-1">
+                  <span className="text-sm text-brand-primary font-medium">Qty: {item.quantity}</span>
+                  <span className="text-sm font-bold text-neutral-700">
+                    {(item.price * item.quantity).toLocaleString()} MRU
+                  </span>
+                </div>
               </div>
-              <p className="text-sm font-medium text-neutral-600">
-                {(item.price * item.quantity).toLocaleString()} MRU
-              </p>
             </div>
           ))}
         </div>
-        <div className="border-t border-neutral-100 mt-3 pt-3 flex justify-between font-bold text-neutral-800">
-          <span>Total</span>
-          <span>{order.grandTotal?.toLocaleString()} MRU</span>
+
+        <div className="border-t border-neutral-100 mt-4 pt-3 space-y-1.5">
+          <div className="flex justify-between text-sm text-neutral-500">
+            <span>Subtotal</span><span>{order.cartTotal?.toLocaleString()} MRU</span>
+          </div>
+          <div className="flex justify-between text-sm text-neutral-500">
+            <span>Delivery Fee</span>
+            <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
+          </div>
+          <div className="flex justify-between items-center pt-1">
+            <span className="text-base font-semibold text-neutral-800">Total Amount</span>
+            <span className="text-lg font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
+          </div>
         </div>
       </div>
 
-      {/* Action buttons */}
-      {order.status === 'confirmed' && (
-        <button
-          onClick={() => updateStatus('transit')}
-          disabled={updating}
-          className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white py-3.5 rounded-xl font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
-        >
-          <Truck size={18} />
-          {updating ? 'Updating…' : 'Mark In Transit'}
-        </button>
-      )}
-      {order.status === 'transit' && (
-        <button
-          onClick={() => updateStatus('delivered')}
-          disabled={updating}
-          className="w-full flex items-center justify-center gap-2 bg-success text-white py-3.5 rounded-xl font-semibold hover:opacity-90 disabled:opacity-60 transition"
-        >
-          <CheckCircle size={18} />
-          {updating ? 'Updating…' : 'Mark Delivered'}
-        </button>
+      {/* Sticky action */}
+      {(order.status === 'confirmed' || order.status === 'transit') && (
+        <div className="fixed bottom-16 sm:bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-t border-neutral-200/60 px-4 py-3">
+          <div className="max-w-2xl mx-auto">
+            {order.status === 'confirmed' && (
+              <button
+                onClick={() => updateStatus('transit')}
+                disabled={updating}
+                className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+              >
+                <Truck size={18} />
+                {updating ? 'Updating…' : 'Mark In Transit'}
+              </button>
+            )}
+            {order.status === 'transit' && (
+              <button
+                onClick={() => updateStatus('delivered')}
+                disabled={updating}
+                className="w-full flex items-center justify-center gap-2 bg-success text-white h-12 rounded-xl font-semibold hover:opacity-90 disabled:opacity-60 transition"
+              >
+                <CheckCircle size={18} />
+                {updating ? 'Updating…' : 'Mark Delivered'}
+              </button>
+            )}
+          </div>
+        </div>
       )}
     </div>
   )

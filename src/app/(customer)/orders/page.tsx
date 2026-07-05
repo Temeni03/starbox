@@ -1,16 +1,36 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import { ClipboardList, ChevronRight } from 'lucide-react'
+import Image from 'next/image'
+import { ClipboardList, ChevronRight, Package } from 'lucide-react'
 import useSWR from 'swr'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import type { OrderStatus } from '@/models/Order'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
+const FILTERS = [
+  { key: 'all', label: 'All Orders' },
+  { key: 'active', label: 'Active' },
+  { key: 'delivered', label: 'Delivered' },
+  { key: 'cancelled', label: 'Cancelled' },
+] as const
+
+type FilterKey = (typeof FILTERS)[number]['key']
+
+function matchesFilter(status: OrderStatus, filter: FilterKey) {
+  if (filter === 'all') return true
+  if (filter === 'active') return status === 'pending' || status === 'confirmed' || status === 'transit'
+  return status === filter
+}
+
 export default function OrdersPage() {
   const { data, isLoading } = useSWR('/api/orders', fetcher)
   const orders = data?.orders ?? []
+  const [filter, setFilter] = useState<FilterKey>('all')
+
+  const filteredOrders = orders.filter((order: any) => matchesFilter(order.status, filter))
 
   if (isLoading) {
     return (
@@ -39,38 +59,91 @@ export default function OrdersPage() {
 
   return (
     <div className="pb-20 sm:pb-6">
-      <h1 className="text-xl font-bold text-neutral-800 mb-4">My Orders</h1>
-      <div className="space-y-3">
-        {orders.map((order: any) => (
-          <Link
-            key={order._id}
-            href={`/orders/${order._id}`}
-            className="block bg-white rounded-xl border border-neutral-200 p-4 hover:shadow-sm transition"
+      <div className="mb-5">
+        <h1 className="text-2xl font-bold text-neutral-800">Order History</h1>
+        <p className="text-sm text-neutral-500 mt-0.5">Track and manage your purchases.</p>
+      </div>
+
+      <div className="flex gap-2 overflow-x-auto pb-2 mb-4 [scrollbar-width:none]">
+        {FILTERS.map(({ key, label }) => (
+          <button
+            key={key}
+            onClick={() => setFilter(key)}
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-semibold transition active:scale-95 ${
+              filter === key ? 'bg-brand-primary text-white' : 'bg-surface-high text-neutral-500'
+            }`}
           >
-            <div className="flex items-start justify-between gap-2">
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-neutral-800">{order.orderNumber}</p>
-                <p className="text-xs text-neutral-400 mt-0.5">
-                  {new Date(order.createdAt).toLocaleDateString('en-GB', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                  })}
-                  {' · '}
-                  {order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 flex-shrink-0">
-                <StatusBadge status={order.status as OrderStatus} />
-                <ChevronRight size={16} className="text-neutral-300" />
-              </div>
-            </div>
-            <div className="mt-2 text-sm font-bold text-brand-primary">
-              {order.grandTotal?.toLocaleString()} MRU
-            </div>
-          </Link>
+            {label}
+          </button>
         ))}
       </div>
+
+      {filteredOrders.length === 0 ? (
+        <div className="text-center py-16 text-neutral-400">
+          <p className="text-sm">No orders in this category</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {filteredOrders.map((order: any) => {
+            const thumbs = (order.items ?? []).slice(0, 3)
+            const extra = (order.items?.length ?? 0) - thumbs.length
+            return (
+              <Link
+                key={order._id}
+                href={`/orders/${order._id}`}
+                className="block bg-white rounded-xl border border-neutral-200 p-4 hover:shadow-md transition"
+              >
+                <div className="flex items-start justify-between gap-2 mb-3">
+                  <div className="min-w-0">
+                    <p className="text-xs text-neutral-400">{order.orderNumber}</p>
+                    <p className="text-sm font-semibold text-neutral-800 mt-0.5">
+                      {new Date(order.createdAt).toLocaleDateString('en-GB', {
+                        day: '2-digit',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <StatusBadge status={order.status as OrderStatus} />
+                    <ChevronRight size={16} className="text-neutral-300" />
+                  </div>
+                </div>
+
+                {thumbs.length > 0 && (
+                  <div className="flex gap-2 mb-3">
+                    {thumbs.map((item: any, idx: number) => (
+                      <div key={idx} className="relative shrink-0 w-14 h-14 rounded-lg overflow-hidden bg-surface-high">
+                        {item.image ? (
+                          <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
+                            <Package size={18} />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    {extra > 0 && (
+                      <div className="shrink-0 w-14 h-14 rounded-lg bg-surface-high border border-dashed border-neutral-300 flex items-center justify-center text-xs text-neutral-500">
+                        +{extra}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center pt-3 border-t border-neutral-100">
+                  <span className="text-sm text-neutral-500">
+                    Total ({order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''})
+                  </span>
+                  <span className="text-base font-bold text-brand-primary">
+                    {order.grandTotal?.toLocaleString()} MRU
+                  </span>
+                </div>
+              </Link>
+            )
+          })}
+        </div>
+      )}
     </div>
   )
 }

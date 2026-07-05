@@ -1,9 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { useSession } from 'next-auth/react'
-import { signOut } from 'next-auth/react'
-import { LogOut, User as UserIcon } from 'lucide-react'
+import Link from 'next/link'
+import { useSession, signOut } from 'next-auth/react'
+import { LogOut, User as UserIcon, ClipboardList, Bell, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import useSWR, { mutate } from 'swr'
 import toast from 'react-hot-toast'
@@ -62,31 +62,40 @@ export default function ProfilePage() {
     }
   }
 
+  const navItems = [
+    { href: '/orders', label: 'My Orders', icon: ClipboardList },
+    { href: '/notifications', label: 'Notifications', icon: Bell },
+  ]
+
   return (
-    <div className="pb-24 sm:pb-6 max-w-sm mx-auto space-y-4">
-      <h1 className="text-xl font-bold text-neutral-800 flex justify-center">Profile</h1>
-
-      {/* Avatar */}
-      <div className="flex flex-col items-center gap-3">
-        <div className="relative w-24 h-24 rounded-full bg-brand-light border border-neutral-200 overflow-hidden flex items-center justify-center">
-          {profileData?.profilePhoto ? (
-            <Image src={profileData.profilePhoto} alt={name} fill className="object-cover" sizes="96px" />
-          ) : (
-            <UserIcon size={40} className="text-brand-primary" />
-          )}
+    <div className="pb-24 sm:pb-6 max-w-sm mx-auto">
+      {/* Hero */}
+      <section className="mb-8 text-center">
+        <div className="relative inline-block mb-4">
+          <div className="w-24 h-24 rounded-full border-4 border-brand-container overflow-hidden mx-auto shadow-lg bg-brand-light flex items-center justify-center">
+            {profileData?.profilePhoto ? (
+              <Image src={profileData.profilePhoto} alt={name} fill className="object-cover" sizes="96px" />
+            ) : (
+              <UserIcon size={36} className="text-brand-primary" />
+            )}
+          </div>
         </div>
-        <ImageUploadButton type="profilePhoto" label="Change photo" onUploaded={handlePhotoUploaded} />
-      </div>
+        <h2 className="text-xl font-bold text-neutral-800">{session?.user?.name}</h2>
+        <p className="text-sm text-neutral-500 mb-3">{session?.user?.phone}</p>
+        <div className="flex justify-center">
+          <ImageUploadButton type="profilePhoto" label="Change photo" onUploaded={handlePhotoUploaded} />
+        </div>
+      </section>
 
-      {/* Form */}
-      <form onSubmit={handleSave} className="bg-white rounded-xl border border-neutral-200 p-4 space-y-4">
+      {/* Editable details */}
+      <form onSubmit={handleSave} className="bg-white rounded-xl border border-neutral-200 p-4 space-y-4 mb-4">
         <div>
           <label className="block text-sm font-medium text-neutral-700 mb-1">Full name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary transition"
+            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
           />
         </div>
 
@@ -100,25 +109,27 @@ export default function ProfilePage() {
             maxLength={8}
             title="8 digits starting with 2, 3 or 4"
             required
-            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary transition"
+            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
           />
         </div>
 
         <button
           type="submit"
           disabled={saving}
-          className="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-brand-secondary disabled:opacity-60 transition"
+          className="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
         >
           {saving ? 'Saving…' : 'Save Changes'}
         </button>
       </form>
 
+    
+
       <button
         onClick={() => signOut({ callbackUrl: '/login' })}
-        className="w-full flex items-center justify-center gap-2 bg-white border border-neutral-200 text-danger py-2.5 rounded-xl text-sm font-medium hover:bg-red-50 transition"
+        className="w-full h-12 flex items-center justify-center gap-2 border-2 border-danger/20 text-danger rounded-full font-semibold text-sm hover:bg-red-50 transition"
       >
         <LogOut size={16} />
-        Sign out
+        Logout
       </button>
     </div>
   )

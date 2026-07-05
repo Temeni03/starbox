@@ -3,7 +3,7 @@
 import { use } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { ProductForm } from '@/components/admin/ProductForm'
@@ -39,22 +39,36 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     router.push('/admin/products')
   }
 
+  async function handleDelete() {
+    const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' })
+    if (!res.ok) throw new Error('Failed to delete product')
+    toast.success('Product deleted')
+    router.push('/admin/products')
+  }
+
   if (isLoading) {
-    return <div className="animate-pulse space-y-4">
-      <div className="h-6 bg-neutral-200 rounded w-1/3" />
-      <div className="h-64 bg-white rounded-xl border border-neutral-200" />
-    </div>
+    return (
+      <div className="max-w-4xl animate-pulse space-y-4">
+        <div className="h-6 bg-neutral-200 rounded w-1/3" />
+        <div className="h-64 bg-white rounded-xl border border-neutral-200" />
+      </div>
+    )
   }
 
   const p = data?.product
   if (!p) return <div className="text-neutral-400">Product not found</div>
 
   return (
-    <div className="max-w-lg space-y-4">
-      <Link href="/admin/products" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> Back
-      </Link>
-      <h1 className="text-2xl font-bold text-neutral-800">Edit Product</h1>
+    <div className="max-w-4xl">
+      <nav className="flex items-center gap-1.5 text-xs text-neutral-400 mb-2">
+        <Link href="/admin" className="hover:text-brand-primary transition">Admin</Link>
+        <ChevronRight size={12} />
+        <Link href="/admin/products" className="hover:text-brand-primary transition">Products</Link>
+        <ChevronRight size={12} />
+        <span className="text-neutral-600">Edit Product</span>
+      </nav>
+      <h1 className="text-2xl font-bold text-neutral-800 mb-1">Manage Product</h1>
+      <p className="text-sm text-neutral-500 mb-6">Update this item&apos;s details and stock levels.</p>
       <ProductForm
         initialData={{
           name: p.name,
@@ -68,6 +82,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           isActive: p.isActive,
         }}
         onSubmit={handleSubmit}
+        onDelete={handleDelete}
         submitLabel="Save Changes"
       />
     </div>

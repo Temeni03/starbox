@@ -23,6 +23,13 @@ export default function AdminProductsPage() {
     return products.filter((p: any) => p.name?.toLowerCase().includes(q))
   }, [products, search])
 
+  const metrics = useMemo(() => {
+    const totalValue = products.reduce((sum: number, p: any) => sum + p.price * p.quantity, 0)
+    const lowStock = products.filter((p: any) => p.isActive && p.quantity > 0 && p.quantity <= p.lowStockThreshold).length
+    const outOfStock = products.filter((p: any) => p.quantity === 0).length
+    return { total: products.length, totalValue, lowStock, outOfStock }
+  }, [products])
+
   async function toggleActive(id: string, current: boolean) {
     try {
       await fetch(`/api/admin/products/${id}`, {
@@ -54,12 +61,15 @@ export default function AdminProductsPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6 pb-20 sm:pb-0">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-neutral-800">Products</h1>
+        <div>
+          <h1 className="text-2xl font-bold text-neutral-800">Inventory Management</h1>
+          <p className="text-sm text-neutral-500 mt-0.5">Manage your product catalog and stock levels.</p>
+        </div>
         <Link
           href="/admin/products/new"
-          className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
+          className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
         >
           <Plus size={16} />
           Add Product
@@ -67,102 +77,150 @@ export default function AdminProductsPage() {
       </div>
 
       <div className="relative">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search a product by name…"
-          className="w-full pl-9 pr-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+          placeholder="Search by product name…"
+          className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
         />
       </div>
 
-      <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+      {/* Metrics */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="bg-white p-5 rounded-2xl shadow-sm border border-neutral-200 flex flex-col gap-1">
+          <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Total Products</span>
+          <span className="text-2xl font-bold text-brand-primary">{metrics.total}</span>
+        </div>
+        <div className="bg-status-pending/10 p-5 rounded-2xl shadow-sm border border-status-pending/20 flex flex-col gap-1">
+          <span className="text-[10px] font-semibold text-status-pending uppercase tracking-wider">Low Stock Alerts</span>
+          <span className="text-2xl font-bold text-status-pending">{metrics.lowStock}</span>
+        </div>
+        <div className="bg-brand-container/20 p-5 rounded-2xl shadow-sm border border-brand-primary/10 flex flex-col gap-1">
+          <span className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">Total Value</span>
+          <span className="text-2xl font-bold text-brand-secondary">{metrics.totalValue.toLocaleString()} MRU</span>
+        </div>
+        <div className="bg-danger/10 p-5 rounded-2xl shadow-sm border border-danger/20 flex flex-col gap-1">
+          <span className="text-[10px] font-semibold text-danger uppercase tracking-wider">Out of Stock</span>
+          <span className="text-2xl font-bold text-danger">{metrics.outOfStock}</span>
+        </div>
+      </div>
+
+      {/* Product list */}
+      <div className="flex items-center justify-between">
+        <h2 className="text-sm font-semibold text-neutral-700">Product Catalog</h2>
+        <span className="text-xs text-neutral-400">
+          Showing {filteredProducts.length} of {products.length}
+        </span>
+      </div>
+
+      <div className="space-y-3">
         {isLoading ? (
-          <div className="divide-y divide-neutral-100">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="px-5 py-4 flex gap-3 animate-pulse">
-                <div className="w-12 h-12 bg-neutral-100 rounded-lg" />
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-neutral-100 rounded w-1/3" />
-                  <div className="h-3 bg-neutral-100 rounded w-1/5" />
-                </div>
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-neutral-200 px-5 py-4 flex gap-3 animate-pulse">
+              <div className="w-16 h-16 bg-neutral-100 rounded-xl" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 bg-neutral-100 rounded w-1/3" />
+                <div className="h-3 bg-neutral-100 rounded w-1/5" />
               </div>
-            ))}
-          </div>
+            </div>
+          ))
         ) : products.length === 0 ? (
-          <p className="px-5 py-12 text-center text-neutral-400">No products yet</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No products yet</p>
         ) : filteredProducts.length === 0 ? (
-          <p className="px-5 py-12 text-center text-neutral-400">No product matches &quot;{search}&quot;</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No product matches &quot;{search}&quot;</p>
         ) : (
-          <div className="divide-y divide-neutral-100">
-            {filteredProducts.map((p: any) => {
-              const lowStock = p.isActive && p.quantity <= p.lowStockThreshold
-              return (
-                <div key={p._id} className={`flex items-center gap-4 px-5 py-3 ${!p.isActive ? 'opacity-50' : ''}`}>
-                  <div className="relative w-12 h-12 bg-neutral-100 rounded-lg overflow-hidden flex-shrink-0">
-                    {p.images?.[0] ? (
-                      <Image src={p.images[0]} alt={p.name} fill className="object-cover" sizes="48px" />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                        <Package size={18} />
-                      </div>
+          filteredProducts.map((p: any) => {
+            const outOfStock = p.quantity === 0
+            const lowStock = p.isActive && !outOfStock && p.quantity <= p.lowStockThreshold
+            return (
+              <div
+                key={p._id}
+                className={`bg-white p-4 rounded-2xl shadow-sm border border-neutral-200 hover:border-brand-primary/40 transition-colors flex items-center gap-4 ${!p.isActive ? 'opacity-50' : ''}`}
+              >
+                <div className="relative w-16 h-16 rounded-xl bg-surface-high shrink-0 overflow-hidden">
+                  {p.images?.[0] ? (
+                    <Image src={p.images[0]} alt={p.name} fill className="object-cover" sizes="64px" />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
+                      <Package size={20} />
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex justify-between items-start gap-2">
+                    <h3 className="text-sm font-semibold text-neutral-800 truncate">{p.name}</h3>
+                    <span className="text-sm font-bold text-brand-primary whitespace-nowrap">
+                      {p.price.toLocaleString()} MRU
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                    <span className="text-xs text-neutral-500">
+                      Stock: <span className={`font-semibold ${outOfStock || lowStock ? 'text-danger' : 'text-neutral-700'}`}>{p.quantity} units</span>
+                    </span>
+                    {outOfStock && (
+                      <span className="px-2 py-0.5 bg-danger/10 text-danger text-[10px] font-bold rounded-full uppercase tracking-wide">
+                        Out of Stock
+                      </span>
+                    )}
+                    {lowStock && (
+                      <span className="px-2 py-0.5 bg-status-pending/10 text-status-pending text-[10px] font-bold rounded-full uppercase tracking-wide flex items-center gap-1">
+                        <AlertTriangle size={11} /> Low Stock
+                      </span>
+                    )}
+                    {!p.isActive && (
+                      <span className="px-2 py-0.5 bg-neutral-100 text-neutral-500 text-[10px] font-bold rounded-full uppercase tracking-wide">
+                        Hidden
+                      </span>
                     )}
                   </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm font-medium text-neutral-800 truncate">{p.name}</p>
-                      {lowStock && (
-                        <span className="flex items-center gap-0.5 text-warning text-xs">
-                          <AlertTriangle size={12} />
-                          Low
-                        </span>
-                      )}
-                      {!p.isActive && (
-                        <span className="text-xs text-neutral-400">Hidden</span>
-                      )}
-                    </div>
-                    <p className="text-xs text-neutral-400">
-                      {p.price.toLocaleString()} MRU · Qty: {p.quantity}
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2 flex-shrink-0">
-                    <Link
-                      href={`/admin/products/${p._id}/edit`}
-                      className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-neutral-50 rounded-lg transition"
-                      title="Edit"
-                    >
-                      <Pencil size={16} />
-                    </Link>
-                    <button
-                      onClick={() => toggleActive(p._id, p.isActive)}
-                      className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-neutral-50 rounded-lg transition"
-                      title={p.isActive ? 'Hide' : 'Show'}
-                    >
-                      {p.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
-                    </button>
-                    <button
-                      onClick={() => setProductToDelete({ _id: p._id, name: p.name })}
-                      className="p-2 text-neutral-400 hover:text-danger hover:bg-neutral-50 rounded-lg transition"
-                      title="Delete"
-                    >
-                      <Trash2 size={16} />
-                    </button>
-                  </div>
                 </div>
-              )
-            })}
-          </div>
+
+                <div className="flex items-center gap-1 shrink-0">
+                  <Link
+                    href={`/admin/products/${p._id}/edit`}
+                    className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
+                    title="Edit"
+                  >
+                    <Pencil size={16} />
+                  </Link>
+                  <button
+                    onClick={() => toggleActive(p._id, p.isActive)}
+                    className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
+                    title={p.isActive ? 'Hide' : 'Show'}
+                  >
+                    {p.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                  <button
+                    onClick={() => setProductToDelete({ _id: p._id, name: p.name })}
+                    className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
+                    title="Delete"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+              </div>
+            )
+          })
         )}
       </div>
+
+      {/* Mobile FAB */}
+      <Link
+        href="/admin/products/new"
+        className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-primary text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all z-40"
+        aria-label="Add product"
+      >
+        <Plus size={26} />
+      </Link>
 
       {productToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
           <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
                 <AlertTriangle size={20} />
               </div>
               <div>

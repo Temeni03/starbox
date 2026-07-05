@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Plus, User, Pencil, Trash2, Truck, AlertTriangle } from "lucide-react";
+import Image from "next/image";
+import { Plus, User, Pencil, Trash2, Truck, AlertTriangle, Search } from "lucide-react";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 
@@ -15,6 +16,15 @@ export default function AdminUsersPage() {
     fetcher,
   );
   const users = data?.users ?? [];
+  const [search, setSearch] = useState("");
+
+  const filteredUsers = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return users;
+    return users.filter((u: any) => u.name?.toLowerCase().includes(q) || u.phone?.includes(q));
+  }, [users, search]);
+
+  const activeCount = useMemo(() => users.filter((u: any) => u.isActive).length, [users]);
 
   const [editingUser, setEditingUser] = useState<any | null>(null);
   const [editForm, setEditForm] = useState({ name: "", phone: "" });
@@ -77,13 +87,46 @@ export default function AdminUsersPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5 pb-20 sm:pb-0">
+      <div>
+        <h1 className="text-2xl font-bold text-neutral-800">Personnel</h1>
+        <p className="text-sm text-neutral-500 mt-0.5">
+          Manage your {users.length} {tab === "customer" ? "registered customers" : "delivery partners"}.
+        </p>
+      </div>
+
+      <div className="relative">
+        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search by name or phone…"
+          className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
+        />
+      </div>
+
+      {/* Tabs */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-neutral-800">Users</h1>
+        <div className="flex gap-2">
+          {(["customer", "delivery"] as const).map((t) => (
+            <button
+              key={t}
+              onClick={() => setTab(t)}
+              className={`px-4 py-2 rounded-full text-sm font-semibold capitalize transition ${
+                tab === t
+                  ? "bg-brand-primary text-white"
+                  : "bg-white border border-neutral-200 text-neutral-500 hover:border-brand-primary"
+              }`}
+            >
+              {t === "customer" ? "Customers" : "Delivery Staff"}
+            </button>
+          ))}
+        </div>
         {tab === "delivery" && (
           <Link
             href="/admin/users/new-delivery"
-            className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
+            className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
           >
             <Plus size={16} />
             Add Delivery
@@ -91,89 +134,78 @@ export default function AdminUsersPage() {
         )}
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2">
-        {(["customer", "delivery"] as const).map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition ${
-              tab === t
-                ? "bg-brand-primary text-white"
-                : "bg-white border border-neutral-200 text-neutral-600 hover:border-brand-secondary"
-            }`}
-          >
-            {t === "customer" ? "Customers" : "Delivery Staff"}
-          </button>
-        ))}
+      {/* Stats */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-brand-container/15 p-4 rounded-2xl border border-brand-container/40">
+          <p className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">Active</p>
+          <p className="text-xl font-bold text-brand-primary">{activeCount} / {users.length}</p>
+        </div>
+        <div className="bg-surface-high p-4 rounded-2xl border border-neutral-200">
+          <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-wider">Total {tab === 'customer' ? 'Customers' : 'Staff'}</p>
+          <p className="text-xl font-bold text-neutral-800">{users.length}</p>
+        </div>
       </div>
 
-      <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+      <div className="space-y-3">
         {isLoading ? (
-          <div className="divide-y divide-neutral-100">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="px-5 py-4 animate-pulse flex gap-3">
-                <div className="w-9 h-9 bg-neutral-100 rounded-full" />
-                <div className="space-y-2 flex-1">
-                  <div className="h-4 bg-neutral-100 rounded w-1/3" />
-                  <div className="h-3 bg-neutral-100 rounded w-1/4" />
-                </div>
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-neutral-200 p-4 animate-pulse flex gap-3">
+              <div className="w-14 h-14 bg-neutral-100 rounded-full" />
+              <div className="space-y-2 flex-1">
+                <div className="h-4 bg-neutral-100 rounded w-1/3" />
+                <div className="h-3 bg-neutral-100 rounded w-1/4" />
               </div>
-            ))}
-          </div>
-        ) : users.length === 0 ? (
-          <p className="px-5 py-12 text-center text-neutral-400">
-            No {tab} users yet
+            </div>
+          ))
+        ) : filteredUsers.length === 0 ? (
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">
+            No {tab} users found
           </p>
         ) : (
-          <div className="divide-y divide-neutral-100">
-            {users.map((u: any) => (
-              <div key={u._id} className="flex items-center gap-3 px-5 py-3">
-                <div className="w-9 h-9 rounded-full bg-brand-light flex items-center justify-center flex-shrink-0">
-                  <User size={16} className="text-brand-primary" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-neutral-800">
-                    {u.name}
-                  </p>
-                  <p className="text-xs text-neutral-400">{u.phone}</p>
-                  
-                </div>
-                {tab === "delivery" && (
-                  <div
-                    className="flex items-center gap-1 text-xs text-neutral-500 flex-shrink-0"
-                    title="Completed deliveries"
-                  >
-                    <Truck size={14} />
-                    {u.deliveryCount ?? 0}
+          filteredUsers.map((u: any) => (
+            <div
+              key={u._id}
+              className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-4 flex items-center justify-between gap-3 hover:shadow-md transition-shadow"
+            >
+              <div className="flex items-center gap-4 min-w-0">
+                <div className="relative shrink-0">
+                  <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-brand-container bg-brand-light flex items-center justify-center">
+                    {u.profilePhoto ? (
+                      <Image src={u.profilePhoto} alt={u.name} width={56} height={56} className="object-cover w-full h-full" />
+                    ) : (
+                      <User size={22} className="text-brand-primary" />
+                    )}
                   </div>
-                )}
-                <div className="text-right flex-shrink-0">
-                  <p className="text-xs text-neutral-400">
-                    {new Date(u.createdAt).toLocaleDateString("en-GB", {
-                      day: "2-digit",
-                      month: "short",
-                      year: "numeric",
-                    })}
-                  </p>
-                  {!u.isActive && (
-                    <span className="text-xs text-danger">Inactive</span>
+                  <span className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${u.isActive ? 'bg-success' : 'bg-neutral-300'}`} />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="text-base font-bold text-neutral-800 truncate">{u.name}</h3>
+                  <p className="text-xs text-neutral-400">{u.phone}</p>
+                  {tab === "delivery" && (
+                    <div className="flex items-center gap-1 mt-1 text-xs text-neutral-500">
+                      <Truck size={13} className="text-brand-primary" />
+                      {u.deliveryCount ?? 0} completed deliveries
+                    </div>
                   )}
                 </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <span className={`px-3 py-1 rounded-full text-xs font-semibold ${u.isActive ? 'bg-success/10 text-success' : 'bg-neutral-100 text-neutral-500'}`}>
+                  {u.isActive ? 'Active' : 'Inactive'}
+                </span>
                 {tab === "delivery" && (
-                  <div className="flex items-center gap-1 flex-shrink-0">
+                  <div className="flex items-center gap-1">
                     <button
                       onClick={() => openEdit(u)}
-                      className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-neutral-50 rounded-lg transition"
+                      className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
                       title="Edit"
                     >
                       <Pencil size={16} />
                     </button>
                     <button
-                      onClick={() =>
-                        setUserToDelete({ _id: u._id, name: u.name })
-                      }
-                      className="p-2 text-neutral-400 hover:text-danger hover:bg-neutral-50 rounded-lg transition"
+                      onClick={() => setUserToDelete({ _id: u._id, name: u.name })}
+                      className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
                       title="Delete"
                     >
                       <Trash2 size={16} />
@@ -181,10 +213,20 @@ export default function AdminUsersPage() {
                   </div>
                 )}
               </div>
-            ))}
-          </div>
+            </div>
+          ))
         )}
       </div>
+
+      {tab === "delivery" && (
+        <Link
+          href="/admin/users/new-delivery"
+          className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-primary text-white rounded-2xl shadow-xl flex items-center justify-center active:scale-90 transition-all z-40"
+          aria-label="Add delivery staff"
+        >
+          <Plus size={26} />
+        </Link>
+      )}
 
       {editingUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
@@ -213,7 +255,7 @@ export default function AdminUsersPage() {
                   maxLength={maxLength}
                   title={title}
                   required
-                  className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                  className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
                 />
               </div>
             ))}
@@ -242,7 +284,7 @@ export default function AdminUsersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
           <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
                 <AlertTriangle size={20} />
               </div>
               <div>

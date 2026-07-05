@@ -1,28 +1,64 @@
 'use client'
 
 import Link from 'next/link'
-import { User, Truck } from 'lucide-react'
+import { usePathname } from 'next/navigation'
+import { User, Truck, Home, Bell } from 'lucide-react'
 import { NotificationBell } from '@/components/ui/NotificationBell'
 
+const links = [
+  { href: '/delivery', label: 'Home', icon: Home, exact: true },
+  { href: '/delivery/notifications', label: 'Alerts', icon: Bell },
+  { href: '/delivery/profile', label: 'Profile', icon: User },
+]
+
 export function DeliveryNav({ userName }: { userName: string }) {
+  const pathname = usePathname()
+
+  function isActive(href: string, exact?: boolean) {
+    return exact ? pathname === href : pathname.startsWith(href)
+  }
+
   return (
-    <header className="bg-brand-primary text-white sticky top-0 z-40">
-      <div className="container mx-auto px-4 max-w-2xl h-14 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+    <>
+      <header className="bg-white/80 backdrop-blur-md border-b border-neutral-200/60 sticky top-0 z-40">
+        <div className="container mx-auto px-4 max-w-2xl h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Truck size={20} />
-            <span className="font-bold text-lg">Delivery</span>
+            <Truck size={20} className="text-brand-primary" />
+            <span className="font-bold text-lg text-brand-primary">Starbox Delivery</span>
           </div>
-          <NotificationBell href="/delivery/notifications" className="text-white/70 hover:text-white transition" />
+          <div className="flex items-center gap-3">
+            <NotificationBell href="/delivery/notifications" className="text-brand-primary/70 hover:text-brand-primary transition hidden sm:inline-flex" />
+            <Link
+              href="/delivery/profile"
+              className="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-brand-primary transition"
+            >
+              <span className="hidden sm:block">{userName}</span>
+              <User size={20} />
+            </Link>
+          </div>
         </div>
-        <Link
-          href="/delivery/profile"
-          className="flex items-center gap-1.5 text-sm text-white/70 hover:text-white transition"
-        >
-          <span className="hidden sm:block">{userName}</span>
-          <User size={20} />
-        </Link>
-      </div>
-    </header>
+      </header>
+
+      {/* Bottom navigation (mobile) */}
+      <nav className="fixed bottom-0 inset-x-0 bg-white/80 backdrop-blur-md border-t border-neutral-200/60 z-40 sm:hidden safe-area-pb">
+        <div className="grid grid-cols-3 h-16 px-2">
+          {links.map(({ href, label, icon: Icon, exact }) => {
+            const active = isActive(href, exact)
+            return (
+              <Link key={href} href={href} className="flex items-center justify-center">
+                <span
+                  className={`flex flex-col items-center justify-center gap-0.5 px-4 py-1 rounded-full text-xs transition ${
+                    active ? 'bg-brand-container text-brand-secondary' : 'text-neutral-400'
+                  }`}
+                >
+                  <Icon size={22} strokeWidth={active ? 2.5 : 1.8} />
+                  <span>{label}</span>
+                </span>
+              </Link>
+            )
+          })}
+        </div>
+      </nav>
+    </>
   )
 }

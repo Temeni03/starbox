@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ChevronRight } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { ProductForm } from '@/components/admin/ProductForm'
 
@@ -34,11 +34,16 @@ export default function NewProductPage() {
   }
 
   return (
-    <div className="max-w-lg space-y-4">
-      <Link href="/admin/products" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> Back
-      </Link>
-      <h1 className="text-2xl font-bold text-neutral-800">Add Product</h1>
+    <div className="max-w-4xl">
+      <nav className="flex items-center gap-1.5 text-xs text-neutral-400 mb-2">
+        <Link href="/admin" className="hover:text-brand-primary transition">Admin</Link>
+        <ChevronRight size={12} />
+        <Link href="/admin/products" className="hover:text-brand-primary transition">Products</Link>
+        <ChevronRight size={12} />
+        <span className="text-neutral-600">New Product</span>
+      </nav>
+      <h1 className="text-2xl font-bold text-neutral-800 mb-1">Add Product</h1>
+      <p className="text-sm text-neutral-500 mb-6">Create a new luxury item for your catalog.</p>
       <ProductForm onSubmit={handleSubmit} submitLabel="Create Product" />
     </div>
   )

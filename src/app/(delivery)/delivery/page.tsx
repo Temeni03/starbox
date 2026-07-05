@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { MapPin, Phone, ChevronRight, Truck, CheckCircle } from 'lucide-react'
+import { MapPin, Phone, ChevronRight, Truck, CheckCircle, Store, Navigation, PackageCheck } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -22,6 +22,8 @@ export default function DeliveryDashboard() {
     fetcher,
     { refreshInterval: 20000 }
   )
+  const { data: activeData } = useSWR('/api/delivery/orders?filter=active', fetcher, { refreshInterval: 20000 })
+  const { data: completedData } = useSWR('/api/delivery/orders?filter=completed', fetcher)
   const orders = data?.orders ?? []
 
   async function updateStatus(orderId: string, status: 'transit' | 'delivered') {
@@ -40,8 +42,22 @@ export default function DeliveryDashboard() {
   }
 
   return (
-    <div className="space-y-4 pb-6">
-      <h1 className="text-xl font-bold text-neutral-800">My Orders</h1>
+    <div className="space-y-5 pb-6">
+      <h1 className="text-2xl font-bold text-neutral-800">My Deliveries</h1>
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="bg-white rounded-xl border border-neutral-200 p-4 flex flex-col gap-1">
+          <Truck size={18} className="text-brand-primary" />
+          <p className="text-2xl font-bold text-neutral-800">{activeData?.orders?.length ?? '…'}</p>
+          <p className="text-xs text-neutral-500">Active Deliveries</p>
+        </div>
+        <div className="bg-brand-container/20 rounded-xl border border-brand-primary/20 p-4 flex flex-col gap-1">
+          <PackageCheck size={18} className="text-brand-primary" />
+          <p className="text-2xl font-bold text-brand-primary">{completedData?.orders?.length ?? '…'}</p>
+          <p className="text-xs text-brand-secondary">Completed</p>
+        </div>
+      </div>
 
       {/* Tabs */}
       <div className="flex gap-2">
@@ -49,10 +65,10 @@ export default function DeliveryDashboard() {
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`px-4 py-2 rounded-full text-sm font-medium capitalize transition ${
+            className={`px-4 py-2 rounded-full text-sm font-semibold capitalize transition ${
               tab === t
                 ? 'bg-brand-primary text-white'
-                : 'bg-white border border-neutral-200 text-neutral-600 hover:border-brand-secondary'
+                : 'bg-white border border-neutral-200 text-neutral-500 hover:border-brand-primary'
             }`}
           >
             {t === 'active' ? 'Active' : 'Completed'}
@@ -63,7 +79,7 @@ export default function DeliveryDashboard() {
       {isLoading ? (
         <div className="space-y-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl border border-neutral-200 p-4 animate-pulse space-y-3">
+            <div key={i} className="bg-white rounded-2xl border border-neutral-200 p-4 animate-pulse space-y-3">
               <div className="h-4 bg-neutral-100 rounded w-1/3" />
               <div className="h-3 bg-neutral-100 rounded w-1/2" />
               <div className="h-9 bg-neutral-100 rounded-lg" />
@@ -71,7 +87,7 @@ export default function DeliveryDashboard() {
           ))}
         </div>
       ) : orders.length === 0 ? (
-        <div className="bg-white rounded-xl border border-neutral-200 p-12 text-center text-neutral-400">
+        <div className="bg-white rounded-2xl border border-neutral-200 p-12 text-center text-neutral-400">
           <Truck size={36} className="mx-auto mb-3 opacity-40" />
           <p>{tab === 'active' ? 'No active orders assigned to you' : 'No completed orders yet'}</p>
         </div>
@@ -79,41 +95,57 @@ export default function DeliveryDashboard() {
         <div className="space-y-3">
           {orders.map((order: any) => {
             const action = NEXT_ACTION[order.status]
+            const mapsUrl = order.deliveryAddress
+              ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.deliveryAddress)}`
+              : null
             return (
-              <div key={order._id} className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+              <div key={order._id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden shadow-sm">
                 {/* Header */}
-                <div className="flex items-start justify-between px-4 pt-4 pb-2">
-                  <div>
-                    <p className="text-sm font-bold text-neutral-800">{order.orderNumber}</p>
-                    <p className="text-xs text-neutral-400 mt-0.5">
-                      {new Date(order.createdAt).toLocaleDateString('en-GB', {
-                        day: '2-digit', month: 'short',
-                      })}
-                      {' · '}
-                      {order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''}
-                      {' · '}
-                      <span className="font-medium text-neutral-600">{order.grandTotal?.toLocaleString()} MRU</span>
+                <div className="flex gap-3 px-4 pt-4 pb-3">
+                  <div className="w-12 h-12 rounded-xl bg-brand-light flex items-center justify-center shrink-0">
+                    {order.deliveryOption === 'pickup' ? (
+                      <Store size={20} className="text-brand-primary" />
+                    ) : (
+                      <Truck size={20} className="text-brand-primary" />
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <p className="text-base font-bold text-neutral-800 truncate">{order.customer?.name}</p>
+                      <StatusBadge status={order.status as OrderStatus} />
+                    </div>
+                    <p className="text-xs text-neutral-400">
+                      {order.orderNumber} · {new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+                      {' · '}{order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''}
+                      {' · '}<span className="font-medium text-neutral-600">{order.grandTotal?.toLocaleString()} MRU</span>
                     </p>
                   </div>
-                  <StatusBadge status={order.status as OrderStatus} />
                 </div>
 
                 {/* Customer info */}
                 <div className="px-4 py-2 space-y-1.5 border-t border-neutral-100">
                   <div className="flex items-center gap-2 text-sm text-neutral-600">
-                    <Phone size={14} className="text-neutral-400 flex-shrink-0" />
-                    <span className="font-medium">{order.customer?.name}</span>
-                    <a
-                      href={`tel:${order.customer?.phone}`}
-                      className="text-brand-secondary hover:underline"
-                    >
+                    <Phone size={14} className="text-neutral-400 shrink-0" />
+                    <a href={`tel:${order.customer?.phone}`} className="text-brand-primary hover:underline">
                       {order.customer?.phone}
                     </a>
                   </div>
                   {order.deliveryAddress && (
-                    <div className="flex items-start gap-2 text-sm text-neutral-600">
-                      <MapPin size={14} className="text-neutral-400 flex-shrink-0 mt-0.5" />
-                      <span>{order.deliveryAddress}</span>
+                    <div className="flex items-start justify-between gap-2 text-sm text-neutral-600">
+                      <div className="flex items-start gap-2">
+                        <MapPin size={14} className="text-neutral-400 shrink-0 mt-0.5" />
+                        <span>{order.deliveryAddress}</span>
+                      </div>
+                      {mapsUrl && (
+                        <a
+                          href={mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-xs font-semibold text-brand-primary shrink-0"
+                        >
+                          <Navigation size={13} /> Navigate
+                        </a>
+                      )}
                     </div>
                   )}
                   {order.deliveryOption === 'pickup' && (
@@ -141,7 +173,7 @@ export default function DeliveryDashboard() {
                   )}
                   <Link
                     href={`/delivery/orders/${order._id}`}
-                    className="flex items-center justify-center w-10 h-10 border border-neutral-200 rounded-lg text-neutral-400 hover:text-brand-primary hover:border-brand-secondary transition"
+                    className="flex items-center justify-center w-10 h-10 border border-neutral-200 rounded-lg text-neutral-400 hover:text-brand-primary hover:border-brand-primary transition"
                     title="View details"
                   >
                     <ChevronRight size={18} />

@@ -1,11 +1,12 @@
+import { Clock, CheckCircle2, Truck, PackageCheck, XCircle } from 'lucide-react'
 import type { OrderStatus } from '@/models/Order'
 
 const styles: Record<OrderStatus, string> = {
-  pending:   'bg-yellow-100 text-yellow-800',
-  confirmed: 'bg-blue-100 text-blue-800',
-  transit:   'bg-purple-100 text-purple-800',
-  delivered: 'bg-green-100 text-green-800',
-  cancelled: 'bg-red-100 text-red-800',
+  pending:   'bg-status-pending/15 text-status-pending',
+  confirmed: 'bg-status-confirmed/15 text-status-confirmed',
+  transit:   'bg-status-transit/15 text-status-transit',
+  delivered: 'bg-status-delivered/15 text-status-delivered',
+  cancelled: 'bg-status-cancelled/15 text-status-cancelled',
 }
 
 const labels: Record<OrderStatus, string> = {
@@ -16,9 +17,19 @@ const labels: Record<OrderStatus, string> = {
   cancelled: 'Cancelled',
 }
 
+const icons: Record<OrderStatus, typeof Clock> = {
+  pending: Clock,
+  confirmed: CheckCircle2,
+  transit: Truck,
+  delivered: PackageCheck,
+  cancelled: XCircle,
+}
+
 export function StatusBadge({ status }: { status: OrderStatus }) {
+  const Icon = icons[status]
   return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status]}`}>
+    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${styles[status]}`}>
+      <Icon size={13} />
       {labels[status]}
     </span>
   )

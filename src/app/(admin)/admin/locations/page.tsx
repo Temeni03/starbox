@@ -136,77 +136,73 @@ export default function AdminLocationsPage() {
       </div>
 
       <div className="relative">
-        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search a location by name…"
-          className="w-full pl-9 pr-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+          className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
         />
       </div>
 
-      <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+      <div className="space-y-3">
         {isLoading ? (
-          <div className="divide-y divide-neutral-100">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="px-5 py-4 flex gap-3 animate-pulse">
-                <div className="w-10 h-10 bg-neutral-100 rounded-lg" />
-                <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-neutral-100 rounded w-1/3" />
-                  <div className="h-3 bg-neutral-100 rounded w-1/5" />
-                </div>
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-neutral-200 px-5 py-4 flex gap-3 animate-pulse">
+              <div className="w-10 h-10 bg-neutral-100 rounded-lg" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 bg-neutral-100 rounded w-1/3" />
+                <div className="h-3 bg-neutral-100 rounded w-1/5" />
               </div>
-            ))}
-          </div>
+            </div>
+          ))
         ) : locations.length === 0 ? (
-          <p className="px-5 py-12 text-center text-neutral-400">No delivery locations yet</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No delivery locations yet</p>
         ) : filteredLocations.length === 0 ? (
-          <p className="px-5 py-12 text-center text-neutral-400">No location matches &quot;{search}&quot;</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No location matches &quot;{search}&quot;</p>
         ) : (
-          <div className="divide-y divide-neutral-100">
-            {filteredLocations.map((l) => (
-              <div key={l._id} className={`flex items-center gap-4 px-5 py-3 ${!l.isActive ? 'opacity-50' : ''}`}>
-                <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center flex-shrink-0 text-neutral-400">
-                  <MapPin size={18} />
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm font-medium text-neutral-800 truncate">
-                      {l.nameFr} <span dir="rtl" className="text-neutral-500">— {l.nameAr}</span>
-                    </p>
-                    {!l.isActive && <span className="text-xs text-neutral-400">Hidden</span>}
-                  </div>
-                  <p className="text-xs text-neutral-400">{l.price.toLocaleString()} MRU</p>
-                </div>
-
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <button
-                    onClick={() => openEditForm(l)}
-                    className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-neutral-50 rounded-lg transition"
-                    title="Edit"
-                  >
-                    <Pencil size={16} />
-                  </button>
-                  <button
-                    onClick={() => toggleActive(l)}
-                    className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-neutral-50 rounded-lg transition"
-                    title={l.isActive ? 'Hide' : 'Show'}
-                  >
-                    {l.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
-                  </button>
-                  <button
-                    onClick={() => setLocationToDelete(l)}
-                    className="p-2 text-neutral-400 hover:text-danger hover:bg-neutral-50 rounded-lg transition"
-                    title="Delete"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
+          filteredLocations.map((l) => (
+            <div key={l._id} className={`bg-white rounded-2xl border border-neutral-200 flex items-center gap-4 px-5 py-3.5 ${!l.isActive ? 'opacity-50' : ''}`}>
+              <div className="w-11 h-11 rounded-xl bg-brand-container/20 flex items-center justify-center shrink-0 text-brand-primary">
+                <MapPin size={18} />
               </div>
-            ))}
-          </div>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-semibold text-neutral-800 truncate">
+                    {l.nameFr} <span dir="rtl" className="text-neutral-500 font-normal">— {l.nameAr}</span>
+                  </p>
+                  {!l.isActive && <span className="text-xs text-neutral-400">Hidden</span>}
+                </div>
+                <p className="text-xs text-neutral-400">{l.price.toLocaleString()} MRU</p>
+              </div>
+
+              <div className="flex items-center gap-1 shrink-0">
+                <button
+                  onClick={() => openEditForm(l)}
+                  className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
+                  title="Edit"
+                >
+                  <Pencil size={16} />
+                </button>
+                <button
+                  onClick={() => toggleActive(l)}
+                  className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
+                  title={l.isActive ? 'Hide' : 'Show'}
+                >
+                  {l.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+                <button
+                  onClick={() => setLocationToDelete(l)}
+                  className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
+                  title="Delete"
+                >
+                  <Trash2 size={16} />
+                </button>
+              </div>
+            </div>
+          ))
         )}
       </div>
 
@@ -235,7 +231,7 @@ export default function AdminLocationsPage() {
                   value={form.nameFr}
                   onChange={(e) => setForm((f) => ({ ...f, nameFr: e.target.value }))}
                   placeholder="e.g. Ksar"
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
                 />
               </div>
               <div>
@@ -248,7 +244,7 @@ export default function AdminLocationsPage() {
                   value={form.nameAr}
                   onChange={(e) => setForm((f) => ({ ...f, nameAr: e.target.value }))}
                   placeholder="مثال: الكصر"
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
                 />
               </div>
               <div>
@@ -261,7 +257,7 @@ export default function AdminLocationsPage() {
                   value={form.price}
                   onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
                   placeholder="e.g. 150"
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
                 />
               </div>
             </div>

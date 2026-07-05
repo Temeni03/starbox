@@ -18,9 +18,9 @@ function timeAgo(dateStr: string) {
 
 function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: string) => void }) {
   const content = (
-    <div className="flex items-start gap-3 px-4 py-3">
+    <div className={`flex items-start gap-3 px-4 py-3 ${n.read ? '' : 'bg-brand-light/30'}`}>
       <span
-        className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${n.read ? 'bg-transparent' : 'bg-brand-primary'}`}
+        className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${n.read ? 'bg-transparent' : 'bg-brand-primary'}`}
       />
       <div className="flex-1 min-w-0">
         <p className={`text-sm ${n.read ? 'text-neutral-600' : 'font-semibold text-neutral-800'}`}>
@@ -38,13 +38,13 @@ function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: strin
 
   if (n.url) {
     return (
-      <Link href={n.url} onClick={handleClick} className="block hover:bg-neutral-50 transition">
+      <Link href={n.url} onClick={handleClick} className="block hover:bg-brand-light/50 transition">
         {content}
       </Link>
     )
   }
   return (
-    <button onClick={handleClick} className="block w-full text-left hover:bg-neutral-50 transition">
+    <button onClick={handleClick} className="block w-full text-left hover:bg-brand-light/50 transition">
       {content}
     </button>
   )
@@ -56,9 +56,9 @@ export function NotificationsList() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold text-neutral-800">Notifications</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">Notifications</h1>
         {unreadCount > 0 && (
-          <button onClick={markAllAsRead} className="text-sm text-brand-secondary hover:underline">
+          <button onClick={markAllAsRead} className="text-sm font-medium text-brand-primary hover:underline">
             Mark all as read
           </button>
         )}
@@ -76,7 +76,7 @@ export function NotificationsList() {
           </div>
         ) : notifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-neutral-400">
-            <Bell size={40} className="mb-3 opacity-50" />
+            <Bell size={40} className="mb-3 text-brand-primary/40" />
             <p className="text-sm">No notifications yet</p>
           </div>
         ) : (

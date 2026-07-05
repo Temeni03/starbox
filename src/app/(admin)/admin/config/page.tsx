@@ -79,7 +79,7 @@ export default function AdminConfigPage() {
           ))}
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-4">
           {fields.map(({ key, label, type, hint }) => (
             <div key={key}>
               <label className="block text-sm font-medium text-neutral-700 mb-1">{label}</label>
@@ -87,7 +87,7 @@ export default function AdminConfigPage() {
                 type={type}
                 value={form[key as keyof typeof form]}
                 onChange={(e) => setForm((prev) => ({ ...prev, [key]: e.target.value }))}
-                className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-secondary"
+                className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
               />
               <p className="text-xs text-neutral-400 mt-1">{hint}</p>
             </div>
@@ -96,7 +96,7 @@ export default function AdminConfigPage() {
           <button
             type="submit"
             disabled={saving}
-            className="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-medium hover:bg-brand-secondary disabled:opacity-60 transition"
+            className="w-full h-12 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
           >
             {saving ? 'Saving…' : 'Save Settings'}
           </button>

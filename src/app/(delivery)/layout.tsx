@@ -7,9 +7,9 @@ export default async function DeliveryLayout({ children }: { children: React.Rea
   if (!session || session.user.role !== 'delivery') redirect('/login')
 
   return (
-    <div className="min-h-screen bg-neutral-100 flex flex-col">
+    <div className="min-h-screen bg-surface-low flex flex-col">
       <DeliveryNav userName={session.user.name} />
-      <main className="flex-1 container mx-auto px-4 py-4 max-w-2xl">{children}</main>
+      <main className="flex-1 container mx-auto px-4 py-4 pb-24 sm:pb-4 max-w-2xl">{children}</main>
     </div>
   )
 }
