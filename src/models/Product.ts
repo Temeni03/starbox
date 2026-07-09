@@ -1,10 +1,11 @@
 import mongoose, { Schema, Document } from 'mongoose'
+import { LocalizedTextSchema, hasLocalizedText, type LocalizedText } from './LocalizedText'
 
 export interface IProduct extends Document {
-  name: string
+  name: LocalizedText
   price: number
-  description?: string
-  usageInstructions?: string
+  description?: LocalizedText
+  usageInstructions?: LocalizedText
   images: string[]
   video?: string
   quantity: number
@@ -16,10 +17,17 @@ export interface IProduct extends Document {
 
 const ProductSchema = new Schema<IProduct>(
   {
-    name: { type: String, required: true, trim: true, maxlength: 100 },
+    name: {
+      type: LocalizedTextSchema,
+      required: true,
+      validate: {
+        validator: hasLocalizedText,
+        message: 'Product name is required in at least one language',
+      },
+    },
     price: { type: Number, required: true, min: 0 },
-    description: { type: String, trim: true },
-    usageInstructions: { type: String, trim: true },
+    description: { type: LocalizedTextSchema },
+    usageInstructions: { type: LocalizedTextSchema },
     images: [{ type: String }],
     video: { type: String },
     quantity: { type: Number, required: true, default: 0, min: 0 },
@@ -32,7 +40,14 @@ const ProductSchema = new Schema<IProduct>(
   { timestamps: true }
 )
 
-ProductSchema.index({ name: 'text', description: 'text' })
+ProductSchema.index({
+  'name.ar': 'text',
+  'name.fr': 'text',
+  'name.en': 'text',
+  'description.ar': 'text',
+  'description.fr': 'text',
+  'description.en': 'text',
+})
 ProductSchema.index({ isActive: 1 })
 ProductSchema.index({ quantity: 1 })
 

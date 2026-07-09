@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { ShoppingCart, Package } from 'lucide-react'
 import toast from 'react-hot-toast'
 import type { Product } from '@/hooks/useProducts'
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export function ProductCard({ product, onAddToCart }: Props) {
+  const t = useTranslations('common')
+  const tProduct = useTranslations('product')
   const [loading, setLoading] = useState(false)
   const outOfStock = product.quantity === 0
   const lowStock = !outOfStock && product.quantity <= product.lowStockThreshold
@@ -24,9 +27,9 @@ export function ProductCard({ product, onAddToCart }: Props) {
     setLoading(true)
     try {
       await onAddToCart(product._id)
-      toast.success('Added to cart')
+      toast.success(t('addedToCart'))
     } catch (err: any) {
-      toast.error(err.message ?? 'Failed to add')
+      toast.error(err.message ?? t('addToCartError'))
     } finally {
       setLoading(false)
     }
@@ -51,19 +54,19 @@ export function ProductCard({ product, onAddToCart }: Props) {
         {outOfStock && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
             <span className="bg-white text-neutral-800 text-xs font-semibold px-2 py-1 rounded">
-              Out of stock
+              {t('outOfStock')}
             </span>
           </div>
         )}
         {lowStock && (
           <span className="absolute top-3 left-3 bg-warning text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">
-            Low stock
+            {t('lowStock')}
           </span>
         )}
         <button
           onClick={handleAdd}
           disabled={outOfStock || loading}
-          aria-label="Add to cart"
+          aria-label={tProduct('addToCartAria')}
           className="absolute bottom-3 right-3 w-10 h-10 bg-brand-primary text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed transition-transform"
         >
           <ShoppingCart size={18} />

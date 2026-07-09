@@ -3,12 +3,13 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Product } from '@/models/Product'
+import { localizedNameSchema, localizedTextSchema } from '@/lib/localizedSchema'
 
 const ProductSchema = z.object({
-  name: z.string().min(1).max(100).trim(),
+  name: localizedNameSchema,
   price: z.number().min(0),
-  description: z.string().trim().optional(),
-  usageInstructions: z.string().trim().optional(),
+  description: localizedTextSchema.optional(),
+  usageInstructions: localizedTextSchema.optional(),
   images: z.array(z.string().url()).optional(),
   video: z.string().url().optional(),
   quantity: z.number().int().min(0),

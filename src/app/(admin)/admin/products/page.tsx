@@ -3,13 +3,19 @@
 import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
 import { Plus, Pencil, EyeOff, Eye, Trash2, Search, Package, AlertTriangle } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
+import { resolveLocalized } from '@/lib/resolveLocalized'
+import type { Locale } from '@/i18n/config'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export default function AdminProductsPage() {
+  const t = useTranslations('adminProducts')
+  const tCommon = useTranslations('common')
+  const locale = useLocale() as Locale
   const { data, isLoading, mutate } = useSWR('/api/admin/products', fetcher)
   const products = data?.products ?? []
 
@@ -20,7 +26,9 @@ export default function AdminProductsPage() {
   const filteredProducts = useMemo(() => {
     const q = search.trim().toLowerCase()
     if (!q) return products
-    return products.filter((p: any) => p.name?.toLowerCase().includes(q))
+    return products.filter((p: any) =>
+      [p.name?.ar, p.name?.fr, p.name?.en].some((v) => v?.toLowerCase().includes(q))
+    )
   }, [products, search])
 
   const metrics = useMemo(() => {
@@ -38,9 +46,9 @@ export default function AdminProductsPage() {
         body: JSON.stringify({ isActive: !current }),
       })
       mutate()
-      toast.success(current ? 'Product hidden' : 'Product activated')
+      toast.success(current ? t('productHidden') : t('productActivated'))
     } catch {
-      toast.error('Failed to update product')
+      toast.error(t('updateError'))
     }
   }
 
@@ -51,10 +59,10 @@ export default function AdminProductsPage() {
       const res = await fetch(`/api/admin/products/${productToDelete._id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error()
       mutate()
-      toast.success('Product deleted')
+      toast.success(t('productDeleted'))
       setProductToDelete(null)
     } catch {
-      toast.error('Failed to delete product')
+      toast.error(t('deleteError'))
     } finally {
       setDeleting(false)
     }
@@ -64,15 +72,15 @@ export default function AdminProductsPage() {
     <div className="space-y-6 pb-20 sm:pb-0">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">Inventory Management</h1>
-          <p className="text-sm text-neutral-500 mt-0.5">Manage your product catalog and stock levels.</p>
+          <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+          <p className="text-sm text-neutral-500 mt-0.5">{t('subtitle')}</p>
         </div>
         <Link
           href="/admin/products/new"
           className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
         >
           <Plus size={16} />
-          Add Product
+          {t('addProduct')}
         </Link>
       </div>
 
@@ -82,7 +90,7 @@ export default function AdminProductsPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by product name…"
+          placeholder={t('searchPlaceholder')}
           className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
         />
       </div>
@@ -90,28 +98,28 @@ export default function AdminProductsPage() {
       {/* Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-neutral-200 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Total Products</span>
+          <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">{t('totalProducts')}</span>
           <span className="text-2xl font-bold text-brand-primary">{metrics.total}</span>
         </div>
         <div className="bg-status-pending/10 p-5 rounded-2xl shadow-sm border border-status-pending/20 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-status-pending uppercase tracking-wider">Low Stock Alerts</span>
+          <span className="text-[10px] font-semibold text-status-pending uppercase tracking-wider">{t('lowStockAlerts')}</span>
           <span className="text-2xl font-bold text-status-pending">{metrics.lowStock}</span>
         </div>
         <div className="bg-brand-container/20 p-5 rounded-2xl shadow-sm border border-brand-primary/10 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">Total Value</span>
+          <span className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">{t('totalValue')}</span>
           <span className="text-2xl font-bold text-brand-secondary">{metrics.totalValue.toLocaleString()} MRU</span>
         </div>
         <div className="bg-danger/10 p-5 rounded-2xl shadow-sm border border-danger/20 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-danger uppercase tracking-wider">Out of Stock</span>
+          <span className="text-[10px] font-semibold text-danger uppercase tracking-wider">{t('outOfStock')}</span>
           <span className="text-2xl font-bold text-danger">{metrics.outOfStock}</span>
         </div>
       </div>
 
       {/* Product list */}
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-neutral-700">Product Catalog</h2>
+        <h2 className="text-sm font-semibold text-neutral-700">{t('catalog')}</h2>
         <span className="text-xs text-neutral-400">
-          Showing {filteredProducts.length} of {products.length}
+          {t('showingCount', { shown: filteredProducts.length, total: products.length })}
         </span>
       </div>
 
@@ -127,13 +135,14 @@ export default function AdminProductsPage() {
             </div>
           ))
         ) : products.length === 0 ? (
-          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No products yet</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noProductsYet')}</p>
         ) : filteredProducts.length === 0 ? (
-          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No product matches &quot;{search}&quot;</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noMatch', { query: search })}</p>
         ) : (
           filteredProducts.map((p: any) => {
             const outOfStock = p.quantity === 0
             const lowStock = p.isActive && !outOfStock && p.quantity <= p.lowStockThreshold
+            const name = resolveLocalized(p.name, locale)
             return (
               <div
                 key={p._id}
@@ -141,7 +150,7 @@ export default function AdminProductsPage() {
               >
                 <div className="relative w-16 h-16 rounded-xl bg-surface-high shrink-0 overflow-hidden">
                   {p.images?.[0] ? (
-                    <Image src={p.images[0]} alt={p.name} fill className="object-cover" sizes="64px" />
+                    <Image src={p.images[0]} alt={name} fill className="object-cover" sizes="64px" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
                       <Package size={20} />
@@ -151,28 +160,28 @@ export default function AdminProductsPage() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start gap-2">
-                    <h3 className="text-sm font-semibold text-neutral-800 truncate">{p.name}</h3>
+                    <h3 className="text-sm font-semibold text-neutral-800 truncate">{name}</h3>
                     <span className="text-sm font-bold text-brand-primary whitespace-nowrap">
                       {p.price.toLocaleString()} MRU
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                     <span className="text-xs text-neutral-500">
-                      Stock: <span className={`font-semibold ${outOfStock || lowStock ? 'text-danger' : 'text-neutral-700'}`}>{p.quantity} units</span>
+                      {t('stock')}: <span className={`font-semibold ${outOfStock || lowStock ? 'text-danger' : 'text-neutral-700'}`}>{p.quantity} {t('units')}</span>
                     </span>
                     {outOfStock && (
                       <span className="px-2 py-0.5 bg-danger/10 text-danger text-[10px] font-bold rounded-full uppercase tracking-wide">
-                        Out of Stock
+                        {t('outOfStock')}
                       </span>
                     )}
                     {lowStock && (
                       <span className="px-2 py-0.5 bg-status-pending/10 text-status-pending text-[10px] font-bold rounded-full uppercase tracking-wide flex items-center gap-1">
-                        <AlertTriangle size={11} /> Low Stock
+                        <AlertTriangle size={11} /> {t('lowStockBadge')}
                       </span>
                     )}
                     {!p.isActive && (
                       <span className="px-2 py-0.5 bg-neutral-100 text-neutral-500 text-[10px] font-bold rounded-full uppercase tracking-wide">
-                        Hidden
+                        {t('hiddenBadge')}
                       </span>
                     )}
                   </div>
@@ -182,21 +191,21 @@ export default function AdminProductsPage() {
                   <Link
                     href={`/admin/products/${p._id}/edit`}
                     className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
-                    title="Edit"
+                    title={tCommon('edit')}
                   >
                     <Pencil size={16} />
                   </Link>
                   <button
                     onClick={() => toggleActive(p._id, p.isActive)}
                     className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
-                    title={p.isActive ? 'Hide' : 'Show'}
+                    title={p.isActive ? t('hide') : t('show')}
                   >
                     {p.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                   <button
-                    onClick={() => setProductToDelete({ _id: p._id, name: p.name })}
+                    onClick={() => setProductToDelete({ _id: p._id, name })}
                     className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
-                    title="Delete"
+                    title={tCommon('delete')}
                   >
                     <Trash2 size={16} />
                   </button>
@@ -211,7 +220,7 @@ export default function AdminProductsPage() {
       <Link
         href="/admin/products/new"
         className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-primary text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all z-40"
-        aria-label="Add product"
+        aria-label={t('addProductAria')}
       >
         <Plus size={26} />
       </Link>
@@ -224,9 +233,9 @@ export default function AdminProductsPage() {
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">Delete product</h2>
+                <h2 className="font-semibold text-neutral-800">{t('deleteTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">
-                  Are you sure you want to delete <span className="font-medium text-neutral-700">{productToDelete.name}</span>? This action cannot be undone.
+                  {t('deleteConfirm', { name: productToDelete.name })}
                 </p>
               </div>
             </div>
@@ -236,14 +245,14 @@ export default function AdminProductsPage() {
                 disabled={deleting}
                 className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
-                Cancel
+                {tCommon('cancel')}
               </button>
               <button
                 onClick={deleteProduct}
                 disabled={deleting}
                 className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
-                {deleting ? 'Deleting…' : 'Delete'}
+                {deleting ? t('deleting') : tCommon('delete')}
               </button>
             </div>
           </div>

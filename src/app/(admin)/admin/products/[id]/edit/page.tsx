@@ -3,6 +3,7 @@
 import { use } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { ChevronRight } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
@@ -12,6 +13,8 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export default function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
+  const t = useTranslations('productForm')
+  const tAdminProducts = useTranslations('adminProducts')
   const router = useRouter()
   const { data, isLoading } = useSWR(`/api/admin/products/${id}`, fetcher)
 
@@ -33,16 +36,16 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
     })
     if (!res.ok) {
       const d = await res.json()
-      throw new Error(d.error ?? 'Failed to update product')
+      throw new Error(d.error ?? t('updateError2'))
     }
-    toast.success('Product updated')
+    toast.success(t('updated'))
     router.push('/admin/products')
   }
 
   async function handleDelete() {
     const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' })
-    if (!res.ok) throw new Error('Failed to delete product')
-    toast.success('Product deleted')
+    if (!res.ok) throw new Error(tAdminProducts('deleteError'))
+    toast.success(tAdminProducts('productDeleted'))
     router.push('/admin/products')
   }
 
@@ -56,25 +59,25 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
   }
 
   const p = data?.product
-  if (!p) return <div className="text-neutral-400">Product not found</div>
+  if (!p) return <div className="text-neutral-400">{t('notFound')}</div>
 
   return (
     <div className="max-w-4xl">
       <nav className="flex items-center gap-1.5 text-xs text-neutral-400 mb-2">
-        <Link href="/admin" className="hover:text-brand-primary transition">Admin</Link>
+        <Link href="/admin" className="hover:text-brand-primary transition">{t('breadcrumbAdmin')}</Link>
         <ChevronRight size={12} />
-        <Link href="/admin/products" className="hover:text-brand-primary transition">Products</Link>
+        <Link href="/admin/products" className="hover:text-brand-primary transition">{t('breadcrumbProducts')}</Link>
         <ChevronRight size={12} />
-        <span className="text-neutral-600">Edit Product</span>
+        <span className="text-neutral-600">{t('editProduct')}</span>
       </nav>
-      <h1 className="text-2xl font-bold text-neutral-800 mb-1">Manage Product</h1>
-      <p className="text-sm text-neutral-500 mb-6">Update this item&apos;s details and stock levels.</p>
+      <h1 className="text-2xl font-bold text-neutral-800 mb-1">{t('editTitle')}</h1>
+      <p className="text-sm text-neutral-500 mb-6">{t('editSubtitle')}</p>
       <ProductForm
         initialData={{
-          name: p.name,
+          name: p.name ?? {},
           price: String(p.price),
-          description: p.description ?? '',
-          usageInstructions: p.usageInstructions ?? '',
+          description: p.description ?? {},
+          usageInstructions: p.usageInstructions ?? {},
           quantity: String(p.quantity),
           lowStockThreshold: String(p.lowStockThreshold),
           images: p.images ?? [],
@@ -83,7 +86,7 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
         }}
         onSubmit={handleSubmit}
         onDelete={handleDelete}
-        submitLabel="Save Changes"
+        submitLabel={t('saveLabel')}
       />
     </div>
   )

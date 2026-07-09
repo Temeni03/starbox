@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
-import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Location } from '@/models/Location'
+import { localizedNameSchema } from '@/lib/localizedSchema'
+import { z } from 'zod'
 
 const LocationSchema = z.object({
-  nameAr: z.string().min(1).trim(),
-  nameFr: z.string().min(1).trim(),
+  name: localizedNameSchema,
   price: z.number().min(0),
   isActive: z.boolean().optional(),
 })
@@ -18,7 +18,7 @@ export async function GET() {
   }
 
   await connectDB()
-  const locations = await Location.find({}).sort({ nameFr: 1 }).lean()
+  const locations = await Location.find({}).sort({ 'name.fr': 1 }).lean()
   return NextResponse.json({ locations })
 }
 

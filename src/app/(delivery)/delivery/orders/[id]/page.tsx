@@ -3,6 +3,7 @@
 import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { ArrowLeft, MapPin, Phone, Package, Truck, CheckCircle, Landmark, Banknote, Navigation, Info } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
@@ -13,6 +14,8 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
+  const t = useTranslations('deliveryOrderDetail')
+  const tCommon = useTranslations('common')
   const { data, isLoading, mutate } = useSWR(`/api/orders/${id}`, fetcher)
   const [updating, setUpdating] = useState(false)
 
@@ -27,10 +30,10 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
         body: JSON.stringify({ status }),
       })
       if (!res.ok) throw new Error()
-      toast.success(status === 'delivered' ? 'Order delivered!' : 'Marked in transit')
+      toast.success(status === 'delivered' ? t('orderDelivered') : t('markedInTransit'))
       mutate()
     } catch {
-      toast.error('Failed to update')
+      toast.error(t('updateError'))
     } finally {
       setUpdating(false)
     }
@@ -48,8 +51,8 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
   if (!order) {
     return (
       <div className="text-center py-20 text-neutral-400">
-        Order not found.{' '}
-        <Link href="/delivery" className="text-brand-secondary hover:underline">Back</Link>
+        {t('notFound')}{' '}
+        <Link href="/delivery" className="text-brand-secondary hover:underline">{t('back')}</Link>
       </div>
     )
   }
@@ -61,7 +64,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
   return (
     <div className="space-y-4 pb-32">
       <Link href="/delivery" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> Back
+        <ArrowLeft size={16} /> {t('back')}
       </Link>
 
       <div className="flex justify-center">
@@ -71,17 +74,17 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       {/* Customer */}
       <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-brand-primary">Customer</h2>
+          <h2 className="text-base font-semibold text-brand-primary">{t('customer')}</h2>
           <p className="text-xs text-neutral-400">{order.orderNumber}</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1">
-            <p className="text-xs text-neutral-500">Name</p>
+            <p className="text-xs text-neutral-500">{t('name')}</p>
             <p className="text-sm font-semibold text-neutral-800">{order.customer?.name}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-neutral-500">Phone</p>
+            <p className="text-xs text-neutral-500">{t('phone')}</p>
             <div className="flex items-center gap-2">
               <p className="text-sm font-semibold text-neutral-800">{order.customer?.phone}</p>
               <a
@@ -96,7 +99,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
 
         {order.deliveryOption === 'home' && order.deliveryAddress ? (
           <div className="space-y-1">
-            <p className="text-xs text-neutral-500">Delivery Address</p>
+            <p className="text-xs text-neutral-500">{t('deliveryAddress')}</p>
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-start gap-2">
                 <MapPin size={16} className="text-brand-primary mt-0.5 shrink-0" />
@@ -109,7 +112,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
                   rel="noopener noreferrer"
                   className="flex items-center gap-1 shrink-0 px-3 py-1.5 bg-white rounded-full border border-brand-container/40 text-brand-primary text-xs font-semibold"
                 >
-                  <Navigation size={13} /> Navigate
+                  <Navigation size={13} /> {t('navigate')}
                 </a>
               )}
             </div>
@@ -117,21 +120,21 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
         ) : (
           <div className="flex items-center gap-2">
             <MapPin size={16} className="text-neutral-400" />
-            <p className="text-sm text-neutral-500">Store pickup</p>
+            <p className="text-sm text-neutral-500">{t('storePickup')}</p>
           </div>
         )}
       </div>
 
       {/* Payment */}
       <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-3">
-        <h2 className="text-base font-semibold text-brand-primary">Payment Status</h2>
+        <h2 className="text-base font-semibold text-brand-primary">{t('paymentStatus')}</h2>
         <div className="flex items-center justify-between p-3.5 rounded-xl bg-surface-low border border-neutral-100">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-full bg-brand-container/20 text-brand-primary">
               {order.paymentMethod === 'cash' ? <Banknote size={18} /> : <Landmark size={18} />}
             </div>
             <p className="text-sm font-semibold text-neutral-800">
-              {order.paymentMethod === 'cash' ? 'Cash on Delivery' : 'Bank Transfer'}
+              {order.paymentMethod === 'cash' ? t('cashOnDelivery') : t('bankTransfer')}
             </p>
           </div>
           <p className="text-lg font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</p>
@@ -139,9 +142,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
         <div className="flex items-center gap-2 p-3 rounded-lg bg-surface-high/60">
           <Info size={16} className="text-brand-primary shrink-0" />
           <p className="text-xs text-neutral-500">
-            {order.paymentMethod === 'cash'
-              ? 'Collect payment from the customer upon delivery.'
-              : 'No cash collection required — payment already received.'}
+            {order.paymentMethod === 'cash' ? t('collectCash') : t('noCashNeeded')}
           </p>
         </div>
       </div>
@@ -149,7 +150,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       {/* Items */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
         <h2 className="text-base font-semibold text-neutral-800 mb-3">
-          Order Items ({order.items?.length})
+          {t('orderItems', { count: order.items?.length ?? 0 })}
         </h2>
         <div className="space-y-3">
           {order.items?.map((item: any, i: number) => (
@@ -166,7 +167,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-neutral-800 truncate">{item.name}</p>
                 <div className="flex justify-between items-center mt-1">
-                  <span className="text-sm text-brand-primary font-medium">Qty: {item.quantity}</span>
+                  <span className="text-sm text-brand-primary font-medium">{t('qty', { count: item.quantity })}</span>
                   <span className="text-sm font-bold text-neutral-700">
                     {(item.price * item.quantity).toLocaleString()} MRU
                   </span>
@@ -178,14 +179,14 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
 
         <div className="border-t border-neutral-100 mt-4 pt-3 space-y-1.5">
           <div className="flex justify-between text-sm text-neutral-500">
-            <span>Subtotal</span><span>{order.cartTotal?.toLocaleString()} MRU</span>
+            <span>{tCommon('subtotal')}</span><span>{order.cartTotal?.toLocaleString()} MRU</span>
           </div>
           <div className="flex justify-between text-sm text-neutral-500">
-            <span>Delivery Fee</span>
-            <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
+            <span>{tCommon('delivery')}</span>
+            <span>{order.deliveryFee === 0 ? tCommon('free') : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
           </div>
           <div className="flex justify-between items-center pt-1">
-            <span className="text-base font-semibold text-neutral-800">Total Amount</span>
+            <span className="text-base font-semibold text-neutral-800">{t('totalAmount')}</span>
             <span className="text-lg font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
           </div>
         </div>
@@ -202,7 +203,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
                 className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
               >
                 <Truck size={18} />
-                {updating ? 'Updating…' : 'Mark In Transit'}
+                {updating ? t('updating') : t('markInTransit')}
               </button>
             )}
             {order.status === 'transit' && (
@@ -212,7 +213,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
                 className="w-full flex items-center justify-center gap-2 bg-success text-white h-12 rounded-xl font-semibold hover:opacity-90 disabled:opacity-60 transition"
               >
                 <CheckCircle size={18} />
-                {updating ? 'Updating…' : 'Mark Delivered'}
+                {updating ? t('updating') : t('markDelivered')}
               </button>
             )}
           </div>

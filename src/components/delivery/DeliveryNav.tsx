@@ -2,17 +2,20 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { User, Truck, Home, Bell } from 'lucide-react'
 import { NotificationBell } from '@/components/ui/NotificationBell'
-
-const links = [
-  { href: '/delivery', label: 'Home', icon: Home, exact: true },
-  { href: '/delivery/notifications', label: 'Alerts', icon: Bell },
-  { href: '/delivery/profile', label: 'Profile', icon: User },
-]
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 
 export function DeliveryNav({ userName }: { userName: string }) {
+  const t = useTranslations('deliveryNav')
   const pathname = usePathname()
+
+  const links = [
+    { href: '/delivery', label: t('home'), icon: Home, exact: true },
+    { href: '/delivery/notifications', label: t('alerts'), icon: Bell },
+    { href: '/delivery/profile', label: t('profile'), icon: User },
+  ]
 
   function isActive(href: string, exact?: boolean) {
     return exact ? pathname === href : pathname.startsWith(href)
@@ -24,9 +27,10 @@ export function DeliveryNav({ userName }: { userName: string }) {
         <div className="container mx-auto px-4 max-w-2xl h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Truck size={20} className="text-brand-primary" />
-            <span className="font-bold text-lg text-brand-primary">Starbox Delivery</span>
+            <span className="font-bold text-lg text-brand-primary">{t('headerTitle')}</span>
           </div>
           <div className="flex items-center gap-3">
+            <LocaleSwitcher compact />
             <NotificationBell href="/delivery/notifications" className="text-brand-primary/70 hover:text-brand-primary transition hidden sm:inline-flex" />
             <Link
               href="/delivery/profile"

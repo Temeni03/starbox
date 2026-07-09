@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Search, Package, ShoppingBag } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useProducts } from '@/hooks/useProducts'
@@ -8,6 +9,7 @@ import { useCart } from '@/hooks/useCart'
 import { ProductCard } from '@/components/ui/ProductCard'
 
 export default function HomePage() {
+  const t = useTranslations('home')
   const [search, setSearch] = useState('')
   const [query, setQuery] = useState('')
   const { products, isLoading } = useProducts(query)
@@ -33,7 +35,7 @@ export default function HomePage() {
             setSearch(e.target.value)
             if (e.target.value === '') setQuery('')
           }}
-          placeholder="Search curated luxury…"
+          placeholder={t('searchPlaceholder')}
           className="w-full h-12 pl-12 pr-4 rounded-xl border border-neutral-200 bg-surface-low text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
         />
       </form>
@@ -42,16 +44,16 @@ export default function HomePage() {
       <section className="mb-8 relative overflow-hidden rounded-3xl aspect-[16/9] sm:aspect-[21/9] bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container">
         <div className="absolute inset-0 bg-linear-to-r from-black/50 to-transparent flex flex-col justify-center p-6 sm:p-8">
           <span className="text-brand-light text-xs font-semibold tracking-wider uppercase mb-2">
-            Limited Edition
+            {t('limitedEditionBadge')}
           </span>
           <h2 className="text-white text-2xl sm:text-3xl font-bold max-w-xs leading-tight mb-4">
-            The Summer Glow Collection
+            {t('bannerTitle')}
           </h2>
           <button
             type="button"
             className="bg-white text-brand-primary w-max px-6 py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-shadow"
           >
-            Shop Collection
+            {t('shopCollection')}
           </button>
         </div>
       </section>
@@ -79,12 +81,10 @@ export default function HomePage() {
             <div className="absolute -bottom-2 -left-2 w-10 h-10 rounded-full bg-brand-container/40 blur-xl" />
           </div>
           <h2 className="text-xl font-bold text-neutral-800 mb-2">
-            {query ? 'No products found' : 'No products available yet'}
+            {query ? t('noProductsFound') : t('noProductsAvailable')}
           </h2>
           <p className="text-sm text-neutral-500 max-w-sm mx-auto leading-relaxed">
-            {query
-              ? "We couldn't find any matches for your search. Try checking your spelling or browse the full catalog instead."
-              : 'Check back soon — new arrivals are on the way.'}
+            {query ? t('noResultsDesc') : t('checkBackSoon')}
           </p>
           {query && (
             <button
@@ -92,7 +92,7 @@ export default function HomePage() {
               className="mt-6 inline-flex items-center gap-2 bg-brand-primary text-white px-8 h-12 rounded-full text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all"
             >
               <ShoppingBag size={16} />
-              Return to Shop
+              {t('returnToShop')}
             </button>
           )}
         </div>

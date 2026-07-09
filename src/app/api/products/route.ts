@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import { Product } from '@/models/Product'
+import { getRequestLocale, resolveLocalized } from '@/lib/localized'
 
 export async function GET(req: Request) {
   try {
@@ -11,6 +12,7 @@ export async function GET(req: Request) {
     const skip = (page - 1) * limit
 
     await connectDB()
+    const locale = await getRequestLocale()
 
     const filter: Record<string, unknown> = { isActive: true }
     if (search) {
@@ -27,8 +29,14 @@ export async function GET(req: Request) {
       Product.countDocuments(filter),
     ])
 
+    const localizedProducts = products.map((p) => ({
+      ...p,
+      name: resolveLocalized(p.name, locale),
+      description: p.description ? resolveLocalized(p.description, locale) : undefined,
+    }))
+
     return NextResponse.json({
-      products,
+      products: localizedProducts,
       total,
       page,
       pages: Math.ceil(total / limit),

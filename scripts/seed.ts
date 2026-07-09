@@ -26,11 +26,16 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
+const LocalizedTextSchema = new mongoose.Schema(
+  { ar: String, fr: String, en: String },
+  { _id: false }
+)
+
 const ProductSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
+    name: { type: LocalizedTextSchema, required: true },
     price: { type: Number, required: true },
-    description: String,
+    description: LocalizedTextSchema,
     images: [String],
     quantity: { type: Number, default: 0 },
     isActive: { type: Boolean, default: true },
@@ -39,7 +44,14 @@ const ProductSchema = new mongoose.Schema(
   { timestamps: true }
 )
 
-ProductSchema.index({ name: 'text', description: 'text' })
+ProductSchema.index({
+  'name.ar': 'text',
+  'name.fr': 'text',
+  'name.en': 'text',
+  'description.ar': 'text',
+  'description.fr': 'text',
+  'description.en': 'text',
+})
 
 const AppConfigSchema = new mongoose.Schema(
   {
@@ -51,15 +63,14 @@ const AppConfigSchema = new mongoose.Schema(
 
 const LocationSchema = new mongoose.Schema(
   {
-    nameAr: { type: String, required: true, trim: true },
-    nameFr: { type: String, required: true, trim: true },
+    name: { type: LocalizedTextSchema, required: true },
     price: { type: Number, required: true, min: 0 },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 )
 
-LocationSchema.index({ nameAr: 'text', nameFr: 'text' })
+LocationSchema.index({ 'name.ar': 'text', 'name.fr': 'text', 'name.en': 'text' })
 
 const User = mongoose.models.User || mongoose.model('User', UserSchema)
 const Product = mongoose.models.Product || mongoose.model('Product', ProductSchema)
@@ -70,58 +81,58 @@ const Location = mongoose.models.Location || mongoose.model('Location', Location
 
 const SAMPLE_PRODUCTS = [
   {
-    name: 'Organic Honey 500g',
+    name: { en: 'Organic Honey 500g' },
     price: 1200,
-    description: 'Pure organic honey harvested from mountain beehives. Rich in antioxidants.',
+    description: { en: 'Pure organic honey harvested from mountain beehives. Rich in antioxidants.' },
     images: [],
     quantity: 50,
   },
   {
-    name: 'Argan Oil 100ml',
+    name: { en: 'Argan Oil 100ml' },
     price: 850,
-    description: 'Cold-pressed argan oil for skin and hair care. 100% natural.',
+    description: { en: 'Cold-pressed argan oil for skin and hair care. 100% natural.' },
     images: [],
     quantity: 30,
   },
   {
-    name: 'Black Seed Oil 250ml',
+    name: { en: 'Black Seed Oil 250ml' },
     price: 650,
-    description: 'Premium black seed oil, known for its health benefits.',
+    description: { en: 'Premium black seed oil, known for its health benefits.' },
     images: [],
     quantity: 45,
   },
   {
-    name: 'Rose Water 200ml',
+    name: { en: 'Rose Water 200ml' },
     price: 400,
-    description: 'Distilled rose water, perfect for skin toning and cooking.',
+    description: { en: 'Distilled rose water, perfect for skin toning and cooking.' },
     images: [],
     quantity: 8,
   },
   {
-    name: 'Dried Figs 1kg',
+    name: { en: 'Dried Figs 1kg' },
     price: 900,
-    description: 'Sun-dried figs, naturally sweet and packed with fiber.',
+    description: { en: 'Sun-dried figs, naturally sweet and packed with fiber.' },
     images: [],
     quantity: 25,
   },
   {
-    name: 'Chia Seeds 500g',
+    name: { en: 'Chia Seeds 500g' },
     price: 550,
-    description: 'Organic chia seeds, rich in omega-3 fatty acids.',
+    description: { en: 'Organic chia seeds, rich in omega-3 fatty acids.' },
     images: [],
     quantity: 60,
   },
   {
-    name: 'Almond Butter 350g',
+    name: { en: 'Almond Butter 350g' },
     price: 1100,
-    description: 'Natural almond butter with no added sugar or preservatives.',
+    description: { en: 'Natural almond butter with no added sugar or preservatives.' },
     images: [],
     quantity: 5,
   },
   {
-    name: 'Green Tea 100g',
+    name: { en: 'Green Tea 100g' },
     price: 350,
-    description: 'Premium loose-leaf green tea from certified organic farms.',
+    description: { en: 'Premium loose-leaf green tea from certified organic farms.' },
     images: [],
     quantity: 40,
   },
@@ -134,47 +145,47 @@ const APP_CONFIGS = [
 ]
 
 const SAMPLE_LOCATIONS = [
-  { nameAr: 'زعطر', nameFr: 'Zaatar', price: 150 },
-  { nameAr: 'تفرق زين', nameFr: 'Tefragh Zeina', price: 100 },
-  { nameAr: 'الكصر', nameFr: 'Ksar', price: 100 },
-  { nameAr: 'جامبور', nameFr: 'Jambour', price: 100 },
-  { nameAr: 'صكوك', nameFr: 'Socogim', price: 100 },
-  { nameAr: 'عرفات', nameFr: 'Arafat', price: 150 },
-  { nameAr: 'تنسويلم', nameFr: 'Teyarett', price: 150 },
-  { nameAr: 'الدار نعيم', nameFr: 'Dar Naim', price: 150 },
-  { nameAr: 'الدار البركة', nameFr: 'Dar El Beida', price: 150 },
-  { nameAr: 'المطار القديم', nameFr: 'Ancien Aéroport', price: 150 },
-  { nameAr: 'بوحديد', nameFr: 'Bouhdida', price: 150 },
-  { nameAr: 'رابع والعشرين', nameFr: '24ème', price: 150 },
-  { nameAr: 'توجنين', nameFr: 'Toujounine', price: 150 },
-  { nameAr: 'ترحيل', nameFr: 'Tarhil', price: 150 },
-  { nameAr: 'ملح', nameFr: 'Mellah', price: 150 },
-  { nameAr: 'كرفور', nameFr: 'Carrefour', price: 150 },
-  { nameAr: 'بيكة', nameFr: 'Bika', price: 150 },
-  { nameAr: 'التحادية', nameFr: 'Ittihadiya', price: 150 },
-  { nameAr: 'عين طلح', nameFr: 'Ain Talh', price: 150 },
-  { nameAr: 'صحراوي', nameFr: 'Sahraoui', price: 100 },
-  { nameAr: 'البوادي', nameFr: 'Bouadi', price: 100 },
-  { nameAr: 'سيتا بلاج', nameFr: 'Cité Plage', price: 100 },
-  { nameAr: 'سانتر متير', nameFr: 'Centre Émetteur', price: 100 },
-  { nameAr: 'ديار تاتا', nameFr: 'Diar Tata', price: 100 },
-  { nameAr: 'كبيتال', nameFr: 'Capitale', price: 100 },
-  { nameAr: 'سيزيم', nameFr: 'Sixième', price: 150 },
-  { nameAr: 'سينكيم', nameFr: 'Cinquième', price: 150 },
-  { nameAr: 'أگجوجت', nameFr: 'Akjoujt', price: 200 },
-  { nameAr: 'أزويرات', nameFr: 'Zouerate', price: 250 },
-  { nameAr: 'أطار', nameFr: 'Atar', price: 200 },
-  { nameAr: 'بنشاب', nameFr: 'Benichab', price: 250 },
-  { nameAr: 'العيون', nameFr: 'Aioun', price: 250 },
-  { nameAr: 'طينطان', nameFr: 'Tintane', price: 250 },
-  { nameAr: 'كرو', nameFr: 'Kiffa', price: 250 },
-  { nameAr: 'روصو', nameFr: 'Rosso', price: 200 },
-  { nameAr: 'ألاگ', nameFr: 'Aleg', price: 250 },
-  { nameAr: 'تجگجة', nameFr: 'Tidjikja', price: 250 },
-  { nameAr: 'نعمة', nameFr: 'Néma', price: 250 },
-  { nameAr: 'كيفة', nameFr: 'Kiffa', price: 250 },
-  { nameAr: 'واد ناقة', nameFr: 'Ouad Naga', price: 250 },
-  { nameAr: 'نواذيبو', nameFr: 'Nouadhibou', price: 150 },
+  { name: { ar: 'زعطر', fr: 'Zaatar' }, price: 150 },
+  { name: { ar: 'تفرق زين', fr: 'Tefragh Zeina' }, price: 100 },
+  { name: { ar: 'الكصر', fr: 'Ksar' }, price: 100 },
+  { name: { ar: 'جامبور', fr: 'Jambour' }, price: 100 },
+  { name: { ar: 'صكوك', fr: 'Socogim' }, price: 100 },
+  { name: { ar: 'عرفات', fr: 'Arafat' }, price: 150 },
+  { name: { ar: 'تنسويلم', fr: 'Teyarett' }, price: 150 },
+  { name: { ar: 'الدار نعيم', fr: 'Dar Naim' }, price: 150 },
+  { name: { ar: 'الدار البركة', fr: 'Dar El Beida' }, price: 150 },
+  { name: { ar: 'المطار القديم', fr: 'Ancien Aéroport' }, price: 150 },
+  { name: { ar: 'بوحديد', fr: 'Bouhdida' }, price: 150 },
+  { name: { ar: 'رابع والعشرين', fr: '24ème' }, price: 150 },
+  { name: { ar: 'توجنين', fr: 'Toujounine' }, price: 150 },
+  { name: { ar: 'ترحيل', fr: 'Tarhil' }, price: 150 },
+  { name: { ar: 'ملح', fr: 'Mellah' }, price: 150 },
+  { name: { ar: 'كرفور', fr: 'Carrefour' }, price: 150 },
+  { name: { ar: 'بيكة', fr: 'Bika' }, price: 150 },
+  { name: { ar: 'التحادية', fr: 'Ittihadiya' }, price: 150 },
+  { name: { ar: 'عين طلح', fr: 'Ain Talh' }, price: 150 },
+  { name: { ar: 'صحراوي', fr: 'Sahraoui' }, price: 100 },
+  { name: { ar: 'البوادي', fr: 'Bouadi' }, price: 100 },
+  { name: { ar: 'سيتا بلاج', fr: 'Cité Plage' }, price: 100 },
+  { name: { ar: 'سانتر متير', fr: 'Centre Émetteur' }, price: 100 },
+  { name: { ar: 'ديار تاتا', fr: 'Diar Tata' }, price: 100 },
+  { name: { ar: 'كبيتال', fr: 'Capitale' }, price: 100 },
+  { name: { ar: 'سيزيم', fr: 'Sixième' }, price: 150 },
+  { name: { ar: 'سينكيم', fr: 'Cinquième' }, price: 150 },
+  { name: { ar: 'أگجوجت', fr: 'Akjoujt' }, price: 200 },
+  { name: { ar: 'أزويرات', fr: 'Zouerate' }, price: 250 },
+  { name: { ar: 'أطار', fr: 'Atar' }, price: 200 },
+  { name: { ar: 'بنشاب', fr: 'Benichab' }, price: 250 },
+  { name: { ar: 'العيون', fr: 'Aioun' }, price: 250 },
+  { name: { ar: 'طينطان', fr: 'Tintane' }, price: 250 },
+  { name: { ar: 'كرو', fr: 'Kiffa' }, price: 250 },
+  { name: { ar: 'روصو', fr: 'Rosso' }, price: 200 },
+  { name: { ar: 'ألاگ', fr: 'Aleg' }, price: 250 },
+  { name: { ar: 'تجگجة', fr: 'Tidjikja' }, price: 250 },
+  { name: { ar: 'نعمة', fr: 'Néma' }, price: 250 },
+  { name: { ar: 'كيفة', fr: 'Kiffa' }, price: 250 },
+  { name: { ar: 'واد ناقة', fr: 'Ouad Naga' }, price: 250 },
+  { name: { ar: 'نواذيبو', fr: 'Nouadhibou' }, price: 150 },
 ]
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -204,7 +215,7 @@ async function seed() {
   // Products
   const products = await Product.insertMany(SAMPLE_PRODUCTS)
   console.log(`📦  ${products.length} products created`)
-  products.forEach(p => console.log(`    • ${p.name} — qty: ${(p as any).quantity}`))
+  products.forEach(p => console.log(`    • ${(p as any).name.en} — qty: ${(p as any).quantity}`))
 
   // App config
   await AppConfig.insertMany(APP_CONFIGS)

@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Cart } from '@/models/Cart'
 import { Product } from '@/models/Product'
+import { getRequestLocale, resolveLocalized } from '@/lib/localized'
 
 export async function GET() {
   const session = await auth()
@@ -48,6 +49,7 @@ export async function POST(req: Request) {
   if (product.quantity < quantity) {
     return NextResponse.json({ error: 'Insufficient stock' }, { status: 409 })
   }
+  const locale = await getRequestLocale()
 
   let cart = await Cart.findOne({ user: session.user.id })
   if (!cart) {
@@ -69,7 +71,7 @@ export async function POST(req: Request) {
       product: productId,
       quantity,
       price: product.price,
-      name: product.name,
+      name: resolveLocalized(product.name, locale),
       image: product.images?.[0],
     })
   }

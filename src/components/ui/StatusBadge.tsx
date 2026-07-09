@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl'
 import { Clock, CheckCircle2, Truck, PackageCheck, XCircle } from 'lucide-react'
 import type { OrderStatus } from '@/models/Order'
 
@@ -9,14 +10,6 @@ const styles: Record<OrderStatus, string> = {
   cancelled: 'bg-status-cancelled/15 text-status-cancelled',
 }
 
-const labels: Record<OrderStatus, string> = {
-  pending:   'Pending',
-  confirmed: 'Confirmed',
-  transit:   'In Transit',
-  delivered: 'Delivered',
-  cancelled: 'Cancelled',
-}
-
 const icons: Record<OrderStatus, typeof Clock> = {
   pending: Clock,
   confirmed: CheckCircle2,
@@ -26,11 +19,12 @@ const icons: Record<OrderStatus, typeof Clock> = {
 }
 
 export function StatusBadge({ status }: { status: OrderStatus }) {
+  const t = useTranslations('status')
   const Icon = icons[status]
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${styles[status]}`}>
       <Icon size={13} />
-      {labels[status]}
+      {t(status)}
     </span>
   )
 }

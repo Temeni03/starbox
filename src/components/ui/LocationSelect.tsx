@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { MapPin, Search } from 'lucide-react'
 import { useDeliveryLocations, type DeliveryLocation } from '@/hooks/useDeliveryLocations'
 
@@ -10,6 +11,7 @@ interface LocationSelectProps {
 }
 
 export function LocationSelect({ value, onChange }: LocationSelectProps) {
+  const t = useTranslations('locationSelect')
   const { locations, isLoading } = useDeliveryLocations()
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -28,7 +30,7 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
   const filtered = locations.filter((loc) => {
     const q = query.trim().toLowerCase()
     if (!q) return true
-    return loc.nameFr.toLowerCase().includes(q) || loc.nameAr.includes(query.trim())
+    return loc.name.toLowerCase().includes(q)
   })
 
   function handleSelect(loc: DeliveryLocation) {
@@ -47,15 +49,13 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
         <MapPin size={16} className="text-neutral-400 flex-shrink-0" />
         {value ? (
           <span className="flex-1 min-w-0 flex items-center justify-between gap-2">
-            <span className="truncate text-neutral-700">
-              {value.nameFr} <span dir="rtl">— {value.nameAr}</span>
-            </span>
+            <span className="truncate text-neutral-700">{value.name}</span>
             <span className="text-xs text-neutral-500 flex-shrink-0">
               {value.price.toLocaleString()} MRU
             </span>
           </span>
         ) : (
-          <span className="text-neutral-400">Select your delivery location…</span>
+          <span className="text-neutral-400">{t('placeholder')}</span>
         )}
       </button>
 
@@ -67,16 +67,16 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search location…"
+              placeholder={t('searchPlaceholder')}
               className="flex-1 text-sm focus:outline-none"
             />
           </div>
           <div className="max-h-56 overflow-y-auto">
             {isLoading && (
-              <p className="px-3 py-3 text-sm text-neutral-400">Loading locations…</p>
+              <p className="px-3 py-3 text-sm text-neutral-400">{t('loading')}</p>
             )}
             {!isLoading && filtered.length === 0 && (
-              <p className="px-3 py-3 text-sm text-neutral-400">No location found</p>
+              <p className="px-3 py-3 text-sm text-neutral-400">{t('noResults')}</p>
             )}
             {filtered.map((loc) => (
               <button
@@ -87,9 +87,7 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
                   value?._id === loc._id ? 'bg-brand-light' : ''
                 }`}
               >
-                <span className="truncate text-neutral-700">
-                  {loc.nameFr} <span dir="rtl" className="text-neutral-500">— {loc.nameAr}</span>
-                </span>
+                <span className="truncate text-neutral-700">{loc.name}</span>
                 <span className="text-xs text-neutral-500 flex-shrink-0">
                   {loc.price.toLocaleString()} MRU
                 </span>

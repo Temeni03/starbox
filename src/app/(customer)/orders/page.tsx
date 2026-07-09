@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
 import { ClipboardList, ChevronRight, Package } from 'lucide-react'
 import useSWR from 'swr'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -10,14 +11,9 @@ import type { OrderStatus } from '@/models/Order'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
-const FILTERS = [
-  { key: 'all', label: 'All Orders' },
-  { key: 'active', label: 'Active' },
-  { key: 'delivered', label: 'Delivered' },
-  { key: 'cancelled', label: 'Cancelled' },
-] as const
+const FILTER_KEYS = ['all', 'active', 'delivered', 'cancelled'] as const
 
-type FilterKey = (typeof FILTERS)[number]['key']
+type FilterKey = (typeof FILTER_KEYS)[number]
 
 function matchesFilter(status: OrderStatus, filter: FilterKey) {
   if (filter === 'all') return true
@@ -26,6 +22,8 @@ function matchesFilter(status: OrderStatus, filter: FilterKey) {
 }
 
 export default function OrdersPage() {
+  const t = useTranslations('orders')
+  const locale = useLocale()
   const { data, isLoading } = useSWR('/api/orders', fetcher)
   const orders = data?.orders ?? []
   const [filter, setFilter] = useState<FilterKey>('all')
@@ -49,9 +47,9 @@ export default function OrdersPage() {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-neutral-400 pb-24 sm:pb-6">
         <ClipboardList size={48} className="mb-4 opacity-50" />
-        <p className="text-lg font-medium">No orders yet</p>
+        <p className="text-lg font-medium">{t('empty')}</p>
         <Link href="/" className="mt-4 text-sm text-brand-secondary hover:underline">
-          Start shopping
+          {t('startShopping')}
         </Link>
       </div>
     )
@@ -60,12 +58,12 @@ export default function OrdersPage() {
   return (
     <div className="pb-20 sm:pb-6">
       <div className="mb-5">
-        <h1 className="text-2xl font-bold text-neutral-800">Order History</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">Track and manage your purchases.</p>
+        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+        <p className="text-sm text-neutral-500 mt-0.5">{t('subtitle')}</p>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2 mb-4 [scrollbar-width:none]">
-        {FILTERS.map(({ key, label }) => (
+        {FILTER_KEYS.map((key) => (
           <button
             key={key}
             onClick={() => setFilter(key)}
@@ -73,14 +71,14 @@ export default function OrdersPage() {
               filter === key ? 'bg-brand-primary text-white' : 'bg-surface-high text-neutral-500'
             }`}
           >
-            {label}
+            {t(`filters.${key}`)}
           </button>
         ))}
       </div>
 
       {filteredOrders.length === 0 ? (
         <div className="text-center py-16 text-neutral-400">
-          <p className="text-sm">No orders in this category</p>
+          <p className="text-sm">{t('emptyCategory')}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -97,7 +95,7 @@ export default function OrdersPage() {
                   <div className="min-w-0">
                     <p className="text-xs text-neutral-400">{order.orderNumber}</p>
                     <p className="text-sm font-semibold text-neutral-800 mt-0.5">
-                      {new Date(order.createdAt).toLocaleDateString('en-GB', {
+                      {new Date(order.createdAt).toLocaleDateString(locale, {
                         day: '2-digit',
                         month: 'short',
                         year: 'numeric',
@@ -133,7 +131,7 @@ export default function OrdersPage() {
 
                 <div className="flex justify-between items-center pt-3 border-t border-neutral-100">
                   <span className="text-sm text-neutral-500">
-                    Total ({order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''})
+                    {t('totalItems', { count: order.items?.length ?? 0 })}
                   </span>
                   <span className="text-base font-bold text-brand-primary">
                     {order.grandTotal?.toLocaleString()} MRU

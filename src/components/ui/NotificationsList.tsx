@@ -2,21 +2,24 @@
 
 import Link from 'next/link'
 import { Bell } from 'lucide-react'
+import { useLocale, useTranslations } from 'next-intl'
 import { useNotifications, type AppNotification } from '@/hooks/useNotifications'
 
-function timeAgo(dateStr: string) {
+function timeAgo(dateStr: string, locale: string, t: ReturnType<typeof useTranslations<'notifications'>>) {
   const seconds = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000)
-  if (seconds < 60) return 'just now'
+  if (seconds < 60) return t('justNow')
   const minutes = Math.floor(seconds / 60)
-  if (minutes < 60) return `${minutes}m ago`
+  if (minutes < 60) return t('minutesAgo', { count: minutes })
   const hours = Math.floor(minutes / 60)
-  if (hours < 24) return `${hours}h ago`
+  if (hours < 24) return t('hoursAgo', { count: hours })
   const days = Math.floor(hours / 24)
-  if (days < 7) return `${days}d ago`
-  return new Date(dateStr).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+  if (days < 7) return t('daysAgo', { count: days })
+  return new Date(dateStr).toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
 function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: string) => void }) {
+  const locale = useLocale()
+  const t = useTranslations('notifications')
   const content = (
     <div className={`flex items-start gap-3 px-4 py-3 ${n.read ? '' : 'bg-brand-light/30'}`}>
       <span
@@ -27,7 +30,7 @@ function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: strin
           {n.title}
         </p>
         <p className="text-sm text-neutral-500 mt-0.5">{n.body}</p>
-        <p className="text-xs text-neutral-400 mt-1">{timeAgo(n.createdAt)}</p>
+        <p className="text-xs text-neutral-400 mt-1">{timeAgo(n.createdAt, locale, t)}</p>
       </div>
     </div>
   )
@@ -51,15 +54,16 @@ function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: strin
 }
 
 export function NotificationsList() {
+  const t = useTranslations('notifications')
   const { notifications, unreadCount, isLoading, markAsRead, markAllAsRead } = useNotifications(50)
 
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-neutral-800">Notifications</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
         {unreadCount > 0 && (
           <button onClick={markAllAsRead} className="text-sm font-medium text-brand-primary hover:underline">
-            Mark all as read
+            {t('markAllRead')}
           </button>
         )}
       </div>
@@ -77,7 +81,7 @@ export function NotificationsList() {
         ) : notifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-neutral-400">
             <Bell size={40} className="mb-3 text-brand-primary/40" />
-            <p className="text-sm">No notifications yet</p>
+            <p className="text-sm">{t('empty')}</p>
           </div>
         ) : (
           <div className="divide-y divide-neutral-100">

@@ -7,6 +7,7 @@ import { Order } from '@/models/Order'
 import { Product } from '@/models/Product'
 import { Location } from '@/models/Location'
 import { notifyRole, notifyUser } from '@/lib/notify'
+import { getRequestLocale, resolveLocalized } from '@/lib/localized'
 
 const CheckoutSchema = z.object({
   deliveryOption: z.enum(['home', 'pickup']),
@@ -35,6 +36,7 @@ export async function POST(req: Request) {
   }
 
   await connectDB()
+  const locale = await getRequestLocale()
 
   let deliveryLocation = null
   if (deliveryOption === 'home') {
@@ -114,7 +116,7 @@ export async function POST(req: Request) {
     deliveryFee,
     grandTotal: cartTotal + deliveryFee,
     deliveryOption,
-    deliveryAddress: deliveryLocation ? `${deliveryLocation.nameFr} — ${deliveryLocation.nameAr}` : undefined,
+    deliveryAddress: deliveryLocation ? resolveLocalized(deliveryLocation.name, locale) : undefined,
     deliveryLocation: deliveryLocation?._id,
     paymentMethod,
     paymentScreenshot,
@@ -171,7 +173,7 @@ export async function POST(req: Request) {
       notifyRole('admin', {
         type: 'low_stock',
         title: 'StarBox — Low stock',
-        body: `"${product.name}" is running low (${product.quantity} left).`,
+        body: `"${resolveLocalized(product.name, locale)}" is running low (${product.quantity} left).`,
         url: `/admin/products`,
       }).catch(() => {})
     }

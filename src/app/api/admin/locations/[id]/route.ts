@@ -3,10 +3,10 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Location } from '@/models/Location'
+import { localizedNameSchema } from '@/lib/localizedSchema'
 
 const UpdateSchema = z.object({
-  nameAr: z.string().min(1).trim().optional(),
-  nameFr: z.string().min(1).trim().optional(),
+  name: localizedNameSchema.optional(),
   price: z.number().min(0).optional(),
   isActive: z.boolean().optional(),
 })

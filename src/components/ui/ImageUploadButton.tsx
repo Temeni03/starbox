@@ -1,5 +1,6 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
 import { ImagePlus, Video } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useBlobUpload } from '@/hooks/useBlobUpload'
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export function ImageUploadButton({ type, multiple = false, label, onUploaded }: Props) {
+  const t = useTranslations('upload')
   const { upload, uploading } = useBlobUpload(type)
   const { kind } = UPLOAD_TYPES[type]
   const Icon = kind === 'video' ? Video : ImagePlus
@@ -26,9 +28,11 @@ export function ImageUploadButton({ type, multiple = false, label, onUploaded }:
       const urls = await Promise.all(files.map((file) => upload(file)))
       onUploaded(urls)
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Upload failed')
+      toast.error(err instanceof Error ? err.message : t('failed'))
     }
   }
+
+  const defaultLabel = kind === 'video' ? t('uploadVideo') : t('uploadImage')
 
   return (
     <label
@@ -37,7 +41,7 @@ export function ImageUploadButton({ type, multiple = false, label, onUploaded }:
       }`}
     >
       <Icon size={16} />
-      {uploading ? 'Uploading…' : (label ?? `Upload ${kind}`)}
+      {uploading ? t('uploading') : (label ?? defaultLabel)}
       <input
         type="file"
         accept={`${kind}/*`}

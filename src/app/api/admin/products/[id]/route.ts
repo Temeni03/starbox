@@ -4,12 +4,14 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Product } from '@/models/Product'
 import { notifyRole } from '@/lib/notify'
+import { localizedNameSchema, localizedTextSchema } from '@/lib/localizedSchema'
+import { getRequestLocale, resolveLocalized } from '@/lib/localized'
 
 const UpdateSchema = z.object({
-  name: z.string().min(1).max(100).trim().optional(),
+  name: localizedNameSchema.optional(),
   price: z.number().min(0).optional(),
-  description: z.string().trim().optional(),
-  usageInstructions: z.string().trim().optional(),
+  description: localizedTextSchema.optional(),
+  usageInstructions: localizedTextSchema.optional(),
   images: z.array(z.string()).optional(),
   video: z.string().optional(),
   quantity: z.number().int().min(0).optional(),
@@ -58,10 +60,11 @@ export async function PATCH(
     product.isActive &&
     product.quantity <= product.lowStockThreshold
   ) {
+    const locale = await getRequestLocale()
     notifyRole('admin', {
       type: 'low_stock',
       title: 'StarBox — Low stock',
-      body: `"${product.name}" is running low (${product.quantity} left).`,
+      body: `"${resolveLocalized(product.name, locale)}" is running low (${product.quantity} left).`,
       url: `/admin/products`,
     }, session.user.id).catch(() => {})
   }

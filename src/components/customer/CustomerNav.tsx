@@ -3,19 +3,21 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 import { ShoppingCart, ClipboardList, User, Home } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { NotificationBell } from "@/components/ui/NotificationBell";
 
 export function CustomerNav({ userName }: { userName: string }) {
+  const t = useTranslations("nav");
   const pathname = usePathname();
   const totalCount = useCartStore((s) => s.totalCount());
 
   const links = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/cart", label: "Cart", icon: ShoppingCart, badge: totalCount },
-    { href: "/orders", label: "Orders", icon: ClipboardList },
-    { href: "/profile", label: "Profile", icon: User },
+    { href: "/", label: t("home"), icon: Home },
+    { href: "/cart", label: t("cart"), icon: ShoppingCart, badge: totalCount },
+    { href: "/orders", label: t("orders"), icon: ClipboardList },
+    { href: "/profile", label: t("profile"), icon: User },
   ];
 
   return (
@@ -23,7 +25,7 @@ export function CustomerNav({ userName }: { userName: string }) {
       {/* Top header */}
       <header className="bg-white/80 backdrop-blur-md border-b border-neutral-200/60 sticky top-0 z-40">
         <div className="container mx-auto px-2 sm:px-4 max-w-4xl h-14 flex items-center justify-between">
-          <Link href="/" aria-label="Starbox home" className="flex items-center gap-2">
+          <Link href="/" aria-label={t("homeAriaLabel")} className="flex items-center gap-2">
             <Image
               src="/logo.png"
               alt=""

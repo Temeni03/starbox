@@ -1,8 +1,8 @@
 import mongoose, { Schema, Document } from 'mongoose'
+import { LocalizedTextSchema, hasLocalizedText, type LocalizedText } from './LocalizedText'
 
 export interface ILocation extends Document {
-  nameAr: string
-  nameFr: string
+  name: LocalizedText
   price: number
   isActive: boolean
   createdAt: Date
@@ -11,15 +11,21 @@ export interface ILocation extends Document {
 
 const LocationSchema = new Schema<ILocation>(
   {
-    nameAr: { type: String, required: true, trim: true },
-    nameFr: { type: String, required: true, trim: true },
+    name: {
+      type: LocalizedTextSchema,
+      required: true,
+      validate: {
+        validator: hasLocalizedText,
+        message: 'Location name is required in at least one language',
+      },
+    },
     price: { type: Number, required: true, min: 0 },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }
 )
 
-LocationSchema.index({ nameAr: 'text', nameFr: 'text' })
+LocationSchema.index({ 'name.ar': 'text', 'name.fr': 'text', 'name.en': 'text' })
 LocationSchema.index({ isActive: 1 })
 
 export const Location =

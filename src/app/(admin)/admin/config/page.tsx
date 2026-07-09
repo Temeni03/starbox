@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export default function AdminConfigPage() {
+  const t = useTranslations('adminConfig')
   const { data, isLoading, mutate } = useSWR('/api/admin/config', fetcher)
   const [form, setForm] = useState({
     delivery_fee: '',
@@ -35,10 +37,10 @@ export default function AdminConfigPage() {
         body: JSON.stringify(form),
       })
       if (!res.ok) throw new Error()
-      toast.success('Settings saved')
+      toast.success(t('settingsSaved'))
       mutate()
     } catch {
-      toast.error('Failed to save settings')
+      toast.error(t('saveError'))
     } finally {
       setSaving(false)
     }
@@ -47,27 +49,27 @@ export default function AdminConfigPage() {
   const fields = [
     {
       key: 'delivery_fee',
-      label: 'Delivery Fee (MRU)',
+      label: t('deliveryFeeLabel'),
       type: 'number',
-      hint: 'Fee charged for home delivery orders',
+      hint: t('deliveryFeeHint'),
     },
     {
       key: 'bank_payment_code',
-      label: 'Bank Payment Code',
+      label: t('bankCodeLabel'),
       type: 'text',
-      hint: 'Code customers include in bank transfer description',
+      hint: t('bankCodeHint'),
     },
     {
       key: 'low_stock_threshold',
-      label: 'Low Stock Threshold',
+      label: t('lowStockLabel'),
       type: 'number',
-      hint: 'Products with qty ≤ this value are flagged as low stock',
+      hint: t('lowStockHint'),
     },
   ]
 
   return (
     <div className="max-w-md space-y-4">
-      <h1 className="text-2xl font-bold text-neutral-800">Settings</h1>
+      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
 
       {isLoading ? (
         <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-4 animate-pulse">
@@ -98,7 +100,7 @@ export default function AdminConfigPage() {
             disabled={saving}
             className="w-full h-12 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
           >
-            {saving ? 'Saving…' : 'Save Settings'}
+            {saving ? t('saving') : t('saveSettings')}
           </button>
         </form>
       )}

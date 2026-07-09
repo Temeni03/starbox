@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { ShoppingBag, Package, Truck, AlertTriangle, ChevronRight } from 'lucide-react'
 import useSWR from 'swr'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -41,6 +42,7 @@ function KpiCard({
 }
 
 export default function AdminDashboard() {
+  const t = useTranslations('adminDashboard')
   const router = useRouter()
   const { data, isLoading } = useSWR('/api/admin/stats', fetcher, { refreshInterval: 30000 })
   const { data: ordersData } = useSWR('/api/admin/orders?limit=5', fetcher)
@@ -50,15 +52,15 @@ export default function AdminDashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-neutral-800">Operational Overview</h1>
+      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
 
       {/* KPI Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <KpiCard label="Total Orders" value={isLoading ? '…' : stats.totalOrders ?? 0} icon={ShoppingBag} href="/admin/orders" />
-        <KpiCard label="Total Products" value={isLoading ? '…' : stats.totalProducts ?? 0} icon={Package} href="/admin/products" />
-        <KpiCard label="Delivery Staff" value={isLoading ? '…' : stats.totalDelivery ?? 0} icon={Truck} href="/admin/users" />
+        <KpiCard label={t('totalOrders')} value={isLoading ? '…' : stats.totalOrders ?? 0} icon={ShoppingBag} href="/admin/orders" />
+        <KpiCard label={t('totalProducts')} value={isLoading ? '…' : stats.totalProducts ?? 0} icon={Package} href="/admin/products" />
+        <KpiCard label={t('deliveryStaff')} value={isLoading ? '…' : stats.totalDelivery ?? 0} icon={Truck} href="/admin/users" />
         <KpiCard
-          label="Low Stock Alerts"
+          label={t('lowStockAlerts')}
           value={isLoading ? '…' : stats.lowStockProducts ?? 0}
           icon={AlertTriangle}
           href="/admin/products"
@@ -70,23 +72,23 @@ export default function AdminDashboard() {
         {/* Recent Orders */}
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-neutral-800">Recent Orders</h2>
+            <h2 className="text-lg font-semibold text-neutral-800">{t('recentOrders')}</h2>
             <Link href="/admin/orders" className="text-sm font-medium text-brand-primary hover:underline">
-              View all
+              {t('viewAll')}
             </Link>
           </div>
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl overflow-hidden">
             {recentOrders.length === 0 ? (
-              <p className="px-5 py-10 text-center text-neutral-400 text-sm">No active orders</p>
+              <p className="px-5 py-10 text-center text-neutral-400 text-sm">{t('noActiveOrders')}</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-surface-low/60">
-                      <th className="p-4 text-xs font-semibold text-neutral-500">Order</th>
-                      <th className="p-4 text-xs font-semibold text-neutral-500">Customer</th>
-                      <th className="p-4 text-xs font-semibold text-neutral-500">Status</th>
-                      <th className="p-4 text-xs font-semibold text-neutral-500 text-right">Total</th>
+                      <th className="p-4 text-xs font-semibold text-neutral-500">{t('colOrder')}</th>
+                      <th className="p-4 text-xs font-semibold text-neutral-500">{t('colCustomer')}</th>
+                      <th className="p-4 text-xs font-semibold text-neutral-500">{t('colStatus')}</th>
+                      <th className="p-4 text-xs font-semibold text-neutral-500 text-right">{t('colTotal')}</th>
                       <th className="p-4 w-8" />
                     </tr>
                   </thead>

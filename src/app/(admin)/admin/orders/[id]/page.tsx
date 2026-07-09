@@ -4,6 +4,7 @@ import { use, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
 import { ArrowLeft, Package, MapPin, CreditCard, User } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
@@ -22,6 +23,11 @@ const NEXT_STATUSES: Record<OrderStatus, OrderStatus[]> = {
 
 export default function AdminOrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
+  const t = useTranslations('adminOrderDetail')
+  const tCommon = useTranslations('common')
+  const tCheckout = useTranslations('checkout')
+  const tStatus = useTranslations('status')
+  const locale = useLocale()
   const router = useRouter()
   const { data, isLoading, mutate } = useSWR(`/api/orders/${id}`, fetcher)
   const { data: usersData } = useSWR('/api/admin/users?role=delivery', fetcher)
@@ -43,11 +49,11 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
         body: JSON.stringify({ status: newStatus, note: statusNote }),
       })
       if (!res.ok) throw new Error()
-      toast.success(`Status updated to ${newStatus}`)
+      toast.success(t('statusUpdated', { status: tStatus(newStatus) }))
       setStatusNote('')
       mutate()
     } catch {
-      toast.error('Failed to update status')
+      toast.error(t('updateStatusError'))
     } finally {
       setUpdatingStatus(false)
     }
@@ -63,10 +69,10 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
         body: JSON.stringify({ deliveryPersonId: selectedDelivery }),
       })
       if (!res.ok) throw new Error()
-      toast.success('Delivery person assigned')
+      toast.success(t('deliveryAssigned'))
       mutate()
     } catch {
-      toast.error('Failed to assign')
+      toast.error(t('assignError'))
     } finally {
       setAssigning(false)
     }
@@ -81,7 +87,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
 
   if (!order) {
     return <div className="text-center py-20 text-neutral-400">
-      Order not found. <Link href="/admin/orders" className="text-brand-secondary hover:underline">Back</Link>
+      {t('notFound')} <Link href="/admin/orders" className="text-brand-secondary hover:underline">{t('back')}</Link>
     </div>
   }
 
@@ -90,7 +96,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
   return (
     <div className="max-w-2xl space-y-4">
       <Link href="/admin/orders" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> Back to orders
+        <ArrowLeft size={16} /> {t('backToOrders')}
       </Link>
 
       {/* Header */}
@@ -99,7 +105,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
           <div>
             <p className="text-xl font-bold text-neutral-800">{order.orderNumber}</p>
             <p className="text-sm text-neutral-400 mt-0.5">
-              {new Date(order.createdAt).toLocaleString('en-GB', {
+              {new Date(order.createdAt).toLocaleString(locale, {
                 day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit',
               })}
             </p>
@@ -118,12 +124,12 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
       {/* Status change */}
       {nextStatuses.length > 0 && (
         <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="font-semibold text-neutral-800">Change Status</h2>
+          <h2 className="font-semibold text-neutral-800">{t('changeStatus')}</h2>
           <input
             type="text"
             value={statusNote}
             onChange={(e) => setStatusNote(e.target.value)}
-            placeholder="Optional note for customer…"
+            placeholder={t('notePlaceholder')}
             className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
           />
           <div className="flex gap-2 flex-wrap">
@@ -138,7 +144,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
                     : 'bg-brand-primary text-white hover:bg-brand-secondary'
                 }`}
               >
-                {s === 'transit' ? 'Mark In Transit' : `Mark as ${s}`}
+                {s === 'transit' ? t('markInTransit') : t('markAs', { status: tStatus(s) })}
               </button>
             ))}
           </div>
@@ -149,10 +155,10 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
       {(order.status === 'confirmed' || order.status === 'transit') && (
         <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
           <h2 className="font-semibold text-neutral-800">
-            Assign Delivery
+            {t('assignDelivery')}
             {order.assignedTo && (
               <span className="ml-2 text-sm font-normal text-neutral-400">
-                (current: {order.assignedTo.name})
+                {t('currentAssignee', { name: order.assignedTo.name })}
               </span>
             )}
           </h2>
@@ -162,7 +168,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
               onChange={(e) => setSelectedDelivery(e.target.value)}
               className="flex-1 px-3 py-2.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
             >
-              <option value="">Select delivery person…</option>
+              <option value="">{t('selectDeliveryPerson')}</option>
               {deliveryUsers.map((u: any) => (
                 <option key={u._id} value={u._id}>{u.name} · {u.phone}</option>
               ))}
@@ -172,7 +178,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
               disabled={assigning || !selectedDelivery}
               className="px-4 py-2 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-50 transition"
             >
-              {assigning ? '…' : 'Assign'}
+              {assigning ? t('assigning') : t('assign')}
             </button>
           </div>
         </div>
@@ -180,7 +186,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
 
       {/* Items */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h2 className="font-semibold text-neutral-800 mb-3">Items</h2>
+        <h2 className="font-semibold text-neutral-800 mb-3">{t('items')}</h2>
         <div className="space-y-3">
           {order.items?.map((item: any, i: number) => (
             <div key={i} className="flex items-center gap-3">
@@ -195,7 +201,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-neutral-700 truncate">{item.name}</p>
-                <p className="text-xs text-neutral-400">× {item.quantity} · {item.price.toLocaleString()} MRU each</p>
+                <p className="text-xs text-neutral-400">{t('qtyEach', { qty: item.quantity, price: `${item.price.toLocaleString()} MRU` })}</p>
               </div>
               <p className="text-sm font-medium">{(item.price * item.quantity).toLocaleString()} MRU</p>
             </div>
@@ -204,14 +210,14 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
 
         <div className="border-t border-neutral-100 mt-4 pt-3 space-y-1.5">
           <div className="flex justify-between text-sm text-neutral-500">
-            <span>Subtotal</span><span>{order.cartTotal?.toLocaleString()} MRU</span>
+            <span>{tCommon('subtotal')}</span><span>{order.cartTotal?.toLocaleString()} MRU</span>
           </div>
           <div className="flex justify-between text-sm text-neutral-500">
-            <span>Delivery</span>
-            <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
+            <span>{tCommon('delivery')}</span>
+            <span>{order.deliveryFee === 0 ? tCommon('free') : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
           </div>
           <div className="flex justify-between font-bold text-neutral-800">
-            <span>Total</span><span className="text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
+            <span>{tCommon('total')}</span><span className="text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
           </div>
         </div>
       </div>
@@ -222,7 +228,7 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
           <MapPin size={16} className="text-neutral-400 mt-0.5" />
           <div>
             <p className="text-sm font-medium text-neutral-700">
-              {order.deliveryOption === 'home' ? 'Home Delivery' : 'Store Pickup'}
+              {order.deliveryOption === 'home' ? tCheckout('homeDelivery') : tCheckout('storePickup')}
             </p>
             {order.deliveryAddress && (
               <p className="text-sm text-neutral-500">{order.deliveryAddress}</p>
@@ -232,12 +238,12 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
         <div className="flex items-center gap-2">
           <CreditCard size={16} className="text-neutral-400" />
           <p className="text-sm font-medium text-neutral-700">
-            {order.paymentMethod === 'cash' ? 'Cash on Delivery/Pickup' : 'Bank Transfer'}
+            {order.paymentMethod === 'cash' ? tCheckout('cashOnDelivery') : tCheckout('bankTransfer')}
           </p>
         </div>
         {order.paymentScreenshot && (
           <div>
-            <p className="text-xs text-neutral-500 mb-1">Payment screenshot:</p>
+            <p className="text-xs text-neutral-500 mb-1">{t('paymentScreenshotLabel')}</p>
             <a href={order.paymentScreenshot} target="_blank" rel="noopener noreferrer">
               <Image
                 src={order.paymentScreenshot}
@@ -253,16 +259,16 @@ export default function AdminOrderDetailPage({ params }: { params: Promise<{ id:
 
       {/* Status history */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h2 className="font-semibold text-neutral-800 mb-3">Status History</h2>
+        <h2 className="font-semibold text-neutral-800 mb-3">{t('statusHistory')}</h2>
         <div className="space-y-2">
           {order.statusHistory?.map((h: any, i: number) => (
             <div key={i} className="flex items-start gap-3 text-sm">
               <div className="w-2 h-2 rounded-full bg-brand-primary mt-1.5 shrink-0" />
               <div>
-                <span className="font-medium capitalize text-neutral-700">{h.status}</span>
+                <span className="font-medium capitalize text-neutral-700">{tStatus(h.status as OrderStatus)}</span>
                 {h.note && <span className="text-neutral-400 ml-1">— {h.note}</span>}
                 <p className="text-xs text-neutral-400">
-                  {new Date(h.changedAt).toLocaleString('en-GB', {
+                  {new Date(h.changedAt).toLocaleString(locale, {
                     day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit',
                   })}
                 </p>

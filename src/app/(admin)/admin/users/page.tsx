@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 import { Plus, User, Pencil, Trash2, Truck, AlertTriangle, Search } from "lucide-react";
 import useSWR from "swr";
 import toast from "react-hot-toast";
@@ -10,6 +11,9 @@ import toast from "react-hot-toast";
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function AdminUsersPage() {
+  const t = useTranslations("adminUsers");
+  const tCommon = useTranslations("common");
+  const tProfile = useTranslations("profile");
   const [tab, setTab] = useState<"customer" | "delivery">("customer");
   const { data, isLoading, mutate } = useSWR(
     `/api/admin/users?role=${tab}`,
@@ -54,11 +58,11 @@ export default function AdminUsersPage() {
       });
       const d = await res.json();
       if (!res.ok) {
-        toast.error(d.error ?? "Failed to update user");
+        toast.error(d.error ?? t("updateError"));
         return;
       }
       mutate();
-      toast.success("User updated");
+      toast.success(t("userUpdated"));
       setEditingUser(null);
     } finally {
       setSaving(false);
@@ -75,11 +79,11 @@ export default function AdminUsersPage() {
       });
       const d = await res.json();
       if (!res.ok) {
-        setDeleteError(d.error ?? "Failed to delete user");
+        setDeleteError(d.error ?? t("deleteAccountError"));
         return;
       }
       mutate();
-      toast.success("Delivery account deleted");
+      toast.success(t("deliveryAccountDeleted"));
       setUserToDelete(null);
     } finally {
       setDeleting(false);
@@ -89,9 +93,11 @@ export default function AdminUsersPage() {
   return (
     <div className="space-y-5 pb-20 sm:pb-0">
       <div>
-        <h1 className="text-2xl font-bold text-neutral-800">Personnel</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t("title")}</h1>
         <p className="text-sm text-neutral-500 mt-0.5">
-          Manage your {users.length} {tab === "customer" ? "registered customers" : "delivery partners"}.
+          {tab === "customer"
+            ? t("subtitleCustomers", { count: users.length })
+            : t("subtitleDelivery", { count: users.length })}
         </p>
       </div>
 
@@ -101,7 +107,7 @@ export default function AdminUsersPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search by name or phone…"
+          placeholder={t("searchPlaceholder")}
           className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
         />
       </div>
@@ -109,17 +115,17 @@ export default function AdminUsersPage() {
       {/* Tabs */}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
-          {(["customer", "delivery"] as const).map((t) => (
+          {(["customer", "delivery"] as const).map((tabKey) => (
             <button
-              key={t}
-              onClick={() => setTab(t)}
+              key={tabKey}
+              onClick={() => setTab(tabKey)}
               className={`px-4 py-2 rounded-full text-sm font-semibold capitalize transition ${
-                tab === t
+                tab === tabKey
                   ? "bg-brand-primary text-white"
                   : "bg-white border border-neutral-200 text-neutral-500 hover:border-brand-primary"
               }`}
             >
-              {t === "customer" ? "Customers" : "Delivery Staff"}
+              {tabKey === "customer" ? t("customers") : t("deliveryStaff")}
             </button>
           ))}
         </div>
@@ -129,7 +135,7 @@ export default function AdminUsersPage() {
             className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
           >
             <Plus size={16} />
-            Add Delivery
+            {t("addDelivery")}
           </Link>
         )}
       </div>
@@ -137,11 +143,11 @@ export default function AdminUsersPage() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-brand-container/15 p-4 rounded-2xl border border-brand-container/40">
-          <p className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">Active</p>
+          <p className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">{t("active")}</p>
           <p className="text-xl font-bold text-brand-primary">{activeCount} / {users.length}</p>
         </div>
         <div className="bg-surface-high p-4 rounded-2xl border border-neutral-200">
-          <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-wider">Total {tab === 'customer' ? 'Customers' : 'Staff'}</p>
+          <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-wider">{tab === 'customer' ? t('totalCustomers') : t('totalStaff')}</p>
           <p className="text-xl font-bold text-neutral-800">{users.length}</p>
         </div>
       </div>
@@ -159,7 +165,7 @@ export default function AdminUsersPage() {
           ))
         ) : filteredUsers.length === 0 ? (
           <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">
-            No {tab} users found
+            {t("noUsersFound", { type: tab === "customer" ? t("customers") : t("deliveryStaff") })}
           </p>
         ) : (
           filteredUsers.map((u: any) => (
@@ -184,7 +190,7 @@ export default function AdminUsersPage() {
                   {tab === "delivery" && (
                     <div className="flex items-center gap-1 mt-1 text-xs text-neutral-500">
                       <Truck size={13} className="text-brand-primary" />
-                      {u.deliveryCount ?? 0} completed deliveries
+                      {t("completedDeliveries", { count: u.deliveryCount ?? 0 })}
                     </div>
                   )}
                 </div>
@@ -192,21 +198,21 @@ export default function AdminUsersPage() {
 
               <div className="flex items-center gap-2 shrink-0">
                 <span className={`px-3 py-1 rounded-full text-xs font-semibold ${u.isActive ? 'bg-success/10 text-success' : 'bg-neutral-100 text-neutral-500'}`}>
-                  {u.isActive ? 'Active' : 'Inactive'}
+                  {u.isActive ? t("activeBadge") : t("inactiveBadge")}
                 </span>
                 {tab === "delivery" && (
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => openEdit(u)}
                       className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
-                      title="Edit"
+                      title={tCommon("edit")}
                     >
                       <Pencil size={16} />
                     </button>
                     <button
                       onClick={() => setUserToDelete({ _id: u._id, name: u.name })}
                       className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
-                      title="Delete"
+                      title={tCommon("delete")}
                     >
                       <Trash2 size={16} />
                     </button>
@@ -222,7 +228,7 @@ export default function AdminUsersPage() {
         <Link
           href="/admin/users/new-delivery"
           className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-primary text-white rounded-2xl shadow-xl flex items-center justify-center active:scale-90 transition-all z-40"
-          aria-label="Add delivery staff"
+          aria-label={t("addDeliveryAria")}
         >
           <Plus size={26} />
         </Link>
@@ -235,11 +241,11 @@ export default function AdminUsersPage() {
             className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4"
           >
             <h2 className="font-semibold text-neutral-800">
-              Edit Delivery Staff
+              {t("editDeliveryStaff")}
             </h2>
             {[
-              { key: "name", label: "Full name", type: "text" },
-              { key: "phone", label: "Phone number", type: "tel", pattern: "[234][0-9]{7}", maxLength: 8, title: "8 digits starting with 2, 3 or 4" },
+              { key: "name", label: t("fullName"), type: "text" },
+              { key: "phone", label: t("phoneNumber"), type: "tel", pattern: "[234][0-9]{7}", maxLength: 8, title: tProfile("phoneHint") },
             ].map(({ key, label, type, pattern, maxLength, title }) => (
               <div key={key}>
                 <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -266,14 +272,14 @@ export default function AdminUsersPage() {
                 disabled={saving}
                 className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
-                Cancel
+                {tCommon("cancel")}
               </button>
               <button
                 type="submit"
                 disabled={saving}
                 className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-lg hover:bg-brand-secondary transition disabled:opacity-50"
               >
-                {saving ? "Saving…" : "Save"}
+                {saving ? t("saving") : tCommon("save")}
               </button>
             </div>
           </form>
@@ -289,14 +295,10 @@ export default function AdminUsersPage() {
               </div>
               <div>
                 <h2 className="font-semibold text-neutral-800">
-                  Delete delivery account
+                  {t("deleteAccountTitle")}
                 </h2>
                 <p className="text-sm text-neutral-500 mt-1">
-                  Are you sure you want to delete{" "}
-                  <span className="font-medium text-neutral-700">
-                    {userToDelete.name}
-                  </span>
-                  &apos;s account? This action cannot be undone.
+                  {t("deleteAccountConfirm", { name: userToDelete.name })}
                 </p>
               </div>
             </div>
@@ -314,14 +316,14 @@ export default function AdminUsersPage() {
                 disabled={deleting}
                 className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
-                Cancel
+                {tCommon("cancel")}
               </button>
               <button
                 onClick={confirmDelete}
                 disabled={deleting}
                 className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
-                {deleting ? "Deleting…" : "Delete"}
+                {deleting ? t("deleting") : tCommon("delete")}
               </button>
             </div>
           </div>

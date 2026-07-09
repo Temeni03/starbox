@@ -1,29 +1,34 @@
 'use client'
 
 import { useMemo, useState } from 'react'
+import { useLocale, useTranslations } from 'next-intl'
 import { Plus, Pencil, EyeOff, Eye, Trash2, Search, MapPin, AlertTriangle, X } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
+import { resolveLocalized } from '@/lib/resolveLocalized'
+import type { Locale } from '@/i18n/config'
+import type { LocalizedText } from '@/types/localized'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 interface LocationRecord {
   _id: string
-  nameAr: string
-  nameFr: string
+  name: LocalizedText
   price: number
   isActive: boolean
 }
 
 interface FormState {
-  nameAr: string
-  nameFr: string
+  name: LocalizedText
   price: string
 }
 
-const EMPTY_FORM: FormState = { nameAr: '', nameFr: '', price: '' }
+const EMPTY_FORM: FormState = { name: {}, price: '' }
 
 export default function AdminLocationsPage() {
+  const t = useTranslations('adminLocations')
+  const tCommon = useTranslations('common')
+  const locale = useLocale() as Locale
   const { data, isLoading, mutate } = useSWR('/api/admin/locations', fetcher)
   const locations: LocationRecord[] = data?.locations ?? []
 
@@ -38,8 +43,8 @@ export default function AdminLocationsPage() {
   const filteredLocations = useMemo(() => {
     const q = search.trim().toLowerCase()
     if (!q) return locations
-    return locations.filter(
-      (l) => l.nameFr.toLowerCase().includes(q) || l.nameAr.includes(search.trim())
+    return locations.filter((l) =>
+      [l.name.ar, l.name.fr, l.name.en].some((v) => v?.toLowerCase().includes(q))
     )
   }, [locations, search])
 
@@ -51,21 +56,24 @@ export default function AdminLocationsPage() {
 
   function openEditForm(location: LocationRecord) {
     setEditing(location)
-    setForm({ nameAr: location.nameAr, nameFr: location.nameFr, price: String(location.price) })
+    setForm({ name: { ...location.name }, price: String(location.price) })
     setShowForm(true)
   }
 
   async function handleSubmit() {
-    const nameAr = form.nameAr.trim()
-    const nameFr = form.nameFr.trim()
+    const name = {
+      ar: form.name.ar?.trim() || undefined,
+      fr: form.name.fr?.trim() || undefined,
+      en: form.name.en?.trim() || undefined,
+    }
     const price = Number(form.price)
 
-    if (!nameAr || !nameFr) {
-      toast.error('Please fill in both names')
+    if (!name.ar && !name.fr && !name.en) {
+      toast.error(t('nameRequired'))
       return
     }
     if (!Number.isFinite(price) || price < 0) {
-      toast.error('Please enter a valid price')
+      toast.error(t('invalidPrice'))
       return
     }
 
@@ -76,17 +84,17 @@ export default function AdminLocationsPage() {
         {
           method: editing ? 'PATCH' : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nameAr, nameFr, price }),
+          body: JSON.stringify({ name, price }),
         }
       )
       const responseData = await res.json()
       if (!res.ok) throw new Error(responseData.error ?? 'Failed to save location')
 
       mutate()
-      toast.success(editing ? 'Location updated' : 'Location added')
+      toast.success(editing ? t('locationUpdated') : t('locationAdded'))
       setShowForm(false)
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : 'Failed to save location')
+      toast.error(err instanceof Error ? err.message : t('saveError'))
     } finally {
       setSaving(false)
     }
@@ -100,9 +108,9 @@ export default function AdminLocationsPage() {
         body: JSON.stringify({ isActive: !location.isActive }),
       })
       mutate()
-      toast.success(location.isActive ? 'Location hidden' : 'Location activated')
+      toast.success(location.isActive ? t('locationHidden') : t('locationActivated'))
     } catch {
-      toast.error('Failed to update location')
+      toast.error(t('updateError'))
     }
   }
 
@@ -113,10 +121,10 @@ export default function AdminLocationsPage() {
       const res = await fetch(`/api/admin/locations/${locationToDelete._id}`, { method: 'DELETE' })
       if (!res.ok) throw new Error()
       mutate()
-      toast.success('Location deleted')
+      toast.success(t('locationDeleted'))
       setLocationToDelete(null)
     } catch {
-      toast.error('Failed to delete location')
+      toast.error(t('deleteError'))
     } finally {
       setDeleting(false)
     }
@@ -125,13 +133,13 @@ export default function AdminLocationsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-neutral-800">Delivery Locations</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
         <button
           onClick={openAddForm}
           className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
         >
           <Plus size={16} />
-          Add Location
+          {t('addLocation')}
         </button>
       </div>
 
@@ -141,7 +149,7 @@ export default function AdminLocationsPage() {
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          placeholder="Search a location by name…"
+          placeholder={t('searchPlaceholder')}
           className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
         />
       </div>
@@ -158,9 +166,9 @@ export default function AdminLocationsPage() {
             </div>
           ))
         ) : locations.length === 0 ? (
-          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No delivery locations yet</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noLocations')}</p>
         ) : filteredLocations.length === 0 ? (
-          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No location matches &quot;{search}&quot;</p>
+          <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noMatch', { query: search })}</p>
         ) : (
           filteredLocations.map((l) => (
             <div key={l._id} className={`bg-white rounded-2xl border border-neutral-200 flex items-center gap-4 px-5 py-3.5 ${!l.isActive ? 'opacity-50' : ''}`}>
@@ -171,9 +179,9 @@ export default function AdminLocationsPage() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-semibold text-neutral-800 truncate">
-                    {l.nameFr} <span dir="rtl" className="text-neutral-500 font-normal">— {l.nameAr}</span>
+                    {resolveLocalized(l.name, locale)}
                   </p>
-                  {!l.isActive && <span className="text-xs text-neutral-400">Hidden</span>}
+                  {!l.isActive && <span className="text-xs text-neutral-400">{t('hidden')}</span>}
                 </div>
                 <p className="text-xs text-neutral-400">{l.price.toLocaleString()} MRU</p>
               </div>
@@ -182,21 +190,21 @@ export default function AdminLocationsPage() {
                 <button
                   onClick={() => openEditForm(l)}
                   className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
-                  title="Edit"
+                  title={tCommon('edit')}
                 >
                   <Pencil size={16} />
                 </button>
                 <button
                   onClick={() => toggleActive(l)}
                   className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
-                  title={l.isActive ? 'Hide' : 'Show'}
+                  title={l.isActive ? t('hide') : t('show')}
                 >
                   {l.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
                 <button
                   onClick={() => setLocationToDelete(l)}
                   className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
-                  title="Delete"
+                  title={tCommon('delete')}
                 >
                   <Trash2 size={16} />
                 </button>
@@ -211,7 +219,7 @@ export default function AdminLocationsPage() {
           <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="font-semibold text-neutral-800">
-                {editing ? 'Edit Location' : 'Add Location'}
+                {editing ? t('editLocation') : t('addLocationTitle')}
               </h2>
               <button
                 onClick={() => setShowForm(false)}
@@ -224,39 +232,51 @@ export default function AdminLocationsPage() {
             <div className="space-y-3">
               <div>
                 <label className="block text-xs font-medium text-neutral-600 mb-1">
-                  Name (French)
+                  {t('nameFr')}
                 </label>
                 <input
                   type="text"
-                  value={form.nameFr}
-                  onChange={(e) => setForm((f) => ({ ...f, nameFr: e.target.value }))}
-                  placeholder="e.g. Ksar"
+                  value={form.name.fr ?? ''}
+                  onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, fr: e.target.value } }))}
+                  placeholder={t('nameFrPlaceholder')}
                   className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
                 />
               </div>
               <div>
                 <label className="block text-xs font-medium text-neutral-600 mb-1">
-                  Name (Arabic)
+                  {t('nameAr')}
                 </label>
                 <input
                   type="text"
                   dir="rtl"
-                  value={form.nameAr}
-                  onChange={(e) => setForm((f) => ({ ...f, nameAr: e.target.value }))}
+                  value={form.name.ar ?? ''}
+                  onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, ar: e.target.value } }))}
                   placeholder="مثال: الكصر"
                   className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
                 />
               </div>
               <div>
                 <label className="block text-xs font-medium text-neutral-600 mb-1">
-                  Delivery Price (MRU)
+                  {t('nameEn')}
+                </label>
+                <input
+                  type="text"
+                  value={form.name.en ?? ''}
+                  onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, en: e.target.value } }))}
+                  placeholder={t('nameEnPlaceholder')}
+                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-neutral-600 mb-1">
+                  {t('deliveryPrice')}
                 </label>
                 <input
                   type="number"
                   min={0}
                   value={form.price}
                   onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
-                  placeholder="e.g. 150"
+                  placeholder={t('pricePlaceholder')}
                   className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
                 />
               </div>
@@ -268,14 +288,14 @@ export default function AdminLocationsPage() {
                 disabled={saving}
                 className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
-                Cancel
+                {tCommon('cancel')}
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={saving}
                 className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-lg hover:bg-brand-secondary transition disabled:opacity-50"
               >
-                {saving ? 'Saving…' : editing ? 'Save changes' : 'Add location'}
+                {saving ? t('saving') : editing ? t('saveChanges') : t('add')}
               </button>
             </div>
           </div>
@@ -290,11 +310,9 @@ export default function AdminLocationsPage() {
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">Delete location</h2>
+                <h2 className="font-semibold text-neutral-800">{t('deleteTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">
-                  Are you sure you want to delete{' '}
-                  <span className="font-medium text-neutral-700">{locationToDelete.nameFr}</span>?
-                  This action cannot be undone.
+                  {t('deleteConfirm', { name: resolveLocalized(locationToDelete.name, locale) })}
                 </p>
               </div>
             </div>
@@ -304,14 +322,14 @@ export default function AdminLocationsPage() {
                 disabled={deleting}
                 className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
-                Cancel
+                {tCommon('cancel')}
               </button>
               <button
                 onClick={deleteLocation}
                 disabled={deleting}
                 className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
-                {deleting ? 'Deleting…' : 'Delete'}
+                {deleting ? t('deleting') : tCommon('delete')}
               </button>
             </div>
           </div>

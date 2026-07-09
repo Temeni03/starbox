@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 import {
   LayoutDashboard,
   ShoppingBag,
@@ -15,30 +16,32 @@ import {
   User as UserIcon,
 } from 'lucide-react'
 import { useNotifications } from '@/hooks/useNotifications'
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 
 interface NavLinkDef {
   href: string
-  label: string
+  labelKey: 'dashboard' | 'orders' | 'products' | 'locations' | 'users' | 'notifications' | 'settings'
   icon: typeof LayoutDashboard
   exact?: boolean
 }
 
 const mainLinks: NavLinkDef[] = [
-  { href: '/admin', label: 'Dashboard', icon: LayoutDashboard, exact: true },
-  { href: '/admin/orders', label: 'Orders', icon: ShoppingBag },
-  { href: '/admin/products', label: 'Products', icon: Package },
-  { href: '/admin/locations', label: 'Locations', icon: MapPin },
-  { href: '/admin/users', label: 'Users', icon: Users },
+  { href: '/admin', labelKey: 'dashboard', icon: LayoutDashboard, exact: true },
+  { href: '/admin/orders', labelKey: 'orders', icon: ShoppingBag },
+  { href: '/admin/products', labelKey: 'products', icon: Package },
+  { href: '/admin/locations', labelKey: 'locations', icon: MapPin },
+  { href: '/admin/users', labelKey: 'users', icon: Users },
 ]
 
 const systemLinks: NavLinkDef[] = [
-  { href: '/admin/notifications', label: 'Notifications', icon: Bell },
-  { href: '/admin/config', label: 'Settings', icon: Settings },
+  { href: '/admin/notifications', labelKey: 'notifications', icon: Bell },
+  { href: '/admin/config', labelKey: 'settings', icon: Settings },
 ]
 
 const links = [...mainLinks, ...systemLinks]
 
 export function AdminSidebar({ userName }: { userName: string }) {
+  const t = useTranslations('adminNav')
   const pathname = usePathname()
   const { unreadCount } = useNotifications()
 
@@ -46,7 +49,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
     return exact ? pathname === href : pathname.startsWith(href)
   }
 
-  function NavLink({ href, label, icon: Icon, exact }: (typeof links)[number]) {
+  function NavLink({ href, labelKey, icon: Icon, exact }: (typeof links)[number]) {
     const active = isActive(href, exact)
     return (
       <Link
@@ -57,13 +60,13 @@ export function AdminSidebar({ userName }: { userName: string }) {
       >
         <span className="relative">
           <Icon size={18} />
-          {label === 'Notifications' && unreadCount > 0 && (
+          {labelKey === 'notifications' && unreadCount > 0 && (
             <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
               {unreadCount > 9 ? '9+' : unreadCount}
             </span>
           )}
         </span>
-        {label}
+        {t(labelKey)}
       </Link>
     )
   }
@@ -72,9 +75,12 @@ export function AdminSidebar({ userName }: { userName: string }) {
     <>
       {/* Desktop sidebar */}
       <aside className="hidden sm:flex w-64 bg-white border-r border-neutral-200 flex-col shrink-0">
-        <div className="px-6 py-5">
-          <p className="text-xl font-bold text-brand-primary tracking-tight">Starbox</p>
-          <p className="text-xs text-neutral-400 mt-0.5">Curated Luxury Admin</p>
+        <div className="px-6 py-5 flex items-start justify-between gap-2">
+          <div>
+            <p className="text-xl font-bold text-brand-primary tracking-tight">Starbox</p>
+            <p className="text-xs text-neutral-400 mt-0.5">{t('tagline')}</p>
+          </div>
+          <LocaleSwitcher compact />
         </div>
 
         <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
@@ -97,12 +103,12 @@ export function AdminSidebar({ userName }: { userName: string }) {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-neutral-800 truncate">{userName}</p>
-            <p className="text-xs text-neutral-400 truncate">Administrator</p>
+            <p className="text-xs text-neutral-400 truncate">{t('administrator')}</p>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
             className="text-neutral-400 hover:text-danger transition"
-            aria-label="Sign out"
+            aria-label={t('signOutAria')}
           >
             <LogOut size={18} />
           </button>
@@ -111,23 +117,24 @@ export function AdminSidebar({ userName }: { userName: string }) {
 
       {/* Mobile top bar */}
       <header className="sm:hidden fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200/60 h-14 flex items-center px-4 justify-between">
-        <p className="font-bold text-brand-primary">Starbox Admin</p>
+        <p className="font-bold text-brand-primary">{t('mobileHeader')}</p>
         <div className="flex items-center gap-4">
-          {links.map(({ href, label, icon: Icon, exact }) => (
+          {links.map(({ href, labelKey, icon: Icon, exact }) => (
             <Link
               key={href}
               href={href}
-              title={label}
+              title={t(labelKey)}
               className={`relative transition ${isActive(href, exact) ? 'text-brand-primary' : 'text-neutral-400'}`}
             >
               <Icon size={20} />
-              {label === 'Notifications' && unreadCount > 0 && (
+              {labelKey === 'notifications' && unreadCount > 0 && (
                 <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {unreadCount > 9 ? '9+' : unreadCount}
                 </span>
               )}
             </Link>
           ))}
+          <LocaleSwitcher compact />
         </div>
       </header>
 

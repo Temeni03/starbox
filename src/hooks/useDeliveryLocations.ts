@@ -4,8 +4,7 @@ const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export interface DeliveryLocation {
   _id: string
-  nameAr: string
-  nameFr: string
+  name: string
   price: number
 }
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useTranslations } from 'next-intl'
 import { Package, Copy, Check, ArrowLeft, ChevronRight, Store, Truck, Landmark, Banknote } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCartStore } from '@/store/cartStore'
@@ -14,6 +15,8 @@ import type { DeliveryLocation } from '@/hooks/useDeliveryLocations'
 const BANK_PAYMENT_CODE = 'STORE-001'
 
 export default function CheckoutPage() {
+  const t = useTranslations('checkout')
+  const tCommon = useTranslations('common')
   const router = useRouter()
   const items = useCartStore((s) => s.items)
   const totalPrice = useCartStore((s) => s.totalPrice())
@@ -30,10 +33,10 @@ export default function CheckoutPage() {
     try {
       await navigator.clipboard.writeText(BANK_PAYMENT_CODE)
       setCodeCopied(true)
-      toast.success('Code copied')
+      toast.success(t('codeCopied'))
       setTimeout(() => setCodeCopied(false), 2000)
     } catch {
-      toast.error('Failed to copy code')
+      toast.error(t('copyCodeError'))
     }
   }
 
@@ -50,11 +53,11 @@ export default function CheckoutPage() {
 
   async function handleConfirm() {
     if (deliveryOption === 'home' && !location) {
-      toast.error('Please select your delivery location')
+      toast.error(t('selectLocationError'))
       return
     }
     if (paymentMethod === 'bank_transfer' && !screenshot) {
-      toast.error('Please upload your payment screenshot')
+      toast.error(t('uploadScreenshotError'))
       return
     }
 
@@ -73,15 +76,15 @@ export default function CheckoutPage() {
 
       const data = await res.json()
       if (!res.ok) {
-        toast.error(data.error ?? 'Failed to place order')
+        toast.error(data.error ?? t('placeOrderError'))
         return
       }
 
       clearCart()
-      toast.success('Order placed successfully!')
+      toast.success(t('orderSuccess'))
       router.push(`/orders/${data.orderId}`)
     } catch {
-      toast.error('Something went wrong')
+      toast.error(tCommon('somethingWrong'))
     } finally {
       setLoading(false)
     }
@@ -92,25 +95,25 @@ export default function CheckoutPage() {
       <div className="flex items-center gap-2 mb-6">
         <Link
           href="/cart"
-          aria-label="Back to cart"
+          aria-label={t('backToCartAria')}
           className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-brand-light/50 transition -ml-1.5"
         >
           <ArrowLeft size={20} className="text-brand-primary" />
         </Link>
-        <h1 className="text-2xl font-bold text-neutral-800">Checkout</h1>
+        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
       </div>
 
       {/* Delivery Method */}
       <section className="mb-6">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">Delivery Method</h2>
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('deliveryMethod')}</h2>
         <div className="grid grid-cols-2 gap-3">
           {(
             [
-              { value: 'pickup', label: 'Store Pickup', sub: 'Free', icon: Store },
+              { value: 'pickup', label: t('storePickup'), sub: tCommon('free'), icon: Store },
               {
                 value: 'home',
-                label: 'Home Delivery',
-                sub: location ? `${location.price.toLocaleString()} MRU` : 'Select zone',
+                label: t('homeDelivery'),
+                sub: location ? `${location.price.toLocaleString()} MRU` : t('selectZone'),
                 icon: Truck,
               },
             ] as const
@@ -142,7 +145,7 @@ export default function CheckoutPage() {
 
       {/* Order items summary */}
       <section className="mb-6 bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">Order Summary</h2>
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('orderSummary')}</h2>
         <div className="space-y-2">
           {items.map((item) => (
             <div key={item.product} className="flex items-center gap-3">
@@ -169,12 +172,12 @@ export default function CheckoutPage() {
 
       {/* Payment method */}
       <section className="mb-6">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">Payment Method</h2>
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('paymentMethod')}</h2>
         <div className="space-y-3">
           {(
             [
-              { value: 'bank_transfer', label: 'Bank Transfer', sub: 'Confirm with a receipt upload', icon: Landmark },
-              { value: 'cash', label: 'Cash on Delivery / Pickup', sub: 'Pay when your order arrives', icon: Banknote },
+              { value: 'bank_transfer', label: t('bankTransfer'), sub: t('bankTransferSub'), icon: Landmark },
+              { value: 'cash', label: t('cashOnDelivery'), sub: t('cashSub'), icon: Banknote },
             ] as const
           ).map(({ value, label, sub, icon: Icon }) => (
             <label
@@ -203,7 +206,10 @@ export default function CheckoutPage() {
         {paymentMethod === 'bank_transfer' && (
           <div className="mt-3 p-4 rounded-xl border border-neutral-200 bg-surface-low space-y-3">
             <p className="text-xs text-neutral-600">
-              Transfer <strong>{grandTotal.toLocaleString()} MRU</strong> using the code below, then upload your receipt.
+              {t.rich('transferInstructions', {
+                amount: `${grandTotal.toLocaleString()} MRU`,
+                strong: (chunks) => <strong>{chunks}</strong>,
+              })}
             </p>
             <button
               type="button"
@@ -216,11 +222,11 @@ export default function CheckoutPage() {
               <span className="flex items-center gap-1 text-xs text-neutral-500">
                 {codeCopied ? (
                   <>
-                    <Check size={14} className="text-success" /> Copied
+                    <Check size={14} className="text-success" /> {t('copied')}
                   </>
                 ) : (
                   <>
-                    <Copy size={14} /> Copy
+                    <Copy size={14} /> {tCommon('copy')}
                   </>
                 )}
               </span>
@@ -232,7 +238,7 @@ export default function CheckoutPage() {
                   onClick={() => setScreenshot(null)}
                   className="text-xs text-danger hover:underline"
                 >
-                  Remove
+                  {tCommon('remove')}
                 </button>
               </div>
             ) : (
@@ -252,17 +258,17 @@ export default function CheckoutPage() {
       {/* Totals */}
       <section className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-5 space-y-3">
         <div className="flex justify-between items-center text-sm text-neutral-600">
-          <span>Subtotal</span>
+          <span>{tCommon('subtotal')}</span>
           <span className="font-medium text-neutral-700">{totalPrice.toLocaleString()} MRU</span>
         </div>
         <div className="flex justify-between items-center text-sm text-neutral-600">
-          <span>Delivery Fee</span>
+          <span>{t('deliveryFee')}</span>
           <span className="font-medium text-neutral-700">
-            {deliveryFee === 0 ? 'Free' : `${deliveryFee.toLocaleString()} MRU`}
+            {deliveryFee === 0 ? tCommon('free') : `${deliveryFee.toLocaleString()} MRU`}
           </span>
         </div>
         <div className="flex justify-between items-center border-t border-neutral-200 pt-3">
-          <span className="text-lg font-semibold text-neutral-800">Total</span>
+          <span className="text-lg font-semibold text-neutral-800">{tCommon('total')}</span>
           <span className="text-2xl font-bold text-brand-primary">{grandTotal.toLocaleString()} MRU</span>
         </div>
       </section>
@@ -275,7 +281,7 @@ export default function CheckoutPage() {
             disabled={loading}
             className="w-full h-14 bg-brand-primary text-white rounded-full font-semibold text-base flex items-center justify-center gap-1.5 shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
           >
-            {loading ? 'Placing order…' : 'Complete Order'}
+            {loading ? t('placingOrder') : t('completeOrder')}
             {!loading && <ChevronRight size={20} />}
           </button>
         </div>

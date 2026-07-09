@@ -2,13 +2,15 @@
 
 import Link from 'next/link'
 import { Bell } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { useNotifications } from '@/hooks/useNotifications'
 
 export function NotificationBell({ href, className = '' }: { href: string; className?: string }) {
+  const t = useTranslations('notifications')
   const { unreadCount } = useNotifications()
 
   return (
-    <Link href={href} title="Notifications" className={className}>
+    <Link href={href} title={t('title')} className={className}>
       <span className="relative inline-flex">
         <Bell size={20} />
         {unreadCount > 0 && (

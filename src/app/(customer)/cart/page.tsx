@@ -3,12 +3,15 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { Minus, Plus, Trash2, Package, ShoppingBag, AlertTriangle, ArrowRight, Lock } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/store/cartStore'
 import toast from 'react-hot-toast'
 
 export default function CartPage() {
+  const t = useTranslations('cart')
+  const tCommon = useTranslations('common')
   const { isLoading, updateQuantity, removeFromCart, clearCart } = useCart()
   const items = useCartStore((s) => s.items)
   const totalPrice = useCartStore((s) => s.totalPrice())
@@ -21,16 +24,16 @@ export default function CartPage() {
     try {
       await updateQuantity(productId, quantity)
     } catch {
-      toast.error('Failed to update quantity')
+      toast.error(t('updateQuantityError'))
     }
   }
 
   async function handleRemove(productId: string) {
     try {
       await removeFromCart(productId)
-      toast.success('Item removed')
+      toast.success(t('itemRemoved'))
     } catch {
-      toast.error('Failed to remove item')
+      toast.error(t('removeItemError'))
     }
   }
 
@@ -38,10 +41,10 @@ export default function CartPage() {
     setClearing(true)
     try {
       await clearCart()
-      toast.success('Cart cleared')
+      toast.success(t('cartCleared'))
       setConfirmClear(false)
     } catch {
-      toast.error('Failed to clear cart')
+      toast.error(t('clearCartError'))
     } finally {
       setClearing(false)
     }
@@ -73,16 +76,16 @@ export default function CartPage() {
           </div>
         </div>
         <div className="max-w-xs space-y-2">
-          <h2 className="text-2xl font-bold text-neutral-800 tracking-tight">Your cart is empty</h2>
+          <h2 className="text-2xl font-bold text-neutral-800 tracking-tight">{t('emptyTitle')}</h2>
           <p className="text-sm text-neutral-500">
-            Discover our latest luxury blends and start your self-care journey.
+            {t('emptyDesc')}
           </p>
         </div>
         <Link
           href="/"
           className="inline-flex items-center bg-brand-primary text-white text-sm font-semibold px-8 h-12 rounded-full shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 transition-all"
         >
-          Explore Products
+          {t('exploreProducts')}
         </Link>
       </div>
     )
@@ -92,9 +95,9 @@ export default function CartPage() {
     <div className="pb-32 sm:pb-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-neutral-800">Your Cart</h1>
+          <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
           <span className="bg-brand-container text-brand-secondary text-xs font-semibold px-3 py-1 rounded-full">
-            {totalCount} {totalCount === 1 ? 'Item' : 'Items'}
+            {t('itemCount', { count: totalCount })}
           </span>
         </div>
         <button
@@ -102,7 +105,7 @@ export default function CartPage() {
           className="flex items-center gap-1.5 text-sm text-danger hover:underline"
         >
           <Trash2 size={14} />
-          Clear
+          {t('clear')}
         </button>
       </div>
 
@@ -128,7 +131,7 @@ export default function CartPage() {
                 <button
                   onClick={() => handleRemove(item.product)}
                   className="text-neutral-400 hover:text-danger transition flex-shrink-0"
-                  aria-label="Remove item"
+                  aria-label={t('removeItemAria')}
                 >
                   <Trash2 size={18} />
                 </button>
@@ -166,25 +169,25 @@ export default function CartPage() {
       {/* Summary */}
       <div className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-6 flex flex-col gap-4">
         <div className="flex justify-between items-center text-neutral-600 text-sm">
-          <span>Subtotal ({totalCount} items)</span>
+          <span>{t('subtotalItems', { count: totalCount })}</span>
           <span>{totalPrice.toLocaleString()} MRU</span>
         </div>
         <div className="flex justify-between items-center border-t border-neutral-200 pt-4">
-          <span className="text-lg font-semibold text-neutral-800">Total</span>
+          <span className="text-lg font-semibold text-neutral-800">{tCommon('total')}</span>
           <span className="text-2xl font-bold text-brand-primary">{totalPrice.toLocaleString()} MRU</span>
         </div>
         <Link
           href="/checkout"
           className="mt-2 w-full h-12 bg-brand-primary text-white rounded-full text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all flex items-center justify-center gap-2"
         >
-          Proceed to Checkout
+          {t('proceedToCheckout')}
           <ArrowRight size={16} />
         </Link>
       </div>
 
       <p className="text-center text-xs text-neutral-400 flex items-center justify-center gap-1 mt-6">
         <Lock size={14} />
-        Secure checkout
+        {t('secureCheckout')}
       </p>
 
       {confirmClear && (
@@ -195,9 +198,9 @@ export default function CartPage() {
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">Clear cart</h2>
+                <h2 className="font-semibold text-neutral-800">{t('clearCartTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">
-                  Are you sure you want to remove all items from your cart? This action cannot be undone.
+                  {t('clearCartConfirm')}
                 </p>
               </div>
             </div>
@@ -207,14 +210,14 @@ export default function CartPage() {
                 disabled={clearing}
                 className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
-                Cancel
+                {tCommon('cancel')}
               </button>
               <button
                 onClick={handleClearCart}
                 disabled={clearing}
                 className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
-                {clearing ? 'Clearing…' : 'Clear cart'}
+                {clearing ? t('clearing') : t('clearCartButton')}
               </button>
             </div>
           </div>

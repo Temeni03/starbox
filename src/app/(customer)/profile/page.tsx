@@ -3,15 +3,20 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
+import { useTranslations } from 'next-intl'
 import { LogOut, User as UserIcon, ClipboardList, Bell, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import useSWR, { mutate } from 'swr'
 import toast from 'react-hot-toast'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
+import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export default function ProfilePage() {
+  const t = useTranslations('profile')
+  const tCommon = useTranslations('common')
+  const tNotifications = useTranslations('notifications')
   const { data: session, update } = useSession()
   const { data: profileData } = useSWR('/api/profile', fetcher)
   const [name, setName] = useState(session?.user?.name ?? '')
@@ -29,13 +34,13 @@ export default function ProfilePage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        toast.error(data.error ?? 'Failed to update photo')
+        toast.error(data.error ?? t('updatePhotoError'))
         return
       }
       await mutate('/api/profile')
-      toast.success('Profile photo updated')
+      toast.success(t('photoUpdated'))
     } catch {
-      toast.error('Failed to update photo')
+      toast.error(t('updatePhotoError'))
     }
   }
 
@@ -50,21 +55,21 @@ export default function ProfilePage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        toast.error(data.error ?? 'Failed to update profile')
+        toast.error(data.error ?? t('updateError'))
         return
       }
       await update({ name: name.trim(), phone: phone.trim() })
-      toast.success('Profile updated')
+      toast.success(t('updated'))
     } catch {
-      toast.error('Failed to update profile')
+      toast.error(t('updateError'))
     } finally {
       setSaving(false)
     }
   }
 
   const navItems = [
-    { href: '/orders', label: 'My Orders', icon: ClipboardList },
-    { href: '/notifications', label: 'Notifications', icon: Bell },
+    { href: '/orders', label: t('myOrders'), icon: ClipboardList },
+    { href: '/notifications', label: tNotifications('title'), icon: Bell },
   ]
 
   return (
@@ -83,14 +88,14 @@ export default function ProfilePage() {
         <h2 className="text-xl font-bold text-neutral-800">{session?.user?.name}</h2>
         <p className="text-sm text-neutral-500 mb-3">{session?.user?.phone}</p>
         <div className="flex justify-center">
-          <ImageUploadButton type="profilePhoto" label="Change photo" onUploaded={handlePhotoUploaded} />
+          <ImageUploadButton type="profilePhoto" label={t('changePhoto')} onUploaded={handlePhotoUploaded} />
         </div>
       </section>
 
       {/* Editable details */}
       <form onSubmit={handleSave} className="bg-white rounded-xl border border-neutral-200 p-4 space-y-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">Full name</label>
+          <label className="block text-sm font-medium text-neutral-700 mb-1">{t('fullName')}</label>
           <input
             type="text"
             value={name}
@@ -100,14 +105,14 @@ export default function ProfilePage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">Phone</label>
+          <label className="block text-sm font-medium text-neutral-700 mb-1">{t('phone')}</label>
           <input
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
             pattern="[234][0-9]{7}"
             maxLength={8}
-            title="8 digits starting with 2, 3 or 4"
+            title={t('phoneHint')}
             required
             className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
           />
@@ -118,18 +123,22 @@ export default function ProfilePage() {
           disabled={saving}
           className="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
         >
-          {saving ? 'Saving…' : 'Save Changes'}
+          {saving ? t('saving') : t('save')}
         </button>
       </form>
 
-    
+      {/* Language */}
+      <div className="bg-white rounded-xl border border-neutral-200 p-4 mb-4 flex items-center justify-between">
+        <span className="text-sm font-medium text-neutral-700">{tCommon('language')}</span>
+        <LocaleSwitcher />
+      </div>
 
       <button
         onClick={() => signOut({ callbackUrl: '/login' })}
         className="w-full h-12 flex items-center justify-center gap-2 border-2 border-danger/20 text-danger rounded-full font-semibold text-sm hover:bg-red-50 transition"
       >
         <LogOut size={16} />
-        Logout
+        {t('logout')}
       </button>
     </div>
   )

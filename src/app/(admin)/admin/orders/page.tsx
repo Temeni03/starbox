@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { ChevronRight, CheckCircle2, XCircle, Truck, UserRoundPlus } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
@@ -20,6 +21,8 @@ const NEXT_STEP: Partial<Record<OrderStatus, string>> = {
 }
 
 export default function AdminOrdersPage() {
+  const t = useTranslations('adminOrders')
+  const tStatus = useTranslations('status')
   const searchParams = useSearchParams()
   const router = useRouter()
   const status = searchParams.get('status') ?? 'all'
@@ -42,13 +45,13 @@ export default function AdminOrdersPage() {
       toast.success(label)
       mutate()
     } catch {
-      toast.error('Failed to update order')
+      toast.error(t('updateError'))
     }
   }
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-neutral-800">Order Management</h1>
+      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
 
       {/* Status filter tabs */}
       <div className="flex gap-2 flex-wrap">
@@ -62,7 +65,7 @@ export default function AdminOrdersPage() {
                 : 'bg-white border border-neutral-200 text-neutral-500 hover:border-brand-primary'
             }`}
           >
-            {s === 'transit' ? 'In Transit' : s}
+            {s === 'all' ? t('allStatus') : tStatus(s as OrderStatus)}
           </button>
         ))}
       </div>
@@ -77,7 +80,7 @@ export default function AdminOrdersPage() {
           ))}
         </div>
       ) : orders.length === 0 ? (
-        <p className="bg-white rounded-xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">No orders found</p>
+        <p className="bg-white rounded-xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noOrders')}</p>
       ) : (
         <div className="space-y-3">
           {orders.map((order: any) => {
@@ -115,8 +118,8 @@ export default function AdminOrdersPage() {
                       <Image src={order.paymentScreenshot} alt="Payment receipt" fill className="object-cover" sizes="56px" />
                     </a>
                     <div className="flex flex-col">
-                      <span className="text-xs font-semibold text-neutral-700">Payment Receipt</span>
-                      <span className="text-xs text-neutral-400">Bank transfer submitted</span>
+                      <span className="text-xs font-semibold text-neutral-700">{t('paymentReceipt')}</span>
+                      <span className="text-xs text-neutral-400">{t('bankTransferSubmitted')}</span>
                     </div>
                   </div>
                 )}
@@ -125,7 +128,7 @@ export default function AdminOrdersPage() {
                 {(order.status === 'confirmed' || order.status === 'transit') && (
                   <div className="flex items-center justify-between bg-brand-container/10 p-3 rounded-lg border border-brand-container/20 mb-3">
                     <span className="text-sm text-brand-secondary font-medium">
-                      {order.assignedTo ? `Assigned to ${order.assignedTo.name}` : 'No driver assigned'}
+                      {order.assignedTo ? t('assignedTo', { name: order.assignedTo.name }) : t('noDriverAssigned')}
                     </span>
                     {!order.assignedTo && (
                       <Link
@@ -133,7 +136,7 @@ export default function AdminOrdersPage() {
                         className="flex items-center gap-1 bg-brand-secondary text-white px-3 py-1.5 rounded-full text-xs font-semibold active:scale-95 transition"
                       >
                         <UserRoundPlus size={13} />
-                        Assign
+                        {t('assign')}
                       </Link>
                     )}
                   </div>
@@ -143,25 +146,25 @@ export default function AdminOrdersPage() {
                 {order.status === 'pending' && (
                   <div className="flex gap-2">
                     <button
-                      onClick={() => updateStatus(order._id, 'confirmed', 'Order confirmed')}
+                      onClick={() => updateStatus(order._id, 'confirmed', t('orderConfirmed'))}
                       className="flex-1 h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-lg text-sm font-semibold active:scale-95 transition"
                     >
-                      <CheckCircle2 size={16} /> Approve
+                      <CheckCircle2 size={16} /> {t('approve')}
                     </button>
                     <button
-                      onClick={() => updateStatus(order._id, 'cancelled', 'Order rejected')}
+                      onClick={() => updateStatus(order._id, 'cancelled', t('orderRejected'))}
                       className="flex-1 h-10 flex items-center justify-center gap-1.5 border border-neutral-300 text-neutral-600 rounded-lg text-sm font-semibold active:scale-95 transition"
                     >
-                      <XCircle size={16} /> Reject
+                      <XCircle size={16} /> {t('reject')}
                     </button>
                   </div>
                 )}
                 {order.status === 'transit' && (
                   <button
-                    onClick={() => updateStatus(order._id, 'delivered', 'Order marked as delivered')}
+                    onClick={() => updateStatus(order._id, 'delivered', t('orderDelivered'))}
                     className="w-full h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-lg text-sm font-semibold active:scale-95 transition"
                   >
-                    <Truck size={16} /> Confirm Delivery
+                    <Truck size={16} /> {t('confirmDelivery')}
                   </button>
                 )}
                 {isTerminal && NEXT_STEP[order.status as OrderStatus] === undefined && (
@@ -169,7 +172,7 @@ export default function AdminOrdersPage() {
                     href={`/admin/orders/${order._id}`}
                     className="flex items-center gap-1 text-xs text-neutral-400 hover:text-brand-primary transition"
                   >
-                    View details <ChevronRight size={13} />
+                    {t('viewDetails')} <ChevronRight size={13} />
                   </Link>
                 )}
               </div>

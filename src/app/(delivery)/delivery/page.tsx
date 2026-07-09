@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useLocale, useTranslations } from 'next-intl'
 import { MapPin, Phone, ChevronRight, Truck, CheckCircle, Store, Navigation, PackageCheck } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
@@ -10,12 +11,18 @@ import type { OrderStatus } from '@/models/Order'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
-const NEXT_ACTION: Record<string, { label: string; status: 'transit' | 'delivered'; icon: React.ElementType }> = {
-  confirmed: { label: 'Mark In Transit', status: 'transit', icon: Truck },
-  transit:   { label: 'Mark Delivered',  status: 'delivered', icon: CheckCircle },
+const NEXT_ACTION_STATUS: Record<string, 'transit' | 'delivered'> = {
+  confirmed: 'transit',
+  transit: 'delivered',
+}
+const NEXT_ACTION_ICON: Record<string, React.ElementType> = {
+  confirmed: Truck,
+  transit: CheckCircle,
 }
 
 export default function DeliveryDashboard() {
+  const t = useTranslations('deliveryDashboard')
+  const locale = useLocale()
   const [tab, setTab] = useState<'active' | 'completed'>('active')
   const { data, isLoading, mutate } = useSWR(
     `/api/delivery/orders?filter=${tab}`,
@@ -34,44 +41,44 @@ export default function DeliveryDashboard() {
         body: JSON.stringify({ status }),
       })
       if (!res.ok) throw new Error()
-      toast.success(status === 'delivered' ? 'Order marked as delivered!' : 'Order in transit')
+      toast.success(status === 'delivered' ? t('orderDelivered') : t('orderInTransit'))
       mutate()
     } catch {
-      toast.error('Failed to update status')
+      toast.error(t('updateError'))
     }
   }
 
   return (
     <div className="space-y-5 pb-6">
-      <h1 className="text-2xl font-bold text-neutral-800">My Deliveries</h1>
+      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white rounded-xl border border-neutral-200 p-4 flex flex-col gap-1">
           <Truck size={18} className="text-brand-primary" />
           <p className="text-2xl font-bold text-neutral-800">{activeData?.orders?.length ?? '…'}</p>
-          <p className="text-xs text-neutral-500">Active Deliveries</p>
+          <p className="text-xs text-neutral-500">{t('activeDeliveries')}</p>
         </div>
         <div className="bg-brand-container/20 rounded-xl border border-brand-primary/20 p-4 flex flex-col gap-1">
           <PackageCheck size={18} className="text-brand-primary" />
           <p className="text-2xl font-bold text-brand-primary">{completedData?.orders?.length ?? '…'}</p>
-          <p className="text-xs text-brand-secondary">Completed</p>
+          <p className="text-xs text-brand-secondary">{t('completed')}</p>
         </div>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-2">
-        {(['active', 'completed'] as const).map((t) => (
+        {(['active', 'completed'] as const).map((tabKey) => (
           <button
-            key={t}
-            onClick={() => setTab(t)}
+            key={tabKey}
+            onClick={() => setTab(tabKey)}
             className={`px-4 py-2 rounded-full text-sm font-semibold capitalize transition ${
-              tab === t
+              tab === tabKey
                 ? 'bg-brand-primary text-white'
                 : 'bg-white border border-neutral-200 text-neutral-500 hover:border-brand-primary'
             }`}
           >
-            {t === 'active' ? 'Active' : 'Completed'}
+            {tabKey === 'active' ? t('active') : t('completed')}
           </button>
         ))}
       </div>
@@ -89,12 +96,14 @@ export default function DeliveryDashboard() {
       ) : orders.length === 0 ? (
         <div className="bg-white rounded-2xl border border-neutral-200 p-12 text-center text-neutral-400">
           <Truck size={36} className="mx-auto mb-3 opacity-40" />
-          <p>{tab === 'active' ? 'No active orders assigned to you' : 'No completed orders yet'}</p>
+          <p>{tab === 'active' ? t('noActiveOrders') : t('noCompletedOrders')}</p>
         </div>
       ) : (
         <div className="space-y-3">
           {orders.map((order: any) => {
-            const action = NEXT_ACTION[order.status]
+            const actionStatus = NEXT_ACTION_STATUS[order.status]
+            const ActionIcon = NEXT_ACTION_ICON[order.status]
+            const actionLabel = actionStatus === 'delivered' ? t('markDelivered') : t('markInTransit')
             const mapsUrl = order.deliveryAddress
               ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.deliveryAddress)}`
               : null
@@ -115,8 +124,8 @@ export default function DeliveryDashboard() {
                       <StatusBadge status={order.status as OrderStatus} />
                     </div>
                     <p className="text-xs text-neutral-400">
-                      {order.orderNumber} · {new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
-                      {' · '}{order.items?.length ?? 0} item{order.items?.length !== 1 ? 's' : ''}
+                      {order.orderNumber} · {new Date(order.createdAt).toLocaleDateString(locale, { day: '2-digit', month: 'short' })}
+                      {' · '}{t('itemCount', { count: order.items?.length ?? 0 })}
                       {' · '}<span className="font-medium text-neutral-600">{order.grandTotal?.toLocaleString()} MRU</span>
                     </p>
                   </div>
@@ -143,7 +152,7 @@ export default function DeliveryDashboard() {
                           rel="noopener noreferrer"
                           className="flex items-center gap-1 text-xs font-semibold text-brand-primary shrink-0"
                         >
-                          <Navigation size={13} /> Navigate
+                          <Navigation size={13} /> {t('navigate')}
                         </a>
                       )}
                     </div>
@@ -151,30 +160,30 @@ export default function DeliveryDashboard() {
                   {order.deliveryOption === 'pickup' && (
                     <div className="flex items-center gap-2 text-sm text-neutral-500">
                       <MapPin size={14} className="text-neutral-400" />
-                      <span>Store pickup</span>
+                      <span>{t('storePickup')}</span>
                     </div>
                   )}
                 </div>
 
                 {/* Actions */}
                 <div className="px-4 pb-4 pt-2 flex gap-2">
-                  {action && (
+                  {actionStatus && (
                     <button
-                      onClick={() => updateStatus(order._id, action.status)}
+                      onClick={() => updateStatus(order._id, actionStatus)}
                       className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition ${
-                        action.status === 'delivered'
+                        actionStatus === 'delivered'
                           ? 'bg-success text-white hover:opacity-90'
                           : 'bg-brand-primary text-white hover:bg-brand-secondary'
                       }`}
                     >
-                      <action.icon size={16} />
-                      {action.label}
+                      <ActionIcon size={16} />
+                      {actionLabel}
                     </button>
                   )}
                   <Link
                     href={`/delivery/orders/${order._id}`}
                     className="flex items-center justify-center w-10 h-10 border border-neutral-200 rounded-lg text-neutral-400 hover:text-brand-primary hover:border-brand-primary transition"
-                    title="View details"
+                    title={t('viewDetailsAria')}
                   >
                     <ChevronRight size={18} />
                   </Link>

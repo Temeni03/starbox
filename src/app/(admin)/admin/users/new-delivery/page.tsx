@@ -3,10 +3,13 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { ArrowLeft } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function NewDeliveryPage() {
+  const t = useTranslations('adminNewDelivery')
+  const tProfile = useTranslations('profile')
   const router = useRouter()
   const [form, setForm] = useState({ name: '', phone: '', password: '' })
   const [loading, setLoading] = useState(false)
@@ -28,10 +31,10 @@ export default function NewDeliveryPage() {
       })
       const data = await res.json()
       if (!res.ok) {
-        setError(data.error ?? 'Failed to create account')
+        setError(data.error ?? t('createError'))
         return
       }
-      toast.success('Delivery account created')
+      toast.success(t('accountCreated'))
       router.push('/admin/users')
     } finally {
       setLoading(false)
@@ -41,15 +44,15 @@ export default function NewDeliveryPage() {
   return (
     <div className="max-w-sm space-y-4">
       <Link href="/admin/users" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> Back
+        <ArrowLeft size={16} /> {t('back')}
       </Link>
-      <h1 className="text-2xl font-bold text-neutral-800">Add Delivery Staff</h1>
+      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
 
       <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-4">
         {[
-          { name: 'name', label: 'Full name', type: 'text', placeholder: 'Karim Benali' },
-          { name: 'phone', label: 'Phone number', type: 'tel', placeholder: '2XXXXXXX', pattern: '[234][0-9]{7}', maxLength: 8, title: '8 digits starting with 2, 3 or 4' },
-          { name: 'password', label: 'Password', type: 'password', placeholder: 'Min. 6 characters', minLength: 6 },
+          { name: 'name', label: t('fullName'), type: 'text', placeholder: 'Karim Benali' },
+          { name: 'phone', label: t('phoneNumber'), type: 'tel', placeholder: '2XXXXXXX', pattern: '[234][0-9]{7}', maxLength: 8, title: tProfile('phoneHint') },
+          { name: 'password', label: t('password'), type: 'password', placeholder: t('passwordPlaceholder'), minLength: 6 },
         ].map(({ name, label, type, placeholder, pattern, maxLength, minLength, title }) => (
           <div key={name}>
             <label className="block text-sm font-medium text-neutral-700 mb-1">{label}</label>
@@ -80,7 +83,7 @@ export default function NewDeliveryPage() {
           disabled={loading}
           className="w-full h-12 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
         >
-          {loading ? 'Creating…' : 'Create Account'}
+          {loading ? t('creating') : t('createAccount')}
         </button>
       </form>
     </div>

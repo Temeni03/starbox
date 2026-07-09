@@ -3,6 +3,7 @@
 import { use } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useLocale, useTranslations } from 'next-intl'
 import { ArrowLeft, Package, MapPin, CreditCard, CheckCircle2, Clock, PartyPopper, XCircle } from 'lucide-react'
 import useSWR from 'swr'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -14,6 +15,11 @@ const STATUS_STEPS: OrderStatus[] = ['pending', 'confirmed', 'transit', 'deliver
 
 export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
+  const t = useTranslations('orderDetail')
+  const tCommon = useTranslations('common')
+  const tCheckout = useTranslations('checkout')
+  const tStatus = useTranslations('status')
+  const locale = useLocale()
   const { data, isLoading } = useSWR(`/api/orders/${id}`, fetcher)
   const order = data?.order
 
@@ -32,9 +38,9 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   if (!order) {
     return (
       <div className="text-center py-20 text-neutral-400 pb-24 sm:pb-6">
-        <p>Order not found</p>
+        <p>{t('notFound')}</p>
         <Link href="/orders" className="mt-2 text-sm text-brand-secondary hover:underline block">
-          Back to orders
+          {t('backToOrders')}
         </Link>
       </div>
     )
@@ -47,7 +53,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   return (
     <div className="pb-24 sm:pb-6 space-y-4 max-w-lg mx-auto">
       <Link href="/orders" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> Back to orders
+        <ArrowLeft size={16} /> {t('backToOrders')}
       </Link>
 
       {isFresh ? (
@@ -58,8 +64,8 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               <PartyPopper size={32} />
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-brand-primary mb-1">Thank You</h2>
-          <p className="text-sm text-neutral-500">Your order has been placed successfully.</p>
+          <h2 className="text-2xl font-bold text-brand-primary mb-1">{t('thankYou')}</h2>
+          <p className="text-sm text-neutral-500">{t('thankYouDesc')}</p>
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-neutral-200 p-4">
@@ -67,7 +73,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             <div>
               <p className="text-lg font-bold text-neutral-800">{order.orderNumber}</p>
               <p className="text-xs text-neutral-400 mt-0.5">
-                {new Date(order.createdAt).toLocaleDateString('en-GB', {
+                {new Date(order.createdAt).toLocaleDateString(locale, {
                   day: '2-digit', month: 'long', year: 'numeric',
                 })}
               </p>
@@ -80,13 +86,13 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       {isFresh && (
         <div className="grid grid-cols-2 gap-3">
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4 flex flex-col gap-1">
-            <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Order ID</span>
+            <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">{t('orderId')}</span>
             <span className="text-lg font-bold text-brand-primary">{order.orderNumber}</span>
           </div>
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4 flex flex-col gap-1">
-            <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">Delivery</span>
+            <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">{tCommon('delivery')}</span>
             <span className="text-lg font-bold text-brand-primary">
-              {order.deliveryOption === 'home' ? 'Home' : 'Pickup'}
+              {order.deliveryOption === 'home' ? tCommon('home') : tCommon('pickup')}
             </span>
           </div>
         </div>
@@ -96,11 +102,11 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       {isCancelled ? (
         <div className="bg-status-cancelled/10 border border-status-cancelled/20 rounded-xl p-4 flex items-center gap-3">
           <XCircle size={20} className="text-status-cancelled shrink-0" />
-          <p className="text-sm text-status-cancelled font-medium">This order was cancelled.</p>
+          <p className="text-sm text-status-cancelled font-medium">{t('cancelled')}</p>
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-neutral-200 p-4">
-          <h2 className="text-sm font-semibold text-neutral-700 mb-4">Order Progress</h2>
+          <h2 className="text-sm font-semibold text-neutral-700 mb-4">{t('progress')}</h2>
           <div className="flex items-start justify-between relative">
             <div className="absolute top-4 left-0 w-full h-0.5 bg-neutral-200 z-0" />
             {STATUS_STEPS.map((step, idx) => {
@@ -117,7 +123,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                     }
                   </div>
                   <span className={`text-[10px] text-center capitalize ${active ? 'text-brand-primary font-semibold' : 'text-neutral-400'}`}>
-                    {step === 'transit' ? 'In Transit' : step}
+                    {tStatus(step)}
                   </span>
                 </div>
               )
@@ -128,7 +134,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
 
       {/* Items */}
       <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <h2 className="text-sm font-semibold text-neutral-700 mb-3">Items</h2>
+        <h2 className="text-sm font-semibold text-neutral-700 mb-3">{t('items')}</h2>
         <div className="space-y-3">
           {order.items?.map((item: any, idx: number) => (
             <div key={idx} className="flex items-center gap-3">
@@ -157,7 +163,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           <MapPin size={16} className="text-neutral-400 mt-0.5 shrink-0" />
           <div>
             <p className="text-xs font-medium text-neutral-600">
-              {order.deliveryOption === 'home' ? 'Home Delivery' : 'Store Pickup'}
+              {order.deliveryOption === 'home' ? tCheckout('homeDelivery') : tCheckout('storePickup')}
             </p>
             {order.deliveryAddress && (
               <p className="text-xs text-neutral-500 mt-0.5">{order.deliveryAddress}</p>
@@ -167,7 +173,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
         <div className="flex items-center gap-2">
           <CreditCard size={16} className="text-neutral-400 shrink-0" />
           <p className="text-xs font-medium text-neutral-600">
-            {order.paymentMethod === 'cash' ? 'Cash on Delivery/Pickup' : 'Bank Transfer'}
+            {order.paymentMethod === 'cash' ? tCheckout('cashOnDelivery') : tCheckout('bankTransfer')}
           </p>
         </div>
       </div>
@@ -175,15 +181,15 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       {/* Totals */}
       <div className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-5 space-y-3">
         <div className="flex justify-between text-sm text-neutral-600">
-          <span>Subtotal</span>
+          <span>{tCommon('subtotal')}</span>
           <span>{order.cartTotal?.toLocaleString()} MRU</span>
         </div>
         <div className="flex justify-between text-sm text-neutral-600">
-          <span>Delivery</span>
-          <span>{order.deliveryFee === 0 ? 'Free' : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
+          <span>{t('deliveryLabel')}</span>
+          <span>{order.deliveryFee === 0 ? tCommon('free') : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
         </div>
         <div className="border-t border-neutral-200 pt-3 flex justify-between items-center">
-          <span className="text-lg font-semibold text-neutral-800">Total</span>
+          <span className="text-lg font-semibold text-neutral-800">{tCommon('total')}</span>
           <span className="text-2xl font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
         </div>
       </div>
@@ -193,7 +199,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           href="/"
           className="block w-full text-center h-12 leading-12 bg-brand-primary text-white rounded-full text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all"
         >
-          Continue Shopping
+          {t('continueShopping')}
         </Link>
       )}
     </div>
