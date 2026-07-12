@@ -52,6 +52,8 @@
     "mobileHeader": "Starbox Admin",
     "administrator": "Administrator",
     "signOutAria": "Sign out",
+    "openMenuAria": "Open menu",
+    "closeMenuAria": "Close menu",
     "dashboard": "Dashboard",
     "orders": "Orders",
     "products": "Products",
