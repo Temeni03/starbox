@@ -459,5 +459,20 @@
     "updating": "Updating…",
     "markInTransit": "Mark In Transit",
     "markDelivered": "Mark Delivered"
+  },
+  "auth": {
+    "tagline": "Curated Luxury Shopping",
+    "welcomeBack": "Welcome Back",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "0612345678",
+    "passwordLabel": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "invalidCredentials": "Invalid phone number or password.",
+    "signingIn": "Signing in…",
+    "signIn": "Sign In",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create Account",
+    "copyright": "© {year} Starbox. All rights reserved."
   }
 }

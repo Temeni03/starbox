@@ -459,5 +459,20 @@
     "updating": "Mise à jour…",
     "markInTransit": "Marquer en transit",
     "markDelivered": "Marquer comme livrée"
+  },
+  "auth": {
+    "tagline": "Shopping de luxe sélectionné",
+    "welcomeBack": "Bon retour",
+    "phoneLabel": "Numéro de téléphone",
+    "phonePlaceholder": "0612345678",
+    "passwordLabel": "Mot de passe",
+    "showPassword": "Afficher le mot de passe",
+    "hidePassword": "Masquer le mot de passe",
+    "invalidCredentials": "Numéro de téléphone ou mot de passe invalide.",
+    "signingIn": "Connexion…",
+    "signIn": "Se connecter",
+    "noAccount": "Vous n'avez pas de compte ?",
+    "createAccount": "Créer un compte",
+    "copyright": "© {year} Starbox. Tous droits réservés."
   }
 }
