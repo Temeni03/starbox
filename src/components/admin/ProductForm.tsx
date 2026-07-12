@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { X, AlertTriangle, Save, Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
+import { useBlobUpload } from '@/hooks/useBlobUpload'
 import { locales, localeNames, type Locale } from '@/i18n/config'
 import type { LocalizedText } from '@/types/localized'
 
@@ -48,6 +49,10 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
   const [saving, setSaving] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [removedImages, setRemovedImages] = useState<string[]>([])
+  const [removedVideo, setRemovedVideo] = useState<string | null>(null)
+  const { remove: removeProductImage } = useBlobUpload('productImage')
+  const { remove: removeProductVideo } = useBlobUpload('productVideo')
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     const { name, value, type } = e.target
@@ -63,6 +68,12 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
 
   function removeImage(url: string) {
     setForm((prev) => ({ ...prev, images: prev.images.filter((i) => i !== url) }))
+    setRemovedImages((prev) => [...prev, url])
+  }
+
+  function removeVideo(url: string) {
+    setForm((prev) => ({ ...prev, video: '' }))
+    setRemovedVideo(url)
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -74,6 +85,13 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
     setSaving(true)
     try {
       await onSubmit(form)
+      // Only delete the underlying files once the product is confirmed saved
+      // without them, so a discarded edit never leaves the DB pointing at a
+      // deleted blob.
+      await Promise.all(removedImages.map((url) => removeProductImage(url).catch(() => {})))
+      if (removedVideo) await removeProductVideo(removedVideo).catch(() => {})
+      setRemovedImages([])
+      setRemovedVideo(null)
     } catch {
       toast.error(t('saveError'))
     } finally {
@@ -160,7 +178,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                 <video src={form.video} controls className="w-full rounded-lg border border-neutral-200" />
                 <button
                   type="button"
-                  onClick={() => setForm((prev) => ({ ...prev, video: '' }))}
+                  onClick={() => removeVideo(form.video!)}
                   className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center"
                 >
                   <X size={12} />

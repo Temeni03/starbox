@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { deleteBlob } from '@/lib/blob'
 
 const ProfileSchema = z.object({
   name: z.string().min(2).max(100).trim().optional(),
@@ -48,6 +49,15 @@ export async function PATCH(req: Request) {
   if (parsed.data.language) update.language = parsed.data.language
   if (parsed.data.profilePhoto) update.profilePhoto = parsed.data.profilePhoto
 
+  const previous = parsed.data.profilePhoto
+    ? await User.findById(session.user.id).select('profilePhoto').lean()
+    : null
+
   await User.findByIdAndUpdate(session.user.id, update)
+
+  if (previous?.profilePhoto && previous.profilePhoto !== parsed.data.profilePhoto) {
+    await deleteBlob(previous.profilePhoto)
+  }
+
   return NextResponse.json({ success: true })
 }

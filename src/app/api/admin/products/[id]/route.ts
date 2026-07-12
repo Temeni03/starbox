@@ -6,6 +6,7 @@ import { Product } from '@/models/Product'
 import { notifyRole } from '@/lib/notify'
 import { localizedNameSchema, localizedTextSchema } from '@/lib/localizedSchema'
 import { getRequestLocale, resolveLocalized } from '@/lib/localized'
+import { deleteBlobs } from '@/lib/blob'
 
 const UpdateSchema = z.object({
   name: localizedNameSchema.optional(),
@@ -82,5 +83,8 @@ export async function DELETE(
   await connectDB()
   const product = await Product.findByIdAndDelete(id)
   if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+
+  await deleteBlobs([...product.images, product.video])
+
   return NextResponse.json({ success: true })
 }

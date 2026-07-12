@@ -135,6 +135,13 @@ export function AdminSidebar({ userName }: { userName: string }) {
             </Link>
           ))}
           <LocaleSwitcher compact />
+          <button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            className="text-neutral-400 hover:text-danger transition"
+            aria-label={t('signOutAria')}
+          >
+            <LogOut size={20} />
+          </button>
         </div>
       </header>
 

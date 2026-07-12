@@ -28,5 +28,13 @@ export function useBlobUpload(type: UploadType) {
     }
   }
 
-  return { upload: uploadFile, uploading }
+  async function removeFile(url: string): Promise<void> {
+    await fetch('/api/upload', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, type }),
+    })
+  }
+
+  return { upload: uploadFile, remove: removeFile, uploading }
 }
