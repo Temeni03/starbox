@@ -1,20 +1,20 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Alexandria } from 'next/font/google'
+import { Inter, Cairo } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import { isRtl, type Locale } from '@/i18n/config'
 import { Providers } from './providers'
 import './globals.css'
 
-const inter = Geist({
+const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-Geist',
+  variable: '--font-inter',
   display: 'swap',
 })
 
-const cairo = Alexandria({
+const cairo = Cairo({
   subsets: ['arabic', 'latin'],
-  variable: '--font-Alexandria',
+  variable: '--font-cairo',
   display: 'swap',
 })
 
