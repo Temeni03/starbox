@@ -99,13 +99,8 @@
     "buyNowError": "تعذّرت المتابعة"
   },
   "offers": {
-    "title": "العروض",
-    "subtitle": "باقات منتجات بسعر خاص.",
     "backToShop": "العودة إلى المتجر",
-    "backToOffers": "العودة إلى العروض",
     "notFound": "العرض غير موجود",
-    "noOffersAvailable": "لا توجد عروض متاحة حاليًا",
-    "checkBackSoon": "عد قريبًا — عروض جديدة قادمة.",
     "includedProducts": "محتويات الصندوق"
   },
   "cart": {

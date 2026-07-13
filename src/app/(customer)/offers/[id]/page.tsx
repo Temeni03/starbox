@@ -40,8 +40,8 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
     return (
       <div className="text-center py-20 text-neutral-400 pb-24 sm:pb-6">
         <p>{t('notFound')}</p>
-        <Link href="/offers" className="mt-2 text-sm text-brand-secondary hover:underline block">
-          {t('backToOffers')}
+        <Link href="/" replace className="mt-2 text-sm text-brand-secondary hover:underline block">
+          {t('backToShop')}
         </Link>
       </div>
     )
@@ -82,8 +82,8 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
 
   return (
     <div className="pb-28 sm:pb-6 max-w-lg mx-auto">
-      <Link href="/offers" className="inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition mb-3">
-        <ArrowLeft size={16} /> {t('backToOffers')}
+      <Link href="/" replace className="inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition mb-3">
+        <ArrowLeft size={16} /> {t('backToShop')}
       </Link>
 
       {/* Hero */}

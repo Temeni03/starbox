@@ -99,13 +99,8 @@
     "buyNowError": "Échec de l'opération"
   },
   "offers": {
-    "title": "Offres",
-    "subtitle": "Des lots de produits à prix spécial.",
     "backToShop": "Retour à la boutique",
-    "backToOffers": "Retour aux offres",
     "notFound": "Offre introuvable",
-    "noOffersAvailable": "Aucune offre disponible pour le moment",
-    "checkBackSoon": "Revenez bientôt — de nouvelles offres arrivent.",
     "includedProducts": "Contenu du coffret"
   },
   "cart": {

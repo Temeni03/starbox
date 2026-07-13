@@ -99,13 +99,8 @@
     "buyNowError": "Failed to proceed"
   },
   "offers": {
-    "title": "Offers",
-    "subtitle": "Bundled deals at a special price.",
     "backToShop": "Back to shop",
-    "backToOffers": "Back to offers",
     "notFound": "Offer not found",
-    "noOffersAvailable": "No offers available yet",
-    "checkBackSoon": "Check back soon — new offers are on the way.",
     "includedProducts": "What's Included"
   },
   "cart": {
