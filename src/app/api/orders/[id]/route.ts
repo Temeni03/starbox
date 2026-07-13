@@ -21,7 +21,13 @@ export async function GET(
   if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 })
 
   const customerId = (order as any).customer?.toString() ?? order.customer
-  if (customerId !== session.user.id && session.user.role !== 'admin') {
+  const assignedToId = (order as any).assignedTo?.toString()
+
+  const isOwner = customerId === session.user.id
+  const isAdmin = session.user.role === 'admin'
+  const isAssignedDelivery = session.user.role === 'delivery' && assignedToId === session.user.id
+
+  if (!isOwner && !isAdmin && !isAssignedDelivery) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 

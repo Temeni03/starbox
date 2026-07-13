@@ -3,15 +3,14 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Order } from '@/models/Order'
-import { notifyUser, notifyRole } from '@/lib/notify'
+import { notifyUser } from '@/lib/notify'
 
 const ALLOWED_TRANSITIONS: Record<string, string> = {
   confirmed: 'transit',
-  transit: 'delivered',
 }
 
 const StatusSchema = z.object({
-  status: z.enum(['transit', 'delivered']),
+  status: z.enum(['transit']),
 })
 
 export async function PATCH(
@@ -51,24 +50,11 @@ export async function PATCH(
   })
   await order.save()
 
-  if (parsed.data.status === 'transit') {
-    notifyUser(order.customer.toString(), {
-      type: 'order_transit',
-      params: { orderNumber: order.orderNumber },
-      url: `/orders/${order._id}`,
-    }).catch(() => {})
-  } else if (parsed.data.status === 'delivered') {
-    notifyUser(order.customer.toString(), {
-      type: 'order_delivered',
-      params: { orderNumber: order.orderNumber },
-      url: `/orders/${order._id}`,
-    }).catch(() => {})
-    notifyRole('admin', {
-      type: 'delivery_confirmed',
-      params: { orderNumber: order.orderNumber },
-      url: `/admin/orders/${order._id}`,
-    }).catch(() => {})
-  }
+  notifyUser(order.customer.toString(), {
+    type: 'order_transit',
+    params: { orderNumber: order.orderNumber },
+    url: `/orders/${order._id}`,
+  }).catch(() => {})
 
   return NextResponse.json({ success: true })
 }

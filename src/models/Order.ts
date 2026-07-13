@@ -38,6 +38,7 @@ export interface IOrder extends Document {
   }>
 
   assignedTo?: Types.ObjectId
+  receivedAt?: Date
 
   createdAt: Date
   updatedAt: Date
@@ -88,6 +89,7 @@ const OrderSchema = new Schema<IOrder>(
     ],
 
     assignedTo: { type: Schema.Types.ObjectId, ref: 'User' },
+    receivedAt: { type: Date },
   },
   { timestamps: true }
 )

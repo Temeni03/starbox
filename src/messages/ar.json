@@ -173,7 +173,16 @@
     "cancelled": "تم إلغاء هذا الطلب.",
     "progress": "متابعة الطلب",
     "items": "العناصر",
-    "continueShopping": "متابعة التسوق"
+    "continueShopping": "متابعة التسوق",
+    "receivedOn": "تم الاستلام في {date}",
+    "confirmReceiptButton": "لقد استلمت طلبي",
+    "confirmReceiptHint": "لا تؤكد إلا بعد استلام الطلب فعليًا بين يديك.",
+    "confirmReceiptTitle": "تأكيد الاستلام",
+    "confirmReceiptDesc": "هذا يؤكد استلامك لطلبك ويُنهي عملية الشراء. لا يمكن التراجع عن هذا الإجراء.",
+    "confirming": "جارٍ التأكيد…",
+    "confirmReceiptCta": "نعم، لقد استلمته",
+    "receivedSuccess": "شكرًا لتأكيدك — تم إتمام الطلب!",
+    "receivedError": "فشل تأكيد الاستلام"
   },
   "status": {
     "pending": "قيد الانتظار",
@@ -250,7 +259,7 @@
       },
       "delivery_confirmed": {
         "title": "StarBox — تم تأكيد التسليم",
-        "body": "تم تعليم الطلب {orderNumber} كمُسلَّم من طرف الموصل."
+        "body": "أكّد العميل استلام الطلب {orderNumber}."
       },
       "delivery_new_mission": {
         "title": "StarBox — مهمة توصيل جديدة",
@@ -572,7 +581,6 @@
   "deliveryOrderDetail": {
     "back": "رجوع",
     "notFound": "الطلب غير موجود.",
-    "orderDelivered": "تم تسليم الطلب!",
     "markedInTransit": "تم تحديده كقيد التوصيل",
     "updateError": "فشل التحديث",
     "customer": "العميل",
@@ -591,7 +599,8 @@
     "totalAmount": "المبلغ الإجمالي",
     "updating": "جارٍ التحديث…",
     "markInTransit": "تحديد كقيد التوصيل",
-    "markDelivered": "تحديد كمُسلَّم"
+    "awaitingConfirmation": "بانتظار تأكيد العميل",
+    "awaitingConfirmationDesc": "سيقوم العميل بالتأكيد بمجرد استلامه الطلب فعليًا."
   },
   "auth": {
     "tagline": "تسوق فاخر منتقى بعناية",

@@ -173,7 +173,16 @@
     "cancelled": "Cette commande a été annulée.",
     "progress": "Suivi de la commande",
     "items": "Articles",
-    "continueShopping": "Continuer mes achats"
+    "continueShopping": "Continuer mes achats",
+    "receivedOn": "Reçue le {date}",
+    "confirmReceiptButton": "J'ai reçu ma commande",
+    "confirmReceiptHint": "Ne confirmez qu'une fois la commande physiquement entre vos mains.",
+    "confirmReceiptTitle": "Confirmer la réception",
+    "confirmReceiptDesc": "Cela confirme que vous avez reçu votre commande et finalise l'achat. Cette action est irréversible.",
+    "confirming": "Confirmation…",
+    "confirmReceiptCta": "Oui, je l'ai reçue",
+    "receivedSuccess": "Merci d'avoir confirmé — commande finalisée !",
+    "receivedError": "Échec de la confirmation de réception"
   },
   "status": {
     "pending": "En attente",
@@ -250,7 +259,7 @@
       },
       "delivery_confirmed": {
         "title": "StarBox — Livraison confirmée",
-        "body": "La commande {orderNumber} a été marquée comme livrée par le livreur."
+        "body": "Le client a confirmé la réception de la commande {orderNumber}."
       },
       "delivery_new_mission": {
         "title": "StarBox — Nouvelle livraison",
@@ -572,7 +581,6 @@
   "deliveryOrderDetail": {
     "back": "Retour",
     "notFound": "Commande introuvable.",
-    "orderDelivered": "Commande livrée !",
     "markedInTransit": "Marquée en transit",
     "updateError": "Échec de la mise à jour",
     "customer": "Client",
@@ -591,7 +599,8 @@
     "totalAmount": "Montant total",
     "updating": "Mise à jour…",
     "markInTransit": "Marquer en transit",
-    "markDelivered": "Marquer comme livrée"
+    "awaitingConfirmation": "En attente de confirmation du client",
+    "awaitingConfirmationDesc": "Le client confirmera une fois qu'il aura physiquement reçu la commande."
   },
   "auth": {
     "tagline": "Shopping de luxe sélectionné",

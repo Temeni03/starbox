@@ -173,7 +173,16 @@
     "cancelled": "This order was cancelled.",
     "progress": "Order Progress",
     "items": "Items",
-    "continueShopping": "Continue Shopping"
+    "continueShopping": "Continue Shopping",
+    "receivedOn": "Received on {date}",
+    "confirmReceiptButton": "I Have Received My Order",
+    "confirmReceiptHint": "Only confirm once the order is physically in your hands.",
+    "confirmReceiptTitle": "Confirm Receipt",
+    "confirmReceiptDesc": "This confirms you've received your order and completes the purchase. This action cannot be undone.",
+    "confirming": "Confirming…",
+    "confirmReceiptCta": "Yes, I Received It",
+    "receivedSuccess": "Thanks for confirming — order completed!",
+    "receivedError": "Failed to confirm receipt"
   },
   "status": {
     "pending": "Pending",
@@ -250,7 +259,7 @@
       },
       "delivery_confirmed": {
         "title": "StarBox — Delivery confirmed",
-        "body": "Order {orderNumber} was marked as delivered by the delivery person."
+        "body": "The customer confirmed receipt of order {orderNumber}."
       },
       "delivery_new_mission": {
         "title": "StarBox — New Delivery",
@@ -572,7 +581,6 @@
   "deliveryOrderDetail": {
     "back": "Back",
     "notFound": "Order not found.",
-    "orderDelivered": "Order delivered!",
     "markedInTransit": "Marked in transit",
     "updateError": "Failed to update",
     "customer": "Customer",
@@ -591,7 +599,8 @@
     "totalAmount": "Total Amount",
     "updating": "Updating…",
     "markInTransit": "Mark In Transit",
-    "markDelivered": "Mark Delivered"
+    "awaitingConfirmation": "Awaiting Customer Confirmation",
+    "awaitingConfirmationDesc": "The customer will confirm once they've physically received the order."
   },
   "auth": {
     "tagline": "Curated Luxury Shopping",

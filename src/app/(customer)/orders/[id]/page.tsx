@@ -1,11 +1,12 @@
 'use client'
 
-import { use } from 'react'
+import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { ArrowLeft, Package, MapPin, CreditCard, CheckCircle2, Clock, PartyPopper, XCircle } from 'lucide-react'
+import { ArrowLeft, Package, MapPin, CreditCard, CheckCircle2, Clock, PartyPopper, XCircle, PackageCheck } from 'lucide-react'
 import useSWR from 'swr'
+import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import type { OrderStatus } from '@/models/Order'
 
@@ -20,8 +21,26 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   const tCheckout = useTranslations('checkout')
   const tStatus = useTranslations('status')
   const locale = useLocale()
-  const { data, isLoading } = useSWR(`/api/orders/${id}`, fetcher)
+  const { data, isLoading, mutate } = useSWR(`/api/orders/${id}`, fetcher)
   const order = data?.order
+
+  const [confirmDialog, setConfirmDialog] = useState(false)
+  const [confirming, setConfirming] = useState(false)
+
+  async function handleConfirmReceipt() {
+    setConfirming(true)
+    try {
+      const res = await fetch(`/api/orders/${id}/confirm-delivery`, { method: 'PATCH' })
+      if (!res.ok) throw new Error()
+      toast.success(t('receivedSuccess'))
+      setConfirmDialog(false)
+      mutate()
+    } catch {
+      toast.error(t('receivedError'))
+    } finally {
+      setConfirming(false)
+    }
+  }
 
   if (isLoading) {
     return (
@@ -49,9 +68,10 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   const currentStepIdx = STATUS_STEPS.indexOf(order.status)
   const isCancelled = order.status === 'cancelled'
   const isFresh = order.status === 'pending'
+  const isAwaitingReceipt = order.status === 'transit'
 
   return (
-    <div className="pb-24 sm:pb-6 space-y-4 max-w-lg mx-auto">
+    <div className={`space-y-4 max-w-lg mx-auto ${isAwaitingReceipt ? 'pb-40 sm:pb-28' : 'pb-24 sm:pb-6'}`}>
       <Link href="/orders" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
         <ArrowLeft size={16} /> {t('backToOrders')}
       </Link>
@@ -129,6 +149,16 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
               )
             })}
           </div>
+          {order.status === 'delivered' && order.receivedAt && (
+            <p className="text-xs text-neutral-400 text-center mt-4">
+              {t('receivedOn', {
+                date: new Date(order.receivedAt).toLocaleDateString(locale, {
+                  day: '2-digit', month: 'short', year: 'numeric',
+                  hour: '2-digit', minute: '2-digit',
+                }),
+              })}
+            </p>
+          )}
         </div>
       )}
 
@@ -201,6 +231,53 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
         >
           {t('continueShopping')}
         </Link>
+      )}
+
+      {isAwaitingReceipt && (
+        <div className="fixed bottom-16 sm:bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-t border-neutral-200/60 px-4 py-3">
+          <div className="max-w-lg mx-auto space-y-2">
+            <p className="text-xs text-center text-neutral-500">{t('confirmReceiptHint')}</p>
+            <button
+              onClick={() => setConfirmDialog(true)}
+              className="w-full flex items-center justify-center gap-2 bg-success text-white h-12 rounded-xl font-semibold shadow-lg shadow-success/20 hover:opacity-90 active:scale-95 transition-all"
+            >
+              <PackageCheck size={18} />
+              {t('confirmReceiptButton')}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {confirmDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+            <div className="flex items-start gap-3">
+              <div className="w-10 h-10 rounded-full bg-success/10 text-success flex items-center justify-center flex-shrink-0">
+                <PackageCheck size={20} />
+              </div>
+              <div>
+                <h2 className="font-semibold text-neutral-800">{t('confirmReceiptTitle')}</h2>
+                <p className="text-sm text-neutral-500 mt-1">{t('confirmReceiptDesc')}</p>
+              </div>
+            </div>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setConfirmDialog(false)}
+                disabled={confirming}
+                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+              >
+                {tCommon('cancel')}
+              </button>
+              <button
+                onClick={handleConfirmReceipt}
+                disabled={confirming}
+                className="px-4 py-2 text-sm font-medium text-white bg-success rounded-lg hover:opacity-90 transition disabled:opacity-50"
+              >
+                {confirming ? t('confirming') : t('confirmReceiptCta')}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   )

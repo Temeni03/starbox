@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { ArrowLeft, MapPin, Phone, Package, Truck, CheckCircle, Landmark, Banknote, Navigation, Info } from 'lucide-react'
+import { ArrowLeft, MapPin, Phone, Package, Truck, Landmark, Banknote, Navigation, Info, Hourglass } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -21,7 +21,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
 
   const order = data?.order
 
-  async function updateStatus(status: 'transit' | 'delivered') {
+  async function updateStatus(status: 'transit') {
     setUpdating(true)
     try {
       const res = await fetch(`/api/delivery/orders/${id}/status`, {
@@ -30,7 +30,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
         body: JSON.stringify({ status }),
       })
       if (!res.ok) throw new Error()
-      toast.success(status === 'delivered' ? t('orderDelivered') : t('markedInTransit'))
+      toast.success(t('markedInTransit'))
       mutate()
     } catch {
       toast.error(t('updateError'))
@@ -193,29 +193,29 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       </div>
 
       {/* Sticky action */}
-      {(order.status === 'confirmed' || order.status === 'transit') && (
+      {order.status === 'confirmed' && (
         <div className="fixed bottom-16 sm:bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-t border-neutral-200/60 px-4 py-3">
           <div className="max-w-2xl mx-auto">
-            {order.status === 'confirmed' && (
-              <button
-                onClick={() => updateStatus('transit')}
-                disabled={updating}
-                className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
-              >
-                <Truck size={18} />
-                {updating ? t('updating') : t('markInTransit')}
-              </button>
-            )}
-            {order.status === 'transit' && (
-              <button
-                onClick={() => updateStatus('delivered')}
-                disabled={updating}
-                className="w-full flex items-center justify-center gap-2 bg-success text-white h-12 rounded-xl font-semibold hover:opacity-90 disabled:opacity-60 transition"
-              >
-                <CheckCircle size={18} />
-                {updating ? t('updating') : t('markDelivered')}
-              </button>
-            )}
+            <button
+              onClick={() => updateStatus('transit')}
+              disabled={updating}
+              className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+            >
+              <Truck size={18} />
+              {updating ? t('updating') : t('markInTransit')}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {order.status === 'transit' && (
+        <div className="bg-brand-container/10 border border-brand-container/30 rounded-xl p-4 flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-brand-container/20 text-brand-primary flex items-center justify-center shrink-0">
+            <Hourglass size={18} />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-neutral-800">{t('awaitingConfirmation')}</p>
+            <p className="text-xs text-neutral-500 mt-0.5">{t('awaitingConfirmationDesc')}</p>
           </div>
         </div>
       )}
