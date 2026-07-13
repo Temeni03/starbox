@@ -3,22 +3,13 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useLocale, useTranslations } from 'next-intl'
-import { MapPin, Phone, ChevronRight, Truck, CheckCircle, Store, Navigation, PackageCheck } from 'lucide-react'
+import { MapPin, Phone, ChevronRight, Truck, Store, Navigation, PackageCheck, Hourglass } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import type { OrderStatus } from '@/models/Order'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
-
-const NEXT_ACTION_STATUS: Record<string, 'transit' | 'delivered'> = {
-  confirmed: 'transit',
-  transit: 'delivered',
-}
-const NEXT_ACTION_ICON: Record<string, React.ElementType> = {
-  confirmed: Truck,
-  transit: CheckCircle,
-}
 
 export default function DeliveryDashboard() {
   const t = useTranslations('deliveryDashboard')
@@ -33,15 +24,15 @@ export default function DeliveryDashboard() {
   const { data: completedData } = useSWR('/api/delivery/orders?filter=completed', fetcher)
   const orders = data?.orders ?? []
 
-  async function updateStatus(orderId: string, status: 'transit' | 'delivered') {
+  async function markInTransit(orderId: string) {
     try {
       const res = await fetch(`/api/delivery/orders/${orderId}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ status: 'transit' }),
       })
       if (!res.ok) throw new Error()
-      toast.success(status === 'delivered' ? t('orderDelivered') : t('orderInTransit'))
+      toast.success(t('orderInTransit'))
       mutate()
     } catch {
       toast.error(t('updateError'))
@@ -101,9 +92,6 @@ export default function DeliveryDashboard() {
       ) : (
         <div className="space-y-3">
           {orders.map((order: any) => {
-            const actionStatus = NEXT_ACTION_STATUS[order.status]
-            const ActionIcon = NEXT_ACTION_ICON[order.status]
-            const actionLabel = actionStatus === 'delivered' ? t('markDelivered') : t('markInTransit')
             const mapsUrl = order.deliveryAddress
               ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.deliveryAddress)}`
               : null
@@ -167,18 +155,20 @@ export default function DeliveryDashboard() {
 
                 {/* Actions */}
                 <div className="px-4 pb-4 pt-2 flex gap-2">
-                  {actionStatus && (
+                  {order.status === 'confirmed' && (
                     <button
-                      onClick={() => updateStatus(order._id, actionStatus)}
-                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold transition ${
-                        actionStatus === 'delivered'
-                          ? 'bg-success text-white hover:opacity-90'
-                          : 'bg-brand-primary text-white hover:bg-brand-secondary'
-                      }`}
+                      onClick={() => markInTransit(order._id)}
+                      className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold bg-brand-primary text-white hover:bg-brand-secondary transition"
                     >
-                      <ActionIcon size={16} />
-                      {actionLabel}
+                      <Truck size={16} />
+                      {t('markInTransit')}
                     </button>
+                  )}
+                  {order.status === 'transit' && (
+                    <div className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold bg-brand-container/15 text-brand-primary">
+                      <Hourglass size={16} />
+                      {t('awaitingConfirmation')}
+                    </div>
                   )}
                   <Link
                     href={`/delivery/orders/${order._id}`}
