@@ -75,7 +75,12 @@
     "noProductsAvailable": "No products available yet",
     "noResultsDesc": "We couldn't find any matches for your search. Try checking your spelling or browse the full catalog instead.",
     "checkBackSoon": "Check back soon — new arrivals are on the way.",
-    "returnToShop": "Return to Shop"
+    "returnToShop": "Return to Shop",
+    "specialOffer": "Special Offer",
+    "shopNow": "Shop Now",
+    "previousSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "goToSlide": "Go to slide {index}"
   },
   "product": {
     "notFound": "Product not found",

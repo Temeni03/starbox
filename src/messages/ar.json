@@ -75,7 +75,12 @@
     "noProductsAvailable": "لا توجد منتجات متاحة حاليًا",
     "noResultsDesc": "لم نتمكن من العثور على أي نتائج مطابقة لبحثك. تحقق من الإملاء أو تصفح الكتالوج الكامل.",
     "checkBackSoon": "عد قريبًا — منتجات جديدة قادمة.",
-    "returnToShop": "العودة إلى المتجر"
+    "returnToShop": "العودة إلى المتجر",
+    "specialOffer": "عرض خاص",
+    "shopNow": "تسوق الآن",
+    "previousSlide": "الشريحة السابقة",
+    "nextSlide": "الشريحة التالية",
+    "goToSlide": "الانتقال إلى الشريحة {index}"
   },
   "product": {
     "notFound": "المنتج غير موجود",
