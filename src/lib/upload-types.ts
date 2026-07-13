@@ -13,6 +13,13 @@ export const UPLOAD_TYPES = {
     maxFiles: 1,
     roles: ['admin'],
   },
+  boxCoverImage: {
+    kind: 'image',
+    folder: 'boxes',
+    maxSize: 4 * 1024 * 1024,
+    maxFiles: 1,
+    roles: ['admin'],
+  },
   paymentScreenshot: {
     kind: 'image',
     folder: 'payment-screenshots',

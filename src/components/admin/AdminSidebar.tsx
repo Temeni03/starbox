@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   ShoppingBag,
   Package,
+  Gift,
   Users,
   Settings,
   Bell,
@@ -23,7 +24,7 @@ import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 
 interface NavLinkDef {
   href: string
-  labelKey: 'dashboard' | 'orders' | 'products' | 'locations' | 'users' | 'notifications' | 'settings'
+  labelKey: 'dashboard' | 'orders' | 'products' | 'boxes' | 'locations' | 'users' | 'notifications' | 'settings'
   icon: typeof LayoutDashboard
   exact?: boolean
 }
@@ -32,6 +33,7 @@ const mainLinks: NavLinkDef[] = [
   { href: '/admin', labelKey: 'dashboard', icon: LayoutDashboard, exact: true },
   { href: '/admin/orders', labelKey: 'orders', icon: ShoppingBag },
   { href: '/admin/products', labelKey: 'products', icon: Package },
+  { href: '/admin/boxes', labelKey: 'boxes', icon: Gift },
   { href: '/admin/locations', labelKey: 'locations', icon: MapPin },
   { href: '/admin/users', labelKey: 'users', icon: Users },
 ]

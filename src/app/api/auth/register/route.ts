@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import { z } from 'zod'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
+import { getRequestLocale } from '@/lib/localized'
 
 const RegisterSchema = z.object({
   name: z.string().min(2).max(100).trim(),
@@ -37,7 +38,8 @@ export async function POST(req: Request) {
     }
 
     const hashed = await bcrypt.hash(password, 12)
-    await User.create({ name, phone, password: hashed, role: 'customer' })
+    const language = await getRequestLocale()
+    await User.create({ name, phone, password: hashed, role: 'customer', language })
 
     return NextResponse.json({ success: true }, { status: 201 })
   } catch {

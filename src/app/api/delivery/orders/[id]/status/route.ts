@@ -54,21 +54,18 @@ export async function PATCH(
   if (parsed.data.status === 'transit') {
     notifyUser(order.customer.toString(), {
       type: 'order_transit',
-      title: 'StarBox — Order on its way',
-      body: `Your order ${order.orderNumber} is on its way.`,
+      params: { orderNumber: order.orderNumber },
       url: `/orders/${order._id}`,
     }).catch(() => {})
   } else if (parsed.data.status === 'delivered') {
     notifyUser(order.customer.toString(), {
       type: 'order_delivered',
-      title: 'StarBox — Order delivered',
-      body: `Your order ${order.orderNumber} has been delivered.`,
+      params: { orderNumber: order.orderNumber },
       url: `/orders/${order._id}`,
     }).catch(() => {})
     notifyRole('admin', {
       type: 'delivery_confirmed',
-      title: 'StarBox — Delivery confirmed',
-      body: `Order ${order.orderNumber} was marked as delivered by the delivery person.`,
+      params: { orderNumber: order.orderNumber },
       url: `/admin/orders/${order._id}`,
     }).catch(() => {})
   }

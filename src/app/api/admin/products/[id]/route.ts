@@ -3,9 +3,9 @@ import { z } from 'zod'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Product } from '@/models/Product'
+import { Box } from '@/models/Box'
 import { notifyRole } from '@/lib/notify'
 import { localizedNameSchema, localizedTextSchema } from '@/lib/localizedSchema'
-import { getRequestLocale, resolveLocalized } from '@/lib/localized'
 import { deleteBlobs } from '@/lib/blob'
 
 const UpdateSchema = z.object({
@@ -61,11 +61,9 @@ export async function PATCH(
     product.isActive &&
     product.quantity <= product.lowStockThreshold
   ) {
-    const locale = await getRequestLocale()
     notifyRole('admin', {
       type: 'low_stock',
-      title: 'StarBox — Low stock',
-      body: `"${resolveLocalized(product.name, locale)}" is running low (${product.quantity} left).`,
+      params: { productName: product.name, quantity: product.quantity },
       url: `/admin/products`,
     }, session.user.id).catch(() => {})
   }
@@ -84,6 +82,7 @@ export async function DELETE(
   const product = await Product.findByIdAndDelete(id)
   if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 })
 
+  await Box.updateMany({ 'products.product': id }, { $pull: { products: { product: id } } })
   await deleteBlobs([...product.images, product.video])
 
   return NextResponse.json({ success: true })

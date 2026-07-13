@@ -5,9 +5,11 @@ import { connectDB } from '@/lib/mongodb'
 import { Cart } from '@/models/Cart'
 import { Order } from '@/models/Order'
 import { Product } from '@/models/Product'
+import { Box } from '@/models/Box'
 import { Location } from '@/models/Location'
 import { notifyRole, notifyUser } from '@/lib/notify'
 import { getRequestLocale, resolveLocalized } from '@/lib/localized'
+import { activeBoxFilter } from '@/lib/boxAvailability'
 
 const CheckoutSchema = z.object({
   deliveryOption: z.enum(['home', 'pickup']),
@@ -54,11 +56,19 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
   }
 
-  // Validate stock for all items. A missing product means the cart is holding a stale
-  // reference (e.g. the product was deleted and re-created) — prune it instead of
+  // Validate stock/availability for all items. A missing product/box means the cart is
+  // holding a stale reference (e.g. it was deleted and re-created) — prune it instead of
   // permanently blocking checkout on an item the customer can't act on.
   const staleItems: { name: string; productId: string }[] = []
   for (const item of cart.items) {
+    if (item.itemType === 'Box') {
+      const box = await Box.findOne({ _id: item.product, ...activeBoxFilter() })
+      if (!box) {
+        staleItems.push({ name: item.name, productId: item.product.toString() })
+        continue
+      }
+      continue
+    }
     const product = await Product.findById(item.product)
     if (!product) {
       staleItems.push({ name: item.name, productId: item.product.toString() })
@@ -107,6 +117,7 @@ export async function POST(req: Request) {
     customer: session.user.id,
     items: cart.items.map((i: any) => ({
       product: i.product,
+      itemType: i.itemType,
       name: i.name,
       price: i.price,
       quantity: i.quantity,
@@ -130,15 +141,17 @@ export async function POST(req: Request) {
     ],
   })
 
-  // Decrement stock
+  // Decrement stock (products only — boxes don't track their own inventory)
   const updatedProducts = await Promise.all(
-    cart.items.map((item: any) =>
-      Product.findByIdAndUpdate(
-        item.product,
-        { $inc: { quantity: -item.quantity } },
-        { new: true }
+    cart.items
+      .filter((item: any) => item.itemType !== 'Box')
+      .map((item: any) =>
+        Product.findByIdAndUpdate(
+          item.product,
+          { $inc: { quantity: -item.quantity } },
+          { new: true }
+        )
       )
-    )
   )
 
   // Clear cart
@@ -147,23 +160,24 @@ export async function POST(req: Request) {
 
   notifyUser(session.user.id, {
     type: 'order_submitted',
-    title: 'StarBox — Order submitted',
-    body: `Your order ${order.orderNumber} has been sent for review.`,
+    params: { orderNumber: order.orderNumber },
     url: `/orders/${order._id}`,
   }).catch(() => {})
 
   notifyRole('admin', {
     type: 'new_order',
-    title: 'StarBox — New Order',
-    body: `${session.user.name} placed order ${order.orderNumber} (${(cartTotal + deliveryFee).toLocaleString()} MRU)`,
+    params: {
+      name: session.user.name,
+      orderNumber: order.orderNumber,
+      amount: (cartTotal + deliveryFee).toLocaleString(),
+    },
     url: `/admin/orders/${order._id}`,
   }).catch(() => {})
 
   if (paymentMethod === 'bank_transfer') {
     notifyRole('admin', {
       type: 'payment_submitted',
-      title: 'StarBox — Payment proof submitted',
-      body: `${session.user.name} submitted a bank transfer receipt for order ${order.orderNumber}.`,
+      params: { name: session.user.name, orderNumber: order.orderNumber },
       url: `/admin/orders/${order._id}`,
     }).catch(() => {})
   }
@@ -172,8 +186,7 @@ export async function POST(req: Request) {
     if (product?.isActive && product.quantity <= product.lowStockThreshold) {
       notifyRole('admin', {
         type: 'low_stock',
-        title: 'StarBox — Low stock',
-        body: `"${resolveLocalized(product.name, locale)}" is running low (${product.quantity} left).`,
+        params: { productName: product.name, quantity: product.quantity },
         url: `/admin/products`,
       }).catch(() => {})
     }

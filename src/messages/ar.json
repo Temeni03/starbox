@@ -57,6 +57,7 @@
     "dashboard": "لوحة التحكم",
     "orders": "الطلبات",
     "products": "المنتجات",
+    "boxes": "الصناديق",
     "locations": "المناطق",
     "users": "المستخدمون",
     "notifications": "الإشعارات",
@@ -70,9 +71,6 @@
   },
   "home": {
     "searchPlaceholder": "ابحث عن منتجات فاخرة…",
-    "limitedEditionBadge": "إصدار محدود",
-    "bannerTitle": "مجموعة توهج الصيف",
-    "shopCollection": "تسوق المجموعة",
     "noProductsFound": "لم يتم العثور على منتجات",
     "noProductsAvailable": "لا توجد منتجات متاحة حاليًا",
     "noResultsDesc": "لم نتمكن من العثور على أي نتائج مطابقة لبحثك. تحقق من الإملاء أو تصفح الكتالوج الكامل.",
@@ -94,6 +92,16 @@
     "processing": "جارٍ المعالجة…",
     "addToCartAria": "أضف إلى السلة",
     "buyNowError": "تعذّرت المتابعة"
+  },
+  "offers": {
+    "title": "العروض",
+    "subtitle": "باقات منتجات بسعر خاص.",
+    "backToShop": "العودة إلى المتجر",
+    "backToOffers": "العودة إلى العروض",
+    "notFound": "العرض غير موجود",
+    "noOffersAvailable": "لا توجد عروض متاحة حاليًا",
+    "checkBackSoon": "عد قريبًا — عروض جديدة قادمة.",
+    "includedProducts": "محتويات الصندوق"
   },
   "cart": {
     "updateQuantityError": "فشل تحديث الكمية",
@@ -193,9 +201,62 @@
     "markAllRead": "تعليم الكل كمقروء",
     "empty": "لا توجد إشعارات بعد",
     "justNow": "الآن",
-    "minutesAgo": "منذ {count} د",
-    "hoursAgo": "منذ {count} س",
-    "daysAgo": "منذ {count} ي"
+    "yesterday": "أمس",
+    "minutesAgo": "{count, plural, one {منذ دقيقة} two {منذ دقيقتين} few {منذ # دقائق} other {منذ # دقيقة}}",
+    "hoursAgo": "{count, plural, one {منذ ساعة} two {منذ ساعتين} few {منذ # ساعات} other {منذ # ساعة}}",
+    "daysAgo": "{count, plural, one {منذ يوم} two {منذ يومين} few {منذ # أيام} other {منذ # يوماً}}",
+    "weeksAgo": "{count, plural, one {منذ أسبوع} two {منذ أسبوعين} few {منذ # أسابيع} other {منذ # أسبوعاً}}",
+    "monthsAgo": "{count, plural, one {منذ شهر} two {منذ شهرين} few {منذ # أشهر} other {منذ # شهراً}}",
+    "types": {
+      "order_submitted": {
+        "title": "StarBox — تم إرسال الطلب",
+        "body": "تم إرسال طلبك {orderNumber} للمراجعة."
+      },
+      "order_confirmed": {
+        "title": "StarBox — تم تأكيد الطلب",
+        "body": "تم تأكيد طلبك {orderNumber}."
+      },
+      "order_cancelled": {
+        "title": "StarBox — تم إلغاء الطلب",
+        "body": "{hasReason, select, true {تم إلغاء طلبك {orderNumber}. السبب: {reason}} other {تم إلغاء طلبك {orderNumber}.}}"
+      },
+      "order_assigned": {
+        "title": "StarBox — تم تعيين موصل",
+        "body": "تم تسليم طلبك {orderNumber} إلى موصل."
+      },
+      "order_transit": {
+        "title": "StarBox — الطلب في الطريق",
+        "body": "طلبك {orderNumber} في الطريق إليك."
+      },
+      "order_delivered": {
+        "title": "StarBox — تم تسليم الطلب",
+        "body": "تم تسليم طلبك {orderNumber}."
+      },
+      "promotion": {
+        "title": "StarBox — عرض ترويجي",
+        "body": "{message}"
+      },
+      "new_order": {
+        "title": "StarBox — طلب جديد",
+        "body": "قام {name} بطلب {orderNumber} ({amount} أوقية)"
+      },
+      "payment_submitted": {
+        "title": "StarBox — تم إرسال إثبات الدفع",
+        "body": "أرسل {name} إيصال تحويل بنكي للطلب {orderNumber}."
+      },
+      "low_stock": {
+        "title": "StarBox — مخزون منخفض",
+        "body": "المخزون منخفض لـ \"{productName}\" ({quantity} متبقٍ)."
+      },
+      "delivery_confirmed": {
+        "title": "StarBox — تم تأكيد التسليم",
+        "body": "تم تعليم الطلب {orderNumber} كمُسلَّم من طرف الموصل."
+      },
+      "delivery_new_mission": {
+        "title": "StarBox — مهمة توصيل جديدة",
+        "body": "تم تعيين الطلب {orderNumber} لك."
+      }
+    }
   },
   "locationSelect": {
     "placeholder": "اختر منطقة التوصيل الخاصة بك…",
@@ -332,6 +393,76 @@
     "updateError2": "فشل تحديث المنتج",
     "updated": "تم تحديث المنتج",
     "notFound": "المنتج غير موجود"
+  },
+  "adminBoxes": {
+    "title": "إدارة الصناديق",
+    "subtitle": "اجمع منتجات معًا بسعر خاص.",
+    "addBox": "إضافة صندوق",
+    "addBoxAria": "إضافة صندوق",
+    "searchPlaceholder": "ابحث باسم الصندوق…",
+    "totalBoxes": "إجمالي الصناديق",
+    "visible": "ظاهر",
+    "hidden": "مخفي",
+    "totalValue": "القيمة الإجمالية",
+    "catalog": "كتالوج الصناديق",
+    "showingCount": "عرض {shown} من {total}",
+    "noBoxesYet": "لا توجد صناديق بعد",
+    "noMatch": "لا يوجد صندوق يطابق \"{query}\"",
+    "productsCount": "{count} منتج",
+    "hide": "إخفاء",
+    "show": "إظهار",
+    "hiddenBadge": "مخفي",
+    "deleteTitle": "حذف الصندوق",
+    "deleteConfirm": "هل أنت متأكد من حذف {name}؟ لا يمكن التراجع عن هذا الإجراء.",
+    "deleting": "جارٍ الحذف…",
+    "boxHidden": "تم إخفاء الصندوق",
+    "boxActivated": "تم تفعيل الصندوق",
+    "updateError": "فشل تحديث الصندوق",
+    "boxDeleted": "تم حذف الصندوق",
+    "deleteError": "فشل حذف الصندوق"
+  },
+  "boxForm": {
+    "coverImage": "صورة غلاف الصندوق",
+    "uploadCoverImage": "رفع صورة الغلاف",
+    "coverImageHint": "تُعرض كصورة مصغرة في شريط العروض على الصفحة الرئيسية.",
+    "statusVisibility": "الحالة والظهور",
+    "publishedOnStore": "منشور في المتجر",
+    "scheduleOptional": "الجدولة (اختياري)",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "scheduleHint": "اتركه فارغًا ليكون الصندوق متاحًا دائمًا طالما هو ظاهر.",
+    "generalInfo": "معلومات عامة",
+    "boxName": "اسم الصندوق *",
+    "boxNamePlaceholder": "مثال: باقة أساسيات الصيف",
+    "price": "السعر (أوقية) *",
+    "selectProducts": "اختر المنتجات",
+    "selectedCount": "{count} محدد",
+    "searchProductsPlaceholder": "ابحث باسم المنتج…",
+    "noProductsFound": "لم يتم العثور على منتجات",
+    "nameRequired": "اسم الصندوق مطلوب بلغة واحدة على الأقل",
+    "productsRequired": "اختر منتجًا واحدًا على الأقل",
+    "saveError": "فشل حفظ الصندوق",
+    "deleteError": "فشل حذف الصندوق",
+    "saving": "جارٍ الحفظ…",
+    "deleting": "جارٍ الحذف…",
+    "delete": "حذف",
+    "deleteTitle": "حذف الصندوق",
+    "deleteConfirm": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف الصندوق نهائيًا.",
+    "breadcrumbAdmin": "الإدارة",
+    "breadcrumbBoxes": "الصناديق",
+    "newBox": "صندوق جديد",
+    "editBox": "تعديل الصندوق",
+    "addTitle": "إضافة صندوق",
+    "addSubtitle": "اجمع منتجات ضمن عرض بسعر واحد.",
+    "editTitle": "إدارة الصندوق",
+    "editSubtitle": "حدّث تفاصيل هذا الصندوق والمنتجات المضمّنة فيه.",
+    "createLabel": "إنشاء الصندوق",
+    "saveLabel": "حفظ التغييرات",
+    "createError": "فشل إنشاء الصندوق",
+    "created": "تم إنشاء الصندوق",
+    "updateError2": "فشل تحديث الصندوق",
+    "updated": "تم تحديث الصندوق",
+    "notFound": "الصندوق غير موجود"
   },
   "adminLocations": {
     "title": "مناطق التوصيل",

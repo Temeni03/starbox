@@ -45,31 +45,25 @@ export async function PATCH(
   if (status === 'confirmed') {
     notifyUser(order.customer.toString(), {
       type: 'order_confirmed',
-      title: 'StarBox — Order confirmed',
-      body: `Your order ${order.orderNumber} has been confirmed.`,
+      params: { orderNumber: order.orderNumber },
       url: `/orders/${order._id}`,
     }).catch(() => {})
   } else if (status === 'cancelled') {
     notifyUser(order.customer.toString(), {
       type: 'order_cancelled',
-      title: 'StarBox — Order cancelled',
-      body: note
-        ? `Your order ${order.orderNumber} has been cancelled. Reason: ${note}`
-        : `Your order ${order.orderNumber} has been cancelled.`,
+      params: note ? { orderNumber: order.orderNumber, reason: note } : { orderNumber: order.orderNumber },
       url: `/orders/${order._id}`,
     }).catch(() => {})
   } else if (status === 'transit') {
     notifyUser(order.customer.toString(), {
       type: 'order_transit',
-      title: 'StarBox — Order on its way',
-      body: `Your order ${order.orderNumber} is on its way.`,
+      params: { orderNumber: order.orderNumber },
       url: `/orders/${order._id}`,
     }).catch(() => {})
   } else if (status === 'delivered') {
     notifyUser(order.customer.toString(), {
       type: 'order_delivered',
-      title: 'StarBox — Order delivered',
-      body: `Your order ${order.orderNumber} has been delivered.`,
+      params: { orderNumber: order.orderNumber },
       url: `/orders/${order._id}`,
     }).catch(() => {})
   }

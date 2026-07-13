@@ -40,20 +40,23 @@ export async function sendPushToUser(userId: string, payload: PushPayload) {
   }
 }
 
-export async function sendPushToRole(role: 'admin' | 'delivery', payload: PushPayload, excludeUserId?: string) {
+export async function sendPushToUsers(items: { userId: string; payload: PushPayload }[]) {
   init()
-  if (!initialized) return
+  if (!initialized || items.length === 0) return
 
   await connectDB()
-  const filter: Record<string, unknown> = { role, isActive: true, 'pushSubscription.endpoint': { $exists: true } }
-  if (excludeUserId) filter._id = { $ne: excludeUserId }
-  const users = await User.find(filter)
+  const users = await User.find({
+    _id: { $in: items.map((i) => i.userId) },
+    'pushSubscription.endpoint': { $exists: true },
+  })
     .select('pushSubscription')
     .lean()
+  const subById = new Map(users.map((u) => [u._id.toString(), (u as any).pushSubscription]))
 
   await Promise.allSettled(
-    users.map((u) => {
-      const sub = (u as any).pushSubscription
+    items.map(({ userId, payload }) => {
+      const sub = subById.get(userId)
+      if (!sub?.endpoint) return Promise.resolve()
       return webpush.sendNotification(
         { endpoint: sub.endpoint, keys: { p256dh: sub.keys.p256dh, auth: sub.keys.auth } },
         JSON.stringify(payload)

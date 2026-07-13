@@ -10,6 +10,7 @@ import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { useCart } from '@/hooks/useCart'
 import { useProducts } from '@/hooks/useProducts'
+import { ProductMiniCard } from '@/components/ui/ProductMiniCard'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
@@ -213,23 +214,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('recommended')}</h2>
             <div className="flex gap-3 overflow-x-auto [scrollbar-width:none] -mx-5 px-5">
               {recommended.map((p) => (
-                <Link
-                  key={p._id}
-                  href={`/products/${p._id}`}
-                  className="min-w-[130px] w-[130px] bg-surface-low p-2 rounded-xl border border-neutral-100 shrink-0"
-                >
-                  <div className="relative aspect-square rounded-lg mb-2 overflow-hidden bg-surface-high">
-                    {p.images?.[0] ? (
-                      <Image src={p.images[0]} alt={p.name} fill className="object-cover" sizes="130px" />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                        <Package size={20} />
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-sm font-medium text-neutral-800 truncate">{p.name}</p>
-                  <p className="text-sm text-brand-primary font-semibold">{p.price.toLocaleString()} MRU</p>
-                </Link>
+                <ProductMiniCard key={p._id} product={p} />
               ))}
             </div>
           </div>

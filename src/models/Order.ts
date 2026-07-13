@@ -6,6 +6,7 @@ export type PaymentMethod = 'cash' | 'bank_transfer'
 
 export interface IOrderItem {
   product: Types.ObjectId
+  itemType: 'Product' | 'Box'
   name: string
   price: number
   quantity: number
@@ -44,7 +45,8 @@ export interface IOrder extends Document {
 
 const OrderItemSchema = new Schema<IOrderItem>(
   {
-    product: { type: Schema.Types.ObjectId, ref: 'Product', required: true },
+    product: { type: Schema.Types.ObjectId, refPath: 'itemType', required: true },
+    itemType: { type: String, enum: ['Product', 'Box'], default: 'Product', required: true },
     name: { type: String, required: true },
     price: { type: Number, required: true },
     quantity: { type: Number, required: true, min: 1 },

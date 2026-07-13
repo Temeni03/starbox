@@ -57,6 +57,7 @@
     "dashboard": "Dashboard",
     "orders": "Orders",
     "products": "Products",
+    "boxes": "Boxes",
     "locations": "Locations",
     "users": "Users",
     "notifications": "Notifications",
@@ -70,9 +71,6 @@
   },
   "home": {
     "searchPlaceholder": "Search curated luxury…",
-    "limitedEditionBadge": "Limited Edition",
-    "bannerTitle": "The Summer Glow Collection",
-    "shopCollection": "Shop Collection",
     "noProductsFound": "No products found",
     "noProductsAvailable": "No products available yet",
     "noResultsDesc": "We couldn't find any matches for your search. Try checking your spelling or browse the full catalog instead.",
@@ -94,6 +92,16 @@
     "processing": "Processing…",
     "addToCartAria": "Add to cart",
     "buyNowError": "Failed to proceed"
+  },
+  "offers": {
+    "title": "Offers",
+    "subtitle": "Bundled deals at a special price.",
+    "backToShop": "Back to shop",
+    "backToOffers": "Back to offers",
+    "notFound": "Offer not found",
+    "noOffersAvailable": "No offers available yet",
+    "checkBackSoon": "Check back soon — new offers are on the way.",
+    "includedProducts": "What's Included"
   },
   "cart": {
     "updateQuantityError": "Failed to update quantity",
@@ -192,10 +200,63 @@
     "title": "Notifications",
     "markAllRead": "Mark all as read",
     "empty": "No notifications yet",
-    "justNow": "just now",
-    "minutesAgo": "{count}m ago",
-    "hoursAgo": "{count}h ago",
-    "daysAgo": "{count}d ago"
+    "justNow": "Just now",
+    "yesterday": "Yesterday",
+    "minutesAgo": "{count, plural, one {# minute ago} other {# minutes ago}}",
+    "hoursAgo": "{count, plural, one {# hour ago} other {# hours ago}}",
+    "daysAgo": "{count, plural, one {# day ago} other {# days ago}}",
+    "weeksAgo": "{count, plural, one {# week ago} other {# weeks ago}}",
+    "monthsAgo": "{count, plural, one {# month ago} other {# months ago}}",
+    "types": {
+      "order_submitted": {
+        "title": "StarBox — Order submitted",
+        "body": "Your order {orderNumber} has been sent for review."
+      },
+      "order_confirmed": {
+        "title": "StarBox — Order confirmed",
+        "body": "Your order {orderNumber} has been confirmed."
+      },
+      "order_cancelled": {
+        "title": "StarBox — Order cancelled",
+        "body": "{hasReason, select, true {Your order {orderNumber} has been cancelled. Reason: {reason}} other {Your order {orderNumber} has been cancelled.}}"
+      },
+      "order_assigned": {
+        "title": "StarBox — Delivery assigned",
+        "body": "Your order {orderNumber} has been handed to a delivery person."
+      },
+      "order_transit": {
+        "title": "StarBox — Order on its way",
+        "body": "Your order {orderNumber} is on its way."
+      },
+      "order_delivered": {
+        "title": "StarBox — Order delivered",
+        "body": "Your order {orderNumber} has been delivered."
+      },
+      "promotion": {
+        "title": "StarBox — Promotion",
+        "body": "{message}"
+      },
+      "new_order": {
+        "title": "StarBox — New Order",
+        "body": "{name} placed order {orderNumber} ({amount} MRU)"
+      },
+      "payment_submitted": {
+        "title": "StarBox — Payment proof submitted",
+        "body": "{name} submitted a bank transfer receipt for order {orderNumber}."
+      },
+      "low_stock": {
+        "title": "StarBox — Low stock",
+        "body": "\"{productName}\" is running low ({quantity} left)."
+      },
+      "delivery_confirmed": {
+        "title": "StarBox — Delivery confirmed",
+        "body": "Order {orderNumber} was marked as delivered by the delivery person."
+      },
+      "delivery_new_mission": {
+        "title": "StarBox — New Delivery",
+        "body": "Order {orderNumber} has been assigned to you."
+      }
+    }
   },
   "locationSelect": {
     "placeholder": "Select your delivery location…",
@@ -332,6 +393,76 @@
     "updateError2": "Failed to update product",
     "updated": "Product updated",
     "notFound": "Product not found"
+  },
+  "adminBoxes": {
+    "title": "Box Management",
+    "subtitle": "Bundle products together at a special price.",
+    "addBox": "Add Box",
+    "addBoxAria": "Add box",
+    "searchPlaceholder": "Search by box name…",
+    "totalBoxes": "Total Boxes",
+    "visible": "Visible",
+    "hidden": "Hidden",
+    "totalValue": "Total Value",
+    "catalog": "Box Catalog",
+    "showingCount": "Showing {shown} of {total}",
+    "noBoxesYet": "No boxes yet",
+    "noMatch": "No box matches \"{query}\"",
+    "productsCount": "{count} {count, plural, one {product} other {products}}",
+    "hide": "Hide",
+    "show": "Show",
+    "hiddenBadge": "Hidden",
+    "deleteTitle": "Delete box",
+    "deleteConfirm": "Are you sure you want to delete {name}? This action cannot be undone.",
+    "deleting": "Deleting…",
+    "boxHidden": "Box hidden",
+    "boxActivated": "Box activated",
+    "updateError": "Failed to update box",
+    "boxDeleted": "Box deleted",
+    "deleteError": "Failed to delete box"
+  },
+  "boxForm": {
+    "coverImage": "Box Cover Image",
+    "uploadCoverImage": "Upload cover image",
+    "coverImageHint": "Shown as the slide thumbnail in the Home page offers carousel.",
+    "statusVisibility": "Status & Visibility",
+    "publishedOnStore": "Published on Store",
+    "scheduleOptional": "Schedule (optional)",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "scheduleHint": "Leave empty for a box that is always available while visible.",
+    "generalInfo": "General Information",
+    "boxName": "Box name *",
+    "boxNamePlaceholder": "e.g. Summer Essentials Bundle",
+    "price": "Price (MRU) *",
+    "selectProducts": "Select Products",
+    "selectedCount": "{count} selected",
+    "searchProductsPlaceholder": "Search by product name…",
+    "noProductsFound": "No products found",
+    "nameRequired": "Box name is required in at least one language",
+    "productsRequired": "Select at least one product",
+    "saveError": "Failed to save box",
+    "deleteError": "Failed to delete box",
+    "saving": "Saving…",
+    "deleting": "Deleting…",
+    "delete": "Delete",
+    "deleteTitle": "Delete box",
+    "deleteConfirm": "This action cannot be undone. The box will be permanently removed.",
+    "breadcrumbAdmin": "Admin",
+    "breadcrumbBoxes": "Boxes",
+    "newBox": "New Box",
+    "editBox": "Edit Box",
+    "addTitle": "Add Box",
+    "addSubtitle": "Bundle products together under a single offer price.",
+    "editTitle": "Manage Box",
+    "editSubtitle": "Update this box's details and included products.",
+    "createLabel": "Create Box",
+    "saveLabel": "Save Changes",
+    "createError": "Failed to create box",
+    "created": "Box created",
+    "updateError2": "Failed to update box",
+    "updated": "Box updated",
+    "notFound": "Box not found"
   },
   "adminLocations": {
     "title": "Delivery Locations",

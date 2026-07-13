@@ -14,34 +14,40 @@ export function useCart() {
   useEffect(() => {
     if (data?.cart?.items) {
       const items: CartItem[] = data.cart.items.map((i: any) => ({
-        product: i.product?._id ?? i.product,
+        product: String(i.product),
+        itemType: i.itemType === 'Box' ? 'box' : 'product',
         name: i.name,
         price: i.price,
         quantity: i.quantity,
-        image: i.image ?? i.product?.images?.[0],
+        image: i.image,
       }))
       setItems(items)
     }
   }, [data, setItems])
 
-  async function addToCart(productId: string, quantity = 1, item?: Omit<CartItem, 'product' | 'quantity'>) {
+  async function addToCart(
+    itemId: string,
+    quantity = 1,
+    item?: Omit<CartItem, 'product' | 'quantity' | 'itemType'> & { itemType?: CartItem['itemType'] }
+  ) {
+    const itemType = item?.itemType ?? 'product'
     const res = await fetch('/api/cart', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ productId, quantity }),
+      body: JSON.stringify({ itemId, itemType, quantity }),
     })
     if (!res.ok) {
       const d = await res.json()
       throw new Error(d.error ?? 'Failed to add to cart')
     }
     if (item) {
-      addItem({ product: productId, quantity, ...item })
+      addItem({ product: itemId, quantity, ...item, itemType })
     }
     mutate()
   }
 
-  async function updateQuantity(productId: string, quantity: number) {
-    const res = await fetch(`/api/cart/${productId}`, {
+  async function updateQuantity(itemId: string, quantity: number) {
+    const res = await fetch(`/api/cart/${itemId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ quantity }),
@@ -50,8 +56,8 @@ export function useCart() {
     mutate()
   }
 
-  async function removeFromCart(productId: string) {
-    await fetch(`/api/cart/${productId}`, { method: 'DELETE' })
+  async function removeFromCart(itemId: string) {
+    await fetch(`/api/cart/${itemId}`, { method: 'DELETE' })
     mutate()
   }
 

@@ -28,6 +28,7 @@ export default function CheckoutPage() {
   const [screenshot, setScreenshot] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [codeCopied, setCodeCopied] = useState(false)
+  const [orderPlaced, setOrderPlaced] = useState(false)
 
   async function handleCopyCode() {
     try {
@@ -44,10 +45,10 @@ export default function CheckoutPage() {
   const grandTotal = totalPrice + deliveryFee
 
   useEffect(() => {
-    if (items.length === 0) router.replace('/cart')
-  }, [items.length, router])
+    if (items.length === 0 && !orderPlaced) router.replace('/cart')
+  }, [items.length, orderPlaced, router])
 
-  if (items.length === 0) {
+  if (items.length === 0 && !orderPlaced) {
     return null
   }
 
@@ -80,6 +81,7 @@ export default function CheckoutPage() {
         return
       }
 
+      setOrderPlaced(true)
       clearCart()
       toast.success(t('orderSuccess'))
       router.push(`/orders/${data.orderId}`)

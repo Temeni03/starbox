@@ -33,15 +33,13 @@ export async function PATCH(
 
   notifyUser(deliveryPersonId, {
     type: 'delivery_new_mission',
-    title: 'StarBox — New Delivery',
-    body: `Order ${order.orderNumber} has been assigned to you.`,
+    params: { orderNumber: order.orderNumber },
     url: `/delivery/orders/${order._id}`,
   }).catch(() => {})
 
   notifyUser(order.customer.toString(), {
     type: 'order_assigned',
-    title: 'StarBox — Delivery assigned',
-    body: `Your order ${order.orderNumber} has been handed to a delivery person.`,
+    params: { orderNumber: order.orderNumber },
     url: `/orders/${order._id}`,
   }).catch(() => {})
 

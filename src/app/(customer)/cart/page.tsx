@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { Minus, Plus, Trash2, Package, ShoppingBag, AlertTriangle, ArrowRight, Lock } from 'lucide-react'
+import { Trash2, ShoppingBag, AlertTriangle, ArrowRight, Lock } from 'lucide-react'
 import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/store/cartStore'
+import { CartItemRow } from '@/components/ui/CartItemRow'
 import toast from 'react-hot-toast'
 
 export default function CartPage() {
@@ -111,58 +111,21 @@ export default function CartPage() {
 
       <div className="flex flex-col gap-4 mb-8">
         {items.map((item) => (
-          <div
+          <CartItemRow
             key={item.product}
-            className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4 flex gap-4"
-          >
-            <div className="relative w-24 h-24 rounded-lg overflow-hidden bg-surface-high flex-shrink-0">
-              {item.image ? (
-                <Image src={item.image} alt={item.name} fill className="object-cover" sizes="96px" />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                  <Package size={24} />
-                </div>
-              )}
-            </div>
-
-            <div className="flex flex-col justify-between flex-1 min-w-0">
-              <div className="flex justify-between items-start gap-2">
-                <h3 className="text-base font-semibold text-neutral-800 truncate">{item.name}</h3>
-                <button
-                  onClick={() => handleRemove(item.product)}
-                  className="text-neutral-400 hover:text-danger transition flex-shrink-0"
-                  aria-label={t('removeItemAria')}
-                >
-                  <Trash2 size={18} />
-                </button>
-              </div>
-
-              <div className="flex justify-between items-end mt-2">
-                <span className="text-base font-semibold text-brand-primary">
-                  {item.price.toLocaleString()} MRU
-                </span>
-                <div className="flex items-center bg-surface-high rounded-full p-1 border border-neutral-200">
-                  <button
-                    onClick={() =>
-                      item.quantity > 1
-                        ? handleQuantity(item.product, item.quantity - 1)
-                        : handleRemove(item.product)
-                    }
-                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white active:scale-90 transition"
-                  >
-                    <Minus size={14} />
-                  </button>
-                  <span className="w-8 text-center text-sm font-semibold">{item.quantity}</span>
-                  <button
-                    onClick={() => handleQuantity(item.product, item.quantity + 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white active:scale-90 transition"
-                  >
-                    <Plus size={14} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+            image={item.image}
+            name={item.name}
+            price={item.price}
+            quantity={item.quantity}
+            onIncrement={() => handleQuantity(item.product, item.quantity + 1)}
+            onDecrement={() =>
+              item.quantity > 1
+                ? handleQuantity(item.product, item.quantity - 1)
+                : handleRemove(item.product)
+            }
+            onRemove={() => handleRemove(item.product)}
+            removeAriaLabel={t('removeItemAria')}
+          />
         ))}
       </div>
 

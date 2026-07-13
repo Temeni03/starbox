@@ -7,6 +7,7 @@ import toast from 'react-hot-toast'
 import { useProducts } from '@/hooks/useProducts'
 import { useCart } from '@/hooks/useCart'
 import { ProductCard } from '@/components/ui/ProductCard'
+import { OfferCarousel } from '@/components/customer/OfferCarousel'
 
 export default function HomePage() {
   const t = useTranslations('home')
@@ -40,23 +41,8 @@ export default function HomePage() {
         />
       </form>
 
-      {/* Featured banner */}
-      <section className="mb-8 relative overflow-hidden rounded-3xl aspect-[16/9] sm:aspect-[21/9] bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container">
-        <div className="absolute inset-0 bg-linear-to-r from-black/50 to-transparent flex flex-col justify-center p-6 sm:p-8">
-          <span className="text-brand-light text-xs font-semibold tracking-wider uppercase mb-2">
-            {t('limitedEditionBadge')}
-          </span>
-          <h2 className="text-white text-2xl sm:text-3xl font-bold max-w-xs leading-tight mb-4">
-            {t('bannerTitle')}
-          </h2>
-          <button
-            type="button"
-            className="bg-white text-brand-primary w-max px-6 py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-shadow"
-          >
-            {t('shopCollection')}
-          </button>
-        </div>
-      </section>
+      {/* Offer Boxes carousel */}
+      <OfferCarousel />
 
       {/* Grid */}
       {isLoading ? (

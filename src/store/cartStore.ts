@@ -2,6 +2,7 @@ import { create } from 'zustand'
 
 export interface CartItem {
   product: string
+  itemType: 'product' | 'box'
   name: string
   price: number
   quantity: number

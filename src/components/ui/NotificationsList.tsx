@@ -3,6 +3,8 @@
 import Link from 'next/link'
 import { Bell } from 'lucide-react'
 import { useLocale, useTranslations } from 'next-intl'
+import type { Locale } from '@/i18n/config'
+import { resolveNotificationParams } from '@/lib/notificationParams'
 import { useNotifications, type AppNotification } from '@/hooks/useNotifications'
 
 function timeAgo(dateStr: string, locale: string, t: ReturnType<typeof useTranslations<'notifications'>>) {
@@ -13,13 +15,40 @@ function timeAgo(dateStr: string, locale: string, t: ReturnType<typeof useTransl
   const hours = Math.floor(minutes / 60)
   if (hours < 24) return t('hoursAgo', { count: hours })
   const days = Math.floor(hours / 24)
+  if (days === 1) return t('yesterday')
   if (days < 7) return t('daysAgo', { count: days })
+  const weeks = Math.floor(days / 7)
+  if (weeks < 4) return t('weeksAgo', { count: weeks })
+  const months = Math.floor(days / 30)
+  if (months < 12) return t('monthsAgo', { count: months })
   return new Date(dateStr).toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
+function useNotificationText(n: AppNotification, locale: Locale, tTypes: ReturnType<typeof useTranslations<'notifications.types'>>) {
+  // Notifications created before per-type `data` existed can't be re-translated
+  // (their dynamic values, e.g. order number, were never stored structurally) —
+  // next-intl doesn't throw on a missing ICU value, it silently returns the raw
+  // key path, so we must check upfront rather than rely on a catch.
+  if (!n.data || !tTypes.has(`${n.type}.body` as Parameters<typeof tTypes.has>[0])) {
+    return { title: n.title, body: n.body }
+  }
+  try {
+    const params = resolveNotificationParams(n.data, locale)
+    return {
+      title: tTypes(`${n.type}.title` as Parameters<typeof tTypes>[0]),
+      body: tTypes(`${n.type}.body` as Parameters<typeof tTypes>[0], params),
+    }
+  } catch {
+    return { title: n.title, body: n.body }
+  }
+}
+
 function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: string) => void }) {
-  const locale = useLocale()
+  const locale = useLocale() as Locale
   const t = useTranslations('notifications')
+  const tTypes = useTranslations('notifications.types')
+  const { title, body } = useNotificationText(n, locale, tTypes)
+
   const content = (
     <div className={`flex items-start gap-3 px-4 py-3 ${n.read ? '' : 'bg-brand-light/30'}`}>
       <span
@@ -27,9 +56,9 @@ function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: strin
       />
       <div className="flex-1 min-w-0">
         <p className={`text-sm ${n.read ? 'text-neutral-600' : 'font-semibold text-neutral-800'}`}>
-          {n.title}
+          {title}
         </p>
-        <p className="text-sm text-neutral-500 mt-0.5">{n.body}</p>
+        <p className="text-sm text-neutral-500 mt-0.5">{body}</p>
         <p className="text-xs text-neutral-400 mt-1">{timeAgo(n.createdAt, locale, t)}</p>
       </div>
     </div>

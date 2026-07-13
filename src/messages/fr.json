@@ -57,6 +57,7 @@
     "dashboard": "Tableau de bord",
     "orders": "Commandes",
     "products": "Produits",
+    "boxes": "Coffrets",
     "locations": "Zones",
     "users": "Utilisateurs",
     "notifications": "Notifications",
@@ -70,9 +71,6 @@
   },
   "home": {
     "searchPlaceholder": "Rechercher un produit de luxe…",
-    "limitedEditionBadge": "Édition limitée",
-    "bannerTitle": "La collection Summer Glow",
-    "shopCollection": "Découvrir la collection",
     "noProductsFound": "Aucun produit trouvé",
     "noProductsAvailable": "Aucun produit disponible pour le moment",
     "noResultsDesc": "Nous n'avons trouvé aucun résultat pour votre recherche. Vérifiez l'orthographe ou parcourez le catalogue complet.",
@@ -94,6 +92,16 @@
     "processing": "Traitement…",
     "addToCartAria": "Ajouter au panier",
     "buyNowError": "Échec de l'opération"
+  },
+  "offers": {
+    "title": "Offres",
+    "subtitle": "Des lots de produits à prix spécial.",
+    "backToShop": "Retour à la boutique",
+    "backToOffers": "Retour aux offres",
+    "notFound": "Offre introuvable",
+    "noOffersAvailable": "Aucune offre disponible pour le moment",
+    "checkBackSoon": "Revenez bientôt — de nouvelles offres arrivent.",
+    "includedProducts": "Contenu du coffret"
   },
   "cart": {
     "updateQuantityError": "Échec de la mise à jour de la quantité",
@@ -192,10 +200,63 @@
     "title": "Notifications",
     "markAllRead": "Tout marquer comme lu",
     "empty": "Aucune notification pour le moment",
-    "justNow": "à l'instant",
-    "minutesAgo": "il y a {count} min",
-    "hoursAgo": "il y a {count} h",
-    "daysAgo": "il y a {count} j"
+    "justNow": "À l''instant",
+    "yesterday": "Hier",
+    "minutesAgo": "{count, plural, one {Il y a # minute} other {Il y a # minutes}}",
+    "hoursAgo": "{count, plural, one {Il y a # heure} other {Il y a # heures}}",
+    "daysAgo": "{count, plural, one {Il y a # jour} other {Il y a # jours}}",
+    "weeksAgo": "{count, plural, one {Il y a # semaine} other {Il y a # semaines}}",
+    "monthsAgo": "{count, plural, one {Il y a # mois} other {Il y a # mois}}",
+    "types": {
+      "order_submitted": {
+        "title": "StarBox — Commande envoyée",
+        "body": "Votre commande {orderNumber} a été envoyée pour validation."
+      },
+      "order_confirmed": {
+        "title": "StarBox — Commande confirmée",
+        "body": "Votre commande {orderNumber} a été confirmée."
+      },
+      "order_cancelled": {
+        "title": "StarBox — Commande annulée",
+        "body": "{hasReason, select, true {Votre commande {orderNumber} a été annulée. Raison : {reason}} other {Votre commande {orderNumber} a été annulée.}}"
+      },
+      "order_assigned": {
+        "title": "StarBox — Livraison assignée",
+        "body": "Votre commande {orderNumber} a été confiée à un livreur."
+      },
+      "order_transit": {
+        "title": "StarBox — Commande en route",
+        "body": "Votre commande {orderNumber} est en route."
+      },
+      "order_delivered": {
+        "title": "StarBox — Commande livrée",
+        "body": "Votre commande {orderNumber} a été livrée."
+      },
+      "promotion": {
+        "title": "StarBox — Promotion",
+        "body": "{message}"
+      },
+      "new_order": {
+        "title": "StarBox — Nouvelle commande",
+        "body": "{name} a passé la commande {orderNumber} ({amount} MRU)"
+      },
+      "payment_submitted": {
+        "title": "StarBox — Preuve de paiement soumise",
+        "body": "{name} a soumis un reçu de virement pour la commande {orderNumber}."
+      },
+      "low_stock": {
+        "title": "StarBox — Stock faible",
+        "body": "« {productName} » est presque épuisé ({quantity} restants)."
+      },
+      "delivery_confirmed": {
+        "title": "StarBox — Livraison confirmée",
+        "body": "La commande {orderNumber} a été marquée comme livrée par le livreur."
+      },
+      "delivery_new_mission": {
+        "title": "StarBox — Nouvelle livraison",
+        "body": "La commande {orderNumber} vous a été assignée."
+      }
+    }
   },
   "locationSelect": {
     "placeholder": "Sélectionnez votre zone de livraison…",
@@ -332,6 +393,76 @@
     "updateError2": "Échec de la mise à jour du produit",
     "updated": "Produit mis à jour",
     "notFound": "Produit introuvable"
+  },
+  "adminBoxes": {
+    "title": "Gestion des coffrets",
+    "subtitle": "Regroupez des produits à prix spécial.",
+    "addBox": "Ajouter un coffret",
+    "addBoxAria": "Ajouter un coffret",
+    "searchPlaceholder": "Rechercher par nom de coffret…",
+    "totalBoxes": "Total des coffrets",
+    "visible": "Visibles",
+    "hidden": "Masqués",
+    "totalValue": "Valeur totale",
+    "catalog": "Catalogue de coffrets",
+    "showingCount": "Affichage de {shown} sur {total}",
+    "noBoxesYet": "Aucun coffret pour le moment",
+    "noMatch": "Aucun coffret ne correspond à \"{query}\"",
+    "productsCount": "{count} {count, plural, one {produit} other {produits}}",
+    "hide": "Masquer",
+    "show": "Afficher",
+    "hiddenBadge": "Masqué",
+    "deleteTitle": "Supprimer le coffret",
+    "deleteConfirm": "Voulez-vous vraiment supprimer {name} ? Cette action est irréversible.",
+    "deleting": "Suppression…",
+    "boxHidden": "Coffret masqué",
+    "boxActivated": "Coffret activé",
+    "updateError": "Échec de la mise à jour du coffret",
+    "boxDeleted": "Coffret supprimé",
+    "deleteError": "Échec de la suppression du coffret"
+  },
+  "boxForm": {
+    "coverImage": "Image de couverture du coffret",
+    "uploadCoverImage": "Téléverser l'image de couverture",
+    "coverImageHint": "Affichée comme vignette dans le carrousel des offres de la page d'accueil.",
+    "statusVisibility": "Statut et visibilité",
+    "publishedOnStore": "Publié sur la boutique",
+    "scheduleOptional": "Programmation (facultatif)",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "scheduleHint": "Laissez vide pour un coffret toujours disponible tant qu'il est visible.",
+    "generalInfo": "Informations générales",
+    "boxName": "Nom du coffret *",
+    "boxNamePlaceholder": "ex. Coffret Essentiels d'été",
+    "price": "Prix (MRU) *",
+    "selectProducts": "Sélectionner les produits",
+    "selectedCount": "{count} sélectionné(s)",
+    "searchProductsPlaceholder": "Rechercher par nom de produit…",
+    "noProductsFound": "Aucun produit trouvé",
+    "nameRequired": "Le nom du coffret est requis dans au moins une langue",
+    "productsRequired": "Sélectionnez au moins un produit",
+    "saveError": "Échec de l'enregistrement du coffret",
+    "deleteError": "Échec de la suppression du coffret",
+    "saving": "Enregistrement…",
+    "deleting": "Suppression…",
+    "delete": "Supprimer",
+    "deleteTitle": "Supprimer le coffret",
+    "deleteConfirm": "Cette action est irréversible. Le coffret sera définitivement supprimé.",
+    "breadcrumbAdmin": "Admin",
+    "breadcrumbBoxes": "Coffrets",
+    "newBox": "Nouveau coffret",
+    "editBox": "Modifier le coffret",
+    "addTitle": "Ajouter un coffret",
+    "addSubtitle": "Regroupez des produits sous une offre à prix unique.",
+    "editTitle": "Gérer le coffret",
+    "editSubtitle": "Mettez à jour les détails et les produits inclus.",
+    "createLabel": "Créer le coffret",
+    "saveLabel": "Enregistrer les modifications",
+    "createError": "Échec de la création du coffret",
+    "created": "Coffret créé",
+    "updateError2": "Échec de la mise à jour du coffret",
+    "updated": "Coffret mis à jour",
+    "notFound": "Coffret introuvable"
   },
   "adminLocations": {
     "title": "Zones de livraison",

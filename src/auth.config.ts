@@ -21,6 +21,7 @@ export const authConfig: NextAuthConfig = {
         pathname === '/register' ||
         pathname.startsWith('/api/auth') ||
         pathname.startsWith('/api/products') ||
+        pathname.startsWith('/api/boxes') ||
         pathname.startsWith('/api/locations')
 
       if (isPublic) return true

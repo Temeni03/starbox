@@ -1,4 +1,5 @@
 import useSWR from 'swr'
+import type { NotificationParams } from '@/lib/notificationParams'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
@@ -8,6 +9,7 @@ export interface AppNotification {
   title: string
   body: string
   url?: string
+  data?: NotificationParams
   read: boolean
   createdAt: string
 }
