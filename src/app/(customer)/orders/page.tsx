@@ -34,7 +34,7 @@ export default function OrdersPage() {
     return (
       <div className="space-y-3 pb-20 sm:pb-6">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="bg-white rounded-xl border border-neutral-200 p-4 animate-pulse">
+          <div key={i} className="bg-white rounded-2xl border border-neutral-200 p-4 animate-pulse">
             <div className="h-4 bg-neutral-100 rounded w-1/3 mb-2" />
             <div className="h-3 bg-neutral-100 rounded w-1/4" />
           </div>
@@ -46,8 +46,8 @@ export default function OrdersPage() {
   if (orders.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-neutral-400 pb-24 sm:pb-6">
-        <ClipboardList size={48} className="mb-4 opacity-50" />
-        <p className="text-lg font-medium">{t('empty')}</p>
+        <ClipboardList size={40} className="mb-4 opacity-50" />
+        <p className="text-lg font-semibold">{t('empty')}</p>
         <Link href="/" className="mt-4 text-sm text-brand-secondary hover:underline">
           {t('startShopping')}
         </Link>
@@ -89,7 +89,7 @@ export default function OrdersPage() {
               <Link
                 key={order._id}
                 href={`/orders/${order._id}`}
-                className="block bg-white rounded-xl border border-neutral-200 p-4 hover:shadow-md transition"
+                className="block bg-white rounded-2xl border border-neutral-200 p-4 hover:shadow-md transition"
               >
                 <div className="flex items-start justify-between gap-2 mb-3">
                   <div className="min-w-0">

@@ -93,19 +93,19 @@ export default function ProfilePage() {
       </section>
 
       {/* Editable details */}
-      <form onSubmit={handleSave} className="bg-white rounded-xl border border-neutral-200 p-4 space-y-4 mb-4">
+      <form onSubmit={handleSave} className="bg-white rounded-2xl border border-neutral-200 p-4 space-y-4 mb-4">
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">{t('fullName')}</label>
+          <label className="block text-xs font-medium text-neutral-500 mb-1">{t('fullName')}</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">{t('phone')}</label>
+          <label className="block text-xs font-medium text-neutral-500 mb-1">{t('phone')}</label>
           <input
             type="tel"
             value={phone}
@@ -114,21 +114,21 @@ export default function ProfilePage() {
             maxLength={8}
             title={t('phoneHint')}
             required
-            className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
         </div>
 
         <button
           type="submit"
           disabled={saving}
-          className="w-full bg-brand-primary text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+          className="w-full h-12 flex items-center justify-center bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
         >
           {saving ? t('saving') : t('save')}
         </button>
       </form>
 
       {/* Language */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4 mb-4 flex items-center justify-between">
+      <div className="bg-white rounded-2xl border border-neutral-200 p-4 mb-4 flex items-center justify-between">
         <span className="text-sm font-medium text-neutral-700">{tCommon('language')}</span>
         <LocaleSwitcher />
       </div>
@@ -137,7 +137,7 @@ export default function ProfilePage() {
         onClick={() => signOut({ callbackUrl: '/login' })}
         className="w-full h-12 flex items-center justify-center gap-2 border-2 border-danger/20 text-danger rounded-full font-semibold text-sm hover:bg-red-50 transition"
       >
-        <LogOut size={16} />
+        <LogOut size={18} />
         {t('logout')}
       </button>
     </div>

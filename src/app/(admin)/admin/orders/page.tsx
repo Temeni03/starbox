@@ -73,14 +73,14 @@ export default function AdminOrdersPage() {
       {isLoading ? (
         <div className="space-y-3">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl border border-neutral-200 p-5 animate-pulse space-y-2">
+            <div key={i} className="bg-white rounded-2xl border border-neutral-200 p-5 animate-pulse space-y-2">
               <div className="h-4 bg-neutral-100 rounded w-1/3" />
               <div className="h-3 bg-neutral-100 rounded w-1/4" />
             </div>
           ))}
         </div>
       ) : orders.length === 0 ? (
-        <p className="bg-white rounded-xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noOrders')}</p>
+        <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noOrders')}</p>
       ) : (
         <div className="space-y-3">
           {orders.map((order: any) => {
@@ -88,18 +88,18 @@ export default function AdminOrdersPage() {
             return (
               <div
                 key={order._id}
-                className={`bg-white rounded-xl border border-neutral-200 p-4 transition ${isTerminal ? 'opacity-75' : 'hover:shadow-md'}`}
+                className={`bg-white rounded-2xl border border-neutral-200 p-4 transition ${isTerminal ? 'opacity-75' : 'hover:shadow-md'}`}
               >
                 <Link href={`/admin/orders/${order._id}`} className="flex justify-between items-start mb-3 group">
                   <div className="min-w-0">
                     <p className="text-xs text-neutral-400">{order.orderNumber}</p>
-                    <h3 className="text-base font-bold text-neutral-800 group-hover:text-brand-primary transition truncate">
+                    <h3 className="text-sm font-semibold text-neutral-800 group-hover:text-brand-primary transition truncate">
                       {order.customer?.name}
                     </h3>
                     <p className="text-xs text-neutral-400">{order.customer?.phone}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
-                    <span className="text-base font-bold text-brand-primary">
+                    <span className="text-sm font-bold text-brand-primary">
                       {order.grandTotal?.toLocaleString()} MRU
                     </span>
                     <StatusBadge status={order.status as OrderStatus} />
@@ -135,7 +135,7 @@ export default function AdminOrdersPage() {
                         href={`/admin/orders/${order._id}`}
                         className="flex items-center gap-1 bg-brand-secondary text-white px-3 py-1.5 rounded-full text-xs font-semibold active:scale-95 transition"
                       >
-                        <UserRoundPlus size={13} />
+                        <UserRoundPlus size={14} />
                         {t('assign')}
                       </Link>
                     )}
@@ -147,24 +147,24 @@ export default function AdminOrdersPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => updateStatus(order._id, 'confirmed', t('orderConfirmed'))}
-                      className="flex-1 h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-lg text-sm font-semibold active:scale-95 transition"
+                      className="flex-1 h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-sm font-semibold active:scale-95 transition"
                     >
-                      <CheckCircle2 size={16} /> {t('approve')}
+                      <CheckCircle2 size={18} /> {t('approve')}
                     </button>
                     <button
                       onClick={() => updateStatus(order._id, 'cancelled', t('orderRejected'))}
-                      className="flex-1 h-10 flex items-center justify-center gap-1.5 border border-neutral-300 text-neutral-600 rounded-lg text-sm font-semibold active:scale-95 transition"
+                      className="flex-1 h-10 flex items-center justify-center gap-1.5 border border-neutral-300 text-neutral-600 rounded-xl text-sm font-semibold active:scale-95 transition"
                     >
-                      <XCircle size={16} /> {t('reject')}
+                      <XCircle size={18} /> {t('reject')}
                     </button>
                   </div>
                 )}
                 {order.status === 'transit' && (
                   <button
                     onClick={() => updateStatus(order._id, 'delivered', t('orderDelivered'))}
-                    className="w-full h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-lg text-sm font-semibold active:scale-95 transition"
+                    className="w-full h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-sm font-semibold active:scale-95 transition"
                   >
-                    <Truck size={16} /> {t('confirmDelivery')}
+                    <Truck size={18} /> {t('confirmDelivery')}
                   </button>
                 )}
                 {isTerminal && NEXT_STEP[order.status as OrderStatus] === undefined && (
@@ -172,7 +172,7 @@ export default function AdminOrdersPage() {
                     href={`/admin/orders/${order._id}`}
                     className="flex items-center gap-1 text-xs text-neutral-400 hover:text-brand-primary transition"
                   >
-                    {t('viewDetails')} <ChevronRight size={13} />
+                    {t('viewDetails')} <ChevronRight size={14} />
                   </Link>
                 )}
               </div>

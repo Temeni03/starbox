@@ -115,7 +115,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Left column: media & visibility */}
         <div className="md:col-span-5 space-y-6">
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
             <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('productImagery')}</label>
             <div className="flex flex-wrap gap-2 mb-3">
               {form.images.map((url) => (
@@ -132,7 +132,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                     onClick={() => removeImage(url)}
                     className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                   >
-                    <X size={12} />
+                    <X size={14} />
                   </button>
                 </div>
               ))}
@@ -153,7 +153,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
             <p className="text-xs text-neutral-400 mt-2">{t('imagesHint', { max: MAX_PRODUCT_IMAGES })}</p>
           </div>
 
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
             <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('statusVisibility')}</label>
             <label className="flex items-center justify-between py-1 cursor-pointer">
               <span className="text-sm text-neutral-700">{t('publishedOnStore')}</span>
@@ -171,7 +171,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
             </label>
           </div>
 
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
             <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('videoOptional')}</label>
             {form.video ? (
               <div className="relative w-full">
@@ -181,7 +181,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                   onClick={() => removeVideo(form.video!)}
                   className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center"
                 >
-                  <X size={12} />
+                  <X size={14} />
                 </button>
               </div>
             ) : (
@@ -197,7 +197,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
 
         {/* Right column: product data */}
         <div className="md:col-span-7 space-y-6">
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm space-y-4">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-base font-semibold text-neutral-800">{t('generalInfo')}</h3>
               <div className="flex gap-1">
@@ -234,7 +234,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                 value={form.name[activeLang] ?? ''}
                 onChange={(e) => handleLocalizedChange('name', e.target.value)}
                 placeholder={t('productNamePlaceholder')}
-                className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
 
@@ -250,7 +250,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                   min="0"
                   step="1"
                   placeholder="1200"
-                  className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
@@ -264,7 +264,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                   min="0"
                   step="1"
                   placeholder="50"
-                  className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
             </div>
@@ -276,7 +276,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                 onChange={(e) => handleLocalizedChange('description', e.target.value)}
                 rows={3}
                 placeholder={t('descriptionPlaceholder')}
-                className="w-full p-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition resize-none"
+                className="w-full p-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition resize-none"
               />
             </div>
 
@@ -287,7 +287,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                 onChange={(e) => handleLocalizedChange('usageInstructions', e.target.value)}
                 rows={3}
                 placeholder={t('usageInstructionsPlaceholder')}
-                className="w-full p-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition resize-none"
+                className="w-full p-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition resize-none"
               />
             </div>
 
@@ -299,7 +299,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                 value={form.lowStockThreshold}
                 onChange={handleChange}
                 min="0"
-                className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
@@ -314,7 +314,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
             onClick={() => setConfirmDelete(true)}
             className="flex-1 sm:flex-none px-6 h-12 border border-danger text-danger rounded-xl text-sm font-semibold hover:bg-red-50 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <Trash2 size={16} />
+            <Trash2 size={18} />
             {t('delete')}
           </button>
         )}
@@ -323,20 +323,20 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
           disabled={saving}
           className="flex-2 sm:flex-none px-10 h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold shadow-lg hover:bg-brand-secondary active:scale-95 disabled:opacity-60 transition-all flex items-center justify-center gap-2"
         >
-          <Save size={16} />
+          <Save size={18} />
           {saving ? t('saving') : submitLabel}
         </button>
       </div>
 
       {confirmDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">{t('deleteTitle')}</h2>
+                <h2 className="text-base font-semibold text-neutral-800">{t('deleteTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">
                   {t('deleteConfirm')}
                 </p>

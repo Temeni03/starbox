@@ -59,14 +59,14 @@ export default function HomePage() {
         <div className="relative text-center py-12 px-4">
           <div className="relative inline-block mb-8">
             <div className="w-48 h-48 mx-auto rounded-full bg-white/60 backdrop-blur-md border border-brand-light flex items-center justify-center shadow-sm">
-              <Package size={64} className="text-brand-primary/40" />
+              <Package size={40} className="text-brand-primary/40" />
               <div className="absolute -top-2 -right-2 bg-white p-3 rounded-2xl shadow-md border border-brand-light">
-                <Search size={24} className="text-brand-primary" />
+                <Search size={18} className="text-brand-primary" />
               </div>
             </div>
             <div className="absolute -bottom-2 -left-2 w-10 h-10 rounded-full bg-brand-container/40 blur-xl" />
           </div>
-          <h2 className="text-xl font-bold text-neutral-800 mb-2">
+          <h2 className="text-lg font-bold text-neutral-800 mb-2">
             {query ? t('noProductsFound') : t('noProductsAvailable')}
           </h2>
           <p className="text-sm text-neutral-500 max-w-sm mx-auto leading-relaxed">

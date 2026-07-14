@@ -98,7 +98,7 @@ export default function CheckoutPage() {
         <Link
           href="/cart"
           aria-label={t('backToCartAria')}
-          className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-brand-light/50 transition -ml-1.5"
+          className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-light/50 transition -ml-1.5"
         >
           <ArrowLeft size={20} className="text-brand-primary" />
         </Link>
@@ -130,7 +130,7 @@ export default function CheckoutPage() {
                 className="peer sr-only"
               />
               <div className="p-4 rounded-xl border-2 border-neutral-200 bg-white peer-checked:border-brand-primary peer-checked:bg-brand-light/50 transition-all flex flex-col items-center text-center gap-1.5">
-                <Icon size={22} className="text-brand-primary" />
+                <Icon size={20} className="text-brand-primary" />
                 <span className="text-sm font-semibold text-neutral-800">{label}</span>
                 <span className="text-xs text-neutral-500">{sub}</span>
               </div>
@@ -146,7 +146,7 @@ export default function CheckoutPage() {
       </section>
 
       {/* Order items summary */}
-      <section className="mb-6 bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4">
+      <section className="mb-6 bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-4">
         <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('orderSummary')}</h2>
         <div className="space-y-2">
           {items.map((item) => (

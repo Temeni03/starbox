@@ -56,7 +56,7 @@ export default function EditBoxPage({ params }: { params: Promise<{ id: string }
     return (
       <div className="max-w-4xl animate-pulse space-y-4">
         <div className="h-6 bg-neutral-200 rounded w-1/3" />
-        <div className="h-64 bg-white rounded-xl border border-neutral-200" />
+        <div className="h-64 bg-white rounded-2xl border border-neutral-200" />
       </div>
     )
   }
@@ -70,11 +70,11 @@ export default function EditBoxPage({ params }: { params: Promise<{ id: string }
         <Link href="/admin" className="hover:text-brand-primary transition">
           {t('breadcrumbAdmin')}
         </Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <Link href="/admin/boxes" className="hover:text-brand-primary transition">
           {t('breadcrumbBoxes')}
         </Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <span className="text-neutral-600">{t('editBox')}</span>
       </nav>
       <h1 className="text-2xl font-bold text-neutral-800 mb-1">{t('editTitle')}</h1>

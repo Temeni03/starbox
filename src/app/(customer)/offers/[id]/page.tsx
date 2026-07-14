@@ -91,7 +91,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
         {box.coverImage ? (
           <Image src={box.coverImage} alt={box.name} fill className="object-cover" sizes="(max-width: 640px) 100vw, 512px" priority />
         ) : (
-          <Gift size={64} className="text-white/90" />
+          <Gift size={40} className="text-white/90" />
         )}
       </div>
 
@@ -129,7 +129,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
           <button
             onClick={handleAddToCart}
             disabled={adding || buying}
-            className="flex-1 flex items-center justify-center gap-2 border border-brand-primary text-brand-primary py-3 rounded-xl font-semibold hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="flex-1 flex items-center justify-center gap-2 border border-brand-primary text-brand-primary py-3 rounded-xl text-sm font-semibold hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             <ShoppingCart size={18} />
             {adding ? tProduct('adding') : tProduct('addToCart')}
@@ -137,7 +137,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
           <button
             onClick={handleBuyNow}
             disabled={adding || buying}
-            className="flex-[1.5] flex items-center justify-center gap-2 bg-brand-primary text-white py-3 rounded-xl font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="flex-[1.5] flex items-center justify-center gap-2 bg-brand-primary text-white py-3 rounded-xl text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             <Zap size={18} />
             {buying ? tProduct('processing') : tProduct('buyNow')}

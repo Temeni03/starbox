@@ -111,18 +111,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-            <Package size={48} />
+            <Package size={40} />
           </div>
         )}
         {outOfStock && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="bg-white text-neutral-800 text-sm font-semibold px-3 py-1.5 rounded">
+            <span className="bg-white text-neutral-800 text-sm font-semibold px-3 py-1.5 rounded-md">
               {tCommon('outOfStock')}
             </span>
           </div>
         )}
         {lowStock && (
-          <span className="absolute top-3 left-3 bg-warning text-white text-xs font-bold px-2 py-1 rounded-md uppercase tracking-wider">
+          <span className="absolute top-3 left-3 bg-warning text-white text-[11px] font-bold px-2 py-1 rounded-md uppercase tracking-wide">
             {tCommon('lowStock')}
           </span>
         )}
@@ -168,7 +168,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <button
                 onClick={() => setQuantity((q) => clampQuantity(q - 1))}
                 disabled={quantity <= 1}
-                className="w-9 h-9 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
+                className="w-10 h-10 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
               >
                 <Minus size={16} />
               </button>
@@ -176,7 +176,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
               <button
                 onClick={() => setQuantity((q) => clampQuantity(q + 1))}
                 disabled={quantity >= product.quantity}
-                className="w-9 h-9 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
+                className="w-10 h-10 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
               >
                 <Plus size={16} />
               </button>
@@ -187,7 +187,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* Description */}
         {product.description && (
           <div className="mb-6">
-            <h2 className="text-sm font-semibold text-neutral-800 mb-1.5">{t('description')}</h2>
+            <h2 className="text-base font-semibold text-neutral-800 mb-1.5">{t('description')}</h2>
             <p className="text-sm text-neutral-600 whitespace-pre-line leading-relaxed">{product.description}</p>
           </div>
         )}
@@ -195,7 +195,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* How to use */}
         {product.usageInstructions && (
           <div className="mb-6">
-            <h2 className="text-sm font-semibold text-neutral-800 mb-1.5">{t('howToUse')}</h2>
+            <h2 className="text-base font-semibold text-neutral-800 mb-1.5">{t('howToUse')}</h2>
             <p className="text-sm text-neutral-600 whitespace-pre-line leading-relaxed">{product.usageInstructions}</p>
           </div>
         )}
@@ -203,7 +203,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* Video */}
         {product.video && (
           <div className="mb-6">
-            <h2 className="text-sm font-semibold text-neutral-800 mb-1.5">{t('productVideo')}</h2>
+            <h2 className="text-base font-semibold text-neutral-800 mb-1.5">{t('productVideo')}</h2>
             <video src={product.video} controls className="w-full rounded-xl" />
           </div>
         )}
@@ -227,7 +227,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           <button
             onClick={handleAddToCart}
             disabled={outOfStock || adding || buying}
-            className="flex-1 flex items-center justify-center gap-2 border border-brand-primary text-brand-primary py-3 rounded-xl font-semibold hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="flex-1 flex items-center justify-center gap-2 border border-brand-primary text-brand-primary py-3 rounded-xl text-sm font-semibold hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             <ShoppingCart size={18} />
             {adding ? t('adding') : t('addToCart')}
@@ -235,7 +235,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           <button
             onClick={handleBuyNow}
             disabled={outOfStock || adding || buying}
-            className="flex-[1.5] flex items-center justify-center gap-2 bg-brand-primary text-white py-3 rounded-xl font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="flex-[1.5] flex items-center justify-center gap-2 bg-brand-primary text-white py-3 rounded-xl text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             <Zap size={18} />
             {buying ? t('processing') : t('buyNow')}

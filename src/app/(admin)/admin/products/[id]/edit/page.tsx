@@ -57,7 +57,7 @@ export default function EditProductPage({
     return (
       <div className="max-w-4xl animate-pulse space-y-4">
         <div className="h-6 bg-neutral-200 rounded w-1/3" />
-        <div className="h-64 bg-white rounded-xl border border-neutral-200" />
+        <div className="h-64 bg-white rounded-2xl border border-neutral-200" />
       </div>
     );
   }
@@ -71,14 +71,14 @@ export default function EditProductPage({
         <Link href="/admin" className="hover:text-brand-primary transition">
           {t("breadcrumbAdmin")}
         </Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <Link
           href="/admin/products"
           className="hover:text-brand-primary transition"
         >
           {t("breadcrumbProducts")}
         </Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <span className="text-neutral-600">{t("editProduct")}</span>
       </nav>
       <h1 className="text-2xl font-bold text-neutral-800 mb-1">

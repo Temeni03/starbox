@@ -136,7 +136,7 @@ export default function AdminLocationsPage() {
         <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
         <button
           onClick={openAddForm}
-          className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
+          className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-secondary transition"
         >
           <Plus size={16} />
           {t('addLocation')}
@@ -171,7 +171,7 @@ export default function AdminLocationsPage() {
           <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noMatch', { query: search })}</p>
         ) : (
           filteredLocations.map((l) => (
-            <div key={l._id} className={`bg-white rounded-2xl border border-neutral-200 flex items-center gap-4 px-5 py-3.5 ${!l.isActive ? 'opacity-50' : ''}`}>
+            <div key={l._id} className={`bg-white rounded-2xl border border-neutral-200 flex items-center gap-4 p-4 ${!l.isActive ? 'opacity-50' : ''}`}>
               <div className="w-11 h-11 rounded-xl bg-brand-container/20 flex items-center justify-center shrink-0 text-brand-primary">
                 <MapPin size={18} />
               </div>
@@ -216,9 +216,9 @@ export default function AdminLocationsPage() {
 
       {showForm && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-semibold text-neutral-800">
+              <h2 className="text-base font-semibold text-neutral-800">
                 {editing ? t('editLocation') : t('addLocationTitle')}
               </h2>
               <button
@@ -231,7 +231,7 @@ export default function AdminLocationsPage() {
 
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-neutral-600 mb-1">
+                <label className="block text-xs font-medium text-neutral-500 mb-1">
                   {t('nameFr')}
                 </label>
                 <input
@@ -239,11 +239,11 @@ export default function AdminLocationsPage() {
                   value={form.name.fr ?? ''}
                   onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, fr: e.target.value } }))}
                   placeholder={t('nameFrPlaceholder')}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-neutral-600 mb-1">
+                <label className="block text-xs font-medium text-neutral-500 mb-1">
                   {t('nameAr')}
                 </label>
                 <input
@@ -252,11 +252,11 @@ export default function AdminLocationsPage() {
                   value={form.name.ar ?? ''}
                   onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, ar: e.target.value } }))}
                   placeholder="مثال: الكصر"
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-neutral-600 mb-1">
+                <label className="block text-xs font-medium text-neutral-500 mb-1">
                   {t('nameEn')}
                 </label>
                 <input
@@ -264,11 +264,11 @@ export default function AdminLocationsPage() {
                   value={form.name.en ?? ''}
                   onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, en: e.target.value } }))}
                   placeholder={t('nameEnPlaceholder')}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-neutral-600 mb-1">
+                <label className="block text-xs font-medium text-neutral-500 mb-1">
                   {t('deliveryPrice')}
                 </label>
                 <input
@@ -277,7 +277,7 @@ export default function AdminLocationsPage() {
                   value={form.price}
                   onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
                   placeholder={t('pricePlaceholder')}
-                  className="w-full px-3 py-2 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
             </div>
@@ -304,13 +304,13 @@ export default function AdminLocationsPage() {
 
       {locationToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center flex-shrink-0">
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">{t('deleteTitle')}</h2>
+                <h2 className="text-base font-semibold text-neutral-800">{t('deleteTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">
                   {t('deleteConfirm', { name: resolveLocalized(locationToDelete.name, locale) })}
                 </p>

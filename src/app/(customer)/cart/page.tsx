@@ -72,11 +72,11 @@ export default function CartPage() {
         <div className="relative w-48 h-48 flex items-center justify-center">
           <div className="absolute inset-0 bg-brand-container/30 blur-3xl rounded-full" />
           <div className="relative z-10 bg-white/70 backdrop-blur-md p-8 rounded-full border-2 border-brand-container/50">
-            <ShoppingBag size={56} className="text-brand-primary" />
+            <ShoppingBag size={40} className="text-brand-primary" />
           </div>
         </div>
         <div className="max-w-xs space-y-2">
-          <h2 className="text-2xl font-bold text-neutral-800 tracking-tight">{t('emptyTitle')}</h2>
+          <h2 className="text-lg font-bold text-neutral-800">{t('emptyTitle')}</h2>
           <p className="text-sm text-neutral-500">
             {t('emptyDesc')}
           </p>
@@ -130,7 +130,7 @@ export default function CartPage() {
       </div>
 
       {/* Summary */}
-      <div className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-6 flex flex-col gap-4">
+      <div className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-5 flex flex-col gap-4">
         <div className="flex justify-between items-center text-neutral-600 text-sm">
           <span>{t('subtotalItems', { count: totalCount })}</span>
           <span>{totalPrice.toLocaleString()} MRU</span>
@@ -161,7 +161,7 @@ export default function CartPage() {
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">{t('clearCartTitle')}</h2>
+                <h2 className="text-base font-semibold text-neutral-800">{t('clearCartTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">
                   {t('clearCartConfirm')}
                 </p>

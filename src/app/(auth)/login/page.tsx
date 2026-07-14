@@ -67,7 +67,7 @@ export default function LoginPage() {
 
       <div className="flex flex-col items-center mb-8">
         <Image src="/logo.png" alt="Starbox" width={80} height={80} className="w-20 h-20 mb-4 object-contain" priority />
-        <h1 className="text-3xl font-bold text-brand-primary tracking-tight">Starbox</h1>
+        <h1 className="text-2xl font-bold text-brand-primary tracking-tight">Starbox</h1>
         <p className="text-sm text-neutral-500 mt-1">{t('tagline')}</p>
       </div>
 
@@ -90,7 +90,7 @@ export default function LoginPage() {
                 placeholder={t('phonePlaceholder')}
                 required
                 autoComplete="tel"
-                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary focus:border-brand-primary transition"
+                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
@@ -110,7 +110,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 required
                 autoComplete="current-password"
-                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary focus:border-brand-primary transition"
+                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
               <button
                 type="button"
@@ -133,7 +133,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-12 bg-brand-primary text-white font-semibold text-sm rounded-xl shadow-md hover:bg-brand-secondary active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed transition"
+            className="w-full h-12 bg-brand-primary text-white font-semibold text-sm rounded-full shadow-md hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition"
           >
             {loading ? t('signingIn') : t('signIn')}
           </button>

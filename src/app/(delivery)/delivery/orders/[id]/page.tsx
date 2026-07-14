@@ -43,7 +43,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
     return (
       <div className="space-y-4 animate-pulse">
         <div className="h-5 bg-neutral-200 rounded w-1/4" />
-        <div className="h-40 bg-white rounded-xl border border-neutral-200" />
+        <div className="h-40 bg-white rounded-2xl border border-neutral-200" />
       </div>
     )
   }
@@ -72,7 +72,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       </div>
 
       {/* Customer */}
-      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-4">
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-base font-semibold text-brand-primary">{t('customer')}</h2>
           <p className="text-xs text-neutral-400">{order.orderNumber}</p>
@@ -91,7 +91,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
                 href={`tel:${order.customer?.phone}`}
                 className="bg-brand-container/20 p-1.5 rounded-lg text-brand-primary"
               >
-                <Phone size={13} />
+                <Phone size={14} />
               </a>
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       </div>
 
       {/* Payment */}
-      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-3">
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-3">
         <h2 className="text-base font-semibold text-brand-primary">{t('paymentStatus')}</h2>
         <div className="flex items-center justify-between p-3.5 rounded-xl bg-surface-low border border-neutral-100">
           <div className="flex items-center gap-3">
@@ -148,7 +148,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       </div>
 
       {/* Items */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-5">
+      <div className="bg-white rounded-2xl border border-neutral-200 p-5">
         <h2 className="text-base font-semibold text-neutral-800 mb-3">
           {t('orderItems', { count: order.items?.length ?? 0 })}
         </h2>
@@ -209,7 +209,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       )}
 
       {order.status === 'transit' && (
-        <div className="bg-brand-container/10 border border-brand-container/30 rounded-xl p-4 flex items-center gap-3">
+        <div className="bg-brand-container/10 border border-brand-container/30 rounded-2xl p-4 flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-brand-container/20 text-brand-primary flex items-center justify-center shrink-0">
             <Hourglass size={18} />
           </div>

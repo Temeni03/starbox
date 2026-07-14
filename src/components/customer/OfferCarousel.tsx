@@ -80,15 +80,15 @@ export function OfferCarousel() {
 
   if (isLoading) {
     return (
-      <div className="mb-8 rounded-[28px] aspect-[16/9] sm:aspect-[21/9] bg-linear-to-br from-surface-high via-surface-low to-surface-high bg-[length:200%_100%] animate-[shimmer_1.8s_ease-in-out_infinite]" />
+      <div className="mb-8 rounded-3xl aspect-[16/9] sm:aspect-[21/9] bg-linear-to-br from-surface-high via-surface-low to-surface-high bg-[length:200%_100%] animate-[shimmer_1.8s_ease-in-out_infinite]" />
     )
   }
 
   if (boxes.length === 0) {
     return (
-      <div className="mb-8 relative overflow-hidden rounded-[28px] aspect-[16/9] sm:aspect-[21/9] bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container shadow-[0_20px_45px_-15px_rgba(151,49,185,0.45)] flex items-center justify-center">
+      <div className="mb-8 relative overflow-hidden rounded-3xl aspect-[16/9] sm:aspect-[21/9] bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container shadow-[0_20px_45px_-15px_rgba(151,49,185,0.45)] flex items-center justify-center">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.18),transparent_55%)]" />
-        <Gift size={48} className="relative text-white/70" />
+        <Gift size={40} className="relative text-white/70" />
       </div>
     )
   }
@@ -111,7 +111,7 @@ export function OfferCarousel() {
           <Link
             key={box._id}
             href={`/offers/${box._id}`}
-            className={`group relative shrink-0 snap-center aspect-[16/9] sm:aspect-[21/9] rounded-[28px] overflow-hidden bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container shadow-[0_20px_45px_-15px_rgba(151,49,185,0.45)] ring-1 ring-black/5 transition-shadow duration-500 hover:shadow-[0_25px_55px_-12px_rgba(151,49,185,0.55)] ${
+            className={`group relative shrink-0 snap-center aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container shadow-[0_20px_45px_-15px_rgba(151,49,185,0.45)] ring-1 ring-black/5 transition-shadow duration-500 hover:shadow-[0_25px_55px_-12px_rgba(151,49,185,0.55)] ${
               showPeek ? 'w-[92%]' : 'w-full'
             }`}
           >
@@ -128,7 +128,7 @@ export function OfferCarousel() {
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.2),transparent_55%)]" />
-                <Gift size={48} className="relative text-white/80 transition-transform duration-700 group-hover:scale-110" />
+                <Gift size={40} className="relative text-white/80 transition-transform duration-700 group-hover:scale-110" />
               </div>
             )}
 
@@ -141,12 +141,12 @@ export function OfferCarousel() {
 
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-center gap-2.5 sm:gap-3.5 px-5 sm:px-10 max-w-[80%] sm:max-w-[60%]">
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white backdrop-blur-md">
-                <Sparkles size={12} className="text-white/90" />
+              <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-white backdrop-blur-md">
+                <Sparkles size={14} className="text-white/90" />
                 {t('specialOffer')}
               </span>
 
-              <h3 className="text-lg sm:text-3xl font-bold text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)] line-clamp-2">
+              <h3 className="text-xl sm:text-3xl font-bold text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)] line-clamp-2">
                 {box.name}
               </h3>
 

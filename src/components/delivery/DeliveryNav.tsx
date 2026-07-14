@@ -27,11 +27,11 @@ export function DeliveryNav({ userName }: { userName: string }) {
         <div className="container mx-auto px-4 max-w-2xl h-14 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Truck size={20} className="text-brand-primary" />
-            <span className="font-bold text-lg text-brand-primary">{t('headerTitle')}</span>
+            <span className="text-xl font-bold text-brand-primary tracking-tight">{t('headerTitle')}</span>
           </div>
           <div className="flex items-center gap-3">
             <LocaleSwitcher compact />
-            <NotificationBell href="/delivery/notifications" className="text-brand-primary/70 hover:text-brand-primary transition hidden sm:inline-flex" />
+            <NotificationBell href="/delivery/notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-light/50 text-brand-primary/70 hover:text-brand-primary transition hidden sm:inline-flex" />
             <Link
               href="/delivery/profile"
               className="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-brand-primary transition"

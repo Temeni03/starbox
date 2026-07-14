@@ -23,7 +23,7 @@ export function StatusBadge({ status }: { status: OrderStatus }) {
   const Icon = icons[status]
   return (
     <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${styles[status]}`}>
-      <Icon size={13} />
+      <Icon size={14} />
       {t(status)}
     </span>
   )

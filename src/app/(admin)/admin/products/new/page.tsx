@@ -39,9 +39,9 @@ export default function NewProductPage() {
     <div className="max-w-4xl">
       <nav className="flex items-center gap-1.5 text-xs text-neutral-400 mb-2">
         <Link href="/admin" className="hover:text-brand-primary transition">{t('breadcrumbAdmin')}</Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <Link href="/admin/products" className="hover:text-brand-primary transition">{t('breadcrumbProducts')}</Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <span className="text-neutral-600">{t('newProduct')}</span>
       </nav>
       <h1 className="text-2xl font-bold text-neutral-800 mb-1">{t('addTitle')}</h1>

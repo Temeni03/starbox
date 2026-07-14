@@ -44,7 +44,7 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm text-left focus:outline-none focus:ring-2 focus:ring-brand-secondary bg-white"
+        className="flex items-center gap-2 w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm text-left focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent bg-white transition"
       >
         <MapPin size={16} className="text-neutral-400 flex-shrink-0" />
         {value ? (
@@ -60,7 +60,7 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
       </button>
 
       {open && (
-        <div className="absolute z-10 mt-1 w-full bg-white border border-neutral-200 rounded-lg shadow-lg overflow-hidden">
+        <div className="absolute z-10 mt-1 w-full bg-white border border-neutral-200 rounded-xl shadow-lg overflow-hidden">
           <div className="flex items-center gap-2 px-3 py-2 border-b border-neutral-100">
             <Search size={14} className="text-neutral-400 flex-shrink-0" />
             <input

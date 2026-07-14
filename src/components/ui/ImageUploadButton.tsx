@@ -36,11 +36,11 @@ export function ImageUploadButton({ type, multiple = false, label, onUploaded }:
 
   return (
     <label
-      className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-dashed border-neutral-300 text-sm font-medium text-neutral-600 hover:border-brand-secondary hover:text-brand-primary transition ${
+      className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-neutral-300 text-sm font-medium text-neutral-600 hover:border-brand-secondary hover:text-brand-primary transition ${
         uploading ? 'opacity-60 cursor-wait' : 'cursor-pointer'
       }`}
     >
-      <Icon size={16} />
+      <Icon size={18} />
       {uploading ? t('uploading') : (label ?? defaultLabel)}
       <input
         type="file"

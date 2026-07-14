@@ -45,13 +45,13 @@ export default function DeliveryDashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl border border-neutral-200 p-4 flex flex-col gap-1">
-          <Truck size={18} className="text-brand-primary" />
+        <div className="bg-white rounded-2xl border border-neutral-200 p-5 flex flex-col gap-1">
+          <Truck size={20} className="text-brand-primary" />
           <p className="text-2xl font-bold text-neutral-800">{activeData?.orders?.length ?? '…'}</p>
           <p className="text-xs text-neutral-500">{t('activeDeliveries')}</p>
         </div>
-        <div className="bg-brand-container/20 rounded-xl border border-brand-primary/20 p-4 flex flex-col gap-1">
-          <PackageCheck size={18} className="text-brand-primary" />
+        <div className="bg-brand-container/20 rounded-2xl border border-brand-primary/20 p-5 flex flex-col gap-1">
+          <PackageCheck size={20} className="text-brand-primary" />
           <p className="text-2xl font-bold text-brand-primary">{completedData?.orders?.length ?? '…'}</p>
           <p className="text-xs text-brand-secondary">{t('completed')}</p>
         </div>
@@ -86,7 +86,7 @@ export default function DeliveryDashboard() {
         </div>
       ) : orders.length === 0 ? (
         <div className="bg-white rounded-2xl border border-neutral-200 p-12 text-center text-neutral-400">
-          <Truck size={36} className="mx-auto mb-3 opacity-40" />
+          <Truck size={40} className="mx-auto mb-3 opacity-40" />
           <p>{tab === 'active' ? t('noActiveOrders') : t('noCompletedOrders')}</p>
         </div>
       ) : (
@@ -140,7 +140,7 @@ export default function DeliveryDashboard() {
                           rel="noopener noreferrer"
                           className="flex items-center gap-1 text-xs font-semibold text-brand-primary shrink-0"
                         >
-                          <Navigation size={13} /> {t('navigate')}
+                          <Navigation size={14} /> {t('navigate')}
                         </a>
                       )}
                     </div>
@@ -160,13 +160,13 @@ export default function DeliveryDashboard() {
                       onClick={() => markInTransit(order._id)}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold bg-brand-primary text-white hover:bg-brand-secondary transition"
                     >
-                      <Truck size={16} />
+                      <Truck size={18} />
                       {t('markInTransit')}
                     </button>
                   )}
                   {order.status === 'transit' && (
                     <div className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-semibold bg-brand-container/15 text-brand-primary">
-                      <Hourglass size={16} />
+                      <Hourglass size={18} />
                       {t('awaitingConfirmation')}
                     </div>
                   )}

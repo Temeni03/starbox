@@ -132,7 +132,7 @@ export default function AdminUsersPage() {
         {tab === "delivery" && (
           <Link
             href="/admin/users/new-delivery"
-            className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition"
+            className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-secondary transition"
           >
             <Plus size={16} />
             {t("addDelivery")}
@@ -142,13 +142,13 @@ export default function AdminUsersPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
-        <div className="bg-brand-container/15 p-4 rounded-2xl border border-brand-container/40">
+        <div className="bg-brand-container/15 p-5 rounded-2xl border border-brand-container/40">
           <p className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">{t("active")}</p>
-          <p className="text-xl font-bold text-brand-primary">{activeCount} / {users.length}</p>
+          <p className="text-2xl font-bold text-brand-primary">{activeCount} / {users.length}</p>
         </div>
-        <div className="bg-surface-high p-4 rounded-2xl border border-neutral-200">
+        <div className="bg-surface-high p-5 rounded-2xl border border-neutral-200">
           <p className="text-[10px] font-semibold text-neutral-500 uppercase tracking-wider">{tab === 'customer' ? t('totalCustomers') : t('totalStaff')}</p>
-          <p className="text-xl font-bold text-neutral-800">{users.length}</p>
+          <p className="text-2xl font-bold text-neutral-800">{users.length}</p>
         </div>
       </div>
 
@@ -185,11 +185,11 @@ export default function AdminUsersPage() {
                   <span className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${u.isActive ? 'bg-success' : 'bg-neutral-300'}`} />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-base font-bold text-neutral-800 truncate">{u.name}</h3>
+                  <h3 className="text-sm font-semibold text-neutral-800 truncate">{u.name}</h3>
                   <p className="text-xs text-neutral-400">{u.phone}</p>
                   {tab === "delivery" && (
                     <div className="flex items-center gap-1 mt-1 text-xs text-neutral-500">
-                      <Truck size={13} className="text-brand-primary" />
+                      <Truck size={14} className="text-brand-primary" />
                       {t("completedDeliveries", { count: u.deliveryCount ?? 0 })}
                     </div>
                   )}
@@ -227,7 +227,7 @@ export default function AdminUsersPage() {
       {tab === "delivery" && (
         <Link
           href="/admin/users/new-delivery"
-          className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-primary text-white rounded-2xl shadow-xl flex items-center justify-center active:scale-90 transition-all z-40"
+          className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-primary text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all z-40"
           aria-label={t("addDeliveryAria")}
         >
           <Plus size={26} />
@@ -238,9 +238,9 @@ export default function AdminUsersPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
           <form
             onSubmit={saveEdit}
-            className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4"
+            className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4"
           >
-            <h2 className="font-semibold text-neutral-800">
+            <h2 className="text-base font-semibold text-neutral-800">
               {t("editDeliveryStaff")}
             </h2>
             {[
@@ -248,7 +248,7 @@ export default function AdminUsersPage() {
               { key: "phone", label: t("phoneNumber"), type: "tel", pattern: "[234][0-9]{7}", maxLength: 8, title: tProfile("phoneHint") },
             ].map(({ key, label, type, pattern, maxLength, title }) => (
               <div key={key}>
-                <label className="block text-sm font-medium text-neutral-700 mb-1">
+                <label className="block text-xs font-medium text-neutral-500 mb-1">
                   {label}
                 </label>
                 <input
@@ -261,7 +261,7 @@ export default function AdminUsersPage() {
                   maxLength={maxLength}
                   title={title}
                   required
-                  className="w-full px-3 py-2.5 border border-neutral-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
             ))}
@@ -288,13 +288,13 @@ export default function AdminUsersPage() {
 
       {userToDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">
+                <h2 className="text-base font-semibold text-neutral-800">
                   {t("deleteAccountTitle")}
                 </h2>
                 <p className="text-sm text-neutral-500 mt-1">

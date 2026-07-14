@@ -34,7 +34,7 @@
   --color-success: #10B981;
 
   /* Typography */
-  --font-family-sans: Inter, system-ui, sans-serif;
+  --font-family-sans: var(--font-geist), system-ui, sans-serif;
   --font-family-mono: "JetBrains Mono", monospace;
 }
 
@@ -54,13 +54,13 @@ body {
   margin: 0;
   background-color: #FAFAFA;
   color: #171717;
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-geist), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 html[dir="rtl"] body {
-  font-family: var(--font-cairo), system-ui, sans-serif;
+  font-family: var(--font-alexandria), system-ui, sans-serif;
 }
 
 img,

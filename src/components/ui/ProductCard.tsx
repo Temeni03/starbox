@@ -53,13 +53,13 @@ export function ProductCard({ product, onAddToCart }: Props) {
         )}
         {outOfStock && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="bg-white text-neutral-800 text-xs font-semibold px-2 py-1 rounded">
+            <span className="bg-white text-neutral-800 text-xs font-semibold px-2 py-1 rounded-md">
               {t('outOfStock')}
             </span>
           </div>
         )}
         {lowStock && (
-          <span className="absolute top-3 left-3 bg-warning text-white text-[10px] font-bold px-2 py-1 rounded-md uppercase tracking-wider">
+          <span className="absolute top-3 left-3 bg-warning text-white text-[11px] font-bold px-2 py-1 rounded-md uppercase tracking-wide">
             {t('lowStock')}
           </span>
         )}
@@ -73,14 +73,14 @@ export function ProductCard({ product, onAddToCart }: Props) {
         </button>
       </div>
 
-      <h3 className="text-base font-semibold text-neutral-800 truncate mb-1">
+      <h3 className="text-sm font-semibold text-neutral-800 truncate mb-1">
         {product.name}
       </h3>
       {product.description && (
         <p className="text-xs text-neutral-500 mb-2 truncate">{product.description}</p>
       )}
       <div className="mt-auto">
-        <span className="text-base font-semibold text-brand-primary">
+        <span className="text-sm font-bold text-brand-primary">
           {product.price.toLocaleString()} MRU
         </span>
       </div>

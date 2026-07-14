@@ -62,8 +62,8 @@ export function CustomerNav({ userName }: { userName: string }) {
                 className="flex items-center justify-center"
               >
                 <span
-                  className={`relative flex flex-col items-center justify-center gap-0.5 px-4 py-1 text-xs transition ${
-                    active ? "text-brand-primary" : "text-neutral-400"
+                  className={`relative flex flex-col items-center justify-center gap-0.5 px-4 py-1 rounded-full text-xs transition ${
+                    active ? "bg-brand-container text-brand-secondary" : "text-neutral-400"
                   }`}
                 >
                   <span className="relative">

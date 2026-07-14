@@ -129,7 +129,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
           aria-expanded={mobileOpen}
           className="relative w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-surface-high transition"
         >
-          <Menu size={22} />
+          <Menu size={20} />
           {unreadCount > 0 && (
             <span className="absolute top-1 end-1 w-2.5 h-2.5 rounded-full bg-danger border-2 border-white" />
           )}
@@ -161,7 +161,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
           <button
             onClick={() => setMobileOpen(false)}
             aria-label={t('closeMenuAria')}
-            className="w-9 h-9 flex items-center justify-center rounded-full text-neutral-400 hover:bg-surface-high transition"
+            className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-400 hover:bg-surface-high transition"
           >
             <X size={20} />
           </button>

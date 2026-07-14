@@ -34,14 +34,14 @@ export function CartItemRow({
           <Image src={image} alt={name} fill className="object-cover" sizes="96px" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-            <Package size={24} />
+            <Package size={20} />
           </div>
         )}
       </div>
 
       <div className="flex flex-col justify-between flex-1 min-w-0">
         <div className="flex justify-between items-start gap-2">
-          <h3 className="text-base font-semibold text-neutral-800 truncate">{name}</h3>
+          <h3 className="text-sm font-semibold text-neutral-800 truncate">{name}</h3>
           {onRemove && (
             <button
               onClick={onRemove}
@@ -54,7 +54,7 @@ export function CartItemRow({
         </div>
 
         <div className="flex justify-between items-end mt-2">
-          <span className="text-base font-semibold text-brand-primary">
+          <span className="text-sm font-bold text-brand-primary">
             {price.toLocaleString()} MRU
           </span>
           {onIncrement || onDecrement ? (
@@ -81,7 +81,7 @@ export function CartItemRow({
     </>
   )
 
-  const className = 'bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4 flex gap-4'
+  const className = 'bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-4 flex gap-4'
 
   if (href) {
     return (

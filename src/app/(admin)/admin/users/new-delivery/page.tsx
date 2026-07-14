@@ -48,14 +48,14 @@ export default function NewDeliveryPage() {
       </Link>
       <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
 
-      <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 space-y-4">
+      <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-4">
         {[
           { name: 'name', label: t('fullName'), type: 'text', placeholder: 'Karim Benali' },
           { name: 'phone', label: t('phoneNumber'), type: 'tel', placeholder: '2XXXXXXX', pattern: '[234][0-9]{7}', maxLength: 8, title: tProfile('phoneHint') },
           { name: 'password', label: t('password'), type: 'password', placeholder: t('passwordPlaceholder'), minLength: 6 },
         ].map(({ name, label, type, placeholder, pattern, maxLength, minLength, title }) => (
           <div key={name}>
-            <label className="block text-sm font-medium text-neutral-700 mb-1">{label}</label>
+            <label className="block text-xs font-medium text-neutral-500 mb-1">{label}</label>
             <input
               name={name}
               type={type}
@@ -67,7 +67,7 @@ export default function NewDeliveryPage() {
               minLength={minLength}
               title={title}
               required
-              className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+              className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
             />
           </div>
         ))}
@@ -81,7 +81,7 @@ export default function NewDeliveryPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-12 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+          className="w-full h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
         >
           {loading ? t('creating') : t('createAccount')}
         </button>

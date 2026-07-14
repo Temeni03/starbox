@@ -145,7 +145,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
         {/* Left column: cover image, visibility & schedule */}
         <div className="md:col-span-5 space-y-6">
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
             <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('coverImage')}</label>
             {form.coverImage ? (
               <div className="relative w-full">
@@ -161,7 +161,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                   onClick={removeCoverImageFile}
                   className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center"
                 >
-                  <X size={12} />
+                  <X size={14} />
                 </button>
               </div>
             ) : (
@@ -176,7 +176,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
             <p className="text-xs text-neutral-400 mt-2">{t('coverImageHint')}</p>
           </div>
 
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
             <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('statusVisibility')}</label>
             <label className="flex items-center justify-between py-1 cursor-pointer">
               <span className="text-sm text-neutral-700">{t('publishedOnStore')}</span>
@@ -194,7 +194,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
             </label>
           </div>
 
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm space-y-4">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <label className="text-xs font-medium text-neutral-500 block">{t('scheduleOptional')}</label>
             <div>
               <label className="block text-xs font-medium text-neutral-500 mb-1">{t('startDate')}</label>
@@ -203,7 +203,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                 type="date"
                 value={form.startDate}
                 onChange={handleChange}
-                className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
             <div>
@@ -213,7 +213,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                 type="date"
                 value={form.endDate}
                 onChange={handleChange}
-                className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
             <p className="text-xs text-neutral-400">{t('scheduleHint')}</p>
@@ -222,7 +222,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
 
         {/* Right column: box data & products */}
         <div className="md:col-span-7 space-y-6">
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm space-y-4">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-base font-semibold text-neutral-800">{t('generalInfo')}</h3>
               <div className="flex gap-1">
@@ -259,7 +259,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                 value={form.name[activeLang] ?? ''}
                 onChange={(e) => handleLocalizedChange(e.target.value)}
                 placeholder={t('boxNamePlaceholder')}
-                className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
 
@@ -274,12 +274,12 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                 min="0"
                 step="1"
                 placeholder="1200"
-                className="w-full h-11 px-4 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
 
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5 shadow-sm space-y-4">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-base font-semibold text-neutral-800">{t('selectProducts')}</h3>
               <span className="text-xs text-neutral-400">{t('selectedCount', { count: form.products.length })}</span>
@@ -364,7 +364,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
             onClick={() => setConfirmDelete(true)}
             className="flex-1 sm:flex-none px-6 h-12 border border-danger text-danger rounded-xl text-sm font-semibold hover:bg-red-50 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <Trash2 size={16} />
+            <Trash2 size={18} />
             {t('delete')}
           </button>
         )}
@@ -373,20 +373,20 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
           disabled={saving}
           className="flex-2 sm:flex-none px-10 h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold shadow-lg hover:bg-brand-secondary active:scale-95 disabled:opacity-60 transition-all flex items-center justify-center gap-2"
         >
-          <Save size={16} />
+          <Save size={18} />
           {saving ? t('saving') : submitLabel}
         </button>
       </div>
 
       {confirmDelete && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
                 <AlertTriangle size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">{t('deleteTitle')}</h2>
+                <h2 className="text-base font-semibold text-neutral-800">{t('deleteTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">{t('deleteConfirm')}</p>
               </div>
             </div>

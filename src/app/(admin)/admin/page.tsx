@@ -25,7 +25,7 @@ function KpiCard({
 }) {
   const inner = (
     <div
-      className={`bg-white/70 backdrop-blur-md border rounded-xl p-5 flex flex-col gap-3 transition ${
+      className={`bg-white/70 backdrop-blur-md border rounded-2xl p-5 flex flex-col gap-3 transition ${
         href ? 'hover:shadow-md cursor-pointer' : ''
       } ${alert ? 'border-l-4 border-l-danger border-y border-r border-brand-light/60' : 'border-brand-light/60'}`}
     >
@@ -72,12 +72,12 @@ export default function AdminDashboard() {
         {/* Recent Orders */}
         <section className="space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-neutral-800">{t('recentOrders')}</h2>
+            <h2 className="text-base font-semibold text-neutral-800">{t('recentOrders')}</h2>
             <Link href="/admin/orders" className="text-sm font-medium text-brand-primary hover:underline">
               {t('viewAll')}
             </Link>
           </div>
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl overflow-hidden">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl overflow-hidden">
             {recentOrders.length === 0 ? (
               <p className="px-5 py-10 text-center text-neutral-400 text-sm">{t('noActiveOrders')}</p>
             ) : (

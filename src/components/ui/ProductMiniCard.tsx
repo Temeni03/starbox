@@ -26,8 +26,8 @@ export function ProductMiniCard({ product }: { product: MiniProduct }) {
           </div>
         )}
       </div>
-      <p className="text-sm font-medium text-neutral-800 truncate">{product.name}</p>
-      <p className="text-sm text-brand-primary font-semibold">{product.price.toLocaleString()} MRU</p>
+      <p className="text-sm font-semibold text-neutral-800 truncate">{product.name}</p>
+      <p className="text-sm text-brand-primary font-bold">{product.price.toLocaleString()} MRU</p>
     </Link>
   )
 }

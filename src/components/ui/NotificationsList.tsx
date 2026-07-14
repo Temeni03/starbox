@@ -97,7 +97,7 @@ export function NotificationsList() {
         )}
       </div>
 
-      <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+      <div className="bg-white rounded-2xl border border-neutral-200 overflow-hidden">
         {isLoading ? (
           <div className="divide-y divide-neutral-100">
             {Array.from({ length: 4 }).map((_, i) => (

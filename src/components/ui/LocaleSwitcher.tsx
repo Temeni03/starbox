@@ -52,7 +52,7 @@ export function LocaleSwitcher({ className = '', compact = false }: { className?
         aria-label={t('language')}
         title={compact ? localeNames[locale] : undefined}
         className={`inline-flex items-center rounded-full font-medium text-neutral-600 hover:bg-surface-high active:scale-95 disabled:opacity-50 transition-all ${
-          compact ? 'w-9 h-9 justify-center' : 'gap-1.5 px-2 py-1.5 text-sm'
+          compact ? 'w-10 h-10 justify-center' : 'gap-1.5 px-2 py-1.5 text-sm'
         }`}
       >
         <Globe size={compact ? 20 : 16} className={`text-neutral-400 transition-transform duration-300 ${isPending ? 'animate-pulse' : ''}`} />

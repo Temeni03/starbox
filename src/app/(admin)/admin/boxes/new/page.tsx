@@ -37,9 +37,9 @@ export default function NewBoxPage() {
     <div className="max-w-4xl">
       <nav className="flex items-center gap-1.5 text-xs text-neutral-400 mb-2">
         <Link href="/admin" className="hover:text-brand-primary transition">{t('breadcrumbAdmin')}</Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <Link href="/admin/boxes" className="hover:text-brand-primary transition">{t('breadcrumbBoxes')}</Link>
-        <ChevronRight size={12} />
+        <ChevronRight size={14} />
         <span className="text-neutral-600">{t('newBox')}</span>
       </nav>
       <h1 className="text-2xl font-bold text-neutral-800 mb-1">{t('addTitle')}</h1>

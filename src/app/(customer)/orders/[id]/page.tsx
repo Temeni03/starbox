@@ -88,7 +88,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
           <p className="text-sm text-neutral-500">{t('thankYouDesc')}</p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-neutral-200 p-4">
+        <div className="bg-white rounded-2xl border border-neutral-200 p-4">
           <div className="flex items-start justify-between">
             <div>
               <p className="text-lg font-bold text-neutral-800">{order.orderNumber}</p>
@@ -105,11 +105,11 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
 
       {isFresh && (
         <div className="grid grid-cols-2 gap-3">
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4 flex flex-col gap-1">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-4 flex flex-col gap-1">
             <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">{t('orderId')}</span>
             <span className="text-lg font-bold text-brand-primary">{order.orderNumber}</span>
           </div>
-          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-4 flex flex-col gap-1">
+          <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-4 flex flex-col gap-1">
             <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">{tCommon('delivery')}</span>
             <span className="text-lg font-bold text-brand-primary">
               {order.deliveryOption === 'home' ? tCommon('home') : tCommon('pickup')}
@@ -120,13 +120,13 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
 
       {/* Status timeline */}
       {isCancelled ? (
-        <div className="bg-status-cancelled/10 border border-status-cancelled/20 rounded-xl p-4 flex items-center gap-3">
+        <div className="bg-status-cancelled/10 border border-status-cancelled/20 rounded-2xl p-4 flex items-center gap-3">
           <XCircle size={20} className="text-status-cancelled shrink-0" />
           <p className="text-sm text-status-cancelled font-medium">{t('cancelled')}</p>
         </div>
       ) : (
-        <div className="bg-white rounded-xl border border-neutral-200 p-4">
-          <h2 className="text-sm font-semibold text-neutral-700 mb-4">{t('progress')}</h2>
+        <div className="bg-white rounded-2xl border border-neutral-200 p-4">
+          <h2 className="text-base font-semibold text-neutral-800 mb-4">{t('progress')}</h2>
           <div className="flex items-start justify-between relative">
             <div className="absolute top-4 left-0 w-full h-0.5 bg-neutral-200 z-0" />
             {STATUS_STEPS.map((step, idx) => {
@@ -163,8 +163,8 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       )}
 
       {/* Items */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4">
-        <h2 className="text-sm font-semibold text-neutral-700 mb-3">{t('items')}</h2>
+      <div className="bg-white rounded-2xl border border-neutral-200 p-4">
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('items')}</h2>
         <div className="space-y-3">
           {order.items?.map((item: any, idx: number) => (
             <div key={idx} className="flex items-center gap-3">
@@ -188,7 +188,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       </div>
 
       {/* Delivery & Payment */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-4 space-y-3">
+      <div className="bg-white rounded-2xl border border-neutral-200 p-4 space-y-3">
         <div className="flex items-start gap-2">
           <MapPin size={16} className="text-neutral-400 mt-0.5 shrink-0" />
           <div>
@@ -239,7 +239,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             <p className="text-xs text-center text-neutral-500">{t('confirmReceiptHint')}</p>
             <button
               onClick={() => setConfirmDialog(true)}
-              className="w-full flex items-center justify-center gap-2 bg-success text-white h-12 rounded-xl font-semibold shadow-lg shadow-success/20 hover:opacity-90 active:scale-95 transition-all"
+              className="w-full flex items-center justify-center gap-2 bg-success text-white h-12 rounded-full text-sm font-semibold shadow-lg shadow-success/20 hover:opacity-90 active:scale-95 transition-all"
             >
               <PackageCheck size={18} />
               {t('confirmReceiptButton')}
@@ -256,7 +256,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                 <PackageCheck size={20} />
               </div>
               <div>
-                <h2 className="font-semibold text-neutral-800">{t('confirmReceiptTitle')}</h2>
+                <h2 className="text-base font-semibold text-neutral-800">{t('confirmReceiptTitle')}</h2>
                 <p className="text-sm text-neutral-500 mt-1">{t('confirmReceiptDesc')}</p>
               </div>
             </div>

@@ -86,7 +86,7 @@ export default function AdminOrderDetailPage({
     return (
       <div className="animate-pulse space-y-4">
         <div className="h-6 bg-neutral-200 rounded w-1/3" />
-        <div className="h-40 bg-white rounded-xl border border-neutral-200" />
+        <div className="h-40 bg-white rounded-2xl border border-neutral-200" />
       </div>
     );
   }
@@ -117,10 +117,10 @@ export default function AdminOrderDetailPage({
       </Link>
 
       {/* Header */}
-      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-xl p-5">
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-xl font-bold text-neutral-800">
+            <p className="text-lg font-bold text-neutral-800">
               {order.orderNumber}
             </p>
             <p className="text-sm text-neutral-400 mt-0.5">
@@ -137,7 +137,7 @@ export default function AdminOrderDetailPage({
         </div>
 
         <div className="mt-4 flex items-center gap-2 text-sm text-neutral-600">
-          <User size={15} />
+          <User size={16} />
           <span className="font-medium">{order.customer?.name}</span>
           <span className="text-neutral-400">·</span>
           <span>{order.customer?.phone}</span>
@@ -146,8 +146,8 @@ export default function AdminOrderDetailPage({
 
       {/* Status change */}
       {nextStatuses.length > 0 && (
-        <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="font-semibold text-neutral-800">
+        <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
+          <h2 className="text-base font-semibold text-neutral-800">
             {t("changeStatus")}
           </h2>
           <input
@@ -155,7 +155,7 @@ export default function AdminOrderDetailPage({
             value={statusNote}
             onChange={(e) => setStatusNote(e.target.value)}
             placeholder={t("notePlaceholder")}
-            className="w-full px-3 py-2.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
           <div className="flex gap-2 flex-wrap">
             {nextStatuses.map((s) => (
@@ -163,7 +163,7 @@ export default function AdminOrderDetailPage({
                 key={s}
                 onClick={() => changeStatus(s)}
                 disabled={updatingStatus}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold capitalize transition disabled:opacity-50 ${
+                className={`px-4 py-2 rounded-xl text-sm font-semibold capitalize transition disabled:opacity-50 ${
                   s === "cancelled"
                     ? "bg-red-50 text-danger border border-red-200 hover:bg-red-100"
                     : "bg-brand-primary text-white hover:bg-brand-secondary"
@@ -180,8 +180,8 @@ export default function AdminOrderDetailPage({
 
       {/* Assign delivery */}
       {(order.status === "confirmed" || order.status === "transit") && (
-        <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="font-semibold text-neutral-800">
+        <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
+          <h2 className="text-base font-semibold text-neutral-800">
             {t("assignDelivery")}
             {order.assignedTo && (
               <span className="ml-2 text-sm font-normal text-neutral-400">
@@ -193,7 +193,7 @@ export default function AdminOrderDetailPage({
             <select
               value={selectedDelivery}
               onChange={(e) => setSelectedDelivery(e.target.value)}
-              className="flex-1 px-3 py-2.5 border border-neutral-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+              className="flex-1 h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
             >
               <option value="">{t("selectDeliveryPerson")}</option>
               {deliveryUsers.map((u: any) => (
@@ -205,7 +205,7 @@ export default function AdminOrderDetailPage({
             <button
               onClick={assignDelivery}
               disabled={assigning || !selectedDelivery}
-              className="px-4 py-2 bg-brand-primary text-white rounded-lg text-sm font-semibold hover:bg-brand-secondary disabled:opacity-50 transition"
+              className="px-4 py-2 bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-50 transition"
             >
               {assigning ? t("assigning") : t("assign")}
             </button>
@@ -214,8 +214,8 @@ export default function AdminOrderDetailPage({
       )}
 
       {/* Items */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h2 className="font-semibold text-neutral-800 mb-3">{t("items")}</h2>
+      <div className="bg-white rounded-2xl border border-neutral-200 p-5">
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t("items")}</h2>
         <div className="space-y-3">
           {order.items?.map((item: any, i: number) => (
             <div key={i} className="flex items-center gap-3">
@@ -273,7 +273,7 @@ export default function AdminOrderDetailPage({
       </div>
 
       {/* Delivery & Payment info */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-5 space-y-3">
+      <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
         <div className="flex items-start gap-2">
           <MapPin size={16} className="text-neutral-400 mt-0.5" />
           <div>
@@ -320,8 +320,8 @@ export default function AdminOrderDetailPage({
       </div>
 
       {/* Status history */}
-      <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h2 className="font-semibold text-neutral-800 mb-3">
+      <div className="bg-white rounded-2xl border border-neutral-200 p-5">
+        <h2 className="text-base font-semibold text-neutral-800 mb-3">
           {t("statusHistory")}
         </h2>
         <div className="space-y-2">
