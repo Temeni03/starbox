@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Eye, EyeOff, UserRound, Phone, LockKeyhole, KeyRound } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 
 export default function RegisterPage() {
@@ -62,20 +62,20 @@ export default function RegisterPage() {
     <div className="w-full max-w-md flex flex-col">
       <div className="flex flex-col items-center mb-8">
         <Image src="/logo.png" alt="Starbox" width={80} height={80} className="w-20 h-20 mb-4 object-contain" priority />
-        <h1 className="text-2xl font-bold text-brand-primary tracking-tight">Starbox</h1>
-        <p className="text-sm text-neutral-500 mt-1">Curated Luxury Shopping</p>
+        <h1 className="text-headline-xl text-brand-primary">Starbox</h1>
+        <p className="text-body-md text-neutral-500 mt-1">Curated Luxury Shopping</p>
       </div>
 
       <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-3xl p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-neutral-800 mb-6">Join Starbox</h2>
+        <h2 className="text-headline-md text-neutral-800 mb-6">Join Starbox</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label htmlFor="name" className="block text-xs font-medium text-neutral-500 ms-1">
+            <label htmlFor="name" className="block text-label-sm text-neutral-500 ms-1">
               Full name
             </label>
             <div className="relative">
-              <UserRound size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Icon name="person" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="name"
                 name="name"
@@ -85,17 +85,17 @@ export default function RegisterPage() {
                 placeholder="Ahmed Benali"
                 required
                 autoComplete="name"
-                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="phone" className="block text-xs font-medium text-neutral-500 ms-1">
+            <label htmlFor="phone" className="block text-label-sm text-neutral-500 ms-1">
               Phone number
             </label>
             <div className="relative">
-              <Phone size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Icon name="call" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="phone"
                 name="phone"
@@ -108,17 +108,17 @@ export default function RegisterPage() {
                 title="8 digits starting with 2, 3 or 4"
                 required
                 autoComplete="tel"
-                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="password" className="block text-xs font-medium text-neutral-500 ms-1">
+            <label htmlFor="password" className="block text-label-sm text-neutral-500 ms-1">
               Password
             </label>
             <div className="relative">
-              <LockKeyhole size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Icon name="lock" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="password"
                 name="password"
@@ -129,7 +129,7 @@ export default function RegisterPage() {
                 minLength={6}
                 required
                 autoComplete="new-password"
-                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
               <button
                 type="button"
@@ -138,17 +138,17 @@ export default function RegisterPage() {
                 className="absolute end-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary"
                 aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                <Icon name={showPassword ? 'visibility_off' : 'visibility'} size={18} />
               </button>
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="confirm" className="block text-xs font-medium text-neutral-500 ms-1">
+            <label htmlFor="confirm" className="block text-label-sm text-neutral-500 ms-1">
               Confirm password
             </label>
             <div className="relative">
-              <KeyRound size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Icon name="lock_reset" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="confirm"
                 name="confirm"
@@ -159,7 +159,7 @@ export default function RegisterPage() {
                 minLength={6}
                 required
                 autoComplete="new-password"
-                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
               <button
                 type="button"
@@ -168,13 +168,13 @@ export default function RegisterPage() {
                 className="absolute end-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary"
                 aria-label={showConfirm ? 'Hide password' : 'Show password'}
               >
-                {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
+                <Icon name={showConfirm ? 'visibility_off' : 'visibility'} size={18} />
               </button>
             </div>
           </div>
 
           {error && (
-            <p className="text-sm text-danger bg-red-50 border border-red-200 rounded-xl px-3 py-2">
+            <p className="text-body-md text-danger bg-red-50 border border-red-200 rounded-xl px-3 py-2">
               {error}
             </p>
           )}
@@ -182,21 +182,21 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-12 bg-brand-primary text-white font-semibold text-sm rounded-full shadow-md hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition mt-2"
+            className="w-full h-12 bg-brand-primary text-white text-label-lg rounded-full shadow-md hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition mt-2"
           >
             {loading ? 'Creating account…' : 'Create Account'}
           </button>
         </form>
 
-        <p className="text-center text-sm text-neutral-500 mt-6">
+        <p className="text-center text-body-md text-neutral-500 mt-6">
           Already have an account?{' '}
-          <Link href="/login" className="text-brand-primary font-bold">
+          <Link href="/login" className="text-brand-primary text-label-lg">
             Sign In
           </Link>
         </p>
       </div>
 
-      <p className="text-center text-xs text-neutral-400 mt-8">
+      <p className="text-center text-label-sm text-neutral-400 mt-8">
         © {new Date().getFullYear()} Starbox. All rights reserved.
       </p>
     </div>

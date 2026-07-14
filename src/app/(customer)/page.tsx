@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { Search, Package, ShoppingBag } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import { useProducts } from '@/hooks/useProducts'
 import { useCart } from '@/hooks/useCart'
@@ -25,7 +25,8 @@ export default function HomePage() {
     <div className="pb-20 sm:pb-6">
       {/* Search */}
       <form onSubmit={handleSearch} className="relative mb-6">
-        <Search
+        <Icon
+          name="search"
           size={18}
           className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none"
         />
@@ -37,7 +38,7 @@ export default function HomePage() {
             if (e.target.value === '') setQuery('')
           }}
           placeholder={t('searchPlaceholder')}
-          className="w-full h-12 pl-12 pr-4 rounded-xl border border-neutral-200 bg-surface-low text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+          className="w-full h-12 pl-12 pr-4 rounded-xl border border-neutral-200 bg-surface-low text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
         />
       </form>
 
@@ -59,25 +60,25 @@ export default function HomePage() {
         <div className="relative text-center py-12 px-4">
           <div className="relative inline-block mb-8">
             <div className="w-48 h-48 mx-auto rounded-full bg-white/60 backdrop-blur-md border border-brand-light flex items-center justify-center shadow-sm">
-              <Package size={40} className="text-brand-primary/40" />
+              <Icon name="package_2" size={40} className="text-brand-primary/40" />
               <div className="absolute -top-2 -right-2 bg-white p-3 rounded-2xl shadow-md border border-brand-light">
-                <Search size={18} className="text-brand-primary" />
+                <Icon name="search" size={18} className="text-brand-primary" />
               </div>
             </div>
             <div className="absolute -bottom-2 -left-2 w-10 h-10 rounded-full bg-brand-container/40 blur-xl" />
           </div>
-          <h2 className="text-lg font-bold text-neutral-800 mb-2">
+          <h2 className="text-headline-md text-neutral-800 mb-2">
             {query ? t('noProductsFound') : t('noProductsAvailable')}
           </h2>
-          <p className="text-sm text-neutral-500 max-w-sm mx-auto leading-relaxed">
+          <p className="text-body-md text-neutral-500 max-w-sm mx-auto leading-relaxed">
             {query ? t('noResultsDesc') : t('checkBackSoon')}
           </p>
           {query && (
             <button
               onClick={() => { setSearch(''); setQuery('') }}
-              className="mt-6 inline-flex items-center gap-2 bg-brand-primary text-white px-8 h-12 rounded-full text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all"
+              className="mt-6 inline-flex items-center gap-2 bg-brand-primary text-white px-8 h-12 rounded-full text-label-lg shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all"
             >
-              <ShoppingBag size={16} />
+              <Icon name="shopping_bag" size={16} />
               {t('returnToShop')}
             </button>
           )}

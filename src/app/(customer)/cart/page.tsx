@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { Trash2, ShoppingBag, AlertTriangle, ArrowRight, Lock } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import { useCart } from '@/hooks/useCart'
 import { useCartStore } from '@/store/cartStore'
 import { CartItemRow } from '@/components/ui/CartItemRow'
@@ -72,18 +72,18 @@ export default function CartPage() {
         <div className="relative w-48 h-48 flex items-center justify-center">
           <div className="absolute inset-0 bg-brand-container/30 blur-3xl rounded-full" />
           <div className="relative z-10 bg-white/70 backdrop-blur-md p-8 rounded-full border-2 border-brand-container/50">
-            <ShoppingBag size={40} className="text-brand-primary" />
+            <Icon name="shopping_bag" size={40} className="text-brand-primary" />
           </div>
         </div>
         <div className="max-w-xs space-y-2">
-          <h2 className="text-lg font-bold text-neutral-800">{t('emptyTitle')}</h2>
-          <p className="text-sm text-neutral-500">
+          <h2 className="text-headline-md text-neutral-800">{t('emptyTitle')}</h2>
+          <p className="text-body-md text-neutral-500">
             {t('emptyDesc')}
           </p>
         </div>
         <Link
           href="/"
-          className="inline-flex items-center bg-brand-primary text-white text-sm font-semibold px-8 h-12 rounded-full shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 transition-all"
+          className="inline-flex items-center bg-brand-primary text-white text-label-lg px-8 h-12 rounded-full shadow-lg shadow-brand-primary/20 hover:scale-105 active:scale-95 transition-all"
         >
           {t('exploreProducts')}
         </Link>
@@ -95,16 +95,16 @@ export default function CartPage() {
     <div className="pb-32 sm:pb-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
-          <span className="bg-brand-container text-brand-secondary text-xs font-semibold px-3 py-1 rounded-full">
+          <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
+          <span className="bg-brand-container text-brand-secondary text-label-sm px-3 py-1 rounded-full">
             {t('itemCount', { count: totalCount })}
           </span>
         </div>
         <button
           onClick={() => setConfirmClear(true)}
-          className="flex items-center gap-1.5 text-sm text-danger hover:underline"
+          className="flex items-center gap-1.5 text-label-lg text-danger hover:underline"
         >
-          <Trash2 size={14} />
+          <Icon name="delete" size={14} />
           {t('clear')}
         </button>
       </div>
@@ -131,25 +131,25 @@ export default function CartPage() {
 
       {/* Summary */}
       <div className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-5 flex flex-col gap-4">
-        <div className="flex justify-between items-center text-neutral-600 text-sm">
+        <div className="flex justify-between items-center text-neutral-600 text-body-md">
           <span>{t('subtotalItems', { count: totalCount })}</span>
           <span>{totalPrice.toLocaleString()} MRU</span>
         </div>
         <div className="flex justify-between items-center border-t border-neutral-200 pt-4">
-          <span className="text-lg font-semibold text-neutral-800">{tCommon('total')}</span>
-          <span className="text-2xl font-bold text-brand-primary">{totalPrice.toLocaleString()} MRU</span>
+          <span className="text-headline-md text-neutral-800">{tCommon('total')}</span>
+          <span className="text-headline-xl text-brand-primary">{totalPrice.toLocaleString()} MRU</span>
         </div>
         <Link
           href="/checkout"
-          className="mt-2 w-full h-12 bg-brand-primary text-white rounded-full text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all flex items-center justify-center gap-2"
+          className="mt-2 w-full h-12 bg-brand-primary text-white rounded-full text-label-lg shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all flex items-center justify-center gap-2"
         >
           {t('proceedToCheckout')}
-          <ArrowRight size={16} />
+          <Icon name="arrow_forward" size={16} />
         </Link>
       </div>
 
-      <p className="text-center text-xs text-neutral-400 flex items-center justify-center gap-1 mt-6">
-        <Lock size={14} />
+      <p className="text-center text-label-sm text-neutral-400 flex items-center justify-center gap-1 mt-6">
+        <Icon name="lock" size={14} />
         {t('secureCheckout')}
       </p>
 
@@ -158,11 +158,11 @@ export default function CartPage() {
           <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center flex-shrink-0">
-                <AlertTriangle size={20} />
+                <Icon name="warning" size={20} />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-neutral-800">{t('clearCartTitle')}</h2>
-                <p className="text-sm text-neutral-500 mt-1">
+                <h2 className="text-headline-md text-neutral-800">{t('clearCartTitle')}</h2>
+                <p className="text-body-md text-neutral-500 mt-1">
                   {t('clearCartConfirm')}
                 </p>
               </div>
@@ -171,14 +171,14 @@ export default function CartPage() {
               <button
                 onClick={() => setConfirmClear(false)}
                 disabled={clearing}
-                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
                 {tCommon('cancel')}
               </button>
               <button
                 onClick={handleClearCart}
                 disabled={clearing}
-                className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
                 {clearing ? t('clearing') : t('clearCartButton')}
               </button>

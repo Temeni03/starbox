@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Bell } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import { useLocale, useTranslations } from 'next-intl'
 import type { Locale } from '@/i18n/config'
 import { resolveNotificationParams } from '@/lib/notificationParams'
@@ -55,11 +55,11 @@ function NotificationRow({ n, onRead }: { n: AppNotification; onRead: (id: strin
         className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${n.read ? 'bg-transparent' : 'bg-brand-primary'}`}
       />
       <div className="flex-1 min-w-0">
-        <p className={`text-sm ${n.read ? 'text-neutral-600' : 'font-semibold text-neutral-800'}`}>
+        <p className={`text-body-md ${n.read ? 'text-neutral-600' : 'font-semibold text-neutral-800'}`}>
           {title}
         </p>
-        <p className="text-sm text-neutral-500 mt-0.5">{body}</p>
-        <p className="text-xs text-neutral-400 mt-1">{timeAgo(n.createdAt, locale, t)}</p>
+        <p className="text-body-md text-neutral-500 mt-0.5">{body}</p>
+        <p className="text-label-sm text-neutral-400 mt-1">{timeAgo(n.createdAt, locale, t)}</p>
       </div>
     </div>
   )
@@ -89,9 +89,9 @@ export function NotificationsList() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+        <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
         {unreadCount > 0 && (
-          <button onClick={markAllAsRead} className="text-sm font-medium text-brand-primary hover:underline">
+          <button onClick={markAllAsRead} className="text-label-lg text-brand-primary hover:underline">
             {t('markAllRead')}
           </button>
         )}
@@ -109,8 +109,8 @@ export function NotificationsList() {
           </div>
         ) : notifications.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-16 text-neutral-400">
-            <Bell size={40} className="mb-3 text-brand-primary/40" />
-            <p className="text-sm">{t('empty')}</p>
+            <Icon name="notifications" size={40} className="mb-3 text-brand-primary/40" />
+            <p className="text-body-md">{t('empty')}</p>
           </div>
         ) : (
           <div className="divide-y divide-neutral-100">

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { Plus, Pencil, EyeOff, Eye, Trash2, Search, Package, AlertTriangle } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { resolveLocalized } from '@/lib/resolveLocalized'
@@ -72,53 +72,53 @@ export default function AdminProductsPage() {
     <div className="space-y-6 pb-20 sm:pb-0">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
-          <p className="text-sm text-neutral-500 mt-0.5">{t('subtitle')}</p>
+          <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
+          <p className="text-body-md text-neutral-500 mt-0.5">{t('subtitle')}</p>
         </div>
         <Link
           href="/admin/products/new"
-          className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-secondary transition"
+          className="hidden sm:flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-xl text-label-lg hover:bg-brand-secondary transition"
         >
-          <Plus size={16} />
+          <Icon name="add" size={16} />
           {t('addProduct')}
         </Link>
       </div>
 
       <div className="relative">
-        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <Icon name="search" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('searchPlaceholder')}
-          className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
+          className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
         />
       </div>
 
       {/* Metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-2xl shadow-sm border border-neutral-200 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-neutral-400 uppercase tracking-wider">{t('totalProducts')}</span>
-          <span className="text-2xl font-bold text-brand-primary">{metrics.total}</span>
+          <span className="text-label-sm uppercase tracking-wider text-neutral-400">{t('totalProducts')}</span>
+          <span className="text-headline-xl text-brand-primary">{metrics.total}</span>
         </div>
         <div className="bg-status-pending/10 p-5 rounded-2xl shadow-sm border border-status-pending/20 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-status-pending uppercase tracking-wider">{t('lowStockAlerts')}</span>
-          <span className="text-2xl font-bold text-status-pending">{metrics.lowStock}</span>
+          <span className="text-label-sm uppercase tracking-wider text-status-pending">{t('lowStockAlerts')}</span>
+          <span className="text-headline-xl text-status-pending">{metrics.lowStock}</span>
         </div>
         <div className="bg-brand-container/20 p-5 rounded-2xl shadow-sm border border-brand-primary/10 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-brand-secondary uppercase tracking-wider">{t('totalValue')}</span>
-          <span className="text-2xl font-bold text-brand-secondary">{metrics.totalValue.toLocaleString()} MRU</span>
+          <span className="text-label-sm uppercase tracking-wider text-brand-secondary">{t('totalValue')}</span>
+          <span className="text-headline-xl text-brand-secondary">{metrics.totalValue.toLocaleString()} MRU</span>
         </div>
         <div className="bg-danger/10 p-5 rounded-2xl shadow-sm border border-danger/20 flex flex-col gap-1">
-          <span className="text-[10px] font-semibold text-danger uppercase tracking-wider">{t('outOfStock')}</span>
-          <span className="text-2xl font-bold text-danger">{metrics.outOfStock}</span>
+          <span className="text-label-sm uppercase tracking-wider text-danger">{t('outOfStock')}</span>
+          <span className="text-headline-xl text-danger">{metrics.outOfStock}</span>
         </div>
       </div>
 
       {/* Product list */}
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-neutral-700">{t('catalog')}</h2>
-        <span className="text-xs text-neutral-400">
+        <h2 className="text-label-lg text-neutral-700">{t('catalog')}</h2>
+        <span className="text-label-sm text-neutral-400">
           {t('showingCount', { shown: filteredProducts.length, total: products.length })}
         </span>
       </div>
@@ -153,34 +153,34 @@ export default function AdminProductsPage() {
                     <Image src={p.images[0]} alt={name} fill className="object-cover" sizes="64px" />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                      <Package size={20} />
+                      <Icon name="package_2" size={20} />
                     </div>
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start gap-2">
-                    <h3 className="text-sm font-semibold text-neutral-800 truncate">{name}</h3>
-                    <span className="text-sm font-bold text-brand-primary whitespace-nowrap">
+                    <h3 className="text-label-lg text-neutral-800 truncate">{name}</h3>
+                    <span className="text-label-sm font-bold text-brand-primary whitespace-nowrap">
                       {p.price.toLocaleString()} MRU
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                    <span className="text-xs text-neutral-500">
+                    <span className="text-label-sm text-neutral-500">
                       {t('stock')}: <span className={`font-semibold ${outOfStock || lowStock ? 'text-danger' : 'text-neutral-700'}`}>{p.quantity} {t('units')}</span>
                     </span>
                     {outOfStock && (
-                      <span className="px-2 py-0.5 bg-danger/10 text-danger text-[11px] font-bold rounded-full uppercase tracking-wide">
+                      <span className="px-2 py-0.5 bg-danger/10 text-danger text-label-sm rounded-full uppercase tracking-wide">
                         {t('outOfStock')}
                       </span>
                     )}
                     {lowStock && (
-                      <span className="px-2 py-0.5 bg-status-pending/10 text-status-pending text-[11px] font-bold rounded-full uppercase tracking-wide flex items-center gap-1">
-                        <AlertTriangle size={11} /> {t('lowStockBadge')}
+                      <span className="px-2 py-0.5 bg-status-pending/10 text-status-pending text-label-sm rounded-full uppercase tracking-wide flex items-center gap-1">
+                        <Icon name="warning" size={11} /> {t('lowStockBadge')}
                       </span>
                     )}
                     {!p.isActive && (
-                      <span className="px-2 py-0.5 bg-neutral-100 text-neutral-500 text-[11px] font-bold rounded-full uppercase tracking-wide">
+                      <span className="px-2 py-0.5 bg-neutral-100 text-neutral-500 text-label-sm rounded-full uppercase tracking-wide">
                         {t('hiddenBadge')}
                       </span>
                     )}
@@ -193,21 +193,21 @@ export default function AdminProductsPage() {
                     className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
                     title={tCommon('edit')}
                   >
-                    <Pencil size={16} />
+                    <Icon name="edit" size={16} />
                   </Link>
                   <button
                     onClick={() => toggleActive(p._id, p.isActive)}
                     className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
                     title={p.isActive ? t('hide') : t('show')}
                   >
-                    {p.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
+                    <Icon name={p.isActive ? 'visibility_off' : 'visibility'} size={16} />
                   </button>
                   <button
                     onClick={() => setProductToDelete({ _id: p._id, name })}
                     className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
                     title={tCommon('delete')}
                   >
-                    <Trash2 size={16} />
+                    <Icon name="delete" size={16} />
                   </button>
                 </div>
               </div>
@@ -222,7 +222,7 @@ export default function AdminProductsPage() {
         className="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-brand-primary text-white rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all z-40"
         aria-label={t('addProductAria')}
       >
-        <Plus size={26} />
+        <Icon name="add" size={26} />
       </Link>
 
       {productToDelete && (
@@ -230,11 +230,11 @@ export default function AdminProductsPage() {
           <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
-                <AlertTriangle size={20} />
+                <Icon name="warning" size={20} />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-neutral-800">{t('deleteTitle')}</h2>
-                <p className="text-sm text-neutral-500 mt-1">
+                <h2 className="text-headline-md text-neutral-800">{t('deleteTitle')}</h2>
+                <p className="text-body-md text-neutral-500 mt-1">
                   {t('deleteConfirm', { name: productToDelete.name })}
                 </p>
               </div>
@@ -243,14 +243,14 @@ export default function AdminProductsPage() {
               <button
                 onClick={() => setProductToDelete(null)}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
                 {tCommon('cancel')}
               </button>
               <button
                 onClick={deleteProduct}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
                 {deleting ? t('deleting') : tCommon('delete')}
               </button>

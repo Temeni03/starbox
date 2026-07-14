@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { AlertTriangle, Save, Trash2, Search, Package, Check, X } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
@@ -146,7 +146,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
         {/* Left column: cover image, visibility & schedule */}
         <div className="md:col-span-5 space-y-6">
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
-            <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('coverImage')}</label>
+            <label className="text-label-sm text-neutral-500 mb-3 block">{t('coverImage')}</label>
             {form.coverImage ? (
               <div className="relative w-full">
                 <Image
@@ -161,7 +161,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                   onClick={removeCoverImageFile}
                   className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center"
                 >
-                  <X size={14} />
+                  <Icon name="close" size={14} />
                 </button>
               </div>
             ) : (
@@ -173,13 +173,13 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                 }}
               />
             )}
-            <p className="text-xs text-neutral-400 mt-2">{t('coverImageHint')}</p>
+            <p className="text-label-sm text-neutral-400 mt-2">{t('coverImageHint')}</p>
           </div>
 
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
-            <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('statusVisibility')}</label>
+            <label className="text-label-sm text-neutral-500 mb-3 block">{t('statusVisibility')}</label>
             <label className="flex items-center justify-between py-1 cursor-pointer">
-              <span className="text-sm text-neutral-700">{t('publishedOnStore')}</span>
+              <span className="text-body-md text-neutral-700">{t('publishedOnStore')}</span>
               <span className="relative inline-block w-11 h-6">
                 <input
                   name="isActive"
@@ -195,28 +195,28 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
           </div>
 
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
-            <label className="text-xs font-medium text-neutral-500 block">{t('scheduleOptional')}</label>
+            <label className="text-label-sm text-neutral-500 block">{t('scheduleOptional')}</label>
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('startDate')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('startDate')}</label>
               <input
                 name="startDate"
                 type="date"
                 value={form.startDate}
                 onChange={handleChange}
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('endDate')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('endDate')}</label>
               <input
                 name="endDate"
                 type="date"
                 value={form.endDate}
                 onChange={handleChange}
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
-            <p className="text-xs text-neutral-400">{t('scheduleHint')}</p>
+            <p className="text-label-sm text-neutral-400">{t('scheduleHint')}</p>
           </div>
         </div>
 
@@ -224,7 +224,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
         <div className="md:col-span-7 space-y-6">
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <div className="flex items-center justify-between gap-3">
-              <h3 className="text-base font-semibold text-neutral-800">{t('generalInfo')}</h3>
+              <h3 className="text-headline-md text-neutral-800">{t('generalInfo')}</h3>
               <div className="flex gap-1">
                 {locales.map((l) => {
                   const filled = !!form.name[l]
@@ -233,7 +233,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                       key={l}
                       type="button"
                       onClick={() => setActiveLang(l)}
-                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold transition ${
+                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-label-sm transition ${
                         activeLang === l
                           ? 'bg-brand-primary text-white'
                           : 'bg-surface-high text-neutral-600 hover:bg-brand-light'
@@ -254,17 +254,17 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('boxName')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('boxName')}</label>
               <input
                 value={form.name[activeLang] ?? ''}
                 onChange={(e) => handleLocalizedChange(e.target.value)}
                 placeholder={t('boxNamePlaceholder')}
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('price')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('price')}</label>
               <input
                 name="price"
                 type="number"
@@ -274,31 +274,31 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                 min="0"
                 step="1"
                 placeholder="1200"
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
 
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <div className="flex items-center justify-between gap-3">
-              <h3 className="text-base font-semibold text-neutral-800">{t('selectProducts')}</h3>
-              <span className="text-xs text-neutral-400">{t('selectedCount', { count: form.products.length })}</span>
+              <h3 className="text-headline-md text-neutral-800">{t('selectProducts')}</h3>
+              <span className="text-label-sm text-neutral-400">{t('selectedCount', { count: form.products.length })}</span>
             </div>
 
             <div className="relative">
-              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Icon name="search" size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 type="text"
                 value={productSearch}
                 onChange={(e) => setProductSearch(e.target.value)}
                 placeholder={t('searchProductsPlaceholder')}
-                className="w-full h-10 pl-10 pr-3 bg-surface-low rounded-lg border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
+                className="w-full h-10 pl-10 pr-3 bg-surface-low rounded-lg border-none text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary transition"
               />
             </div>
 
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {filteredProducts.length === 0 ? (
-                <p className="text-center text-sm text-neutral-400 py-6">{t('noProductsFound')}</p>
+                <p className="text-center text-body-md text-neutral-400 py-6">{t('noProductsFound')}</p>
               ) : (
                 filteredProducts.map((p: any) => {
                   const selected = isSelected(p._id)
@@ -321,20 +321,20 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                             selected ? 'bg-brand-primary border-brand-primary text-white' : 'border-neutral-300'
                           }`}
                         >
-                          {selected && <Check size={12} />}
+                          {selected && <Icon name="check" size={12} />}
                         </span>
                         <span className="relative w-10 h-10 rounded-lg bg-surface-high shrink-0 overflow-hidden">
                           {p.images?.[0] ? (
                             <Image src={p.images[0]} alt={name} fill className="object-cover" sizes="40px" />
                           ) : (
                             <span className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                              <Package size={14} />
+                              <Icon name="package_2" size={14} />
                             </span>
                           )}
                         </span>
                         <span className="min-w-0 flex-1">
-                          <span className="block text-sm font-medium text-neutral-800 truncate">{name}</span>
-                          <span className="block text-xs text-neutral-400">{p.price.toLocaleString()} MRU</span>
+                          <span className="block text-label-lg text-neutral-800 truncate">{name}</span>
+                          <span className="block text-label-sm text-neutral-400">{p.price.toLocaleString()} MRU</span>
                         </span>
                       </button>
                       {selected && (
@@ -344,7 +344,7 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
                           step="1"
                           value={selection?.quantity ?? '1'}
                           onChange={(e) => updateQuantity(p._id, e.target.value)}
-                          className="w-16 h-9 px-2 border border-neutral-200 rounded-lg text-sm text-center focus:outline-none focus:ring-2 focus:ring-brand-primary transition shrink-0"
+                          className="w-16 h-9 px-2 border border-neutral-200 rounded-lg text-body-md text-center focus:outline-none focus:ring-2 focus:ring-brand-primary transition shrink-0"
                         />
                       )}
                     </div>
@@ -362,18 +362,18 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
           <button
             type="button"
             onClick={() => setConfirmDelete(true)}
-            className="flex-1 sm:flex-none px-6 h-12 border border-danger text-danger rounded-xl text-sm font-semibold hover:bg-red-50 active:scale-95 transition-all flex items-center justify-center gap-2"
+            className="flex-1 sm:flex-none px-6 h-12 border border-danger text-danger rounded-xl text-label-lg hover:bg-red-50 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <Trash2 size={18} />
+            <Icon name="delete" size={18} />
             {t('delete')}
           </button>
         )}
         <button
           type="submit"
           disabled={saving}
-          className="flex-2 sm:flex-none px-10 h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold shadow-lg hover:bg-brand-secondary active:scale-95 disabled:opacity-60 transition-all flex items-center justify-center gap-2"
+          className="flex-2 sm:flex-none px-10 h-12 bg-brand-primary text-white rounded-xl text-label-lg shadow-lg hover:bg-brand-secondary active:scale-95 disabled:opacity-60 transition-all flex items-center justify-center gap-2"
         >
-          <Save size={18} />
+          <Icon name="save" size={18} />
           {saving ? t('saving') : submitLabel}
         </button>
       </div>
@@ -383,25 +383,25 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
           <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
-                <AlertTriangle size={20} />
+                <Icon name="warning" size={20} />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-neutral-800">{t('deleteTitle')}</h2>
-                <p className="text-sm text-neutral-500 mt-1">{t('deleteConfirm')}</p>
+                <h2 className="text-headline-md text-neutral-800">{t('deleteTitle')}</h2>
+                <p className="text-body-md text-neutral-500 mt-1">{t('deleteConfirm')}</p>
               </div>
             </div>
             <div className="flex justify-end gap-2">
               <button
                 onClick={() => setConfirmDelete(false)}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
                 {tCommon('cancel')}
               </button>
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
                 {deleting ? t('deleting') : t('delete')}
               </button>

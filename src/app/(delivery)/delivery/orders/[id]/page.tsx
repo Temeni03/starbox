@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { ArrowLeft, MapPin, Phone, Package, Truck, CreditCard, Banknote, Navigation, Info, Hourglass } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -63,8 +63,8 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
 
   return (
     <div className="space-y-4 pb-32">
-      <Link href="/delivery" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> {t('back')}
+      <Link href="/delivery" className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition">
+        <Icon name="arrow_back" size={16} /> {t('back')}
       </Link>
 
       <div className="flex justify-center">
@@ -74,24 +74,24 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       {/* Customer */}
       <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-semibold text-brand-primary">{t('customer')}</h2>
-          <p className="text-xs text-neutral-400">{order.orderNumber}</p>
+          <h2 className="text-headline-md text-brand-primary">{t('customer')}</h2>
+          <p className="text-label-sm text-neutral-400">{order.orderNumber}</p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1">
-            <p className="text-xs text-neutral-500">{t('name')}</p>
-            <p className="text-sm font-semibold text-neutral-800">{order.customer?.name}</p>
+            <p className="text-label-sm text-neutral-500">{t('name')}</p>
+            <p className="text-body-lg font-semibold text-neutral-800">{order.customer?.name}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-xs text-neutral-500">{t('phone')}</p>
+            <p className="text-label-sm text-neutral-500">{t('phone')}</p>
             <div className="flex items-center gap-2">
-              <p className="text-sm font-semibold text-neutral-800">{order.customer?.phone}</p>
+              <p className="text-body-lg font-semibold text-neutral-800">{order.customer?.phone}</p>
               <a
                 href={`tel:${order.customer?.phone}`}
                 className="bg-brand-container/20 p-1.5 rounded-lg text-brand-primary"
               >
-                <Phone size={14} />
+                <Icon name="call" size={14} />
               </a>
             </div>
           </div>
@@ -99,49 +99,49 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
 
         {order.deliveryOption === 'home' && order.deliveryAddress ? (
           <div className="space-y-1">
-            <p className="text-xs text-neutral-500">{t('deliveryAddress')}</p>
+            <p className="text-label-sm text-neutral-500">{t('deliveryAddress')}</p>
             <div className="flex items-start justify-between gap-2">
               <div className="flex items-start gap-2">
-                <MapPin size={16} className="text-brand-primary mt-0.5 shrink-0" />
-                <p className="text-sm text-neutral-700 leading-relaxed">{order.deliveryAddress}</p>
+                <Icon name="location_on" size={16} className="text-brand-primary mt-0.5 shrink-0" />
+                <p className="text-body-md text-neutral-700 leading-relaxed">{order.deliveryAddress}</p>
               </div>
               {mapsUrl && (
                 <a
                   href={mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 shrink-0 px-3 py-1.5 bg-white rounded-full border border-brand-container/40 text-brand-primary text-xs font-semibold"
+                  className="flex items-center gap-1 shrink-0 px-3 py-1.5 bg-white rounded-full border border-brand-container/40 text-brand-primary text-label-sm"
                 >
-                  <Navigation size={13} /> {t('navigate')}
+                  <Icon name="navigation" size={13} /> {t('navigate')}
                 </a>
               )}
             </div>
           </div>
         ) : (
           <div className="flex items-center gap-2">
-            <MapPin size={16} className="text-neutral-400" />
-            <p className="text-sm text-neutral-500">{t('storePickup')}</p>
+            <Icon name="location_on" size={16} className="text-neutral-400" />
+            <p className="text-body-md text-neutral-500">{t('storePickup')}</p>
           </div>
         )}
       </div>
 
       {/* Payment */}
       <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-3">
-        <h2 className="text-base font-semibold text-brand-primary">{t('paymentStatus')}</h2>
+        <h2 className="text-headline-md text-brand-primary">{t('paymentStatus')}</h2>
         <div className="flex items-center justify-between p-3.5 rounded-xl bg-surface-low border border-neutral-100">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-full bg-brand-container/20 text-brand-primary">
-              {order.paymentMethod === 'cash' ? <Banknote size={18} /> : <CreditCard size={18} />}
+              <Icon name={order.paymentMethod === 'cash' ? 'payments' : 'credit_card'} size={18} />
             </div>
-            <p className="text-sm font-semibold text-neutral-800">
+            <p className="text-body-lg font-semibold text-neutral-800">
               {order.paymentMethod === 'cash' ? t('cashOnDelivery') : t('bankTransfer')}
             </p>
           </div>
-          <p className="text-lg font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</p>
+          <p className="text-headline-md text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</p>
         </div>
         <div className="flex items-center gap-2 p-3 rounded-lg bg-surface-high/60">
-          <Info size={16} className="text-brand-primary shrink-0" />
-          <p className="text-xs text-neutral-500">
+          <Icon name="info" size={16} className="text-brand-primary shrink-0" />
+          <p className="text-label-sm text-neutral-500">
             {order.paymentMethod === 'cash' ? t('collectCash') : t('noCashNeeded')}
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
 
       {/* Items */}
       <div className="bg-white rounded-2xl border border-neutral-200 p-5">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">
+        <h2 className="text-headline-md text-neutral-800 mb-3">
           {t('orderItems', { count: order.items?.length ?? 0 })}
         </h2>
         <div className="space-y-3">
@@ -160,15 +160,15 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
                   <Image src={item.image} alt={item.name} fill className="object-cover" sizes="64px" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                    <Package size={18} />
+                    <Icon name="package_2" size={18} />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-neutral-800 truncate">{item.name}</p>
+                <p className="text-body-md font-medium text-neutral-800 truncate">{item.name}</p>
                 <div className="flex justify-between items-center mt-1">
-                  <span className="text-sm text-brand-primary font-medium">{t('qty', { count: item.quantity })}</span>
-                  <span className="text-sm font-bold text-neutral-700">
+                  <span className="text-body-md text-brand-primary font-medium">{t('qty', { count: item.quantity })}</span>
+                  <span className="text-body-md font-bold text-neutral-700">
                     {(item.price * item.quantity).toLocaleString()} MRU
                   </span>
                 </div>
@@ -178,16 +178,16 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
         </div>
 
         <div className="border-t border-neutral-100 mt-4 pt-3 space-y-1.5">
-          <div className="flex justify-between text-sm text-neutral-500">
+          <div className="flex justify-between text-body-md text-neutral-500">
             <span>{tCommon('subtotal')}</span><span>{order.cartTotal?.toLocaleString()} MRU</span>
           </div>
-          <div className="flex justify-between text-sm text-neutral-500">
+          <div className="flex justify-between text-body-md text-neutral-500">
             <span>{tCommon('delivery')}</span>
             <span>{order.deliveryFee === 0 ? tCommon('free') : `${order.deliveryFee?.toLocaleString()} MRU`}</span>
           </div>
           <div className="flex justify-between items-center pt-1">
-            <span className="text-base font-semibold text-neutral-800">{t('totalAmount')}</span>
-            <span className="text-lg font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
+            <span className="text-headline-md text-neutral-800">{t('totalAmount')}</span>
+            <span className="text-headline-md text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
           </div>
         </div>
       </div>
@@ -199,9 +199,9 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
             <button
               onClick={() => updateStatus('transit')}
               disabled={updating}
-              className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+              className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-60 transition"
             >
-              <Truck size={18} />
+              <Icon name="local_shipping" size={18} />
               {updating ? t('updating') : t('markInTransit')}
             </button>
           </div>
@@ -211,11 +211,11 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
       {order.status === 'transit' && (
         <div className="bg-brand-container/10 border border-brand-container/30 rounded-2xl p-4 flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-brand-container/20 text-brand-primary flex items-center justify-center shrink-0">
-            <Hourglass size={18} />
+            <Icon name="timer" size={18} />
           </div>
           <div>
-            <p className="text-sm font-semibold text-neutral-800">{t('awaitingConfirmation')}</p>
-            <p className="text-xs text-neutral-500 mt-0.5">{t('awaitingConfirmationDesc')}</p>
+            <p className="text-body-lg font-semibold text-neutral-800">{t('awaitingConfirmation')}</p>
+            <p className="text-label-sm text-neutral-500 mt-0.5">{t('awaitingConfirmationDesc')}</p>
           </div>
         </div>
       )}

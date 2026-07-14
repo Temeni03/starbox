@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { ChevronRight, BadgeCheck, CircleX, Truck, UserRoundPlus } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -51,7 +51,7 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+      <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
 
       {/* Status filter tabs */}
       <div className="flex gap-2 flex-wrap">
@@ -59,7 +59,7 @@ export default function AdminOrdersPage() {
           <button
             key={s}
             onClick={() => router.push(`/admin/orders${s !== 'all' ? `?status=${s}` : ''}`)}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold capitalize transition ${
+            className={`px-4 py-1.5 rounded-full text-label-sm capitalize transition ${
               status === s
                 ? 'bg-brand-primary text-white'
                 : 'bg-white border border-neutral-200 text-neutral-500 hover:border-brand-primary'
@@ -80,7 +80,7 @@ export default function AdminOrdersPage() {
           ))}
         </div>
       ) : orders.length === 0 ? (
-        <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noOrders')}</p>
+        <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400 text-body-md">{t('noOrders')}</p>
       ) : (
         <div className="space-y-3">
           {orders.map((order: any) => {
@@ -92,14 +92,14 @@ export default function AdminOrdersPage() {
               >
                 <Link href={`/admin/orders/${order._id}`} className="flex justify-between items-start mb-3 group">
                   <div className="min-w-0">
-                    <p className="text-xs text-neutral-400">{order.orderNumber}</p>
-                    <h3 className="text-sm font-semibold text-neutral-800 group-hover:text-brand-primary transition truncate">
+                    <p className="text-label-sm text-neutral-400">{order.orderNumber}</p>
+                    <h3 className="text-body-lg font-bold text-neutral-800 group-hover:text-brand-primary transition truncate">
                       {order.customer?.name}
                     </h3>
-                    <p className="text-xs text-neutral-400">{order.customer?.phone}</p>
+                    <p className="text-label-sm text-neutral-400">{order.customer?.phone}</p>
                   </div>
                   <div className="flex flex-col items-end gap-1 shrink-0">
-                    <span className="text-sm font-bold text-brand-primary">
+                    <span className="text-body-lg font-bold text-brand-primary">
                       {order.grandTotal?.toLocaleString()} MRU
                     </span>
                     <StatusBadge status={order.status as OrderStatus} />
@@ -118,8 +118,8 @@ export default function AdminOrdersPage() {
                       <Image src={order.paymentScreenshot} alt="Payment receipt" fill className="object-cover" sizes="56px" />
                     </a>
                     <div className="flex flex-col">
-                      <span className="text-xs font-semibold text-neutral-700">{t('paymentReceipt')}</span>
-                      <span className="text-xs text-neutral-400">{t('bankTransferSubmitted')}</span>
+                      <span className="text-label-sm font-semibold text-neutral-700">{t('paymentReceipt')}</span>
+                      <span className="text-label-sm text-neutral-400">{t('bankTransferSubmitted')}</span>
                     </div>
                   </div>
                 )}
@@ -127,15 +127,15 @@ export default function AdminOrdersPage() {
                 {/* Assigned driver (confirmed / transit) */}
                 {(order.status === 'confirmed' || order.status === 'transit') && (
                   <div className="flex items-center justify-between bg-brand-container/10 p-3 rounded-lg border border-brand-container/20 mb-3">
-                    <span className="text-sm text-brand-secondary font-medium">
+                    <span className="text-body-md text-brand-secondary font-medium">
                       {order.assignedTo ? t('assignedTo', { name: order.assignedTo.name }) : t('noDriverAssigned')}
                     </span>
                     {!order.assignedTo && (
                       <Link
                         href={`/admin/orders/${order._id}`}
-                        className="flex items-center gap-1 bg-brand-secondary text-white px-3 py-1.5 rounded-full text-xs font-semibold active:scale-95 transition"
+                        className="flex items-center gap-1 bg-brand-secondary text-white px-3 py-1.5 rounded-full text-label-sm active:scale-95 transition"
                       >
-                        <UserRoundPlus size={14} />
+                        <Icon name="person_add" size={14} />
                         {t('assign')}
                       </Link>
                     )}
@@ -147,32 +147,32 @@ export default function AdminOrdersPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => updateStatus(order._id, 'confirmed', t('orderConfirmed'))}
-                      className="flex-1 h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-sm font-semibold active:scale-95 transition"
+                      className="flex-1 h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-label-lg active:scale-95 transition"
                     >
-                      <BadgeCheck size={18} /> {t('approve')}
+                      <Icon name="verified" size={18} /> {t('approve')}
                     </button>
                     <button
                       onClick={() => updateStatus(order._id, 'cancelled', t('orderRejected'))}
-                      className="flex-1 h-10 flex items-center justify-center gap-1.5 border border-neutral-300 text-neutral-600 rounded-xl text-sm font-semibold active:scale-95 transition"
+                      className="flex-1 h-10 flex items-center justify-center gap-1.5 border border-neutral-300 text-neutral-600 rounded-xl text-label-lg active:scale-95 transition"
                     >
-                      <CircleX size={18} /> {t('reject')}
+                      <Icon name="cancel" size={18} /> {t('reject')}
                     </button>
                   </div>
                 )}
                 {order.status === 'transit' && (
                   <button
                     onClick={() => updateStatus(order._id, 'delivered', t('orderDelivered'))}
-                    className="w-full h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-sm font-semibold active:scale-95 transition"
+                    className="w-full h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-label-lg active:scale-95 transition"
                   >
-                    <Truck size={18} /> {t('confirmDelivery')}
+                    <Icon name="local_shipping" size={18} /> {t('confirmDelivery')}
                   </button>
                 )}
                 {isTerminal && NEXT_STEP[order.status as OrderStatus] === undefined && (
                   <Link
                     href={`/admin/orders/${order._id}`}
-                    className="flex items-center gap-1 text-xs text-neutral-400 hover:text-brand-primary transition"
+                    className="flex items-center gap-1 text-label-sm text-neutral-400 hover:text-brand-primary transition"
                   >
-                    {t('viewDetails')} <ChevronRight size={14} />
+                    {t('viewDetails')} <Icon name="chevron_right" size={14} />
                   </Link>
                 )}
               </div>

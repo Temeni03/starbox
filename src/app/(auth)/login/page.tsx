@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { Eye, EyeOff, Phone, LockKeyhole } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { isRtl, type Locale } from '@/i18n/config'
 
@@ -67,20 +67,20 @@ export default function LoginPage() {
 
       <div className="flex flex-col items-center mb-8">
         <Image src="/logo.png" alt="Starbox" width={80} height={80} className="w-20 h-20 mb-4 object-contain" priority />
-        <h1 className="text-2xl font-bold text-brand-primary tracking-tight">Starbox</h1>
-        <p className="text-sm text-neutral-500 mt-1">{t('tagline')}</p>
+        <h1 className="text-headline-xl text-brand-primary">Starbox</h1>
+        <p className="text-body-md text-neutral-500 mt-1">{t('tagline')}</p>
       </div>
 
       <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-3xl p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-neutral-800 mb-6">{t('welcomeBack')}</h2>
+        <h2 className="text-headline-md text-neutral-800 mb-6">{t('welcomeBack')}</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1.5">
-            <label htmlFor="phone" className="block text-xs font-medium text-neutral-500 ms-1">
+            <label htmlFor="phone" className="block text-label-sm text-neutral-500 ms-1">
               {t('phoneLabel')}
             </label>
             <div className="relative">
-              <Phone size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Icon name="call" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="phone"
                 type="tel"
@@ -90,17 +90,17 @@ export default function LoginPage() {
                 placeholder={t('phonePlaceholder')}
                 required
                 autoComplete="tel"
-                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
 
           <div className="space-y-1.5">
-            <label htmlFor="password" className="block text-xs font-medium text-neutral-500 ms-1">
+            <label htmlFor="password" className="block text-label-sm text-neutral-500 ms-1">
               {t('passwordLabel')}
             </label>
             <div className="relative">
-              <LockKeyhole size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <Icon name="lock" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}
@@ -110,7 +110,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 required
                 autoComplete="current-password"
-                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
               <button
                 type="button"
@@ -119,13 +119,13 @@ export default function LoginPage() {
                 className="absolute end-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary"
                 aria-label={showPassword ? t('hidePassword') : t('showPassword')}
               >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                <Icon name={showPassword ? 'visibility_off' : 'visibility'} size={18} />
               </button>
             </div>
           </div>
 
           {error && (
-            <p className="text-sm text-danger bg-red-50 border border-red-200 rounded-xl px-3 py-2">
+            <p className="text-body-md text-danger bg-red-50 border border-red-200 rounded-xl px-3 py-2">
               {error}
             </p>
           )}
@@ -133,21 +133,21 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-12 bg-brand-primary text-white font-semibold text-sm rounded-full shadow-md hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition"
+            className="w-full h-12 bg-brand-primary text-white text-label-lg rounded-full shadow-md hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition"
           >
             {loading ? t('signingIn') : t('signIn')}
           </button>
         </form>
 
-        <p className="text-center text-sm text-neutral-500 mt-6">
+        <p className="text-center text-body-md text-neutral-500 mt-6">
           {t('noAccount')}{' '}
-          <Link href="/register" className="text-brand-primary font-bold">
+          <Link href="/register" className="text-brand-primary text-label-lg">
             {t('createAccount')}
           </Link>
         </p>
       </div>
 
-      <p className="text-center text-xs text-neutral-400 mt-8">
+      <p className="text-center text-label-sm text-neutral-400 mt-8">
         {t('copyright', { year: new Date().getFullYear() })}
       </p>
     </div>

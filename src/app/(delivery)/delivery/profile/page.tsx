@@ -4,7 +4,7 @@ import { useEffect, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import { LogOut, UserRound as UserIcon } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import Image from 'next/image'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
@@ -95,12 +95,12 @@ export default function DeliveryProfilePage() {
             {profileData?.profilePhoto ? (
               <Image src={profileData.profilePhoto} alt={name} fill className="object-cover" sizes="96px" />
             ) : (
-              <UserIcon size={36} className="text-brand-primary" />
+              <Icon name="person" size={36} className="text-brand-primary" />
             )}
           </div>
         </div>
-        <h2 className="text-xl font-bold text-neutral-800">{session?.user?.name}</h2>
-        <p className="text-sm text-neutral-500 mb-3">{session?.user?.phone}</p>
+        <h2 className="text-headline-md text-neutral-800">{session?.user?.name}</h2>
+        <p className="text-body-md text-neutral-500 mb-3">{session?.user?.phone}</p>
         <div className="flex justify-center">
           <ImageUploadButton type="profilePhoto" label={t('changePhoto')} onUploaded={handlePhotoUploaded} />
         </div>
@@ -108,18 +108,18 @@ export default function DeliveryProfilePage() {
 
       <form onSubmit={handleSave} className="bg-white rounded-2xl border border-neutral-200 p-4 space-y-4 mb-4">
         <div>
-          <label className="block text-xs font-medium text-neutral-500 mb-1">{t('fullName')}</label>
+          <label className="block text-label-sm text-neutral-500 mb-1">{t('fullName')}</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-neutral-500 mb-1">{t('phone')}</label>
+          <label className="block text-label-sm text-neutral-500 mb-1">{t('phone')}</label>
           <input
             type="tel"
             value={phone}
@@ -128,19 +128,19 @@ export default function DeliveryProfilePage() {
             maxLength={8}
             title={t('phoneHint')}
             required
-            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-neutral-500 mb-1">{tCommon('language')}</label>
+          <label className="block text-label-sm text-neutral-500 mb-1">{tCommon('language')}</label>
           <div className="grid grid-cols-3 gap-2">
             {LANGUAGES.map((value) => (
               <button
                 key={value}
                 type="button"
                 onClick={() => handleLanguageSelect(value)}
-                className={`px-3 py-2 rounded-lg text-sm font-medium border transition ${
+                className={`px-3 py-2 rounded-lg text-label-lg border transition ${
                   language === value
                     ? 'border-brand-primary bg-brand-light text-brand-primary'
                     : 'border-neutral-200 text-neutral-600 hover:border-brand-primary'
@@ -155,7 +155,7 @@ export default function DeliveryProfilePage() {
         <button
           type="submit"
           disabled={saving}
-          className="w-full h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+          className="w-full h-12 bg-brand-primary text-white rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-60 transition"
         >
           {saving ? t('saving') : t('save')}
         </button>
@@ -163,9 +163,9 @@ export default function DeliveryProfilePage() {
 
       <button
         onClick={() => signOut({ callbackUrl: '/login' })}
-        className="w-full h-12 flex items-center justify-center gap-2 border-2 border-danger/20 text-danger rounded-full font-semibold text-sm hover:bg-red-50 transition"
+        className="w-full h-12 flex items-center justify-center gap-2 border-2 border-danger/20 text-danger rounded-full text-label-lg hover:bg-red-50 transition"
       >
-        <LogOut size={18} />
+        <Icon name="logout" size={18} />
         {t('logout')}
       </button>
     </div>

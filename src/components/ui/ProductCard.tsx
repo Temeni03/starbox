@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { ShoppingCart, Package } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import type { Product } from '@/hooks/useProducts'
 
@@ -48,18 +48,18 @@ export function ProductCard({ product, onAddToCart }: Props) {
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-            <Package size={40} />
+            <Icon name="package_2" size={40} />
           </div>
         )}
         {outOfStock && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="bg-white text-neutral-800 text-xs font-semibold px-2 py-1 rounded-md">
+            <span className="bg-white text-neutral-800 text-label-sm px-2 py-1 rounded-md">
               {t('outOfStock')}
             </span>
           </div>
         )}
         {lowStock && (
-          <span className="absolute top-3 left-3 bg-warning text-white text-[11px] font-bold px-2 py-1 rounded-md uppercase tracking-wide">
+          <span className="absolute top-3 left-3 bg-warning text-white text-label-sm px-2 py-1 rounded-md uppercase tracking-wide">
             {t('lowStock')}
           </span>
         )}
@@ -69,18 +69,18 @@ export function ProductCard({ product, onAddToCart }: Props) {
           aria-label={tProduct('addToCartAria')}
           className="absolute bottom-3 right-3 w-10 h-10 bg-brand-primary text-white rounded-full flex items-center justify-center shadow-lg active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed transition-transform"
         >
-          <ShoppingCart size={18} />
+          <Icon name="add_shopping_cart" size={18} filled />
         </button>
       </div>
 
-      <h3 className="text-sm font-semibold text-neutral-800 truncate mb-1">
+      <h3 className="text-headline-md text-neutral-800 truncate mb-1">
         {product.name}
       </h3>
       {product.description && (
-        <p className="text-xs text-neutral-500 mb-2 truncate">{product.description}</p>
+        <p className="text-label-sm text-neutral-500 mb-2 truncate">{product.description}</p>
       )}
       <div className="mt-auto">
-        <span className="text-sm font-bold text-brand-primary">
+        <span className="text-headline-md text-brand-primary">
           {product.price.toLocaleString()} MRU
         </span>
       </div>

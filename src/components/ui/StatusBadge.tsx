@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl'
-import { Clock3, BadgeCheck, Truck, CircleCheckBig, CircleX } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import type { OrderStatus } from '@/models/Order'
 
 const styles: Record<OrderStatus, string> = {
@@ -10,20 +10,19 @@ const styles: Record<OrderStatus, string> = {
   cancelled: 'bg-status-cancelled/15 text-status-cancelled',
 }
 
-const icons: Record<OrderStatus, typeof Clock3> = {
-  pending: Clock3,
-  confirmed: BadgeCheck,
-  transit: Truck,
-  delivered: CircleCheckBig,
-  cancelled: CircleX,
+const icons: Record<OrderStatus, string> = {
+  pending: 'schedule',
+  confirmed: 'verified',
+  transit: 'local_shipping',
+  delivered: 'check_circle',
+  cancelled: 'cancel',
 }
 
 export function StatusBadge({ status }: { status: OrderStatus }) {
   const t = useTranslations('status')
-  const Icon = icons[status]
   return (
-    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold ${styles[status]}`}>
-      <Icon size={14} />
+    <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-label-sm ${styles[status]}`}>
+      <Icon name={icons[status]} size={14} />
       {t(status)}
     </span>
   )

@@ -69,7 +69,7 @@ export default function AdminConfigPage() {
 
   return (
     <div className="max-w-md space-y-4">
-      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+      <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
 
       {isLoading ? (
         <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-4 animate-pulse">
@@ -84,21 +84,21 @@ export default function AdminConfigPage() {
         <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-4">
           {fields.map(({ key, label, type, hint }) => (
             <div key={key}>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{label}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{label}</label>
               <input
                 type={type}
                 value={form[key as keyof typeof form]}
                 onChange={(e) => setForm((prev) => ({ ...prev, [key]: e.target.value }))}
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
-              <p className="text-xs text-neutral-400 mt-1">{hint}</p>
+              <p className="text-label-sm text-neutral-400 mt-1">{hint}</p>
             </div>
           ))}
 
           <button
             type="submit"
             disabled={saving}
-            className="w-full h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+            className="w-full h-12 bg-brand-primary text-white rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-60 transition"
           >
             {saving ? t('saving') : t('saveSettings')}
           </button>

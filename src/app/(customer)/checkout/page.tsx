@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { Package, Copy, Check, ArrowLeft, ChevronRight, Store, Truck, CreditCard, Banknote } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import { useCartStore } from '@/store/cartStore'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
@@ -100,26 +100,26 @@ export default function CheckoutPage() {
           aria-label={t('backToCartAria')}
           className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-light/50 transition -ml-1.5"
         >
-          <ArrowLeft size={20} className="text-brand-primary" />
+          <Icon name="arrow_back" size={20} className="text-brand-primary" />
         </Link>
-        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+        <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
       </div>
 
       {/* Delivery Method */}
       <section className="mb-6">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('deliveryMethod')}</h2>
+        <h2 className="text-headline-md text-neutral-800 mb-3">{t('deliveryMethod')}</h2>
         <div className="grid grid-cols-2 gap-3">
           {(
             [
-              { value: 'pickup', label: t('storePickup'), sub: tCommon('free'), icon: Store },
+              { value: 'pickup', label: t('storePickup'), sub: tCommon('free'), icon: 'store' },
               {
                 value: 'home',
                 label: t('homeDelivery'),
                 sub: location ? `${location.price.toLocaleString()} MRU` : t('selectZone'),
-                icon: Truck,
+                icon: 'local_shipping',
               },
             ] as const
-          ).map(({ value, label, sub, icon: Icon }) => (
+          ).map(({ value, label, sub, icon }) => (
             <label key={value} className="relative cursor-pointer">
               <input
                 type="radio"
@@ -130,9 +130,9 @@ export default function CheckoutPage() {
                 className="peer sr-only"
               />
               <div className="p-4 rounded-xl border-2 border-neutral-200 bg-white peer-checked:border-brand-primary peer-checked:bg-brand-light/50 transition-all flex flex-col items-center text-center gap-1.5">
-                <Icon size={20} className="text-brand-primary" />
-                <span className="text-sm font-semibold text-neutral-800">{label}</span>
-                <span className="text-xs text-neutral-500">{sub}</span>
+                <Icon name={icon} size={20} className="text-brand-primary" />
+                <span className="text-label-lg text-neutral-800">{label}</span>
+                <span className="text-label-sm text-neutral-500">{sub}</span>
               </div>
             </label>
           ))}
@@ -147,7 +147,7 @@ export default function CheckoutPage() {
 
       {/* Order items summary */}
       <section className="mb-6 bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-4">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('orderSummary')}</h2>
+        <h2 className="text-headline-md text-neutral-800 mb-3">{t('orderSummary')}</h2>
         <div className="space-y-2">
           {items.map((item) => (
             <div key={item.product} className="flex items-center gap-3">
@@ -156,15 +156,15 @@ export default function CheckoutPage() {
                   <Image src={item.image} alt={item.name} fill className="object-cover" sizes="48px" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                    <Package size={16} />
+                    <Icon name="package_2" size={16} />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-neutral-700 truncate">{item.name}</p>
-                <p className="text-xs text-neutral-500">× {item.quantity}</p>
+                <p className="text-body-md text-neutral-700 truncate">{item.name}</p>
+                <p className="text-label-sm text-neutral-500">× {item.quantity}</p>
               </div>
-              <p className="text-sm font-medium text-neutral-700">
+              <p className="text-body-md font-medium text-neutral-700">
                 {(item.price * item.quantity).toLocaleString()} MRU
               </p>
             </div>
@@ -174,14 +174,14 @@ export default function CheckoutPage() {
 
       {/* Payment method */}
       <section className="mb-6">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('paymentMethod')}</h2>
+        <h2 className="text-headline-md text-neutral-800 mb-3">{t('paymentMethod')}</h2>
         <div className="space-y-3">
           {(
             [
-              { value: 'bank_transfer', label: t('bankTransfer'), sub: t('bankTransferSub'), icon: CreditCard },
-              { value: 'cash', label: t('cashOnDelivery'), sub: t('cashSub'), icon: Banknote },
+              { value: 'bank_transfer', label: t('bankTransfer'), sub: t('bankTransferSub'), icon: 'credit_card' },
+              { value: 'cash', label: t('cashOnDelivery'), sub: t('cashSub'), icon: 'payments' },
             ] as const
-          ).map(({ value, label, sub, icon: Icon }) => (
+          ).map(({ value, label, sub, icon }) => (
             <label
               key={value}
               className={`flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition ${
@@ -197,17 +197,17 @@ export default function CheckoutPage() {
                 className="accent-brand-primary w-5 h-5"
               />
               <div className="flex-1">
-                <div className="text-sm font-semibold text-neutral-800">{label}</div>
-                <div className="text-xs text-neutral-500">{sub}</div>
+                <div className="text-label-lg text-neutral-800">{label}</div>
+                <div className="text-label-sm text-neutral-500">{sub}</div>
               </div>
-              <Icon size={20} className="text-brand-primary" />
+              <Icon name={icon} size={20} className="text-brand-primary" />
             </label>
           ))}
         </div>
 
         {paymentMethod === 'bank_transfer' && (
           <div className="mt-3 p-4 rounded-xl border border-neutral-200 bg-surface-low space-y-3">
-            <p className="text-xs text-neutral-600">
+            <p className="text-label-sm text-neutral-600">
               {t.rich('transferInstructions', {
                 amount: `${grandTotal.toLocaleString()} MRU`,
                 strong: (chunks) => <strong>{chunks}</strong>,
@@ -218,17 +218,17 @@ export default function CheckoutPage() {
               onClick={handleCopyCode}
               className="flex items-center justify-between gap-2 w-full bg-white border border-neutral-200 rounded-xl px-3 py-2.5 hover:border-brand-primary transition"
             >
-              <span className="text-sm font-mono font-semibold text-brand-primary tracking-wide">
+              <span className="text-label-lg font-mono text-brand-primary tracking-wide">
                 {BANK_PAYMENT_CODE}
               </span>
-              <span className="flex items-center gap-1 text-xs text-neutral-500">
+              <span className="flex items-center gap-1 text-label-sm text-neutral-500">
                 {codeCopied ? (
                   <>
-                    <Check size={14} className="text-success" /> {t('copied')}
+                    <Icon name="check" size={14} className="text-success" /> {t('copied')}
                   </>
                 ) : (
                   <>
-                    <Copy size={14} /> {tCommon('copy')}
+                    <Icon name="content_copy" size={14} /> {tCommon('copy')}
                   </>
                 )}
               </span>
@@ -238,7 +238,7 @@ export default function CheckoutPage() {
                 <Image src={screenshot} alt="Receipt" width={60} height={60} className="rounded-lg object-cover" />
                 <button
                   onClick={() => setScreenshot(null)}
-                  className="text-xs text-danger hover:underline"
+                  className="text-label-sm text-danger hover:underline"
                 >
                   {tCommon('remove')}
                 </button>
@@ -259,19 +259,19 @@ export default function CheckoutPage() {
 
       {/* Totals */}
       <section className="bg-white/70 backdrop-blur-md border-2 border-brand-container/20 rounded-2xl p-5 space-y-3">
-        <div className="flex justify-between items-center text-sm text-neutral-600">
+        <div className="flex justify-between items-center text-body-md text-neutral-600">
           <span>{tCommon('subtotal')}</span>
           <span className="font-medium text-neutral-700">{totalPrice.toLocaleString()} MRU</span>
         </div>
-        <div className="flex justify-between items-center text-sm text-neutral-600">
+        <div className="flex justify-between items-center text-body-md text-neutral-600">
           <span>{t('deliveryFee')}</span>
           <span className="font-medium text-neutral-700">
             {deliveryFee === 0 ? tCommon('free') : `${deliveryFee.toLocaleString()} MRU`}
           </span>
         </div>
         <div className="flex justify-between items-center border-t border-neutral-200 pt-3">
-          <span className="text-lg font-semibold text-neutral-800">{tCommon('total')}</span>
-          <span className="text-2xl font-bold text-brand-primary">{grandTotal.toLocaleString()} MRU</span>
+          <span className="text-headline-md text-neutral-800">{tCommon('total')}</span>
+          <span className="text-headline-xl text-brand-primary">{grandTotal.toLocaleString()} MRU</span>
         </div>
       </section>
 
@@ -281,10 +281,10 @@ export default function CheckoutPage() {
           <button
             onClick={handleConfirm}
             disabled={loading}
-            className="w-full h-14 bg-brand-primary text-white rounded-full font-semibold text-base flex items-center justify-center gap-1.5 shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
+            className="w-full h-14 bg-brand-primary text-white rounded-full text-headline-md flex items-center justify-center gap-1.5 shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
           >
             {loading ? t('placingOrder') : t('completeOrder')}
-            {!loading && <ChevronRight size={20} />}
+            {!loading && <Icon name="chevron_right" size={20} />}
           </button>
         </div>
       </div>

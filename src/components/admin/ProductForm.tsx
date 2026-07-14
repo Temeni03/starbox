@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { X, AlertTriangle, Save, Trash2 } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
 import { useBlobUpload } from '@/hooks/useBlobUpload'
@@ -116,7 +116,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
         {/* Left column: media & visibility */}
         <div className="md:col-span-5 space-y-6">
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
-            <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('productImagery')}</label>
+            <label className="text-label-sm text-neutral-500 mb-3 block">{t('productImagery')}</label>
             <div className="flex flex-wrap gap-2 mb-3">
               {form.images.map((url) => (
                 <div key={url} className="relative group">
@@ -132,7 +132,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                     onClick={() => removeImage(url)}
                     className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition"
                   >
-                    <X size={14} />
+                    <Icon name="close" size={14} />
                   </button>
                 </div>
               ))}
@@ -150,13 +150,13 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                 }}
               />
             )}
-            <p className="text-xs text-neutral-400 mt-2">{t('imagesHint', { max: MAX_PRODUCT_IMAGES })}</p>
+            <p className="text-label-sm text-neutral-400 mt-2">{t('imagesHint', { max: MAX_PRODUCT_IMAGES })}</p>
           </div>
 
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
-            <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('statusVisibility')}</label>
+            <label className="text-label-sm text-neutral-500 mb-3 block">{t('statusVisibility')}</label>
             <label className="flex items-center justify-between py-1 cursor-pointer">
-              <span className="text-sm text-neutral-700">{t('publishedOnStore')}</span>
+              <span className="text-body-md text-neutral-700">{t('publishedOnStore')}</span>
               <span className="relative inline-block w-11 h-6">
                 <input
                   name="isActive"
@@ -172,7 +172,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
           </div>
 
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm">
-            <label className="text-xs font-medium text-neutral-500 mb-3 block">{t('videoOptional')}</label>
+            <label className="text-label-sm text-neutral-500 mb-3 block">{t('videoOptional')}</label>
             {form.video ? (
               <div className="relative w-full">
                 <video src={form.video} controls className="w-full rounded-lg border border-neutral-200" />
@@ -181,7 +181,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                   onClick={() => removeVideo(form.video!)}
                   className="absolute -top-1.5 -right-1.5 bg-danger text-white rounded-full w-5 h-5 flex items-center justify-center"
                 >
-                  <X size={14} />
+                  <Icon name="close" size={14} />
                 </button>
               </div>
             ) : (
@@ -199,7 +199,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
         <div className="md:col-span-7 space-y-6">
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <div className="flex items-center justify-between gap-3">
-              <h3 className="text-base font-semibold text-neutral-800">{t('generalInfo')}</h3>
+              <h3 className="text-headline-md text-neutral-800">{t('generalInfo')}</h3>
               <div className="flex gap-1">
                 {locales.map((l) => {
                   const filled = !!form.name[l]
@@ -208,7 +208,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                       key={l}
                       type="button"
                       onClick={() => setActiveLang(l)}
-                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold transition ${
+                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-md text-label-sm transition ${
                         activeLang === l
                           ? 'bg-brand-primary text-white'
                           : 'bg-surface-high text-neutral-600 hover:bg-brand-light'
@@ -229,18 +229,18 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('productName')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('productName')}</label>
               <input
                 value={form.name[activeLang] ?? ''}
                 onChange={(e) => handleLocalizedChange('name', e.target.value)}
                 placeholder={t('productNamePlaceholder')}
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1">{t('price')}</label>
+                <label className="block text-label-sm text-neutral-500 mb-1">{t('price')}</label>
                 <input
                   name="price"
                   type="number"
@@ -250,11 +250,11 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                   min="0"
                   step="1"
                   placeholder="1200"
-                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1">{t('quantity')}</label>
+                <label className="block text-label-sm text-neutral-500 mb-1">{t('quantity')}</label>
                 <input
                   name="quantity"
                   type="number"
@@ -264,42 +264,42 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                   min="0"
                   step="1"
                   placeholder="50"
-                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('description')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('description')}</label>
               <textarea
                 value={form.description[activeLang] ?? ''}
                 onChange={(e) => handleLocalizedChange('description', e.target.value)}
                 rows={3}
                 placeholder={t('descriptionPlaceholder')}
-                className="w-full p-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition resize-none"
+                className="w-full p-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('usageInstructions')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('usageInstructions')}</label>
               <textarea
                 value={form.usageInstructions[activeLang] ?? ''}
                 onChange={(e) => handleLocalizedChange('usageInstructions', e.target.value)}
                 rows={3}
                 placeholder={t('usageInstructionsPlaceholder')}
-                className="w-full p-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition resize-none"
+                className="w-full p-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition resize-none"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-neutral-500 mb-1">{t('lowStockThreshold')}</label>
+              <label className="block text-label-sm text-neutral-500 mb-1">{t('lowStockThreshold')}</label>
               <input
                 name="lowStockThreshold"
                 type="number"
                 value={form.lowStockThreshold}
                 onChange={handleChange}
                 min="0"
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
               />
             </div>
           </div>
@@ -312,18 +312,18 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
           <button
             type="button"
             onClick={() => setConfirmDelete(true)}
-            className="flex-1 sm:flex-none px-6 h-12 border border-danger text-danger rounded-xl text-sm font-semibold hover:bg-red-50 active:scale-95 transition-all flex items-center justify-center gap-2"
+            className="flex-1 sm:flex-none px-6 h-12 border border-danger text-danger rounded-xl text-label-lg hover:bg-red-50 active:scale-95 transition-all flex items-center justify-center gap-2"
           >
-            <Trash2 size={18} />
+            <Icon name="delete" size={18} />
             {t('delete')}
           </button>
         )}
         <button
           type="submit"
           disabled={saving}
-          className="flex-2 sm:flex-none px-10 h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold shadow-lg hover:bg-brand-secondary active:scale-95 disabled:opacity-60 transition-all flex items-center justify-center gap-2"
+          className="flex-2 sm:flex-none px-10 h-12 bg-brand-primary text-white rounded-xl text-label-lg shadow-lg hover:bg-brand-secondary active:scale-95 disabled:opacity-60 transition-all flex items-center justify-center gap-2"
         >
-          <Save size={18} />
+          <Icon name="save" size={18} />
           {saving ? t('saving') : submitLabel}
         </button>
       </div>
@@ -333,11 +333,11 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
           <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center shrink-0">
-                <AlertTriangle size={20} />
+                <Icon name="warning" size={20} />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-neutral-800">{t('deleteTitle')}</h2>
-                <p className="text-sm text-neutral-500 mt-1">
+                <h2 className="text-headline-md text-neutral-800">{t('deleteTitle')}</h2>
+                <p className="text-body-md text-neutral-500 mt-1">
                   {t('deleteConfirm')}
                 </p>
               </div>
@@ -346,14 +346,14 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
               <button
                 onClick={() => setConfirmDelete(false)}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
                 {tCommon('cancel')}
               </button>
               <button
                 onClick={handleDelete}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
                 {deleting ? t('deleting') : t('delete')}
               </button>

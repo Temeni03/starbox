@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
-import { ArrowLeft } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 
 export default function NewDeliveryPage() {
@@ -43,10 +43,10 @@ export default function NewDeliveryPage() {
 
   return (
     <div className="max-w-sm space-y-4">
-      <Link href="/admin/users" className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition">
-        <ArrowLeft size={16} /> {t('back')}
+      <Link href="/admin/users" className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition">
+        <Icon name="arrow_back" size={16} /> {t('back')}
       </Link>
-      <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+      <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
 
       <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-4">
         {[
@@ -55,7 +55,7 @@ export default function NewDeliveryPage() {
           { name: 'password', label: t('password'), type: 'password', placeholder: t('passwordPlaceholder'), minLength: 6 },
         ].map(({ name, label, type, placeholder, pattern, maxLength, minLength, title }) => (
           <div key={name}>
-            <label className="block text-xs font-medium text-neutral-500 mb-1">{label}</label>
+            <label className="block text-label-sm text-neutral-500 mb-1">{label}</label>
             <input
               name={name}
               type={type}
@@ -67,13 +67,13 @@ export default function NewDeliveryPage() {
               minLength={minLength}
               title={title}
               required
-              className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+              className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
             />
           </div>
         ))}
 
         {error && (
-          <p className="text-sm text-danger bg-red-50 border border-red-200 rounded-lg px-3 py-2">
+          <p className="text-body-md text-danger bg-red-50 border border-red-200 rounded-lg px-3 py-2">
             {error}
           </p>
         )}
@@ -81,7 +81,7 @@ export default function NewDeliveryPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full h-12 bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+          className="w-full h-12 bg-brand-primary text-white rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-60 transition"
         >
           {loading ? t('creating') : t('createAccount')}
         </button>

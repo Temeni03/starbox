@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { ClipboardList, ChevronRight, Package } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import useSWR from 'swr'
 import { StatusBadge } from '@/components/ui/StatusBadge'
 import type { OrderStatus } from '@/models/Order'
@@ -46,9 +46,9 @@ export default function OrdersPage() {
   if (orders.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-neutral-400 pb-24 sm:pb-6">
-        <ClipboardList size={40} className="mb-4 opacity-50" />
-        <p className="text-lg font-semibold">{t('empty')}</p>
-        <Link href="/" className="mt-4 text-sm text-brand-secondary hover:underline">
+        <Icon name="receipt_long" size={40} className="mb-4 opacity-50" />
+        <p className="text-headline-md">{t('empty')}</p>
+        <Link href="/" className="mt-4 text-body-md text-brand-secondary hover:underline">
           {t('startShopping')}
         </Link>
       </div>
@@ -58,8 +58,8 @@ export default function OrdersPage() {
   return (
     <div className="pb-20 sm:pb-6">
       <div className="mb-5">
-        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
-        <p className="text-sm text-neutral-500 mt-0.5">{t('subtitle')}</p>
+        <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
+        <p className="text-body-md text-neutral-500 mt-0.5">{t('subtitle')}</p>
       </div>
 
       <div className="flex gap-2 overflow-x-auto pb-2 mb-4 [scrollbar-width:none]">
@@ -67,7 +67,7 @@ export default function OrdersPage() {
           <button
             key={key}
             onClick={() => setFilter(key)}
-            className={`whitespace-nowrap px-4 py-2 rounded-full text-xs font-semibold transition active:scale-95 ${
+            className={`whitespace-nowrap px-4 py-2 rounded-full text-label-sm transition active:scale-95 ${
               filter === key ? 'bg-brand-primary text-white' : 'bg-surface-high text-neutral-500'
             }`}
           >
@@ -78,7 +78,7 @@ export default function OrdersPage() {
 
       {filteredOrders.length === 0 ? (
         <div className="text-center py-16 text-neutral-400">
-          <p className="text-sm">{t('emptyCategory')}</p>
+          <p className="text-body-md">{t('emptyCategory')}</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -93,8 +93,8 @@ export default function OrdersPage() {
               >
                 <div className="flex items-start justify-between gap-2 mb-3">
                   <div className="min-w-0">
-                    <p className="text-xs text-neutral-400">{order.orderNumber}</p>
-                    <p className="text-sm font-semibold text-neutral-800 mt-0.5">
+                    <p className="text-label-sm text-neutral-400">{order.orderNumber}</p>
+                    <p className="text-body-lg font-semibold text-neutral-800 mt-0.5">
                       {new Date(order.createdAt).toLocaleDateString(locale, {
                         day: '2-digit',
                         month: 'short',
@@ -104,7 +104,7 @@ export default function OrdersPage() {
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <StatusBadge status={order.status as OrderStatus} />
-                    <ChevronRight size={16} className="text-neutral-300" />
+                    <Icon name="chevron_right" size={16} className="text-neutral-300" />
                   </div>
                 </div>
 
@@ -116,13 +116,13 @@ export default function OrdersPage() {
                           <Image src={item.image} alt={item.name} fill className="object-cover" sizes="56px" />
                         ) : (
                           <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                            <Package size={18} />
+                            <Icon name="package_2" size={18} />
                           </div>
                         )}
                       </div>
                     ))}
                     {extra > 0 && (
-                      <div className="shrink-0 w-14 h-14 rounded-lg bg-surface-high border border-dashed border-neutral-300 flex items-center justify-center text-xs text-neutral-500">
+                      <div className="shrink-0 w-14 h-14 rounded-lg bg-surface-high border border-dashed border-neutral-300 flex items-center justify-center text-label-sm text-neutral-500">
                         +{extra}
                       </div>
                     )}
@@ -130,10 +130,10 @@ export default function OrdersPage() {
                 )}
 
                 <div className="flex justify-between items-center pt-3 border-t border-neutral-100">
-                  <span className="text-sm text-neutral-500">
+                  <span className="text-body-md text-neutral-500">
                     {t('totalItems', { count: order.items?.length ?? 0 })}
                   </span>
-                  <span className="text-base font-bold text-brand-primary">
+                  <span className="text-headline-md text-brand-primary">
                     {order.grandTotal?.toLocaleString()} MRU
                   </span>
                 </div>

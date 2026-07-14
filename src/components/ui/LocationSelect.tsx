@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useTranslations } from 'next-intl'
-import { MapPin, Search } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import { useDeliveryLocations, type DeliveryLocation } from '@/hooks/useDeliveryLocations'
 
 interface LocationSelectProps {
@@ -44,13 +44,13 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex items-center gap-2 w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm text-left focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent bg-white transition"
+        className="flex items-center gap-2 w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md text-left focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent bg-white transition"
       >
-        <MapPin size={16} className="text-neutral-400 flex-shrink-0" />
+        <Icon name="location_on" size={16} className="text-neutral-400 flex-shrink-0" />
         {value ? (
           <span className="flex-1 min-w-0 flex items-center justify-between gap-2">
             <span className="truncate text-neutral-700">{value.name}</span>
-            <span className="text-xs text-neutral-500 flex-shrink-0">
+            <span className="text-label-sm text-neutral-500 flex-shrink-0">
               {value.price.toLocaleString()} MRU
             </span>
           </span>
@@ -62,33 +62,33 @@ export function LocationSelect({ value, onChange }: LocationSelectProps) {
       {open && (
         <div className="absolute z-10 mt-1 w-full bg-white border border-neutral-200 rounded-xl shadow-lg overflow-hidden">
           <div className="flex items-center gap-2 px-3 py-2 border-b border-neutral-100">
-            <Search size={14} className="text-neutral-400 flex-shrink-0" />
+            <Icon name="search" size={14} className="text-neutral-400 flex-shrink-0" />
             <input
               autoFocus
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="flex-1 text-sm focus:outline-none"
+              className="flex-1 text-body-md focus:outline-none"
             />
           </div>
           <div className="max-h-56 overflow-y-auto">
             {isLoading && (
-              <p className="px-3 py-3 text-sm text-neutral-400">{t('loading')}</p>
+              <p className="px-3 py-3 text-body-md text-neutral-400">{t('loading')}</p>
             )}
             {!isLoading && filtered.length === 0 && (
-              <p className="px-3 py-3 text-sm text-neutral-400">{t('noResults')}</p>
+              <p className="px-3 py-3 text-body-md text-neutral-400">{t('noResults')}</p>
             )}
             {filtered.map((loc) => (
               <button
                 key={loc._id}
                 type="button"
                 onClick={() => handleSelect(loc)}
-                className={`flex items-center justify-between gap-2 w-full px-3 py-2 text-left text-sm hover:bg-brand-light transition ${
+                className={`flex items-center justify-between gap-2 w-full px-3 py-2 text-left text-body-md hover:bg-brand-light transition ${
                   value?._id === loc._id ? 'bg-brand-light' : ''
                 }`}
               >
                 <span className="truncate text-neutral-700">{loc.name}</span>
-                <span className="text-xs text-neutral-500 flex-shrink-0">
+                <span className="text-label-sm text-neutral-500 flex-shrink-0">
                   {loc.price.toLocaleString()} MRU
                 </span>
               </button>

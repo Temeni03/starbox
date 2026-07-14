@@ -5,42 +5,29 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import {
-  LayoutDashboard,
-  ShoppingBag,
-  Package,
-  Gift,
-  Users,
-  Settings,
-  Bell,
-  LogOut,
-  MapPin,
-  Menu,
-  X,
-  UserRound as UserIcon,
-} from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import { useNotifications } from '@/hooks/useNotifications'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 
 interface NavLinkDef {
   href: string
   labelKey: 'dashboard' | 'orders' | 'products' | 'boxes' | 'locations' | 'users' | 'notifications' | 'settings'
-  icon: typeof LayoutDashboard
+  icon: string
   exact?: boolean
 }
 
 const mainLinks: NavLinkDef[] = [
-  { href: '/admin', labelKey: 'dashboard', icon: LayoutDashboard, exact: true },
-  { href: '/admin/orders', labelKey: 'orders', icon: ShoppingBag },
-  { href: '/admin/products', labelKey: 'products', icon: Package },
-  { href: '/admin/boxes', labelKey: 'boxes', icon: Gift },
-  { href: '/admin/locations', labelKey: 'locations', icon: MapPin },
-  { href: '/admin/users', labelKey: 'users', icon: Users },
+  { href: '/admin', labelKey: 'dashboard', icon: 'dashboard', exact: true },
+  { href: '/admin/orders', labelKey: 'orders', icon: 'shopping_bag' },
+  { href: '/admin/products', labelKey: 'products', icon: 'package_2' },
+  { href: '/admin/boxes', labelKey: 'boxes', icon: 'card_giftcard' },
+  { href: '/admin/locations', labelKey: 'locations', icon: 'location_on' },
+  { href: '/admin/users', labelKey: 'users', icon: 'group' },
 ]
 
 const systemLinks: NavLinkDef[] = [
-  { href: '/admin/notifications', labelKey: 'notifications', icon: Bell },
-  { href: '/admin/config', labelKey: 'settings', icon: Settings },
+  { href: '/admin/notifications', labelKey: 'notifications', icon: 'notifications' },
+  { href: '/admin/config', labelKey: 'settings', icon: 'settings' },
 ]
 
 export function AdminSidebar({ userName }: { userName: string }) {
@@ -53,18 +40,18 @@ export function AdminSidebar({ userName }: { userName: string }) {
     return exact ? pathname === href : pathname.startsWith(href)
   }
 
-  function NavLink({ href, labelKey, icon: Icon, exact }: NavLinkDef) {
+  function NavLink({ href, labelKey, icon, exact }: NavLinkDef) {
     const active = isActive(href, exact)
     return (
       <Link
         href={href}
         onClick={() => setMobileOpen(false)}
-        className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm transition ${
+        className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-body-lg transition ${
           active ? 'bg-brand-container text-brand-secondary font-semibold' : 'text-neutral-500 hover:bg-surface-high'
         }`}
       >
         <span className="relative">
-          <Icon size={18} />
+          <Icon name={icon} size={18} filled={active} />
           {labelKey === 'notifications' && unreadCount > 0 && (
             <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
               {unreadCount > 9 ? '9+' : unreadCount}
@@ -82,8 +69,8 @@ export function AdminSidebar({ userName }: { userName: string }) {
       <aside className="hidden sm:flex w-64 bg-white border-r border-neutral-200 flex-col shrink-0">
         <div className="px-6 py-5 flex items-start justify-between gap-2">
           <div>
-            <p className="text-xl font-bold text-brand-primary tracking-tight">Starbox</p>
-            <p className="text-xs text-neutral-400 mt-0.5">{t('tagline')}</p>
+            <p className="text-headline-xl text-brand-primary">Starbox</p>
+            <p className="text-label-sm text-neutral-400 mt-0.5">{t('tagline')}</p>
           </div>
           <LocaleSwitcher compact />
         </div>
@@ -93,7 +80,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
             <NavLink key={link.href} {...link} />
           ))}
           <div className="pt-4 mt-4 border-t border-neutral-100">
-            <p className="px-4 mb-2 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">System</p>
+            <p className="px-4 mb-2 text-label-sm uppercase tracking-wider text-neutral-400">System</p>
             <div className="space-y-1">
               {systemLinks.map((link) => (
                 <NavLink key={link.href} {...link} />
@@ -104,32 +91,32 @@ export function AdminSidebar({ userName }: { userName: string }) {
 
         <div className="m-3 p-3 bg-surface-low rounded-2xl flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-brand-container flex items-center justify-center text-brand-secondary shrink-0">
-            <UserIcon size={18} />
+            <Icon name="person" size={18} />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-neutral-800 truncate">{userName}</p>
-            <p className="text-xs text-neutral-400 truncate">{t('administrator')}</p>
+            <p className="text-body-lg font-semibold text-neutral-800 truncate">{userName}</p>
+            <p className="text-label-sm text-neutral-400 truncate">{t('administrator')}</p>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
             className="text-neutral-400 hover:text-danger transition"
             aria-label={t('signOutAria')}
           >
-            <LogOut size={18} />
+            <Icon name="logout" size={18} />
           </button>
         </div>
       </aside>
 
       {/* Mobile top bar */}
       <header className="sm:hidden fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200/60 h-14 flex items-center px-4 justify-between">
-        <p className="font-bold text-brand-primary">{t('mobileHeader')}</p>
+        <p className="text-headline-md text-brand-primary">{t('mobileHeader')}</p>
         <button
           onClick={() => setMobileOpen(true)}
           aria-label={t('openMenuAria')}
           aria-expanded={mobileOpen}
           className="relative w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-surface-high transition"
         >
-          <Menu size={20} />
+          <Icon name="menu" size={20} />
           {unreadCount > 0 && (
             <span className="absolute top-1 end-1 w-2.5 h-2.5 rounded-full bg-danger border-2 border-white" />
           )}
@@ -155,15 +142,15 @@ export function AdminSidebar({ userName }: { userName: string }) {
       >
         <div className="px-6 py-5 flex items-start justify-between gap-2">
           <div>
-            <p className="text-xl font-bold text-brand-primary tracking-tight">Starbox</p>
-            <p className="text-xs text-neutral-400 mt-0.5">{t('tagline')}</p>
+            <p className="text-headline-xl text-brand-primary">Starbox</p>
+            <p className="text-label-sm text-neutral-400 mt-0.5">{t('tagline')}</p>
           </div>
           <button
             onClick={() => setMobileOpen(false)}
             aria-label={t('closeMenuAria')}
             className="w-10 h-10 flex items-center justify-center rounded-full text-neutral-400 hover:bg-surface-high transition"
           >
-            <X size={20} />
+            <Icon name="close" size={20} />
           </button>
         </div>
 
@@ -172,7 +159,7 @@ export function AdminSidebar({ userName }: { userName: string }) {
             <NavLink key={link.href} {...link} />
           ))}
           <div className="pt-4 mt-4 border-t border-neutral-100">
-            <p className="px-4 mb-2 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">System</p>
+            <p className="px-4 mb-2 text-label-sm uppercase tracking-wider text-neutral-400">System</p>
             <div className="space-y-1">
               {systemLinks.map((link) => (
                 <NavLink key={link.href} {...link} />
@@ -187,18 +174,18 @@ export function AdminSidebar({ userName }: { userName: string }) {
 
         <div className="m-3 mt-0 p-3 bg-surface-low rounded-2xl flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-brand-container flex items-center justify-center text-brand-secondary shrink-0">
-            <UserIcon size={18} />
+            <Icon name="person" size={18} />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-neutral-800 truncate">{userName}</p>
-            <p className="text-xs text-neutral-400 truncate">{t('administrator')}</p>
+            <p className="text-body-lg font-semibold text-neutral-800 truncate">{userName}</p>
+            <p className="text-label-sm text-neutral-400 truncate">{t('administrator')}</p>
           </div>
           <button
             onClick={() => signOut({ callbackUrl: '/login' })}
             className="text-neutral-400 hover:text-danger transition"
             aria-label={t('signOutAria')}
           >
-            <LogOut size={18} />
+            <Icon name="logout" size={18} />
           </button>
         </div>
       </aside>

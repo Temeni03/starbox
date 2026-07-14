@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
-import { LogOut, UserRound as UserIcon, ClipboardList, Bell, ChevronRight } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import Image from 'next/image'
 import useSWR, { mutate } from 'swr'
 import toast from 'react-hot-toast'
@@ -68,8 +68,8 @@ export default function ProfilePage() {
   }
 
   const navItems = [
-    { href: '/orders', label: t('myOrders'), icon: ClipboardList },
-    { href: '/notifications', label: tNotifications('title'), icon: Bell },
+    { href: '/orders', label: t('myOrders'), icon: 'receipt_long' },
+    { href: '/notifications', label: tNotifications('title'), icon: 'notifications' },
   ]
 
   return (
@@ -81,12 +81,12 @@ export default function ProfilePage() {
             {profileData?.profilePhoto ? (
               <Image src={profileData.profilePhoto} alt={name} fill className="object-cover" sizes="96px" />
             ) : (
-              <UserIcon size={36} className="text-brand-primary" />
+              <Icon name="person" size={36} className="text-brand-primary" />
             )}
           </div>
         </div>
-        <h2 className="text-xl font-bold text-neutral-800">{session?.user?.name}</h2>
-        <p className="text-sm text-neutral-500 mb-3">{session?.user?.phone}</p>
+        <h2 className="text-headline-md text-neutral-800">{session?.user?.name}</h2>
+        <p className="text-body-md text-neutral-500 mb-3">{session?.user?.phone}</p>
         <div className="flex justify-center">
           <ImageUploadButton type="profilePhoto" label={t('changePhoto')} onUploaded={handlePhotoUploaded} />
         </div>
@@ -95,17 +95,17 @@ export default function ProfilePage() {
       {/* Editable details */}
       <form onSubmit={handleSave} className="bg-white rounded-2xl border border-neutral-200 p-4 space-y-4 mb-4">
         <div>
-          <label className="block text-xs font-medium text-neutral-500 mb-1">{t('fullName')}</label>
+          <label className="block text-label-sm text-neutral-500 mb-1">{t('fullName')}</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-neutral-500 mb-1">{t('phone')}</label>
+          <label className="block text-label-sm text-neutral-500 mb-1">{t('phone')}</label>
           <input
             type="tel"
             value={phone}
@@ -114,14 +114,14 @@ export default function ProfilePage() {
             maxLength={8}
             title={t('phoneHint')}
             required
-            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
         </div>
 
         <button
           type="submit"
           disabled={saving}
-          className="w-full h-12 flex items-center justify-center bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-60 transition"
+          className="w-full h-12 flex items-center justify-center bg-brand-primary text-white rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-60 transition"
         >
           {saving ? t('saving') : t('save')}
         </button>
@@ -129,15 +129,15 @@ export default function ProfilePage() {
 
       {/* Language */}
       <div className="bg-white rounded-2xl border border-neutral-200 p-4 mb-4 flex items-center justify-between">
-        <span className="text-sm font-medium text-neutral-700">{tCommon('language')}</span>
+        <span className="text-body-md text-neutral-700">{tCommon('language')}</span>
         <LocaleSwitcher />
       </div>
 
       <button
         onClick={() => signOut({ callbackUrl: '/login' })}
-        className="w-full h-12 flex items-center justify-center gap-2 border-2 border-danger/20 text-danger rounded-full font-semibold text-sm hover:bg-red-50 transition"
+        className="w-full h-12 flex items-center justify-center gap-2 border-2 border-danger/20 text-danger rounded-full text-label-lg hover:bg-red-50 transition"
       >
-        <LogOut size={18} />
+        <Icon name="logout" size={18} />
         {t('logout')}
       </button>
     </div>

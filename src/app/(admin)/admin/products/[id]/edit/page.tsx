@@ -4,7 +4,7 @@ import { use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { ChevronRight } from "lucide-react";
+import { Icon } from "@/components/ui/Icon";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 import { ProductForm } from "@/components/admin/ProductForm";
@@ -67,24 +67,24 @@ export default function EditProductPage({
 
   return (
     <div className="max-w-4xl mt-12">
-      <nav className="flex items-center gap-1.5 text-xs text-neutral-400 mb-2">
+      <nav className="flex items-center gap-1.5 text-label-sm text-neutral-400 mb-2">
         <Link href="/admin" className="hover:text-brand-primary transition">
           {t("breadcrumbAdmin")}
         </Link>
-        <ChevronRight size={14} />
+        <Icon name="chevron_right" size={14} />
         <Link
           href="/admin/products"
           className="hover:text-brand-primary transition"
         >
           {t("breadcrumbProducts")}
         </Link>
-        <ChevronRight size={14} />
+        <Icon name="chevron_right" size={14} />
         <span className="text-neutral-600">{t("editProduct")}</span>
       </nav>
-      <h1 className="text-2xl font-bold text-neutral-800 mb-1">
+      <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800 mb-1">
         {t("editTitle")}
       </h1>
-      <p className="text-sm text-neutral-500 mb-6">{t("editSubtitle")}</p>
+      <p className="text-body-md text-neutral-500 mb-6">{t("editSubtitle")}</p>
       <ProductForm
         initialData={{
           name: p.name ?? {},

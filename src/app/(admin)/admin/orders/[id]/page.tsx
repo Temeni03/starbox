@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, Package, MapPin, CreditCard, UserRound } from "lucide-react";
+import { Icon } from "@/components/ui/Icon";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -111,19 +111,19 @@ export default function AdminOrderDetailPage({
     <div className="max-w-2xl space-y-4 mt-16">
       <Link
         href="/admin/orders"
-        className="flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition"
+        className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition"
       >
-        <ArrowLeft size={16} /> {t("backToOrders")}
+        <Icon name="arrow_back" size={16} /> {t("backToOrders")}
       </Link>
 
       {/* Header */}
       <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5">
         <div className="flex items-start justify-between">
           <div>
-            <p className="text-lg font-bold text-neutral-800">
+            <p className="text-headline-md text-neutral-800">
               {order.orderNumber}
             </p>
-            <p className="text-sm text-neutral-400 mt-0.5">
+            <p className="text-label-sm text-neutral-400 mt-0.5">
               {new Date(order.createdAt).toLocaleString(locale, {
                 day: "2-digit",
                 month: "long",
@@ -136,8 +136,8 @@ export default function AdminOrderDetailPage({
           <StatusBadge status={order.status as OrderStatus} />
         </div>
 
-        <div className="mt-4 flex items-center gap-2 text-sm text-neutral-600">
-          <UserRound size={16} />
+        <div className="mt-4 flex items-center gap-2 text-body-md text-neutral-600">
+          <Icon name="person" size={16} />
           <span className="font-medium">{order.customer?.name}</span>
           <span className="text-neutral-400">·</span>
           <span>{order.customer?.phone}</span>
@@ -147,7 +147,7 @@ export default function AdminOrderDetailPage({
       {/* Status change */}
       {nextStatuses.length > 0 && (
         <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="text-base font-semibold text-neutral-800">
+          <h2 className="text-headline-md text-neutral-800">
             {t("changeStatus")}
           </h2>
           <input
@@ -155,7 +155,7 @@ export default function AdminOrderDetailPage({
             value={statusNote}
             onChange={(e) => setStatusNote(e.target.value)}
             placeholder={t("notePlaceholder")}
-            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
           <div className="flex gap-2 flex-wrap">
             {nextStatuses.map((s) => (
@@ -163,7 +163,7 @@ export default function AdminOrderDetailPage({
                 key={s}
                 onClick={() => changeStatus(s)}
                 disabled={updatingStatus}
-                className={`px-4 py-2 rounded-xl text-sm font-semibold capitalize transition disabled:opacity-50 ${
+                className={`px-4 py-2 rounded-xl text-label-lg capitalize transition disabled:opacity-50 ${
                   s === "cancelled"
                     ? "bg-red-50 text-danger border border-red-200 hover:bg-red-100"
                     : "bg-brand-primary text-white hover:bg-brand-secondary"
@@ -181,10 +181,10 @@ export default function AdminOrderDetailPage({
       {/* Assign delivery */}
       {(order.status === "confirmed" || order.status === "transit") && (
         <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="text-base font-semibold text-neutral-800">
+          <h2 className="text-headline-md text-neutral-800">
             {t("assignDelivery")}
             {order.assignedTo && (
-              <span className="ml-2 text-sm font-normal text-neutral-400">
+              <span className="ml-2 text-body-md font-normal text-neutral-400">
                 {t("currentAssignee", { name: order.assignedTo.name })}
               </span>
             )}
@@ -193,7 +193,7 @@ export default function AdminOrderDetailPage({
             <select
               value={selectedDelivery}
               onChange={(e) => setSelectedDelivery(e.target.value)}
-              className="flex-1 h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+              className="flex-1 h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
             >
               <option value="">{t("selectDeliveryPerson")}</option>
               {deliveryUsers.map((u: any) => (
@@ -205,7 +205,7 @@ export default function AdminOrderDetailPage({
             <button
               onClick={assignDelivery}
               disabled={assigning || !selectedDelivery}
-              className="px-4 py-2 bg-brand-primary text-white rounded-xl text-sm font-semibold hover:bg-brand-secondary disabled:opacity-50 transition"
+              className="px-4 py-2 bg-brand-primary text-white rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-50 transition"
             >
               {assigning ? t("assigning") : t("assign")}
             </button>
@@ -215,7 +215,7 @@ export default function AdminOrderDetailPage({
 
       {/* Items */}
       <div className="bg-white rounded-2xl border border-neutral-200 p-5">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">{t("items")}</h2>
+        <h2 className="text-headline-md text-neutral-800 mb-3">{t("items")}</h2>
         <div className="space-y-3">
           {order.items?.map((item: any, i: number) => (
             <div key={i} className="flex items-center gap-3">
@@ -230,20 +230,20 @@ export default function AdminOrderDetailPage({
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-                    <Package size={16} />
+                    <Icon name="package_2" size={16} />
                   </div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-neutral-700 truncate">{item.name}</p>
-                <p className="text-xs text-neutral-400">
+                <p className="text-body-md text-neutral-700 truncate">{item.name}</p>
+                <p className="text-label-sm text-neutral-400">
                   {t("qtyEach", {
                     qty: item.quantity,
                     price: `${item.price.toLocaleString()} MRU`,
                   })}
                 </p>
               </div>
-              <p className="text-sm font-medium">
+              <p className="text-body-md font-medium">
                 {(item.price * item.quantity).toLocaleString()} MRU
               </p>
             </div>
@@ -251,11 +251,11 @@ export default function AdminOrderDetailPage({
         </div>
 
         <div className="border-t border-neutral-100 mt-4 pt-3 space-y-1.5">
-          <div className="flex justify-between text-sm text-neutral-500">
+          <div className="flex justify-between text-body-md text-neutral-500">
             <span>{tCommon("subtotal")}</span>
             <span>{order.cartTotal?.toLocaleString()} MRU</span>
           </div>
-          <div className="flex justify-between text-sm text-neutral-500">
+          <div className="flex justify-between text-body-md text-neutral-500">
             <span>{tCommon("delivery")}</span>
             <span>
               {order.deliveryFee === 0
@@ -263,7 +263,7 @@ export default function AdminOrderDetailPage({
                 : `${order.deliveryFee?.toLocaleString()} MRU`}
             </span>
           </div>
-          <div className="flex justify-between font-bold text-neutral-800">
+          <div className="flex justify-between text-headline-md text-neutral-800">
             <span>{tCommon("total")}</span>
             <span className="text-brand-primary">
               {order.grandTotal?.toLocaleString()} MRU
@@ -275,23 +275,23 @@ export default function AdminOrderDetailPage({
       {/* Delivery & Payment info */}
       <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
         <div className="flex items-start gap-2">
-          <MapPin size={16} className="text-neutral-400 mt-0.5" />
+          <Icon name="location_on" size={16} className="text-neutral-400 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-neutral-700">
+            <p className="text-body-md font-medium text-neutral-700">
               {order.deliveryOption === "home"
                 ? tCheckout("homeDelivery")
                 : tCheckout("storePickup")}
             </p>
             {order.deliveryAddress && (
-              <p className="text-sm text-neutral-500">
+              <p className="text-body-md text-neutral-500">
                 {order.deliveryAddress}
               </p>
             )}
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <CreditCard size={16} className="text-neutral-400" />
-          <p className="text-sm font-medium text-neutral-700">
+          <Icon name="credit_card" size={16} className="text-neutral-400" />
+          <p className="text-body-md font-medium text-neutral-700">
             {order.paymentMethod === "cash"
               ? tCheckout("cashOnDelivery")
               : tCheckout("bankTransfer")}
@@ -299,7 +299,7 @@ export default function AdminOrderDetailPage({
         </div>
         {order.paymentScreenshot && (
           <div>
-            <p className="text-xs text-neutral-500 mb-1">
+            <p className="text-label-sm text-neutral-500 mb-1">
               {t("paymentScreenshotLabel")}
             </p>
             <a
@@ -321,12 +321,12 @@ export default function AdminOrderDetailPage({
 
       {/* Status history */}
       <div className="bg-white rounded-2xl border border-neutral-200 p-5">
-        <h2 className="text-base font-semibold text-neutral-800 mb-3">
+        <h2 className="text-headline-md text-neutral-800 mb-3">
           {t("statusHistory")}
         </h2>
         <div className="space-y-2">
           {order.statusHistory?.map((h: any, i: number) => (
-            <div key={i} className="flex items-start gap-3 text-sm">
+            <div key={i} className="flex items-start gap-3 text-body-md">
               <div className="w-2 h-2 rounded-full bg-brand-primary mt-1.5 shrink-0" />
               <div>
                 <span className="font-medium capitalize text-neutral-700">
@@ -335,7 +335,7 @@ export default function AdminOrderDetailPage({
                 {h.note && (
                   <span className="text-neutral-400 ml-1">— {h.note}</span>
                 )}
-                <p className="text-xs text-neutral-400">
+                <p className="text-label-sm text-neutral-400">
                   {new Date(h.changedAt).toLocaleString(locale, {
                     day: "2-digit",
                     month: "short",

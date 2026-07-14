@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { Package } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 
 interface MiniProduct {
   _id: string
@@ -22,12 +22,12 @@ export function ProductMiniCard({ product }: { product: MiniProduct }) {
           <Image src={product.images[0]} alt={product.name} fill className="object-cover" sizes="130px" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-            <Package size={20} />
+            <Icon name="package_2" size={20} />
           </div>
         )}
       </div>
-      <p className="text-sm font-semibold text-neutral-800 truncate">{product.name}</p>
-      <p className="text-sm text-brand-primary font-bold">{product.price.toLocaleString()} MRU</p>
+      <p className="text-label-lg text-neutral-800 truncate">{product.name}</p>
+      <p className="text-label-lg text-brand-primary">{product.price.toLocaleString()} MRU</p>
     </Link>
   )
 }

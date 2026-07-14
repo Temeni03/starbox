@@ -1,7 +1,7 @@
 'use client'
 
 import { useTranslations } from 'next-intl'
-import { ImagePlus, Video } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import { useBlobUpload } from '@/hooks/useBlobUpload'
 import { UPLOAD_TYPES, type UploadType } from '@/lib/upload-types'
@@ -17,7 +17,7 @@ export function ImageUploadButton({ type, multiple = false, label, onUploaded }:
   const t = useTranslations('upload')
   const { upload, uploading } = useBlobUpload(type)
   const { kind } = UPLOAD_TYPES[type]
-  const Icon = kind === 'video' ? Video : ImagePlus
+  const iconName = kind === 'video' ? 'videocam' : 'add_a_photo'
 
   async function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
@@ -36,11 +36,11 @@ export function ImageUploadButton({ type, multiple = false, label, onUploaded }:
 
   return (
     <label
-      className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-neutral-300 text-sm font-medium text-neutral-600 hover:border-brand-secondary hover:text-brand-primary transition ${
+      className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dashed border-neutral-300 text-label-lg text-neutral-600 hover:border-brand-secondary hover:text-brand-primary transition ${
         uploading ? 'opacity-60 cursor-wait' : 'cursor-pointer'
       }`}
     >
-      <Icon size={18} />
+      <Icon name={iconName} size={18} />
       {uploading ? t('uploading') : (label ?? defaultLabel)}
       <input
         type="file"

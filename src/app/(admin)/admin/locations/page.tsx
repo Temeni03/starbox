@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
-import { Plus, Pencil, EyeOff, Eye, Trash2, Search, MapPin, AlertTriangle, X } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { resolveLocalized } from '@/lib/resolveLocalized'
@@ -133,24 +133,24 @@ export default function AdminLocationsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-neutral-800">{t('title')}</h1>
+        <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
         <button
           onClick={openAddForm}
-          className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-brand-secondary transition"
+          className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-xl text-label-lg hover:bg-brand-secondary transition"
         >
-          <Plus size={16} />
+          <Icon name="add" size={16} />
           {t('addLocation')}
         </button>
       </div>
 
       <div className="relative">
-        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+        <Icon name="search" size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400" />
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder={t('searchPlaceholder')}
-          className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
+          className="w-full h-12 pl-12 pr-4 bg-surface-low rounded-xl border-none text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary transition shadow-sm"
         />
       </div>
 
@@ -173,17 +173,17 @@ export default function AdminLocationsPage() {
           filteredLocations.map((l) => (
             <div key={l._id} className={`bg-white rounded-2xl border border-neutral-200 flex items-center gap-4 p-4 ${!l.isActive ? 'opacity-50' : ''}`}>
               <div className="w-11 h-11 rounded-xl bg-brand-container/20 flex items-center justify-center shrink-0 text-brand-primary">
-                <MapPin size={18} />
+                <Icon name="location_on" size={18} />
               </div>
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-semibold text-neutral-800 truncate">
+                  <p className="text-label-lg text-neutral-800 truncate">
                     {resolveLocalized(l.name, locale)}
                   </p>
-                  {!l.isActive && <span className="text-xs text-neutral-400">{t('hidden')}</span>}
+                  {!l.isActive && <span className="text-label-sm text-neutral-400">{t('hidden')}</span>}
                 </div>
-                <p className="text-xs text-neutral-400">{l.price.toLocaleString()} MRU</p>
+                <p className="text-label-sm text-neutral-400">{l.price.toLocaleString()} MRU</p>
               </div>
 
               <div className="flex items-center gap-1 shrink-0">
@@ -192,21 +192,21 @@ export default function AdminLocationsPage() {
                   className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
                   title={tCommon('edit')}
                 >
-                  <Pencil size={16} />
+                  <Icon name="edit" size={16} />
                 </button>
                 <button
                   onClick={() => toggleActive(l)}
                   className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
                   title={l.isActive ? t('hide') : t('show')}
                 >
-                  {l.isActive ? <EyeOff size={16} /> : <Eye size={16} />}
+                  <Icon name={l.isActive ? 'visibility_off' : 'visibility'} size={16} />
                 </button>
                 <button
                   onClick={() => setLocationToDelete(l)}
                   className="p-2 text-neutral-400 hover:text-danger hover:bg-red-50 rounded-lg transition"
                   title={tCommon('delete')}
                 >
-                  <Trash2 size={16} />
+                  <Icon name="delete" size={16} />
                 </button>
               </div>
             </div>
@@ -218,20 +218,20 @@ export default function AdminLocationsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
           <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-base font-semibold text-neutral-800">
+              <h2 className="text-headline-md text-neutral-800">
                 {editing ? t('editLocation') : t('addLocationTitle')}
               </h2>
               <button
                 onClick={() => setShowForm(false)}
                 className="p-1 text-neutral-400 hover:text-neutral-600 transition"
               >
-                <X size={18} />
+                <Icon name="close" size={18} />
               </button>
             </div>
 
             <div className="space-y-3">
               <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1">
+                <label className="block text-label-sm text-neutral-500 mb-1">
                   {t('nameFr')}
                 </label>
                 <input
@@ -239,11 +239,11 @@ export default function AdminLocationsPage() {
                   value={form.name.fr ?? ''}
                   onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, fr: e.target.value } }))}
                   placeholder={t('nameFrPlaceholder')}
-                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1">
+                <label className="block text-label-sm text-neutral-500 mb-1">
                   {t('nameAr')}
                 </label>
                 <input
@@ -252,11 +252,11 @@ export default function AdminLocationsPage() {
                   value={form.name.ar ?? ''}
                   onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, ar: e.target.value } }))}
                   placeholder="مثال: الكصر"
-                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1">
+                <label className="block text-label-sm text-neutral-500 mb-1">
                   {t('nameEn')}
                 </label>
                 <input
@@ -264,11 +264,11 @@ export default function AdminLocationsPage() {
                   value={form.name.en ?? ''}
                   onChange={(e) => setForm((f) => ({ ...f, name: { ...f.name, en: e.target.value } }))}
                   placeholder={t('nameEnPlaceholder')}
-                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-neutral-500 mb-1">
+                <label className="block text-label-sm text-neutral-500 mb-1">
                   {t('deliveryPrice')}
                 </label>
                 <input
@@ -277,7 +277,7 @@ export default function AdminLocationsPage() {
                   value={form.price}
                   onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
                   placeholder={t('pricePlaceholder')}
-                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>
             </div>
@@ -286,14 +286,14 @@ export default function AdminLocationsPage() {
               <button
                 onClick={() => setShowForm(false)}
                 disabled={saving}
-                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
                 {tCommon('cancel')}
               </button>
               <button
                 onClick={handleSubmit}
                 disabled={saving}
-                className="px-4 py-2 text-sm font-medium text-white bg-brand-primary rounded-lg hover:bg-brand-secondary transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-white bg-brand-primary rounded-lg hover:bg-brand-secondary transition disabled:opacity-50"
               >
                 {saving ? t('saving') : editing ? t('saveChanges') : t('add')}
               </button>
@@ -307,11 +307,11 @@ export default function AdminLocationsPage() {
           <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
             <div className="flex items-start gap-3">
               <div className="w-10 h-10 rounded-full bg-red-50 text-danger flex items-center justify-center flex-shrink-0">
-                <AlertTriangle size={20} />
+                <Icon name="warning" size={20} />
               </div>
               <div>
-                <h2 className="text-base font-semibold text-neutral-800">{t('deleteTitle')}</h2>
-                <p className="text-sm text-neutral-500 mt-1">
+                <h2 className="text-headline-md text-neutral-800">{t('deleteTitle')}</h2>
+                <p className="text-body-md text-neutral-500 mt-1">
                   {t('deleteConfirm', { name: resolveLocalized(locationToDelete.name, locale) })}
                 </p>
               </div>
@@ -320,14 +320,14 @@ export default function AdminLocationsPage() {
               <button
                 onClick={() => setLocationToDelete(null)}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-neutral-600 hover:bg-neutral-50 rounded-lg transition disabled:opacity-50"
               >
                 {tCommon('cancel')}
               </button>
               <button
                 onClick={deleteLocation}
                 disabled={deleting}
-                className="px-4 py-2 text-sm font-medium text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
+                className="px-4 py-2 text-label-lg text-white bg-danger rounded-lg hover:opacity-90 transition disabled:opacity-50"
               >
                 {deleting ? t('deleting') : tCommon('delete')}
               </button>

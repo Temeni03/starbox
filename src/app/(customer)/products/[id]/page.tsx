@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { ArrowLeft, Package, Minus, Plus, ShoppingCart, Zap } from 'lucide-react'
+import { Icon } from '@/components/ui/Icon'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { useCart } from '@/hooks/useCart'
@@ -43,7 +43,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     return (
       <div className="text-center py-20 text-neutral-400 pb-24 sm:pb-6">
         <p>{t('notFound')}</p>
-        <Link href="/" className="mt-2 text-sm text-brand-secondary hover:underline block">
+        <Link href="/" className="mt-2 text-body-md text-brand-secondary hover:underline block">
           {t('backToShop')}
         </Link>
       </div>
@@ -94,8 +94,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
   return (
     <div className="pb-28 sm:pb-6 max-w-lg mx-auto">
-      <Link href="/" className="inline-flex items-center gap-1 text-sm text-neutral-500 hover:text-brand-primary transition mb-3">
-        <ArrowLeft size={16} /> {t('backToShop')}
+      <Link href="/" className="inline-flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition mb-3">
+        <Icon name="arrow_back" size={16} /> {t('backToShop')}
       </Link>
 
       {/* Hero image */}
@@ -111,18 +111,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-neutral-300">
-            <Package size={40} />
+            <Icon name="package_2" size={40} />
           </div>
         )}
         {outOfStock && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-            <span className="bg-white text-neutral-800 text-sm font-semibold px-3 py-1.5 rounded-md">
+            <span className="bg-white text-neutral-800 text-label-sm px-3 py-1.5 rounded-md">
               {tCommon('outOfStock')}
             </span>
           </div>
         )}
         {lowStock && (
-          <span className="absolute top-3 left-3 bg-warning text-white text-[11px] font-bold px-2 py-1 rounded-md uppercase tracking-wide">
+          <span className="absolute top-3 left-3 bg-warning text-white text-label-sm px-2 py-1 rounded-md uppercase tracking-wide">
             {tCommon('lowStock')}
           </span>
         )}
@@ -147,15 +147,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         )}
 
         <div className="flex justify-between items-start gap-3 mb-4">
-          <h1 className="text-2xl font-bold text-neutral-800">{product.name}</h1>
-          <span className="text-2xl font-bold text-brand-primary whitespace-nowrap">
+          <h1 className="text-headline-xl text-neutral-800">{product.name}</h1>
+          <span className="text-headline-xl text-brand-primary whitespace-nowrap">
             {product.price.toLocaleString()} MRU
           </span>
         </div>
 
         <div className="flex items-center gap-2 py-3 border-y border-neutral-100 mb-5">
           <span className={`w-2 h-2 rounded-full ${outOfStock ? 'bg-neutral-300' : 'bg-success animate-pulse'}`} />
-          <span className="text-sm font-medium text-neutral-600">
+          <span className="text-body-md text-neutral-600">
             {outOfStock ? tCommon('outOfStock') : t('inStock', { count: product.quantity })}
           </span>
         </div>
@@ -163,22 +163,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* Quantity */}
         {!outOfStock && (
           <div className="mb-6">
-            <label className="text-xs font-medium text-neutral-500 block mb-2">{t('quantity')}</label>
+            <label className="text-label-sm text-neutral-500 block mb-2">{t('quantity')}</label>
             <div className="inline-flex items-center bg-surface-high rounded-full p-1">
               <button
                 onClick={() => setQuantity((q) => clampQuantity(q - 1))}
                 disabled={quantity <= 1}
                 className="w-10 h-10 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
               >
-                <Minus size={16} />
+                <Icon name="remove" size={16} />
               </button>
-              <span className="w-10 text-center text-lg font-bold text-neutral-800">{quantity}</span>
+              <span className="w-10 text-center text-headline-md text-neutral-800">{quantity}</span>
               <button
                 onClick={() => setQuantity((q) => clampQuantity(q + 1))}
                 disabled={quantity >= product.quantity}
                 className="w-10 h-10 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
               >
-                <Plus size={16} />
+                <Icon name="add" size={16} />
               </button>
             </div>
           </div>
@@ -187,23 +187,23 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* Description */}
         {product.description && (
           <div className="mb-6">
-            <h2 className="text-base font-semibold text-neutral-800 mb-1.5">{t('description')}</h2>
-            <p className="text-sm text-neutral-600 whitespace-pre-line leading-relaxed">{product.description}</p>
+            <h2 className="text-headline-md text-neutral-800 mb-1.5">{t('description')}</h2>
+            <p className="text-body-md text-neutral-600 whitespace-pre-line leading-relaxed">{product.description}</p>
           </div>
         )}
 
         {/* How to use */}
         {product.usageInstructions && (
           <div className="mb-6">
-            <h2 className="text-base font-semibold text-neutral-800 mb-1.5">{t('howToUse')}</h2>
-            <p className="text-sm text-neutral-600 whitespace-pre-line leading-relaxed">{product.usageInstructions}</p>
+            <h2 className="text-headline-md text-neutral-800 mb-1.5">{t('howToUse')}</h2>
+            <p className="text-body-md text-neutral-600 whitespace-pre-line leading-relaxed">{product.usageInstructions}</p>
           </div>
         )}
 
         {/* Video */}
         {product.video && (
           <div className="mb-6">
-            <h2 className="text-base font-semibold text-neutral-800 mb-1.5">{t('productVideo')}</h2>
+            <h2 className="text-headline-md text-neutral-800 mb-1.5">{t('productVideo')}</h2>
             <video src={product.video} controls className="w-full rounded-xl" />
           </div>
         )}
@@ -211,7 +211,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* Recommendations */}
         {recommended.length > 0 && (
           <div>
-            <h2 className="text-base font-semibold text-neutral-800 mb-3">{t('recommended')}</h2>
+            <h2 className="text-headline-md text-neutral-800 mb-3">{t('recommended')}</h2>
             <div className="flex gap-3 overflow-x-auto [scrollbar-width:none] -mx-5 px-5">
               {recommended.map((p) => (
                 <ProductMiniCard key={p._id} product={p} />
@@ -223,22 +223,22 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Fixed bottom actions */}
       <div className="fixed bottom-16 sm:bottom-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-t border-neutral-200/60 px-4 py-3">
-        <div className="flex gap-3 max-w-lg mx-auto">
+        <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
           <button
             onClick={handleAddToCart}
             disabled={outOfStock || adding || buying}
-            className="flex-1 flex items-center justify-center gap-2 border border-brand-primary text-brand-primary py-3 rounded-xl text-sm font-semibold hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="flex items-center justify-center gap-2 border border-brand-primary text-brand-primary py-3 rounded-xl text-label-sm hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
-            <ShoppingCart size={18} />
-            {adding ? t('adding') : t('addToCart')}
+            <Icon name="add_shopping_cart" size={18} />
+            <span className="whitespace-nowrap">{adding ? t('adding') : t('addToCart')}</span>
           </button>
           <button
             onClick={handleBuyNow}
             disabled={outOfStock || adding || buying}
-            className="flex-[1.5] flex items-center justify-center gap-2 bg-brand-primary text-white py-3 rounded-xl text-sm font-semibold shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
+            className="flex items-center justify-center gap-2 bg-brand-primary text-white py-3 rounded-xl text-label-sm shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
-            <Zap size={18} />
-            {buying ? t('processing') : t('buyNow')}
+            <Icon name="bolt" size={18} />
+            <span className="whitespace-nowrap">{buying ? t('processing') : t('buyNow')}</span>
           </button>
         </div>
       </div>

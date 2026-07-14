@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Plus_Jakarta_Sans, Cairo } from 'next/font/google'
+import { Plus_Jakarta_Sans, Manrope, Cairo } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import { isRtl, type Locale } from '@/i18n/config'
@@ -9,6 +9,12 @@ import './globals.css'
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-plus-jakarta-sans',
+  display: 'swap',
+})
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
   display: 'swap',
 })
 
@@ -47,7 +53,13 @@ export default async function RootLayout({
   const locale = (await getLocale()) as Locale
 
   return (
-    <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={`${plusJakartaSans.variable} ${cairo.variable}`}>
+    <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={`${plusJakartaSans.variable} ${manrope.variable} ${cairo.variable}`}>
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        />
+      </head>
       <body className="min-h-screen flex flex-col antialiased">
         <NextIntlClientProvider>
           <Providers>{children}</Providers>
