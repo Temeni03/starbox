@@ -6,6 +6,7 @@ export interface IProduct extends Document {
   price: number
   description?: LocalizedText
   usageInstructions?: LocalizedText
+  weight?: string
   images: string[]
   video?: string
   quantity: number
@@ -28,6 +29,7 @@ const ProductSchema = new Schema<IProduct>(
     price: { type: Number, required: true, min: 0 },
     description: { type: LocalizedTextSchema },
     usageInstructions: { type: LocalizedTextSchema },
+    weight: { type: String, trim: true },
     images: [{ type: String }],
     video: { type: String },
     quantity: { type: Number, required: true, default: 0, min: 0 },

@@ -25,9 +25,13 @@ export function DeliveryNav({ userName }: { userName: string }) {
     <>
       <header className="bg-white/80 backdrop-blur-md border-b border-neutral-200/60 sticky top-0 z-40">
         <div className="container mx-auto px-4 max-w-2xl h-14 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon name="local_shipping" size={20} className="text-brand-primary" />
-            <span className="text-headline-xl text-brand-primary">{t('headerTitle')}</span>
+          <div className="flex items-center gap-2.5">
+            <span className="w-9 h-9 shrink-0 rounded-xl bg-linear-to-br from-brand-primary to-brand-secondary flex items-center justify-center shadow-sm shadow-brand-primary/30">
+              <Icon name="shopping_bag" size={18} className="text-white" filled />
+            </span>
+            <span className="text-headline-md sm:text-headline-lg text-brand-primary tracking-tight leading-none">
+              {t('headerTitle')}
+            </span>
           </div>
           <div className="flex items-center gap-3">
             <LocaleSwitcher compact />

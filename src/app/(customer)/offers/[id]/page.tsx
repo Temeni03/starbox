@@ -83,7 +83,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
   return (
     <div className="pb-28 sm:pb-6 max-w-lg mx-auto">
       <Link href="/" replace className="inline-flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition mb-3">
-        <Icon name="arrow_back" size={16} /> {t('backToShop')}
+        <Icon name="arrow_back" size={16} className="rtl:rotate-180" /> {t('backToShop')}
       </Link>
 
       {/* Hero */}

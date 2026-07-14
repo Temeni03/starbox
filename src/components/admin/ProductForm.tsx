@@ -17,6 +17,7 @@ interface ProductFormData {
   price: string
   description: LocalizedText
   usageInstructions: LocalizedText
+  weight: string
   quantity: string
   lowStockThreshold: string
   images: string[]
@@ -40,6 +41,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
     price: initialData?.price ?? '',
     description: initialData?.description ?? {},
     usageInstructions: initialData?.usageInstructions ?? {},
+    weight: initialData?.weight ?? '',
     quantity: initialData?.quantity ?? '',
     lowStockThreshold: initialData?.lowStockThreshold ?? '10',
     images: initialData?.images ?? [],
@@ -238,7 +240,7 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-label-sm text-neutral-500 mb-1">{t('price')}</label>
                 <input
@@ -264,6 +266,18 @@ export function ProductForm({ initialData, onSubmit, onDelete, submitLabel }: Pr
                   min="0"
                   step="1"
                   placeholder="50"
+                  className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+                />
+              </div>
+              <div>
+                <label className="block text-label-sm text-neutral-500 mb-1">{t('weight')}</label>
+                <input
+                  name="weight"
+                  type="text"
+                  value={form.weight}
+                  onChange={handleChange}
+                  maxLength={50}
+                  placeholder={t('weightPlaceholder')}
                   className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
                 />
               </div>

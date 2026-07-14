@@ -10,6 +10,7 @@ const ProductSchema = z.object({
   price: z.number().min(0),
   description: localizedTextSchema.optional(),
   usageInstructions: localizedTextSchema.optional(),
+  weight: z.string().trim().max(50).optional(),
   images: z.array(z.string().url()).optional(),
   video: z.string().url().optional(),
   quantity: z.number().int().min(0),

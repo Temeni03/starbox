@@ -31,6 +31,7 @@ export default function EditProductPage({
         price: Number(formData.price),
         description: formData.description,
         usageInstructions: formData.usageInstructions,
+        weight: formData.weight ?? "",
         quantity: Number(formData.quantity),
         lowStockThreshold: Number(formData.lowStockThreshold),
         images: formData.images,
@@ -71,14 +72,14 @@ export default function EditProductPage({
         <Link href="/admin" className="hover:text-brand-primary transition">
           {t("breadcrumbAdmin")}
         </Link>
-        <Icon name="chevron_right" size={14} />
+        <Icon name="chevron_right" size={14} className="rtl:rotate-180" />
         <Link
           href="/admin/products"
           className="hover:text-brand-primary transition"
         >
           {t("breadcrumbProducts")}
         </Link>
-        <Icon name="chevron_right" size={14} />
+        <Icon name="chevron_right" size={14} className="rtl:rotate-180" />
         <span className="text-neutral-600">{t("editProduct")}</span>
       </nav>
       <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800 mb-1">
@@ -91,6 +92,7 @@ export default function EditProductPage({
           price: String(p.price),
           description: p.description ?? {},
           usageInstructions: p.usageInstructions ?? {},
+          weight: p.weight ?? "",
           quantity: String(p.quantity),
           lowStockThreshold: String(p.lowStockThreshold),
           images: p.images ?? [],

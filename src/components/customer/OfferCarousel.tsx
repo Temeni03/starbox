@@ -133,26 +133,26 @@ export function OfferCarousel() {
             )}
 
             {/* Depth gradients for legibility */}
-            <div className="absolute inset-0 bg-linear-to-r from-black/65 via-black/20 to-transparent" />
-            <div className="absolute inset-0 bg-linear-to-t from-black/55 via-transparent to-black/10" />
+            <div className="absolute inset-0 bg-linear-to-r from-brand-secondary/35 via-brand-secondary/10 via-40% to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-brand-secondary/25 via-transparent via-45% to-transparent" />
 
             {/* Subtle top sheen */}
             <div className="absolute inset-x-0 top-0 h-1/3 bg-linear-to-b from-white/10 to-transparent pointer-events-none" />
 
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-center gap-2.5 sm:gap-3.5 px-5 sm:px-10 max-w-[80%] sm:max-w-[60%]">
-              <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-white/25 bg-white/15 px-3 py-1 text-label-sm uppercase tracking-wider text-white backdrop-blur-md">
-                <Icon name="spark" size={14} className="text-white/90" filled />
+              <span className="inline-flex w-fit items-center rounded-full border border-amber-200/40 bg-white/15 px-3.5 py-1 text-[11px] font-extrabold uppercase tracking-[0.15em] text-amber-200 backdrop-blur-md">
                 {t('specialOffer')}
               </span>
 
-              <h3 className="text-headline-lg-mobile sm:text-headline-xl text-white leading-tight drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)] line-clamp-2">
+              <h3 className="text-[22px] sm:text-[34px] leading-[1.15] font-extrabold tracking-tight text-white drop-shadow-[0_2px_14px_rgba(0,0,0,0.45)] line-clamp-2 [font-family:var(--font-heading)]">
                 {box.name}
               </h3>
 
               <div className="flex items-center gap-3 mt-1">
-                <span className="rounded-full bg-white/90 px-3 py-1.5 text-label-lg text-brand-secondary shadow-sm backdrop-blur-sm">
-                  {box.price.toLocaleString()} MRU
+                <span className="rounded-full bg-linear-to-br from-white/[0.15] to-white/[0.22] backdrop-blur-[16px] border border-white/20 px-4 py-2 sm:px-5 sm:py-2.5 text-[20px] sm:text-[28px] font-semibold tracking-tight text-white shadow-[0_8px_24px_rgba(0,0,0,0.18)] [font-family:var(--font-heading)]">
+                  {box.price.toLocaleString()}
+                  <span className="ms-1 text-[11px] sm:text-[14px] font-medium tracking-wide text-white/80 align-middle">MRU</span>
                 </span>
                 <span className="hidden sm:inline-flex items-center gap-1.5 text-label-lg text-white/95">
                   {t('shopNow')}

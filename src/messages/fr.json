@@ -85,7 +85,7 @@
   "product": {
     "notFound": "Produit introuvable",
     "backToShop": "Retour à la boutique",
-    "inStock": "En stock · {count} disponible(s)",
+    "inStock": "En stock",
     "quantity": "Quantité",
     "description": "Description",
     "howToUse": "Mode d'emploi",
@@ -203,6 +203,10 @@
     "save": "Enregistrer les modifications",
     "saving": "Enregistrement…",
     "changePhoto": "Changer la photo",
+    "removePhoto": "Supprimer",
+    "removingPhoto": "Suppression…",
+    "photoRemoved": "Photo de profil supprimée",
+    "viewPhotoAria": "Voir la photo de profil",
     "logout": "Déconnexion"
   },
   "notifications": {
@@ -374,6 +378,8 @@
     "productNamePlaceholder": "ex. Miel Bio 500g",
     "price": "Prix (MRU) *",
     "quantity": "Quantité disponible *",
+    "weight": "Poids",
+    "weightPlaceholder": "ex. 250 g, 1 kg",
     "description": "Description",
     "descriptionPlaceholder": "Description du produit…",
     "usageInstructions": "Mode d'emploi",

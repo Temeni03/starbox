@@ -85,7 +85,7 @@
   "product": {
     "notFound": "Product not found",
     "backToShop": "Back to shop",
-    "inStock": "In Stock · {count} available",
+    "inStock": "In Stock",
     "quantity": "Quantity",
     "description": "Description",
     "howToUse": "How to use",
@@ -203,6 +203,10 @@
     "save": "Save Changes",
     "saving": "Saving…",
     "changePhoto": "Change photo",
+    "removePhoto": "Remove",
+    "removingPhoto": "Removing…",
+    "photoRemoved": "Profile photo removed",
+    "viewPhotoAria": "View profile photo",
     "logout": "Logout"
   },
   "notifications": {
@@ -374,6 +378,8 @@
     "productNamePlaceholder": "e.g. Organic Honey 500g",
     "price": "Price (MRU) *",
     "quantity": "Available Quantity *",
+    "weight": "Weight",
+    "weightPlaceholder": "e.g. 250 g, 1 kg",
     "description": "Description",
     "descriptionPlaceholder": "Product description…",
     "usageInstructions": "Usage Instructions",

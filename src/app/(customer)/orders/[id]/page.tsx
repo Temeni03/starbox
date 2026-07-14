@@ -73,7 +73,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   return (
     <div className={`space-y-4 max-w-lg mx-auto ${isAwaitingReceipt ? 'pb-40 sm:pb-28' : 'pb-24 sm:pb-6'}`}>
       <Link href="/orders" className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition">
-        <Icon name="arrow_back" size={16} /> {t('backToOrders')}
+        <Icon name="arrow_back" size={16} className="rtl:rotate-180" /> {t('backToOrders')}
       </Link>
 
       {isFresh ? (
@@ -239,7 +239,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
             <p className="text-label-sm text-center text-neutral-500">{t('confirmReceiptHint')}</p>
             <button
               onClick={() => setConfirmDialog(true)}
-              className="w-full flex items-center justify-center gap-2 bg-success text-white h-12 rounded-full text-label-lg shadow-lg shadow-success/20 hover:opacity-90 active:scale-95 transition-all"
+              className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-full text-label-lg tracking-wide shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all"
             >
               <Icon name="task_alt" size={18} />
               {t('confirmReceiptButton')}

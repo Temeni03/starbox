@@ -13,7 +13,7 @@ export async function GET(
     const locale = await getRequestLocale()
 
     const product = await Product.findOne({ _id: id, isActive: true })
-      .select('name price description usageInstructions images video quantity lowStockThreshold')
+      .select('name price description usageInstructions weight images video quantity lowStockThreshold')
       .lean<{
         name: Record<string, string | undefined>
         description?: Record<string, string | undefined>

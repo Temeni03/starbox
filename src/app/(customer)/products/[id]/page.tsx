@@ -95,7 +95,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
   return (
     <div className="pb-28 sm:pb-6 max-w-lg mx-auto">
       <Link href="/" className="inline-flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition mb-3">
-        <Icon name="arrow_back" size={16} /> {t('backToShop')}
+        <Icon name="arrow_back" size={16} className="rtl:rotate-180" /> {t('backToShop')}
       </Link>
 
       {/* Hero image */}
@@ -146,17 +146,21 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
           </div>
         )}
 
-        <div className="flex justify-between items-start gap-3 mb-4">
+        <div className={`flex justify-between items-start gap-3 ${product.weight ? 'mb-1' : 'mb-4'}`}>
           <h1 className="text-headline-xl text-neutral-800">{product.name}</h1>
           <span className="text-headline-xl text-brand-primary whitespace-nowrap">
             {product.price.toLocaleString()} MRU
           </span>
         </div>
 
+        {product.weight && (
+          <p className="text-label-sm text-neutral-400 mb-4">{product.weight}</p>
+        )}
+
         <div className="flex items-center gap-2 py-3 border-y border-neutral-100 mb-5">
           <span className={`w-2 h-2 rounded-full ${outOfStock ? 'bg-neutral-300' : 'bg-success animate-pulse'}`} />
           <span className="text-body-md text-neutral-600">
-            {outOfStock ? tCommon('outOfStock') : t('inStock', { count: product.quantity })}
+            {outOfStock ? tCommon('outOfStock') : t('inStock')}
           </span>
         </div>
 
@@ -164,19 +168,19 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {!outOfStock && (
           <div className="mb-6">
             <label className="text-label-sm text-neutral-500 block mb-2">{t('quantity')}</label>
-            <div className="inline-flex items-center bg-surface-high rounded-full p-1">
+            <div className="inline-flex items-center bg-surface-high/70 border border-neutral-200/70 rounded-full p-1 shadow-sm">
               <button
                 onClick={() => setQuantity((q) => clampQuantity(q - 1))}
                 disabled={quantity <= 1}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-brand-primary shadow-sm ring-1 ring-black/5 hover:bg-brand-light disabled:opacity-30 disabled:shadow-none disabled:ring-0 active:scale-90 transition"
               >
                 <Icon name="remove" size={16} />
               </button>
-              <span className="w-10 text-center text-headline-md text-neutral-800">{quantity}</span>
+              <span className="w-12 text-center text-headline-md text-neutral-800 tabular-nums">{quantity}</span>
               <button
                 onClick={() => setQuantity((q) => clampQuantity(q + 1))}
                 disabled={quantity >= product.quantity}
-                className="w-10 h-10 flex items-center justify-center rounded-full text-brand-primary hover:bg-white disabled:opacity-40 active:scale-90 transition"
+                className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-brand-primary shadow-sm ring-1 ring-black/5 hover:bg-brand-light disabled:opacity-30 disabled:shadow-none disabled:ring-0 active:scale-90 transition"
               >
                 <Icon name="add" size={16} />
               </button>
@@ -187,7 +191,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* Description */}
         {product.description && (
           <div className="mb-6">
-            <h2 className="text-headline-md text-neutral-800 mb-1.5">{t('description')}</h2>
+            <h2 className="flex items-center gap-2 text-headline-md text-neutral-800 mb-1.5">
+              <Icon name="description" size={18} className="text-brand-primary" />
+              {t('description')}
+            </h2>
             <p className="text-body-md text-neutral-600 whitespace-pre-line leading-relaxed">{product.description}</p>
           </div>
         )}
@@ -195,7 +202,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         {/* How to use */}
         {product.usageInstructions && (
           <div className="mb-6">
-            <h2 className="text-headline-md text-neutral-800 mb-1.5">{t('howToUse')}</h2>
+            <h2 className="flex items-center gap-2 text-headline-md text-neutral-800 mb-1.5">
+              <Icon name="menu_book" size={18} className="text-brand-primary" />
+              {t('howToUse')}
+            </h2>
             <p className="text-body-md text-neutral-600 whitespace-pre-line leading-relaxed">{product.usageInstructions}</p>
           </div>
         )}

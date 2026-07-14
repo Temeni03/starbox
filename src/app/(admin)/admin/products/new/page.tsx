@@ -20,6 +20,7 @@ export default function NewProductPage() {
         price: Number(data.price),
         description: data.description,
         usageInstructions: data.usageInstructions,
+        weight: data.weight || undefined,
         quantity: Number(data.quantity),
         lowStockThreshold: Number(data.lowStockThreshold),
         images: data.images,
@@ -39,9 +40,9 @@ export default function NewProductPage() {
     <div className="max-w-4xl">
       <nav className="flex items-center gap-1.5 text-label-sm text-neutral-400 mb-2">
         <Link href="/admin" className="hover:text-brand-primary transition">{t('breadcrumbAdmin')}</Link>
-        <Icon name="chevron_right" size={14} />
+        <Icon name="chevron_right" size={14} className="rtl:rotate-180" />
         <Link href="/admin/products" className="hover:text-brand-primary transition">{t('breadcrumbProducts')}</Link>
-        <Icon name="chevron_right" size={14} />
+        <Icon name="chevron_right" size={14} className="rtl:rotate-180" />
         <span className="text-neutral-600">{t('newProduct')}</span>
       </nav>
       <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800 mb-1">{t('addTitle')}</h1>

@@ -172,7 +172,7 @@ export default function AdminOrdersPage() {
                     href={`/admin/orders/${order._id}`}
                     className="flex items-center gap-1 text-label-sm text-neutral-400 hover:text-brand-primary transition"
                   >
-                    {t('viewDetails')} <Icon name="chevron_right" size={14} />
+                    {t('viewDetails')} <Icon name="chevron_right" size={14} className="rtl:rotate-180" />
                   </Link>
                 )}
               </div>

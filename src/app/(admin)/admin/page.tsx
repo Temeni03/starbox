@@ -113,7 +113,7 @@ export default function AdminDashboard() {
                           {order.grandTotal?.toLocaleString()} MRU
                         </td>
                         <td className="p-4 text-right">
-                          <Icon name="chevron_right" size={16} className="text-neutral-300" />
+                          <Icon name="chevron_right" size={16} className="text-neutral-300 rtl:rotate-180" />
                         </td>
                       </tr>
                     ))}

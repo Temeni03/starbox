@@ -9,7 +9,7 @@ const ProfileSchema = z.object({
   name: z.string().min(2).max(100).trim().optional(),
   phone: z.string().regex(/^[234][0-9]{7}$/, 'Phone must be 8 digits starting with 2, 3 or 4').optional(),
   language: z.enum(['ar', 'fr', 'en']).optional(),
-  profilePhoto: z.string().url().optional(),
+  profilePhoto: z.string().url().nullable().optional(),
 })
 
 export async function GET() {
@@ -47,9 +47,9 @@ export async function PATCH(req: Request) {
   if (parsed.data.name) update.name = parsed.data.name
   if (parsed.data.phone) update.phone = parsed.data.phone
   if (parsed.data.language) update.language = parsed.data.language
-  if (parsed.data.profilePhoto) update.profilePhoto = parsed.data.profilePhoto
+  if (parsed.data.profilePhoto !== undefined) update.profilePhoto = parsed.data.profilePhoto
 
-  const previous = parsed.data.profilePhoto
+  const previous = parsed.data.profilePhoto !== undefined
     ? await User.findById(session.user.id).select('profilePhoto').lean()
     : null
 

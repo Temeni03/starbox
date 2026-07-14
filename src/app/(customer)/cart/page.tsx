@@ -144,7 +144,7 @@ export default function CartPage() {
           className="mt-2 w-full h-12 bg-brand-primary text-white rounded-full text-label-lg shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 transition-all flex items-center justify-center gap-2"
         >
           {t('proceedToCheckout')}
-          <Icon name="arrow_forward" size={16} />
+          <Icon name="arrow_forward" size={16} className="rtl:rotate-180" />
         </Link>
       </div>
 

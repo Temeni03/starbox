@@ -85,7 +85,7 @@
   "product": {
     "notFound": "المنتج غير موجود",
     "backToShop": "العودة إلى المتجر",
-    "inStock": "متوفر · {count} قطعة متبقية",
+    "inStock": "متوفر",
     "quantity": "الكمية",
     "description": "الوصف",
     "howToUse": "طريقة الاستخدام",
@@ -203,6 +203,10 @@
     "save": "حفظ التغييرات",
     "saving": "جارٍ الحفظ…",
     "changePhoto": "تغيير الصورة",
+    "removePhoto": "إزالة",
+    "removingPhoto": "جارٍ الإزالة…",
+    "photoRemoved": "تمت إزالة صورة الملف الشخصي",
+    "viewPhotoAria": "عرض صورة الملف الشخصي",
     "logout": "تسجيل الخروج"
   },
   "notifications": {
@@ -374,6 +378,8 @@
     "productNamePlaceholder": "مثال: عسل عضوي 500 غرام",
     "price": "السعر (أوقية) *",
     "quantity": "الكمية المتاحة *",
+    "weight": "الوزن",
+    "weightPlaceholder": "مثال: 250 غ، 1 كغ",
     "description": "الوصف",
     "descriptionPlaceholder": "وصف المنتج…",
     "usageInstructions": "طريقة الاستخدام",

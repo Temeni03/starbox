@@ -3,13 +3,13 @@
 import { useEffect, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
 import Image from 'next/image'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
-import { localeNames, type Locale } from '@/i18n/config'
+import { isRtl, localeNames, type Locale } from '@/i18n/config'
 import { setUserLocale } from '@/i18n/actions'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
@@ -19,6 +19,8 @@ const LANGUAGES: Locale[] = ['ar', 'fr', 'en']
 export default function DeliveryProfilePage() {
   const t = useTranslations('profile')
   const tCommon = useTranslations('common')
+  const locale = useLocale() as Locale
+  const fieldDir = isRtl(locale) ? 'rtl' : 'ltr'
   const router = useRouter()
   const [, startTransition] = useTransition()
   const { data: session, update } = useSession()
@@ -114,7 +116,8 @@ export default function DeliveryProfilePage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
-            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+            dir={fieldDir}
+            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md text-start focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
           />
         </div>
 
@@ -128,7 +131,10 @@ export default function DeliveryProfilePage() {
             maxLength={8}
             title={t('phoneHint')}
             required
-            className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+            dir="ltr"
+            className={`w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition ${
+              fieldDir === 'rtl' ? 'text-right' : 'text-left'
+            }`}
           />
         </div>
 

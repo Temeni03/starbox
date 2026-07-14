@@ -100,7 +100,7 @@ export default function CheckoutPage() {
           aria-label={t('backToCartAria')}
           className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-light/50 transition -ml-1.5"
         >
-          <Icon name="arrow_back" size={20} className="text-brand-primary" />
+          <Icon name="arrow_back" size={20} className="text-brand-primary rtl:rotate-180" />
         </Link>
         <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
       </div>
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
                 value: 'home',
                 label: t('homeDelivery'),
                 sub: location ? `${location.price.toLocaleString()} MRU` : t('selectZone'),
-                icon: 'local_shipping',
+                icon: 'moped',
               },
             ] as const
           ).map(({ value, label, sub, icon }) => (
@@ -284,7 +284,7 @@ export default function CheckoutPage() {
             className="w-full h-14 bg-brand-primary text-white rounded-full text-headline-md flex items-center justify-center gap-1.5 shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary active:scale-95 disabled:opacity-60 disabled:cursor-not-allowed transition-all"
           >
             {loading ? t('placingOrder') : t('completeOrder')}
-            {!loading && <Icon name="chevron_right" size={20} />}
+            {!loading && <Icon name="chevron_right" size={20} className="rtl:rotate-180" />}
           </button>
         </div>
       </div>

@@ -25,15 +25,15 @@ export function CustomerNav({ userName }: { userName: string }) {
       {/* Top header */}
       <header className="bg-white/80 backdrop-blur-md border-b border-neutral-200/60 sticky top-0 z-40">
         <div className="container mx-auto px-2 sm:px-4 max-w-4xl h-14 flex items-center justify-between">
-          <Link href="/" aria-label={t("homeAriaLabel")} className="flex items-center gap-2">
+          <Link href="/" aria-label={t("homeAriaLabel")} className="flex items-center gap-2.5">
             <Image
               src="/logo.png"
               alt=""
-              width={28}
-              height={28}
-              className="rounded-md"
+              width={36}
+              height={36}
+              className="rounded-md shrink-0"
             />
-            <span className="text-headline-xl text-brand-primary">
+            <span className="text-headline-lg text-brand-primary tracking-tight leading-none">
               Starbox
             </span>
           </Link>

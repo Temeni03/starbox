@@ -104,7 +104,7 @@ export default function OrdersPage() {
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <StatusBadge status={order.status as OrderStatus} />
-                    <Icon name="chevron_right" size={16} className="text-neutral-300" />
+                    <Icon name="chevron_right" size={16} className="text-neutral-300 rtl:rotate-180" />
                   </div>
                 </div>
 

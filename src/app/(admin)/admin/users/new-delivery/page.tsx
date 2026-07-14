@@ -44,7 +44,7 @@ export default function NewDeliveryPage() {
   return (
     <div className="max-w-sm space-y-4">
       <Link href="/admin/users" className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition">
-        <Icon name="arrow_back" size={16} /> {t('back')}
+        <Icon name="arrow_back" size={16} className="rtl:rotate-180" /> {t('back')}
       </Link>
       <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
 

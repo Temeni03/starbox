@@ -175,7 +175,7 @@ export default function DeliveryDashboard() {
                     className="flex items-center justify-center w-10 h-10 border border-neutral-200 rounded-lg text-neutral-400 hover:text-brand-primary hover:border-brand-primary transition"
                     title={t('viewDetailsAria')}
                   >
-                    <Icon name="chevron_right" size={18} />
+                    <Icon name="chevron_right" size={18} className="rtl:rotate-180" />
                   </Link>
                 </div>
               </div>

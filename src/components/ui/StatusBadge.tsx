@@ -13,7 +13,7 @@ const styles: Record<OrderStatus, string> = {
 const icons: Record<OrderStatus, string> = {
   pending: 'schedule',
   confirmed: 'verified',
-  transit: 'local_shipping',
+  transit: 'moped',
   delivered: 'check_circle',
   cancelled: 'cancel',
 }
