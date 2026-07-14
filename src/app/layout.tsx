@@ -1,20 +1,20 @@
 import type { Metadata, Viewport } from 'next'
-import { Geist, Alexandria } from 'next/font/google'
+import { Plus_Jakarta_Sans, Cairo } from 'next/font/google'
 import { NextIntlClientProvider } from 'next-intl'
 import { getLocale } from 'next-intl/server'
 import { isRtl, type Locale } from '@/i18n/config'
 import { Providers } from './providers'
 import './globals.css'
 
-const geist = Geist({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-geist',
+  variable: '--font-plus-jakarta-sans',
   display: 'swap',
 })
 
-const alexandria = Alexandria({
+const cairo = Cairo({
   subsets: ['arabic', 'latin'],
-  variable: '--font-alexandria',
+  variable: '--font-cairo',
   display: 'swap',
 })
 
@@ -47,7 +47,7 @@ export default async function RootLayout({
   const locale = (await getLocale()) as Locale
 
   return (
-    <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={`${geist.variable} ${alexandria.variable}`}>
+    <html lang={locale} dir={isRtl(locale) ? 'rtl' : 'ltr'} className={`${plusJakartaSans.variable} ${cairo.variable}`}>
       <body className="min-h-screen flex flex-col antialiased">
         <NextIntlClientProvider>
           <Providers>{children}</Providers>
