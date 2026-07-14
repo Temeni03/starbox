@@ -164,7 +164,7 @@ export default function AdminOrdersPage() {
                     onClick={() => updateStatus(order._id, 'delivered', t('orderDelivered'))}
                     className="w-full h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-label-lg active:scale-95 transition"
                   >
-                    <Icon name="local_shipping" size={18} /> {t('confirmDelivery')}
+                    <Icon name="moped" size={18} /> {t('confirmDelivery')}
                   </button>
                 )}
                 {isTerminal && NEXT_STEP[order.status as OrderStatus] === undefined && (

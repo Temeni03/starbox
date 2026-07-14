@@ -57,10 +57,6 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
     )
   }
 
-  const mapsUrl = order.deliveryAddress
-    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.deliveryAddress)}`
-    : null
-
   return (
     <div className="space-y-4 pb-32">
       <Link href="/delivery" className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition">
@@ -100,21 +96,9 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
         {order.deliveryOption === 'home' && order.deliveryAddress ? (
           <div className="space-y-1">
             <p className="text-label-sm text-neutral-500">{t('deliveryAddress')}</p>
-            <div className="flex items-start justify-between gap-2">
-              <div className="flex items-start gap-2">
-                <Icon name="location_on" size={16} className="text-brand-primary mt-0.5 shrink-0" />
-                <p className="text-body-md text-neutral-700 leading-relaxed">{order.deliveryAddress}</p>
-              </div>
-              {mapsUrl && (
-                <a
-                  href={mapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1 shrink-0 px-3 py-1.5 bg-white rounded-full border border-brand-container/40 text-brand-primary text-label-sm"
-                >
-                  <Icon name="navigation" size={13} /> {t('navigate')}
-                </a>
-              )}
+            <div className="flex items-start gap-2">
+              <Icon name="location_on" size={16} className="text-brand-primary mt-0.5 shrink-0" />
+              <p className="text-body-md text-neutral-700 leading-relaxed">{order.deliveryAddress}</p>
             </div>
           </div>
         ) : (
@@ -201,7 +185,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
               disabled={updating}
               className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-60 transition"
             >
-              <Icon name="local_shipping" size={18} />
+              <Icon name="moped" size={18} />
               {updating ? t('updating') : t('markInTransit')}
             </button>
           </div>

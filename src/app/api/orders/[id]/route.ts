@@ -15,12 +15,13 @@ export async function GET(
   await connectDB()
 
   const order = await Order.findById(id)
+    .populate('customer', 'name phone')
     .populate('items.product', 'name images')
     .lean()
 
   if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 })
 
-  const customerId = (order as any).customer?.toString() ?? order.customer
+  const customerId = (order as any).customer?._id?.toString() ?? (order as any).customer?.toString()
   const assignedToId = (order as any).assignedTo?.toString()
 
   const isOwner = customerId === session.user.id

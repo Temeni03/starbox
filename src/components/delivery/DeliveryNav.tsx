@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
@@ -26,23 +27,20 @@ export function DeliveryNav({ userName }: { userName: string }) {
       <header className="bg-white/80 backdrop-blur-md border-b border-neutral-200/60 sticky top-0 z-40">
         <div className="container mx-auto px-4 max-w-2xl h-14 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <span className="w-9 h-9 shrink-0 rounded-xl bg-linear-to-br from-brand-primary to-brand-secondary flex items-center justify-center shadow-sm shadow-brand-primary/30">
-              <Icon name="shopping_bag" size={18} className="text-white" filled />
-            </span>
-            <span className="text-headline-md sm:text-headline-lg text-brand-primary tracking-tight leading-none">
-              {t('headerTitle')}
+            <Image
+              src="/logo.png"
+              alt=""
+              width={36}
+              height={36}
+              className="rounded-md shrink-0"
+            />
+            <span className="text-headline-lg text-brand-primary tracking-tight leading-none">
+              Starbox
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <LocaleSwitcher compact />
             <NotificationBell href="/delivery/notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-light/50 text-brand-primary/70 hover:text-brand-primary transition hidden sm:inline-flex" />
-            <Link
-              href="/delivery/profile"
-              className="flex items-center gap-1.5 text-body-md text-neutral-500 hover:text-brand-primary transition"
-            >
-              <span className="hidden sm:block">{userName}</span>
-              <Icon name="person" size={20} />
-            </Link>
+            <LocaleSwitcher compact />
           </div>
         </div>
       </header>

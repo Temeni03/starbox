@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
@@ -69,11 +70,15 @@ export function AdminSidebar({ userName }: { userName: string }) {
       <aside className="hidden sm:flex w-64 bg-white border-r border-neutral-200 flex-col shrink-0">
         <div className="px-6 py-5 flex items-start justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <span className="w-9 h-9 shrink-0 rounded-xl bg-linear-to-br from-brand-primary to-brand-secondary flex items-center justify-center shadow-sm shadow-brand-primary/30">
-              <Icon name="shopping_bag" size={18} className="text-white" filled />
-            </span>
+            <Image
+              src="/logo.png"
+              alt=""
+              width={36}
+              height={36}
+              className="rounded-md shrink-0"
+            />
             <div>
-              <p className="text-headline-md text-brand-primary tracking-tight leading-none">Starbox</p>
+              <p className="text-headline-lg text-brand-primary tracking-tight leading-none">Starbox</p>
               <p className="text-label-sm text-neutral-400 mt-1">{t('tagline')}</p>
             </div>
           </div>
@@ -115,10 +120,14 @@ export function AdminSidebar({ userName }: { userName: string }) {
       {/* Mobile top bar */}
       <header className="sm:hidden fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200/60 h-14 flex items-center px-4 justify-between">
         <div className="flex items-center gap-2.5">
-          <span className="w-9 h-9 shrink-0 rounded-xl bg-linear-to-br from-brand-primary to-brand-secondary flex items-center justify-center shadow-sm shadow-brand-primary/30">
-            <Icon name="shopping_bag" size={18} className="text-white" filled />
-          </span>
-          <p className="text-headline-md text-brand-primary tracking-tight leading-none">{t('mobileHeader')}</p>
+          <Image
+            src="/logo.png"
+            alt=""
+            width={36}
+            height={36}
+            className="rounded-md shrink-0"
+          />
+          <span className="text-headline-lg text-brand-primary tracking-tight leading-none">Starbox</span>
         </div>
         <button
           onClick={() => setMobileOpen(true)}
@@ -152,11 +161,15 @@ export function AdminSidebar({ userName }: { userName: string }) {
       >
         <div className="px-6 py-5 flex items-start justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <span className="w-9 h-9 shrink-0 rounded-xl bg-linear-to-br from-brand-primary to-brand-secondary flex items-center justify-center shadow-sm shadow-brand-primary/30">
-              <Icon name="shopping_bag" size={18} className="text-white" filled />
-            </span>
+            <Image
+              src="/logo.png"
+              alt=""
+              width={36}
+              height={36}
+              className="rounded-md shrink-0"
+            />
             <div>
-              <p className="text-headline-md text-brand-primary tracking-tight leading-none">Starbox</p>
+              <p className="text-headline-lg text-brand-primary tracking-tight leading-none">Starbox</p>
               <p className="text-label-sm text-neutral-400 mt-1">{t('tagline')}</p>
             </div>
           </div>

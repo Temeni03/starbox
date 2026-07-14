@@ -189,7 +189,7 @@ export default function AdminUsersPage() {
                   <p className="text-label-sm text-neutral-400">{u.phone}</p>
                   {tab === "delivery" && (
                     <div className="flex items-center gap-1 mt-1 text-label-sm text-neutral-500">
-                      <Icon name="local_shipping" size={14} className="text-brand-primary" />
+                      <Icon name="moped" size={14} className="text-brand-primary" />
                       {t("completedDeliveries", { count: u.deliveryCount ?? 0 })}
                     </div>
                   )}

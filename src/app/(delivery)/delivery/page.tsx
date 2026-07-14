@@ -46,7 +46,7 @@ export default function DeliveryDashboard() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white rounded-2xl border border-neutral-200 p-5 flex flex-col gap-1">
-          <Icon name="local_shipping" size={20} className="text-brand-primary" />
+          <Icon name="moped" size={20} className="text-brand-primary" />
           <p className="text-headline-xl text-neutral-800">{activeData?.orders?.length ?? '…'}</p>
           <p className="text-label-sm text-neutral-500">{t('activeDeliveries')}</p>
         </div>
@@ -86,15 +86,12 @@ export default function DeliveryDashboard() {
         </div>
       ) : orders.length === 0 ? (
         <div className="bg-white rounded-2xl border border-neutral-200 p-12 text-center text-neutral-400">
-          <Icon name="local_shipping" size={40} className="mx-auto mb-3 opacity-40" />
+          <Icon name="moped" size={40} className="mx-auto mb-3 opacity-40" />
           <p>{tab === 'active' ? t('noActiveOrders') : t('noCompletedOrders')}</p>
         </div>
       ) : (
         <div className="space-y-3">
           {orders.map((order: any) => {
-            const mapsUrl = order.deliveryAddress
-              ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(order.deliveryAddress)}`
-              : null
             return (
               <div key={order._id} className="bg-white rounded-2xl border border-neutral-200 overflow-hidden shadow-sm">
                 {/* Header */}
@@ -103,7 +100,7 @@ export default function DeliveryDashboard() {
                     {order.deliveryOption === 'pickup' ? (
                       <Icon name="store" size={20} className="text-brand-primary" />
                     ) : (
-                      <Icon name="local_shipping" size={20} className="text-brand-primary" />
+                      <Icon name="moped" size={20} className="text-brand-primary" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -111,16 +108,24 @@ export default function DeliveryDashboard() {
                       <p className="text-body-lg font-bold text-neutral-800 truncate">{order.customer?.name}</p>
                       <StatusBadge status={order.status as OrderStatus} />
                     </div>
-                    <p className="text-label-sm text-neutral-400">
-                      {order.orderNumber} · {new Date(order.createdAt).toLocaleDateString(locale, { day: '2-digit', month: 'short' })}
-                      {' · '}{t('itemCount', { count: order.items?.length ?? 0 })}
-                      {' · '}<span className="font-medium text-neutral-600">{order.grandTotal?.toLocaleString()} MRU</span>
-                    </p>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <span className="text-label-sm font-semibold text-neutral-600">{order.orderNumber}</span>
+                      <span className="w-1 h-1 rounded-full bg-neutral-300 shrink-0" />
+                      <span className="text-label-sm text-neutral-400">
+                        {new Date(order.createdAt).toLocaleDateString(locale, { day: '2-digit', month: 'short' })}
+                      </span>
+                    </div>
                   </div>
                 </div>
 
-                {/* Customer info */}
-                <div className="px-4 py-2 space-y-1.5 border-t border-neutral-100">
+                {/* Order summary: items + total */}
+                <div className="flex items-center justify-between px-4 py-2.5 border-t border-neutral-100 bg-surface-low/50">
+                  <span className="text-label-sm text-neutral-500">{t('itemCount', { count: order.items?.length ?? 0 })}</span>
+                  <span className="text-body-md font-bold text-brand-primary">{order.grandTotal?.toLocaleString()} MRU</span>
+                </div>
+
+                {/* Contact & delivery info */}
+                <div className="px-4 py-3 space-y-2 border-t border-neutral-100">
                   <div className="flex items-center gap-2 text-body-md text-neutral-600">
                     <Icon name="call" size={14} className="text-neutral-400 shrink-0" />
                     <a href={`tel:${order.customer?.phone}`} className="text-brand-primary hover:underline">
@@ -128,21 +133,9 @@ export default function DeliveryDashboard() {
                     </a>
                   </div>
                   {order.deliveryAddress && (
-                    <div className="flex items-start justify-between gap-2 text-body-md text-neutral-600">
-                      <div className="flex items-start gap-2">
-                        <Icon name="location_on" size={14} className="text-neutral-400 shrink-0 mt-0.5" />
-                        <span>{order.deliveryAddress}</span>
-                      </div>
-                      {mapsUrl && (
-                        <a
-                          href={mapsUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-label-sm text-brand-primary shrink-0"
-                        >
-                          <Icon name="navigation" size={14} /> {t('navigate')}
-                        </a>
-                      )}
+                    <div className="flex items-start gap-2 text-body-md text-neutral-600">
+                      <Icon name="location_on" size={14} className="text-neutral-400 shrink-0 mt-0.5" />
+                      <span>{order.deliveryAddress}</span>
                     </div>
                   )}
                   {order.deliveryOption === 'pickup' && (
@@ -160,7 +153,7 @@ export default function DeliveryDashboard() {
                       onClick={() => markInTransit(order._id)}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-label-lg bg-brand-primary text-white hover:bg-brand-secondary transition"
                     >
-                      <Icon name="local_shipping" size={18} />
+                      <Icon name="moped" size={18} />
                       {t('markInTransit')}
                     </button>
                   )}

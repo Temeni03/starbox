@@ -58,7 +58,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <KpiCard label={t('totalOrders')} value={isLoading ? '…' : stats.totalOrders ?? 0} icon="shopping_bag" href="/admin/orders" />
         <KpiCard label={t('totalProducts')} value={isLoading ? '…' : stats.totalProducts ?? 0} icon="package_2" href="/admin/products" />
-        <KpiCard label={t('deliveryStaff')} value={isLoading ? '…' : stats.totalDelivery ?? 0} icon="local_shipping" href="/admin/users" />
+        <KpiCard label={t('deliveryStaff')} value={isLoading ? '…' : stats.totalDelivery ?? 0} icon="moped" href="/admin/users" />
         <KpiCard
           label={t('lowStockAlerts')}
           value={isLoading ? '…' : stats.lowStockProducts ?? 0}
