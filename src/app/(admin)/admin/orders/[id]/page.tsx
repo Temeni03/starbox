@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, Package, MapPin, CreditCard, User } from "lucide-react";
+import { ArrowLeft, Package, MapPin, CreditCard, UserRound } from "lucide-react";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 import { StatusBadge } from "@/components/ui/StatusBadge";
@@ -137,7 +137,7 @@ export default function AdminOrderDetailPage({
         </div>
 
         <div className="mt-4 flex items-center gap-2 text-sm text-neutral-600">
-          <User size={16} />
+          <UserRound size={16} />
           <span className="font-medium">{order.customer?.name}</span>
           <span className="text-neutral-400">·</span>
           <span>{order.customer?.phone}</span>

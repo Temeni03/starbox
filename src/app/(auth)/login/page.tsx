@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { Eye, EyeOff, Phone, Lock } from 'lucide-react'
+import { Eye, EyeOff, Phone, LockKeyhole } from 'lucide-react'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { isRtl, type Locale } from '@/i18n/config'
 
@@ -100,7 +100,7 @@ export default function LoginPage() {
               {t('passwordLabel')}
             </label>
             <div className="relative">
-              <Lock size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <LockKeyhole size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="password"
                 type={showPassword ? 'text' : 'password'}

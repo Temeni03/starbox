@@ -1,5 +1,5 @@
 import { useTranslations } from 'next-intl'
-import { Clock, CheckCircle2, Truck, PackageCheck, XCircle } from 'lucide-react'
+import { Clock3, BadgeCheck, Truck, CircleCheckBig, CircleX } from 'lucide-react'
 import type { OrderStatus } from '@/models/Order'
 
 const styles: Record<OrderStatus, string> = {
@@ -10,12 +10,12 @@ const styles: Record<OrderStatus, string> = {
   cancelled: 'bg-status-cancelled/15 text-status-cancelled',
 }
 
-const icons: Record<OrderStatus, typeof Clock> = {
-  pending: Clock,
-  confirmed: CheckCircle2,
+const icons: Record<OrderStatus, typeof Clock3> = {
+  pending: Clock3,
+  confirmed: BadgeCheck,
   transit: Truck,
-  delivered: PackageCheck,
-  cancelled: XCircle,
+  delivered: CircleCheckBig,
+  cancelled: CircleX,
 }
 
 export function StatusBadge({ status }: { status: OrderStatus }) {

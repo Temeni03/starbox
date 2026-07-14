@@ -17,7 +17,7 @@ import {
   MapPin,
   Menu,
   X,
-  User as UserIcon,
+  UserRound as UserIcon,
 } from 'lucide-react'
 import { useNotifications } from '@/hooks/useNotifications'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Plus, User, Pencil, Trash2, Truck, AlertTriangle, Search } from "lucide-react";
+import { Plus, UserRound, Pencil, Trash2, Truck, AlertTriangle, Search } from "lucide-react";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 
@@ -179,7 +179,7 @@ export default function AdminUsersPage() {
                     {u.profilePhoto ? (
                       <Image src={u.profilePhoto} alt={u.name} width={56} height={56} className="object-cover w-full h-full" />
                     ) : (
-                      <User size={22} className="text-brand-primary" />
+                      <UserRound size={22} className="text-brand-primary" />
                     )}
                   </div>
                   <span className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${u.isActive ? 'bg-success' : 'bg-neutral-300'}`} />

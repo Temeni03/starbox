@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { User, Truck, Home, Bell } from 'lucide-react'
+import { UserRound, Truck, House, Bell } from 'lucide-react'
 import { NotificationBell } from '@/components/ui/NotificationBell'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 
@@ -12,9 +12,9 @@ export function DeliveryNav({ userName }: { userName: string }) {
   const pathname = usePathname()
 
   const links = [
-    { href: '/delivery', label: t('home'), icon: Home, exact: true },
+    { href: '/delivery', label: t('home'), icon: House, exact: true },
     { href: '/delivery/notifications', label: t('alerts'), icon: Bell },
-    { href: '/delivery/profile', label: t('profile'), icon: User },
+    { href: '/delivery/profile', label: t('profile'), icon: UserRound },
   ]
 
   function isActive(href: string, exact?: boolean) {
@@ -37,7 +37,7 @@ export function DeliveryNav({ userName }: { userName: string }) {
               className="flex items-center gap-1.5 text-sm text-neutral-500 hover:text-brand-primary transition"
             >
               <span className="hidden sm:block">{userName}</span>
-              <User size={20} />
+              <UserRound size={20} />
             </Link>
           </div>
         </div>

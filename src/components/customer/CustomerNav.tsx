@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { ShoppingCart, ClipboardList, User, Home } from "lucide-react";
+import { ShoppingCart, ClipboardList, UserRound, House } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { NotificationBell } from "@/components/ui/NotificationBell";
 
@@ -14,10 +14,10 @@ export function CustomerNav({ userName }: { userName: string }) {
   const totalCount = useCartStore((s) => s.totalCount());
 
   const links = [
-    { href: "/", label: t("home"), icon: Home },
+    { href: "/", label: t("home"), icon: House },
     { href: "/cart", label: t("cart"), icon: ShoppingCart, badge: totalCount },
     { href: "/orders", label: t("orders"), icon: ClipboardList },
-    { href: "/profile", label: t("profile"), icon: User },
+    { href: "/profile", label: t("profile"), icon: UserRound },
   ];
 
   return (

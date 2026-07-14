@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Eye, EyeOff, User, Phone, Lock, KeyRound } from 'lucide-react'
+import { Eye, EyeOff, UserRound, Phone, LockKeyhole, KeyRound } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function RegisterPage() {
@@ -75,7 +75,7 @@ export default function RegisterPage() {
               Full name
             </label>
             <div className="relative">
-              <User size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <UserRound size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="name"
                 name="name"
@@ -118,7 +118,7 @@ export default function RegisterPage() {
               Password
             </label>
             <div className="relative">
-              <Lock size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
+              <LockKeyhole size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
               <input
                 id="password"
                 name="password"

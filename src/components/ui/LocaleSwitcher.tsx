@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from 'react'
 import { useLocale, useTranslations } from 'next-intl'
 import { useRouter } from 'next/navigation'
-import { Check, ChevronDown, Globe } from 'lucide-react'
+import { Check, ChevronDown, Languages } from 'lucide-react'
 import { locales, localeNames, type Locale } from '@/i18n/config'
 import { setUserLocale } from '@/i18n/actions'
 
@@ -55,7 +55,7 @@ export function LocaleSwitcher({ className = '', compact = false }: { className?
           compact ? 'w-10 h-10 justify-center' : 'gap-1.5 px-2 py-1.5 text-sm'
         }`}
       >
-        <Globe size={compact ? 20 : 16} className={`text-neutral-400 transition-transform duration-300 ${isPending ? 'animate-pulse' : ''}`} />
+        <Languages size={compact ? 20 : 16} className={`text-neutral-400 transition-transform duration-300 ${isPending ? 'animate-pulse' : ''}`} />
         {!compact && <span>{localeNames[locale]}</span>}
         {!compact && (
           <ChevronDown

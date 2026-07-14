@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { ArrowLeft, MapPin, Phone, Package, Truck, Landmark, Banknote, Navigation, Info, Hourglass } from 'lucide-react'
+import { ArrowLeft, MapPin, Phone, Package, Truck, CreditCard, Banknote, Navigation, Info, Hourglass } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -131,7 +131,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
         <div className="flex items-center justify-between p-3.5 rounded-xl bg-surface-low border border-neutral-100">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-full bg-brand-container/20 text-brand-primary">
-              {order.paymentMethod === 'cash' ? <Banknote size={18} /> : <Landmark size={18} />}
+              {order.paymentMethod === 'cash' ? <Banknote size={18} /> : <CreditCard size={18} />}
             </div>
             <p className="text-sm font-semibold text-neutral-800">
               {order.paymentMethod === 'cash' ? t('cashOnDelivery') : t('bankTransfer')}

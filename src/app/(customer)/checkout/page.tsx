@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
-import { Package, Copy, Check, ArrowLeft, ChevronRight, Store, Truck, Landmark, Banknote } from 'lucide-react'
+import { Package, Copy, Check, ArrowLeft, ChevronRight, Store, Truck, CreditCard, Banknote } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { useCartStore } from '@/store/cartStore'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
@@ -178,7 +178,7 @@ export default function CheckoutPage() {
         <div className="space-y-3">
           {(
             [
-              { value: 'bank_transfer', label: t('bankTransfer'), sub: t('bankTransferSub'), icon: Landmark },
+              { value: 'bank_transfer', label: t('bankTransfer'), sub: t('bankTransferSub'), icon: CreditCard },
               { value: 'cash', label: t('cashOnDelivery'), sub: t('cashSub'), icon: Banknote },
             ] as const
           ).map(({ value, label, sub, icon: Icon }) => (

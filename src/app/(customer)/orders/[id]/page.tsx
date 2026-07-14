@@ -4,7 +4,7 @@ import { use, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { ArrowLeft, Package, MapPin, CreditCard, CheckCircle2, Clock, PartyPopper, XCircle, PackageCheck } from 'lucide-react'
+import { ArrowLeft, Package, MapPin, CreditCard, CircleCheckBig, Clock3, PartyPopper, CircleX, PackageCheck } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -121,7 +121,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
       {/* Status timeline */}
       {isCancelled ? (
         <div className="bg-status-cancelled/10 border border-status-cancelled/20 rounded-2xl p-4 flex items-center gap-3">
-          <XCircle size={20} className="text-status-cancelled shrink-0" />
+          <CircleX size={20} className="text-status-cancelled shrink-0" />
           <p className="text-sm text-status-cancelled font-medium">{t('cancelled')}</p>
         </div>
       ) : (
@@ -138,8 +138,8 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                     done ? 'bg-brand-primary' : 'bg-neutral-200'
                   }`}>
                     {done
-                      ? <CheckCircle2 size={16} className="text-white" />
-                      : <Clock size={16} className="text-neutral-400" />
+                      ? <CircleCheckBig size={16} className="text-white" />
+                      : <Clock3 size={16} className="text-neutral-400" />
                     }
                   </div>
                   <span className={`text-[10px] text-center capitalize ${active ? 'text-brand-primary font-semibold' : 'text-neutral-400'}`}>

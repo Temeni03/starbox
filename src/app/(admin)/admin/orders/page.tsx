@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
-import { ChevronRight, CheckCircle2, XCircle, Truck, UserRoundPlus } from 'lucide-react'
+import { ChevronRight, BadgeCheck, CircleX, Truck, UserRoundPlus } from 'lucide-react'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -149,13 +149,13 @@ export default function AdminOrdersPage() {
                       onClick={() => updateStatus(order._id, 'confirmed', t('orderConfirmed'))}
                       className="flex-1 h-10 flex items-center justify-center gap-1.5 bg-brand-primary text-white rounded-xl text-sm font-semibold active:scale-95 transition"
                     >
-                      <CheckCircle2 size={18} /> {t('approve')}
+                      <BadgeCheck size={18} /> {t('approve')}
                     </button>
                     <button
                       onClick={() => updateStatus(order._id, 'cancelled', t('orderRejected'))}
                       className="flex-1 h-10 flex items-center justify-center gap-1.5 border border-neutral-300 text-neutral-600 rounded-xl text-sm font-semibold active:scale-95 transition"
                     >
-                      <XCircle size={18} /> {t('reject')}
+                      <CircleX size={18} /> {t('reject')}
                     </button>
                   </div>
                 )}
