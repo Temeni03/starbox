@@ -102,7 +102,7 @@ export default function AdminOrdersPage() {
                     <span className="text-body-lg font-bold text-brand-primary">
                       {order.grandTotal?.toLocaleString()} MRU
                     </span>
-                    <StatusBadge status={order.status as OrderStatus} />
+                    <StatusBadge status={order.status as OrderStatus} deliveryOption={order.deliveryOption} />
                   </div>
                 </Link>
 

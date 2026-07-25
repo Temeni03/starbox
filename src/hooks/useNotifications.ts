@@ -1,7 +1,10 @@
-import useSWR from 'swr'
+import useSWR, { useSWRConfig } from 'swr'
 import type { NotificationParams } from '@/lib/notificationParams'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
+
+const isNotificationsKey = (key: unknown): key is string =>
+  typeof key === 'string' && key.startsWith('/api/notifications')
 
 export interface AppNotification {
   _id: string
@@ -15,7 +18,8 @@ export interface AppNotification {
 }
 
 export function useNotifications(limit = 30) {
-  const { data, isLoading, mutate } = useSWR(
+  const { mutate: mutateAll } = useSWRConfig()
+  const { data, isLoading } = useSWR(
     `/api/notifications?limit=${limit}`,
     fetcher,
     { refreshInterval: 30000 }
@@ -23,7 +27,7 @@ export function useNotifications(limit = 30) {
 
   async function markAsRead(id: string) {
     await fetch(`/api/notifications/${id}`, { method: 'PATCH' })
-    mutate()
+    mutateAll(isNotificationsKey)
   }
 
   async function markAllAsRead() {
@@ -32,7 +36,7 @@ export function useNotifications(limit = 30) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'read-all' }),
     })
-    mutate()
+    mutateAll(isNotificationsKey)
   }
 
   return {

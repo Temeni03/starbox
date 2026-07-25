@@ -12,7 +12,8 @@ import type { OrderStatus } from '@/models/Order'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
 
-const STATUS_STEPS: OrderStatus[] = ['pending', 'confirmed', 'transit', 'delivered']
+const DELIVERY_STEPS: OrderStatus[] = ['pending', 'confirmed', 'transit', 'delivered']
+const PICKUP_STEPS: OrderStatus[] = ['pending', 'confirmed', 'delivered']
 
 export default function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -65,6 +66,8 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
     )
   }
 
+  const isPickup = order.deliveryOption === 'pickup'
+  const STATUS_STEPS = isPickup ? PICKUP_STEPS : DELIVERY_STEPS
   const currentStepIdx = STATUS_STEPS.indexOf(order.status)
   const isCancelled = order.status === 'cancelled'
   const isFresh = order.status === 'pending'
@@ -98,7 +101,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                 })}
               </p>
             </div>
-            <StatusBadge status={order.status as OrderStatus} />
+            <StatusBadge status={order.status as OrderStatus} deliveryOption={order.deliveryOption} />
           </div>
         </div>
       )}
@@ -143,7 +146,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
                     }
                   </div>
                   <span className={`text-label-sm text-center capitalize ${active ? 'text-brand-primary font-semibold' : 'text-neutral-400'}`}>
-                    {tStatus(step)}
+                    {step === 'delivered' && isPickup ? tStatus('pickedUp') : tStatus(step)}
                   </span>
                 </div>
               )

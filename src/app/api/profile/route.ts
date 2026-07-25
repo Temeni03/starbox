@@ -1,16 +1,24 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import bcrypt from 'bcryptjs'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 import { deleteBlob } from '@/lib/blob'
 
-const ProfileSchema = z.object({
-  name: z.string().min(2).max(100).trim().optional(),
-  phone: z.string().regex(/^[234][0-9]{7}$/, 'Phone must be 8 digits starting with 2, 3 or 4').optional(),
-  language: z.enum(['ar', 'fr', 'en']).optional(),
-  profilePhoto: z.string().url().nullable().optional(),
-})
+const ProfileSchema = z
+  .object({
+    name: z.string().min(2).max(100).trim().optional(),
+    phone: z.string().regex(/^[234][0-9]{7}$/, 'Phone must be 8 digits starting with 2, 3 or 4').optional(),
+    language: z.enum(['ar', 'fr', 'en']).optional(),
+    profilePhoto: z.string().url().nullable().optional(),
+    currentPassword: z.string().optional(),
+    newPassword: z.string().min(8, 'Password must be at least 8 characters').optional(),
+  })
+  .refine((data) => !data.newPassword || !!data.currentPassword, {
+    message: 'Current password is required to set a new password',
+    path: ['currentPassword'],
+  })
 
 export async function GET() {
   const session = await auth()
@@ -43,11 +51,22 @@ export async function PATCH(req: Request) {
     }
   }
 
+  let hashedPassword: string | undefined
+  if (parsed.data.newPassword) {
+    const user = await User.findById(session.user.id).select('password')
+    const valid = user && (await bcrypt.compare(parsed.data.currentPassword!, user.password))
+    if (!valid) {
+      return NextResponse.json({ error: 'Current password is incorrect' }, { status: 400 })
+    }
+    hashedPassword = await bcrypt.hash(parsed.data.newPassword, 12)
+  }
+
   const update: Record<string, unknown> = {}
   if (parsed.data.name) update.name = parsed.data.name
   if (parsed.data.phone) update.phone = parsed.data.phone
   if (parsed.data.language) update.language = parsed.data.language
   if (parsed.data.profilePhoto !== undefined) update.profilePhoto = parsed.data.profilePhoto
+  if (hashedPassword) update.password = hashedPassword
 
   const previous = parsed.data.profilePhoto !== undefined
     ? await User.findById(session.user.id).select('profilePhoto').lean()

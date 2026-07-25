@@ -9,17 +9,24 @@ import { Icon } from "@/components/ui/Icon";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import type { OrderStatus } from "@/models/Order";
+import type { DeliveryOption, OrderStatus } from "@/models/Order";
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
-const NEXT_STATUSES: Record<OrderStatus, OrderStatus[]> = {
-  pending: ["confirmed", "cancelled"],
-  confirmed: ["transit", "cancelled"],
-  transit: ["delivered", "cancelled"],
-  delivered: [],
-  cancelled: [],
-};
+// Pickup orders skip "transit" (Out for Delivery) entirely: confirmed -> delivered (Picked Up).
+function getNextStatuses(status: OrderStatus, deliveryOption: DeliveryOption): OrderStatus[] {
+  if (status === "confirmed") {
+    return deliveryOption === "pickup" ? ["delivered", "cancelled"] : ["transit", "cancelled"];
+  }
+  const NEXT_STATUSES: Record<OrderStatus, OrderStatus[]> = {
+    pending: ["confirmed", "cancelled"],
+    confirmed: [],
+    transit: ["delivered", "cancelled"],
+    delivered: [],
+    cancelled: [],
+  };
+  return NEXT_STATUSES[status] ?? [];
+}
 
 export default function AdminOrderDetailPage({
   params,
@@ -105,7 +112,10 @@ export default function AdminOrderDetailPage({
     );
   }
 
-  const nextStatuses = NEXT_STATUSES[order.status as OrderStatus] ?? [];
+  const nextStatuses = getNextStatuses(
+    order.status as OrderStatus,
+    order.deliveryOption as DeliveryOption
+  );
 
   return (
     <div className="max-w-2xl space-y-4 mt-16">
@@ -133,7 +143,10 @@ export default function AdminOrderDetailPage({
               })}
             </p>
           </div>
-          <StatusBadge status={order.status as OrderStatus} />
+          <StatusBadge
+            status={order.status as OrderStatus}
+            deliveryOption={order.deliveryOption as DeliveryOption}
+          />
         </div>
 
         <div className="mt-4 flex items-center gap-2 text-body-md text-neutral-600">
@@ -171,6 +184,8 @@ export default function AdminOrderDetailPage({
               >
                 {s === "transit"
                   ? t("markInTransit")
+                  : s === "delivered" && order.deliveryOption === "pickup"
+                  ? t("markAsPickedUp")
                   : t("markAs", { status: tStatus(s) })}
               </button>
             ))}
@@ -178,39 +193,46 @@ export default function AdminOrderDetailPage({
         </div>
       )}
 
-      {/* Assign delivery */}
+      {/* Assign delivery / pickup notice */}
       {(order.status === "confirmed" || order.status === "transit") && (
-        <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
-          <h2 className="text-headline-md text-neutral-800">
-            {t("assignDelivery")}
-            {order.assignedTo && (
-              <span className="ml-2 text-body-md font-normal text-neutral-400">
-                {t("currentAssignee", { name: order.assignedTo.name })}
-              </span>
-            )}
-          </h2>
-          <div className="flex gap-2">
-            <select
-              value={selectedDelivery}
-              onChange={(e) => setSelectedDelivery(e.target.value)}
-              className="flex-1 h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-            >
-              <option value="">{t("selectDeliveryPerson")}</option>
-              {deliveryUsers.map((u: any) => (
-                <option key={u._id} value={u._id}>
-                  {u.name} · {u.phone}
-                </option>
-              ))}
-            </select>
-            <button
-              onClick={assignDelivery}
-              disabled={assigning || !selectedDelivery}
-              className="px-4 py-2 bg-brand-primary text-white rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-50 transition"
-            >
-              {assigning ? t("assigning") : t("assign")}
-            </button>
+        order.deliveryOption === "pickup" ? (
+          <div className="bg-white rounded-2xl border border-neutral-200 p-5 flex items-center gap-2 text-body-md text-neutral-600">
+            <Icon name="storefront" size={18} className="text-neutral-400" />
+            {t("pickupNotice")}
           </div>
-        </div>
+        ) : (
+          <div className="bg-white rounded-2xl border border-neutral-200 p-5 space-y-3">
+            <h2 className="text-headline-md text-neutral-800">
+              {t("assignDelivery")}
+              {order.assignedTo && (
+                <span className="ml-2 text-body-md font-normal text-neutral-400">
+                  {t("currentAssignee", { name: order.assignedTo.name })}
+                </span>
+              )}
+            </h2>
+            <div className="flex gap-2">
+              <select
+                value={selectedDelivery}
+                onChange={(e) => setSelectedDelivery(e.target.value)}
+                className="flex-1 h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
+              >
+                <option value="">{t("selectDeliveryPerson")}</option>
+                {deliveryUsers.map((u: any) => (
+                  <option key={u._id} value={u._id}>
+                    {u.name} · {u.phone}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={assignDelivery}
+                disabled={assigning || !selectedDelivery}
+                className="px-4 py-2 bg-brand-primary text-white rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-50 transition"
+              >
+                {assigning ? t("assigning") : t("assign")}
+              </button>
+            </div>
+          </div>
+        )
       )}
 
       {/* Items */}
@@ -330,7 +352,9 @@ export default function AdminOrderDetailPage({
               <div className="w-2 h-2 rounded-full bg-brand-primary mt-1.5 shrink-0" />
               <div>
                 <span className="font-medium capitalize text-neutral-700">
-                  {tStatus(h.status as OrderStatus)}
+                  {h.status === "delivered" && order.deliveryOption === "pickup"
+                    ? tStatus("pickedUp")
+                    : tStatus(h.status as OrderStatus)}
                 </span>
                 {h.note && (
                   <span className="text-neutral-400 ml-1">— {h.note}</span>

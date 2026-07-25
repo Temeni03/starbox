@@ -5,16 +5,17 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
-import { NotificationBell } from '@/components/ui/NotificationBell'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
+import { useNotifications } from '@/hooks/useNotifications'
 
 export function DeliveryNav({ userName }: { userName: string }) {
   const t = useTranslations('deliveryNav')
   const pathname = usePathname()
+  const { unreadCount } = useNotifications()
 
   const links = [
     { href: '/delivery', label: t('home'), icon: 'home', exact: true },
-    { href: '/delivery/notifications', label: t('alerts'), icon: 'notifications' },
+    { href: '/delivery/notifications', label: t('alerts'), icon: 'notifications', badge: unreadCount },
     { href: '/delivery/profile', label: t('profile'), icon: 'person' },
   ]
 
@@ -39,7 +40,6 @@ export function DeliveryNav({ userName }: { userName: string }) {
             </span>
           </div>
           <div className="flex items-center gap-3">
-            <NotificationBell href="/delivery/notifications" className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-light/50 text-brand-primary/70 hover:text-brand-primary transition hidden sm:inline-flex" />
             <LocaleSwitcher compact />
           </div>
         </div>
@@ -48,7 +48,7 @@ export function DeliveryNav({ userName }: { userName: string }) {
       {/* Bottom navigation (mobile) */}
       <nav className="fixed bottom-0 inset-x-0 bg-white/80 backdrop-blur-md border-t border-neutral-200/60 z-40 sm:hidden safe-area-pb">
         <div className="grid grid-cols-3 h-16 px-2">
-          {links.map(({ href, label, icon, exact }) => {
+          {links.map(({ href, label, icon, exact, badge }) => {
             const active = isActive(href, exact)
             return (
               <Link key={href} href={href} className="flex items-center justify-center">
@@ -57,7 +57,14 @@ export function DeliveryNav({ userName }: { userName: string }) {
                     active ? 'text-brand-primary' : 'text-neutral-400'
                   }`}
                 >
-                  <Icon name={icon} size={22} filled={active} />
+                  <span className="relative">
+                    <Icon name={icon} size={22} filled={active} />
+                    {badge != null && badge > 0 && (
+                      <span className="absolute -top-1.5 -right-1.5 bg-danger text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                        {badge > 9 ? '9+' : badge}
+                      </span>
+                    )}
+                  </span>
                   <span className="whitespace-nowrap">{label}</span>
                 </span>
               </Link>

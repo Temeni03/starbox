@@ -31,6 +31,13 @@ export async function PATCH(
   const order = await Order.findById(id)
   if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 })
 
+  if (parsed.data.status === 'transit' && order.deliveryOption === 'pickup') {
+    return NextResponse.json(
+      { error: 'Pickup orders cannot be set to "transit"' },
+      { status: 400 }
+    )
+  }
+
   order.status = parsed.data.status
   order.statusHistory.push({
     status: parsed.data.status,

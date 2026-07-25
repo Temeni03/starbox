@@ -86,9 +86,55 @@ export function OfferCarousel() {
 
   if (boxes.length === 0) {
     return (
-      <div className="mb-8 relative overflow-hidden rounded-3xl aspect-[16/9] sm:aspect-[21/9] bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container shadow-[0_20px_45px_-15px_rgba(151,49,185,0.45)] flex items-center justify-center">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.18),transparent_55%)]" />
-        <Icon name="card_giftcard" size={40} className="relative text-white/70" />
+      <div className="mb-8 relative overflow-hidden rounded-3xl aspect-[16/9] sm:aspect-[21/9] shadow-[0_20px_45px_-15px_rgba(151,49,185,0.3)] motion-safe:animate-[premium-in_0.9s_ease-out]">
+        {/* Soft pastel brand gradient — light tints bookended for gentle richness */}
+        <div className="absolute inset-0 bg-linear-to-br from-brand-light via-brand-container to-brand-light bg-[length:200%_200%] motion-safe:animate-[gradient-pan_16s_ease-in-out_infinite]" />
+        {/* Gentle grounding + highlight for depth */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_115%,rgba(107,31,132,0.1),transparent_60%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_22%_15%,rgba(255,255,255,0.65),transparent_55%)]" />
+        {/* Top glass sheen */}
+        <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/50 to-transparent pointer-events-none" />
+
+        {/* Floating ambient glow orbs */}
+        <div className="absolute -top-10 -right-8 w-36 h-36 rounded-full bg-white/60 blur-3xl motion-safe:animate-[float-slow_9s_ease-in-out_infinite]" />
+        <div className="absolute -bottom-12 -left-8 w-32 h-32 rounded-full bg-brand-container/50 blur-3xl motion-safe:animate-[float-slow_11s_ease-in-out_infinite_2s]" />
+
+        {/* Slow diagonal sheen sweep */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-y-0 left-0 w-1/3 bg-linear-to-r from-transparent via-white/70 to-transparent motion-safe:animate-[sheen-sweep_9s_ease-in-out_infinite]" />
+        </div>
+
+        {/* Frosted glass content card — sized to fit fully within the fixed bar and vertically centered */}
+        <div className="relative h-full flex items-center justify-center px-6 sm:px-10">
+          <div className="relative w-full max-w-md rounded-2xl border border-white/70 bg-white/55 backdrop-blur-xl shadow-[0_8px_32px_rgba(107,31,132,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] px-5 py-4 sm:px-8 sm:py-6 flex flex-col items-center text-center">
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-brand-container/60 bg-brand-container/25 px-3 py-0.5 text-[10px] sm:text-[11px] font-extrabold uppercase tracking-[0.15em] text-danger backdrop-blur-md mb-2 sm:mb-3 motion-safe:animate-pulse">
+              <Icon name="local_fire_department" size={11} weight={600} className="text-danger" />
+              {t.rich('comingSoonBadge', {
+                soon: (chunks) => <span className="text-danger">{chunks}</span>,
+              })}
+            </span>
+
+            {/* Central sparkle — visual storytelling in place of a static icon */}
+            <div className="relative w-14 h-9 sm:w-16 sm:h-10 mb-2 sm:mb-3">
+              <div className="absolute inset-0 rounded-full bg-brand-container/40 blur-xl motion-safe:animate-pulse" />
+              <Icon
+                name="auto_awesome"
+                size={20}
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-brand-secondary motion-safe:animate-pulse"
+              />
+            </div>
+
+            <h3 className="text-body-lg sm:text-headline-md tracking-tight font-semibold text-brand-secondary mb-1 sm:mb-1.5 text-center [font-family:var(--font-heading)]">
+              {t('noOffersTitle')}
+            </h3>
+
+            <div className="h-px w-12 bg-linear-to-r from-transparent via-brand-primary/40 to-transparent mb-1.5 sm:mb-2" />
+
+            <p className="text-label-sm sm:text-body-md text-neutral-600 leading-relaxed tracking-wide text-center max-w-xs">
+              {t('noOffersDesc')}
+            </p>
+          </div>
+        </div>
       </div>
     )
   }

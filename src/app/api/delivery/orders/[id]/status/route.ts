@@ -34,6 +34,13 @@ export async function PATCH(
   const order = await Order.findOne({ _id: id, assignedTo: session.user.id })
   if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 })
 
+  if (order.deliveryOption === 'pickup') {
+    return NextResponse.json(
+      { error: 'Pickup orders cannot be set to "transit"' },
+      { status: 400 }
+    )
+  }
+
   const allowed = ALLOWED_TRANSITIONS[order.status]
   if (allowed !== parsed.data.status) {
     return NextResponse.json(
