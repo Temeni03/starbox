@@ -193,7 +193,7 @@ export function InstallPrompt() {
   if (deferredPrompt) {
     return (
       <div className="fixed bottom-16 sm:bottom-4 inset-x-0 sm:inset-x-auto sm:right-4 sm:left-auto sm:max-w-sm z-40 bg-white/95 backdrop-blur-md border border-neutral-200 sm:rounded-2xl shadow-lg px-4 py-3 flex items-center gap-3">
-        <Image src="/logo.png" alt="" width={36} height={36} className="rounded-md shrink-0" />
+        <Image src="/logo.jpg" alt="" width={36} height={36} className="rounded-full object-cover shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-body-md font-medium text-neutral-800 truncate">{t('installTitle')}</p>
           <p className="text-label-sm text-neutral-500 truncate">{t('installDesc')}</p>

@@ -71,11 +71,11 @@ export function AdminSidebar({ userName }: { userName: string }) {
         <div className="px-6 py-5 flex items-start justify-between gap-2">
           <div className="flex items-center gap-2.5">
             <Image
-              src="/logo.png"
+              src="/logo.jpg"
               alt=""
               width={36}
               height={36}
-              className="rounded-md shrink-0"
+              className="rounded-full object-cover shrink-0"
             />
             <div>
               <p className="text-headline-lg text-brand-primary tracking-tight leading-none">Starbox</p>
@@ -121,11 +121,11 @@ export function AdminSidebar({ userName }: { userName: string }) {
       <header className="sm:hidden fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200/60 h-14 flex items-center px-4 justify-between">
         <div className="flex items-center gap-2.5">
           <Image
-            src="/logo.png"
+            src="/logo.jpg"
             alt=""
             width={36}
             height={36}
-            className="rounded-md shrink-0"
+            className="rounded-full object-cover shrink-0"
           />
           <span className="text-headline-lg text-brand-primary tracking-tight leading-none">Starbox</span>
         </div>
@@ -162,11 +162,11 @@ export function AdminSidebar({ userName }: { userName: string }) {
         <div className="px-6 py-5 flex items-start justify-between gap-2">
           <div className="flex items-center gap-2.5">
             <Image
-              src="/logo.png"
+              src="/logo.jpg"
               alt=""
               width={36}
               height={36}
-              className="rounded-md shrink-0"
+              className="rounded-full object-cover shrink-0"
             />
             <div>
               <p className="text-headline-lg text-brand-primary tracking-tight leading-none">Starbox</p>

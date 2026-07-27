@@ -66,7 +66,7 @@ export default function LoginPage() {
       </div>
 
       <div className="flex flex-col items-center mb-8">
-        <Image src="/logo.png" alt="Starbox" width={80} height={80} className="w-20 h-20 mb-4 object-contain" priority />
+        <Image src="/logo.jpg" alt="Starbox" width={80} height={80} className="w-20 h-20 mb-4 rounded-full object-cover" priority />
         <h1 className="text-headline-xl text-brand-primary">Starbox</h1>
         <p className="text-body-md text-neutral-500 mt-1">{t('tagline')}</p>
       </div>

@@ -29,11 +29,11 @@ export function DeliveryNav({ userName }: { userName: string }) {
         <div className="container mx-auto px-4 max-w-2xl h-14 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <Image
-              src="/logo.png"
+              src="/logo.jpg"
               alt=""
               width={36}
               height={36}
-              className="rounded-md shrink-0"
+              className="rounded-full object-cover shrink-0"
             />
             <span className="text-headline-lg text-brand-primary tracking-tight leading-none">
               Starbox

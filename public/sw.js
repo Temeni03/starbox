@@ -18,7 +18,7 @@ function isStaticAsset(pathname) {
     (pathname.startsWith('/_next/static/') && !IS_DEV) ||
     pathname.startsWith('/icons/') ||
     pathname === '/manifest.json' ||
-    pathname === '/logo.png' ||
+    pathname === '/logo.jpg' ||
     /\.(?:png|jpg|jpeg|svg|webp|gif|ico|woff2?|ttf)$/.test(pathname)
   )
 }
