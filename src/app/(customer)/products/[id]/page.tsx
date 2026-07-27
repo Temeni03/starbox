@@ -147,8 +147,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         )}
 
         <div className={`flex justify-between items-start gap-3 ${product.weight ? 'mb-1' : 'mb-4'}`}>
-          <h1 className="text-headline-xl text-neutral-800">{product.name}</h1>
-          <span className="text-headline-xl text-brand-primary whitespace-nowrap">
+          <h1 className="text-headline-xl-mobile md:text-headline-xl text-neutral-800">{product.name}</h1>
+          <span className="text-headline-xl-mobile md:text-headline-xl text-brand-primary whitespace-nowrap">
             {product.price.toLocaleString()} MRU
           </span>
         </div>

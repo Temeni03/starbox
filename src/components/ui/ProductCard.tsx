@@ -73,14 +73,14 @@ export function ProductCard({ product, onAddToCart }: Props) {
         </button>
       </div>
 
-      <h3 className="text-headline-md text-neutral-800 truncate mb-1">
+      <h3 className="text-headline-md-mobile md:text-headline-md text-neutral-800 truncate mb-1">
         {product.name}
       </h3>
       {product.description && (
         <p className="text-label-sm text-neutral-500 mb-2 truncate">{product.description}</p>
       )}
       <div className="mt-auto">
-        <span className="text-headline-md text-brand-primary">
+        <span className="text-headline-md-mobile md:text-headline-md text-brand-primary">
           {product.price.toLocaleString()} MRU
         </span>
       </div>

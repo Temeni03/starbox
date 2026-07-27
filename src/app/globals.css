@@ -73,6 +73,18 @@ html[dir="rtl"] {
   line-height: 28px;
   font-weight: 600;
 }
+@utility text-headline-md-mobile {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 600;
+}
+@utility text-headline-xl-mobile {
+  font-family: var(--font-heading);
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 700;
+}
 @utility text-body-lg {
   font-family: var(--font-body);
   font-size: 16px;

@@ -98,8 +98,8 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
       {/* Overlapping info panel */}
       <div className="bg-white -mt-6 relative z-10 rounded-t-3xl shadow-xl shadow-brand-primary/5 p-5">
         <div className="flex justify-between items-start gap-3 mb-6">
-          <h1 className="text-headline-xl text-neutral-800">{box.name}</h1>
-          <span className="text-headline-xl text-brand-primary whitespace-nowrap">
+          <h1 className="text-headline-xl-mobile md:text-headline-xl text-neutral-800">{box.name}</h1>
+          <span className="text-headline-xl-mobile md:text-headline-xl text-brand-primary whitespace-nowrap">
             {box.price.toLocaleString()} MRU
           </span>
         </div>
