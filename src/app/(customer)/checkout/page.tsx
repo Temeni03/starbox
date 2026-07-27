@@ -100,7 +100,7 @@ export default function CheckoutPage() {
           aria-label={t('backToCartAria')}
           className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-brand-light/50 transition -ml-1.5"
         >
-          <Icon name="arrow_back" size={20} className="text-brand-primary rtl:rotate-180" />
+          <Icon name="chevron_left" size={20} className="text-brand-primary rtl:rotate-180" />
         </Link>
         <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
       </div>

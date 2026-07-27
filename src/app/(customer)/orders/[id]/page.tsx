@@ -76,7 +76,7 @@ export default function OrderDetailPage({ params }: { params: Promise<{ id: stri
   return (
     <div className={`space-y-4 max-w-lg mx-auto ${isAwaitingReceipt ? 'pb-40 sm:pb-28' : 'pb-24 sm:pb-6'}`}>
       <Link href="/orders" className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition">
-        <Icon name="arrow_back" size={16} className="rtl:rotate-180" /> {t('backToOrders')}
+        <Icon name="chevron_left" size={16} className="rtl:rotate-180" /> {t('backToOrders')}
       </Link>
 
       {isFresh ? (

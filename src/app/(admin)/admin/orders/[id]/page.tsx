@@ -123,7 +123,7 @@ export default function AdminOrderDetailPage({
         href="/admin/orders"
         className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition"
       >
-        <Icon name="arrow_back" size={16} className="rtl:rotate-180" /> {t("backToOrders")}
+        <Icon name="chevron_left" size={16} className="rtl:rotate-180" /> {t("backToOrders")}
       </Link>
 
       {/* Header */}
