@@ -116,7 +116,7 @@ export default function CheckoutPage() {
                 value: 'home',
                 label: t('homeDelivery'),
                 sub: location ? `${location.price.toLocaleString()} MRU` : t('selectZone'),
-                icon: 'moped',
+                icon: 'delivery_dining',
               },
             ] as const
           ).map(({ value, label, sub, icon }) => (

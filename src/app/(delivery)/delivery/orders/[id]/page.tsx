@@ -185,7 +185,7 @@ export default function DeliveryOrderDetailPage({ params }: { params: Promise<{ 
               disabled={updating}
               className="w-full flex items-center justify-center gap-2 bg-brand-primary text-white h-12 rounded-xl text-label-lg hover:bg-brand-secondary disabled:opacity-60 transition"
             >
-              <Icon name="moped" size={18} />
+              <Icon name="delivery_dining" size={18} />
               {updating ? t('updating') : t('markInTransit')}
             </button>
           </div>

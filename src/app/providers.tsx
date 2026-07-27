@@ -13,7 +13,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <SessionProvider>
-      <NextTopLoader color="#1B4332" height={3} showSpinner={false} />
+      <NextTopLoader color="#9731B9" height={3} showSpinner={false} />
       <PushNotificationSetup />
       <InstallPrompt />
       {children}

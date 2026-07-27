@@ -1,8 +1,13 @@
-const CACHE_NAME = 'starbox-v1'
+const CACHE_NAME = 'starbox-v2'
 
 // Never cache these — always hit the network. Prevents stale prices, stock,
 // cart contents, or order state from ever being served from cache.
 const BYPASS_PREFIXES = ['/api/', '/cart', '/checkout']
+
+// In `next dev`, /_next/static/ chunk URLs are stable across recompiles (unlike
+// production's content-hashed, immutable build output), so cache-first there would
+// permanently serve stale JS after every code edit. Only treat them as immutable in prod.
+const IS_DEV = self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1'
 
 function shouldBypass(pathname) {
   return BYPASS_PREFIXES.some((prefix) => pathname.startsWith(prefix))
@@ -10,7 +15,7 @@ function shouldBypass(pathname) {
 
 function isStaticAsset(pathname) {
   return (
-    pathname.startsWith('/_next/static/') ||
+    (pathname.startsWith('/_next/static/') && !IS_DEV) ||
     pathname.startsWith('/icons/') ||
     pathname === '/manifest.json' ||
     pathname === '/logo.png' ||

@@ -16,7 +16,7 @@ export async function GET(req: Request) {
   await connectDB()
 
   const users = await User.find({ role })
-    .select('name phone address isActive createdAt')
+    .select('name phone address isActive createdAt profilePhoto')
     .sort({ createdAt: -1 })
     .lean()
 

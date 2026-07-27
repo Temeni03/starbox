@@ -30,6 +30,7 @@ export default function DeliveryProfilePage() {
   const [phone, setPhone] = useState(session?.user?.phone ?? '')
   const [language, setLanguage] = useState<Locale>('fr')
   const [saving, setSaving] = useState(false)
+  const [removingPhoto, setRemovingPhoto] = useState(false)
 
   useEffect(() => {
     if (profileData?.language) setLanguage(profileData.language)
@@ -61,6 +62,29 @@ export default function DeliveryProfilePage() {
       toast.success(t('photoUpdated'))
     } catch {
       toast.error(t('updatePhotoError'))
+    }
+  }
+
+  async function handleRemovePhoto() {
+    if (!profileData?.profilePhoto) return
+    setRemovingPhoto(true)
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ profilePhoto: null }),
+      })
+      const data = await res.json()
+      if (!res.ok) {
+        toast.error(data.error ?? t('updatePhotoError'))
+        return
+      }
+      mutate()
+      toast.success(t('photoRemoved'))
+    } catch {
+      toast.error(t('updatePhotoError'))
+    } finally {
+      setRemovingPhoto(false)
     }
   }
 
@@ -100,12 +124,29 @@ export default function DeliveryProfilePage() {
               <Icon name="person" size={36} className="text-brand-primary" />
             )}
           </div>
+
+          <ImageUploadButton
+            type="profilePhoto"
+            iconOnly
+            ariaLabel={t('changePhoto')}
+            onUploaded={handlePhotoUploaded}
+            className="absolute -bottom-1 -end-1 inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-primary text-white shadow-md ring-2 ring-white transition hover:bg-brand-secondary cursor-pointer"
+          />
+
+          {profileData?.profilePhoto && (
+            <button
+              type="button"
+              onClick={handleRemovePhoto}
+              disabled={removingPhoto}
+              aria-label={removingPhoto ? t('removingPhoto') : t('removePhoto')}
+              className="absolute -top-1 -end-1 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white text-danger border border-danger/20 shadow-md ring-2 ring-white hover:bg-red-50 disabled:opacity-60 transition"
+            >
+              <Icon name={removingPhoto ? 'progress_activity' : 'delete'} size={16} className={removingPhoto ? 'animate-spin' : ''} />
+            </button>
+          )}
         </div>
         <h2 className="text-headline-md text-neutral-800">{session?.user?.name}</h2>
         <p className="text-body-md text-neutral-500 mb-3">{session?.user?.phone}</p>
-        <div className="flex justify-center">
-          <ImageUploadButton type="profilePhoto" label={t('changePhoto')} onUploaded={handlePhotoUploaded} />
-        </div>
       </section>
 
       <form onSubmit={handleSave} className="bg-white rounded-2xl border border-neutral-200 p-4 space-y-4 mb-4">

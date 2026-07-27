@@ -141,23 +141,29 @@ export default function ProfilePage() {
               <Icon name="person" size={36} className="text-brand-primary" />
             )}
           </div>
-        </div>
-        <h2 className="text-headline-md text-neutral-800">{session?.user?.name}</h2>
-        <p className="text-body-md text-neutral-500 mb-3">{session?.user?.phone}</p>
-        <div className="flex justify-center items-center gap-2">
-          <ImageUploadButton type="profilePhoto" label={t('changePhoto')} onUploaded={handlePhotoUploaded} />
+
+          <ImageUploadButton
+            type="profilePhoto"
+            iconOnly
+            ariaLabel={t('changePhoto')}
+            onUploaded={handlePhotoUploaded}
+            className="absolute -bottom-1 -end-1 inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-primary text-white shadow-md ring-2 ring-white transition hover:bg-brand-secondary cursor-pointer"
+          />
+
           {profileData?.profilePhoto && (
             <button
               type="button"
               onClick={handleRemovePhoto}
               disabled={removingPhoto}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-danger/20 text-label-lg text-danger hover:bg-red-50 disabled:opacity-60 transition"
+              aria-label={removingPhoto ? t('removingPhoto') : t('removePhoto')}
+              className="absolute -top-1 -end-1 inline-flex items-center justify-center w-8 h-8 rounded-full bg-white text-danger border border-danger/20 shadow-md ring-2 ring-white hover:bg-red-50 disabled:opacity-60 transition"
             >
-              <Icon name="delete" size={16} />
-              {removingPhoto ? t('removingPhoto') : t('removePhoto')}
+              <Icon name={removingPhoto ? 'progress_activity' : 'delete'} size={16} className={removingPhoto ? 'animate-spin' : ''} />
             </button>
           )}
         </div>
+        <h2 className="text-headline-md text-neutral-800">{session?.user?.name}</h2>
+        <p className="text-body-md text-neutral-500 mb-3">{session?.user?.phone}</p>
       </section>
 
       {showFullPhoto && profileData?.profilePhoto && (

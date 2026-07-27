@@ -46,7 +46,7 @@ export default function DeliveryDashboard() {
       {/* Stats */}
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white rounded-2xl border border-neutral-200 p-5 flex flex-col gap-1">
-          <Icon name="moped" size={20} className="text-brand-primary" />
+          <Icon name="delivery_dining" size={20} className="text-brand-primary" />
           <p className="text-headline-xl text-neutral-800">{activeData?.orders?.length ?? '…'}</p>
           <p className="text-label-sm text-neutral-500">{t('activeDeliveries')}</p>
         </div>
@@ -86,7 +86,7 @@ export default function DeliveryDashboard() {
         </div>
       ) : orders.length === 0 ? (
         <div className="bg-white rounded-2xl border border-neutral-200 p-12 text-center text-neutral-400">
-          <Icon name="moped" size={40} className="mx-auto mb-3 opacity-40" />
+          <Icon name="delivery_dining" size={40} className="mx-auto mb-3 opacity-40" />
           <p>{tab === 'active' ? t('noActiveOrders') : t('noCompletedOrders')}</p>
         </div>
       ) : (
@@ -100,7 +100,7 @@ export default function DeliveryDashboard() {
                     {order.deliveryOption === 'pickup' ? (
                       <Icon name="store" size={20} className="text-brand-primary" />
                     ) : (
-                      <Icon name="moped" size={20} className="text-brand-primary" />
+                      <Icon name="delivery_dining" size={20} className="text-brand-primary" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -153,7 +153,7 @@ export default function DeliveryDashboard() {
                       onClick={() => markInTransit(order._id)}
                       className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-label-lg bg-brand-primary text-white hover:bg-brand-secondary transition"
                     >
-                      <Icon name="moped" size={18} />
+                      <Icon name="delivery_dining" size={18} />
                       {t('markInTransit')}
                     </button>
                   )}

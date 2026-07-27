@@ -11,9 +11,15 @@ interface Props {
   multiple?: boolean
   label?: string
   onUploaded: (urls: string[]) => void
+  /** Renders as a compact circular icon-only control instead of the default labeled button. */
+  iconOnly?: boolean
+  /** Accessible name for the icon-only variant; falls back to `label`, then the default upload label. */
+  ariaLabel?: string
+  /** Overrides the wrapper's classes entirely. Only meaningful with `iconOnly`. */
+  className?: string
 }
 
-export function ImageUploadButton({ type, multiple = false, label, onUploaded }: Props) {
+export function ImageUploadButton({ type, multiple = false, label, onUploaded, iconOnly = false, ariaLabel, className }: Props) {
   const t = useTranslations('upload')
   const { upload, uploading } = useBlobUpload(type)
   const { kind } = UPLOAD_TYPES[type]
@@ -33,6 +39,30 @@ export function ImageUploadButton({ type, multiple = false, label, onUploaded }:
   }
 
   const defaultLabel = kind === 'video' ? t('uploadVideo') : t('uploadImage')
+
+  if (iconOnly) {
+    return (
+      <label
+        aria-label={ariaLabel ?? label ?? defaultLabel}
+        className={
+          className ??
+          `inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-primary text-white shadow-md ring-2 ring-white transition hover:bg-brand-secondary ${
+            uploading ? 'opacity-60 cursor-wait' : 'cursor-pointer'
+          }`
+        }
+      >
+        <Icon name={uploading ? 'progress_activity' : iconName} size={16} className={uploading ? 'animate-spin' : ''} />
+        <input
+          type="file"
+          accept={`${kind}/*`}
+          multiple={multiple}
+          onChange={handleChange}
+          disabled={uploading}
+          className="hidden"
+        />
+      </label>
+    )
+  }
 
   return (
     <label
