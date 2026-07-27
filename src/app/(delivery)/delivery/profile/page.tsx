@@ -9,6 +9,7 @@ import Image from 'next/image'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
+import { DownloadAppButton } from '@/components/pwa/DownloadAppButton'
 import { isRtl, localeNames, type Locale } from '@/i18n/config'
 import { setUserLocale } from '@/i18n/actions'
 
@@ -207,6 +208,8 @@ export default function DeliveryProfilePage() {
           {saving ? t('saving') : t('save')}
         </button>
       </form>
+
+      <DownloadAppButton className="mb-4" />
 
       <button
         onClick={() => signOut({ callbackUrl: '/login' })}

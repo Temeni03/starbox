@@ -648,6 +648,9 @@
     "iosStep1": "Tap the Share icon",
     "iosStep2": "Then tap \"Add to Home Screen\"",
     "gotIt": "Got it",
-    "openInSafari": "Open this link in Safari to install the app on your device."
+    "openInSafari": "Open this link in Safari to install the app on your device.",
+    "downloadApp": "Download app",
+    "downloadAppDesc": "Install StarBox on your device",
+    "installUnavailable": "Installation isn't supported in this browser."
   }
 }

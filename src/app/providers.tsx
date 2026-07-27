@@ -7,16 +7,19 @@ import { useLocale } from 'next-intl'
 import { isRtl, type Locale } from '@/i18n/config'
 import { PushNotificationSetup } from '@/components/PushNotificationSetup'
 import { InstallPrompt } from '@/components/pwa/InstallPrompt'
+import { PwaInstallProvider } from '@/lib/pwa/InstallPromptContext'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const locale = useLocale() as Locale
 
   return (
     <SessionProvider>
-      <NextTopLoader color="#9731B9" height={3} showSpinner={false} />
-      <PushNotificationSetup />
-      <InstallPrompt />
-      {children}
+      <PwaInstallProvider>
+        <NextTopLoader color="#9731B9" height={3} showSpinner={false} />
+        <PushNotificationSetup />
+        <InstallPrompt />
+        {children}
+      </PwaInstallProvider>
       <Toaster
         position="top-center"
         toastOptions={{

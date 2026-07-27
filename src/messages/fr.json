@@ -648,6 +648,9 @@
     "iosStep1": "Appuyez sur l'icône Partager",
     "iosStep2": "Puis appuyez sur « Sur l'écran d'accueil »",
     "gotIt": "Compris",
-    "openInSafari": "Ouvrez ce lien dans Safari pour installer l'application sur votre appareil."
+    "openInSafari": "Ouvrez ce lien dans Safari pour installer l'application sur votre appareil.",
+    "downloadApp": "Télécharger l'application",
+    "downloadAppDesc": "Installez StarBox sur votre appareil",
+    "installUnavailable": "L'installation n'est pas prise en charge sur ce navigateur."
   }
 }
