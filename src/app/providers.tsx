@@ -6,6 +6,7 @@ import NextTopLoader from 'nextjs-toploader'
 import { useLocale } from 'next-intl'
 import { isRtl, type Locale } from '@/i18n/config'
 import { PushNotificationSetup } from '@/components/PushNotificationSetup'
+import { InstallPrompt } from '@/components/pwa/InstallPrompt'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const locale = useLocale() as Locale
@@ -14,6 +15,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <SessionProvider>
       <NextTopLoader color="#1B4332" height={3} showSpinner={false} />
       <PushNotificationSetup />
+      <InstallPrompt />
       {children}
       <Toaster
         position="top-center"

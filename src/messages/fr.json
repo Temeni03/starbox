@@ -638,5 +638,16 @@
     "noAccount": "Vous n'avez pas de compte ?",
     "createAccount": "Créer un compte",
     "copyright": "© {year} Starbox. Tous droits réservés."
+  },
+  "pwa": {
+    "installTitle": "Installer StarBox",
+    "installDesc": "Ajoutez l'application à votre écran d'accueil pour une expérience plus rapide.",
+    "installButton": "Installer",
+    "iosTitle": "Installer StarBox",
+    "iosDesc": "Ajoutez StarBox à votre écran d'accueil pour un accès rapide, le plein écran et les notifications de commande.",
+    "iosStep1": "Appuyez sur l'icône Partager",
+    "iosStep2": "Puis appuyez sur « Sur l'écran d'accueil »",
+    "gotIt": "Compris",
+    "openInSafari": "Ouvrez ce lien dans Safari pour installer l'application sur votre appareil."
   }
 }

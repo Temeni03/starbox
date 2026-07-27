@@ -15,7 +15,22 @@ function urlBase64ToUint8Array(base64String: string): Uint8Array {
 export function PushNotificationSetup() {
   const { data: session } = useSession()
 
+  // Register the service worker unconditionally (regardless of login state) so the app is
+  // installable for anonymous visitors too — not just users who've already signed in.
+  // Disabled outside production to avoid caching headaches while developing (test via
+  // `next build && next start`, or a preview deploy, instead of `next dev`).
   useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') return
+    if (!('serviceWorker' in navigator)) return
+
+    navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {
+      // Registration can fail (e.g. unsupported browser, blocked storage) — installability
+      // and offline support just won't be available; nothing else in the app depends on it.
+    })
+  }, [])
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== 'production') return
     if (!session?.user) return
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
 
@@ -24,8 +39,9 @@ export function PushNotificationSetup() {
 
     async function setup() {
       try {
-        const reg = await navigator.serviceWorker.register('/sw.js', { scope: '/' })
         await navigator.serviceWorker.ready
+        const reg = await navigator.serviceWorker.getRegistration('/')
+        if (!reg) return
 
         const existing = await reg.pushManager.getSubscription()
         if (existing) return // Already subscribed

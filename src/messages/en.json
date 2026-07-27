@@ -638,5 +638,16 @@
     "noAccount": "Don't have an account?",
     "createAccount": "Create Account",
     "copyright": "© {year} Starbox. All rights reserved."
+  },
+  "pwa": {
+    "installTitle": "Install StarBox",
+    "installDesc": "Add to your home screen for a faster, app-like experience.",
+    "installButton": "Install",
+    "iosTitle": "Install StarBox",
+    "iosDesc": "Add StarBox to your home screen for quick access, full-screen browsing, and order notifications.",
+    "iosStep1": "Tap the Share icon",
+    "iosStep2": "Then tap \"Add to Home Screen\"",
+    "gotIt": "Got it",
+    "openInSafari": "Open this link in Safari to install the app on your device."
   }
 }
