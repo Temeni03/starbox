@@ -4,6 +4,7 @@ import { connectDB } from '@/lib/mongodb'
 import { Cart } from '@/models/Cart'
 import { Product } from '@/models/Product'
 import { Box } from '@/models/Box'
+import { isBoxOutOfStock } from '@/lib/boxAvailability'
 
 export async function PATCH(
   req: Request,
@@ -28,9 +29,12 @@ export async function PATCH(
   if (!item) return NextResponse.json({ error: 'Item not in cart' }, { status: 404 })
 
   if (item.itemType === 'Box') {
-    const box = await Box.findById(itemId).lean()
+    const box = await Box.findById(itemId).populate('products.product', 'quantity').lean()
     if (!box || !(box as any).isActive) {
       return NextResponse.json({ error: 'Box not found' }, { status: 404 })
+    }
+    if (isBoxOutOfStock((box as any).products)) {
+      return NextResponse.json({ error: 'This box is currently unavailable' }, { status: 409 })
     }
   } else {
     const product = await Product.findById(itemId).lean()

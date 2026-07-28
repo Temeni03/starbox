@@ -13,6 +13,7 @@
     "somethingWrong": "Une erreur est survenue",
     "outOfStock": "Rupture de stock",
     "lowStock": "Stock faible",
+    "boxUnavailable": "Actuellement indisponible — de retour bientôt",
     "addedToCart": "Ajouté au panier",
     "addToCartError": "Échec de l'ajout",
     "language": "Langue",

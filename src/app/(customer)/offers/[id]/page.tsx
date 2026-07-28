@@ -47,7 +47,10 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
     )
   }
 
+  const outOfStock = !!box.outOfStock
+
   async function handleAddToCart() {
+    if (outOfStock) return
     setAdding(true)
     try {
       await addToCart(box._id, 1, {
@@ -65,6 +68,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
   }
 
   async function handleBuyNow() {
+    if (outOfStock) return
     setBuying(true)
     try {
       await addToCart(box._id, 1, {
@@ -92,6 +96,13 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
           <Image src={box.coverImage} alt={box.name} fill className="object-cover" sizes="(max-width: 640px) 100vw, 512px" priority />
         ) : (
           <Icon name="card_giftcard" size={40} className="text-white/90" />
+        )}
+        {outOfStock && (
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+            <span className="bg-white text-neutral-800 text-label-sm px-2 py-1 rounded-md">
+              {tCommon('boxUnavailable')}
+            </span>
+          </div>
         )}
       </div>
 
@@ -128,7 +139,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
         <div className="grid grid-cols-2 gap-3 max-w-lg mx-auto">
           <button
             onClick={handleAddToCart}
-            disabled={adding || buying}
+            disabled={adding || buying || outOfStock}
             className="flex items-center justify-center gap-2 border border-brand-primary text-brand-primary py-3 rounded-xl text-label-sm hover:bg-brand-light disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             <Icon name="add_shopping_cart" size={18} />
@@ -136,7 +147,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
           </button>
           <button
             onClick={handleBuyNow}
-            disabled={adding || buying}
+            disabled={adding || buying || outOfStock}
             className="flex items-center justify-center gap-2 bg-brand-primary text-white py-3 rounded-xl text-label-sm shadow-lg shadow-brand-primary/20 hover:bg-brand-secondary disabled:opacity-50 disabled:cursor-not-allowed transition"
           >
             <Icon name="bolt" size={18} />

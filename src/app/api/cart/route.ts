@@ -5,7 +5,7 @@ import { Cart } from '@/models/Cart'
 import { Product } from '@/models/Product'
 import { Box } from '@/models/Box'
 import { getRequestLocale, resolveLocalized } from '@/lib/localized'
-import { activeBoxFilter } from '@/lib/boxAvailability'
+import { activeBoxFilter, isBoxOutOfStock } from '@/lib/boxAvailability'
 
 export async function GET() {
   const session = await auth()
@@ -66,8 +66,11 @@ export async function POST(req: Request) {
   )
 
   if (itemType === 'box') {
-    const box = await Box.findOne({ _id: itemId, ...activeBoxFilter() })
+    const box = await Box.findOne({ _id: itemId, ...activeBoxFilter() }).populate('products.product', 'quantity')
     if (!box) return NextResponse.json({ error: 'Box not found' }, { status: 404 })
+    if (isBoxOutOfStock(box.products as { product?: { quantity: number } | null }[])) {
+      return NextResponse.json({ error: 'This box is currently unavailable' }, { status: 409 })
+    }
 
     if (existingIdx >= 0) {
       cart.items[existingIdx].quantity += quantity

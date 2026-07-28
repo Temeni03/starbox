@@ -13,6 +13,7 @@
     "somethingWrong": "حدث خطأ ما",
     "outOfStock": "نفدت الكمية",
     "lowStock": "الكمية محدودة",
+    "boxUnavailable": "غير متوفر حاليًا — سيعود قريبًا",
     "addedToCart": "أُضيف إلى السلة",
     "addToCartError": "فشلت الإضافة",
     "language": "اللغة",

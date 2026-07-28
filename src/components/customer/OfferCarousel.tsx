@@ -11,6 +11,7 @@ const AUTOPLAY_INTERVAL = 5500
 
 export function OfferCarousel() {
   const t = useTranslations('home')
+  const tCommon = useTranslations('common')
   const { boxes, isLoading } = useBoxes()
   const trackRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -210,6 +211,14 @@ export function OfferCarousel() {
                 </span>
               </div>
             </div>
+
+            {box.outOfStock && (
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                <span className="bg-white text-neutral-800 text-label-sm px-3 py-1.5 rounded-md">
+                  {tCommon('boxUnavailable')}
+                </span>
+              </div>
+            )}
           </Link>
         ))}
       </div>
