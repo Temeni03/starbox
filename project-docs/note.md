@@ -45,5 +45,5 @@
 -les images(produits,capture) ✅
 -langage✅
 - App logo background ✅ 
-- Product title size 
+- Product title size ✅
 - domaine name

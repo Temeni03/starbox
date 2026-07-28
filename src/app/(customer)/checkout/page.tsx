@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
+import useSWR from 'swr'
 import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import { useCartStore } from '@/store/cartStore'
@@ -12,7 +13,7 @@ import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
 import { LocationSelect } from '@/components/ui/LocationSelect'
 import type { DeliveryLocation } from '@/hooks/useDeliveryLocations'
 
-const BANK_PAYMENT_CODE = 'STORE-001'
+const configFetcher = (url: string) => fetch(url).then((r) => r.json())
 
 export default function CheckoutPage() {
   const t = useTranslations('checkout')
@@ -21,6 +22,8 @@ export default function CheckoutPage() {
   const items = useCartStore((s) => s.items)
   const totalPrice = useCartStore((s) => s.totalPrice())
   const clearCart = useCartStore((s) => s.clear)
+  const { data: config } = useSWR('/api/config', configFetcher)
+  const bankPaymentCode = config?.bank_payment_code ?? 'STORE-001'
 
   const [deliveryOption, setDeliveryOption] = useState<'home' | 'pickup'>('home')
   const [location, setLocation] = useState<DeliveryLocation | null>(null)
@@ -32,7 +35,7 @@ export default function CheckoutPage() {
 
   async function handleCopyCode() {
     try {
-      await navigator.clipboard.writeText(BANK_PAYMENT_CODE)
+      await navigator.clipboard.writeText(bankPaymentCode)
       setCodeCopied(true)
       toast.success(t('codeCopied'))
       setTimeout(() => setCodeCopied(false), 2000)
@@ -219,7 +222,7 @@ export default function CheckoutPage() {
               className="flex items-center justify-between gap-2 w-full bg-white border border-neutral-200 rounded-xl px-3 py-2.5 hover:border-brand-primary transition"
             >
               <span className="text-label-lg font-mono text-brand-primary tracking-wide">
-                {BANK_PAYMENT_CODE}
+                {bankPaymentCode}
               </span>
               <span className="flex items-center gap-1 text-label-sm text-neutral-500">
                 {codeCopied ? (
