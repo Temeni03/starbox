@@ -31,12 +31,22 @@ function toMessage(token: string, payload: PushPayload) {
       body: payload.body,
       ...(payload.url ? { url: payload.url } : {}),
     },
+    // FCM defaults data-only messages to "normal" priority, which Doze/App Standby can
+    // delay for minutes to hours. "high" asks Android to wake the device and deliver
+    // immediately — still no guarantee against OEM battery managers, but it's the
+    // difference between "delayed" and "never" on stock/near-stock Android.
+    android: {
+      priority: 'high' as const,
+    },
   }
 }
 
 export async function sendPushToUser(userId: string, payload: PushPayload) {
   const messaging = getAdminMessaging()
-  if (!messaging) return
+  if (!messaging) {
+    console.error('[push] skipped: Firebase admin credentials not configured')
+    return
+  }
 
   await connectDB()
   const user = await User.findById(userId).select('fcmToken').lean<{ fcmToken?: string }>()
@@ -48,13 +58,19 @@ export async function sendPushToUser(userId: string, payload: PushPayload) {
   } catch (err: unknown) {
     if (isStaleTokenError(err)) {
       await User.findByIdAndUpdate(userId, { $unset: { fcmToken: 1 } })
+    } else {
+      console.error('[push] send failed for user', userId, err)
     }
   }
 }
 
 export async function sendPushToUsers(items: { userId: string; payload: PushPayload }[]) {
   const messaging = getAdminMessaging()
-  if (!messaging || items.length === 0) return
+  if (!messaging) {
+    console.error('[push] skipped: Firebase admin credentials not configured')
+    return
+  }
+  if (items.length === 0) return
 
   await connectDB()
   const users = await User.find({
@@ -73,7 +89,11 @@ export async function sendPushToUsers(items: { userId: string; payload: PushPayl
       try {
         await messaging.send(toMessage(token, payload))
       } catch (err: unknown) {
-        if (isStaleTokenError(err)) staleUserIds.push(userId)
+        if (isStaleTokenError(err)) {
+          staleUserIds.push(userId)
+        } else {
+          console.error('[push] send failed for user', userId, err)
+        }
       }
     })
   )

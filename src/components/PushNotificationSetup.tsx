@@ -1,13 +1,17 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
 import toast from 'react-hot-toast'
 import { getToken, onMessage } from 'firebase/messaging'
 import { getFirebaseMessaging } from '@/lib/firebase-client'
+import { getPlatformInfo } from '@/lib/pwa/platform'
+import { hasBatteryNudgeBeenSeen, markBatteryNudgeSeen } from '@/lib/pwa/batteryNudge'
+import { BatteryOptimizationNudge } from '@/components/pwa/BatteryOptimizationNudge'
 
 export function PushNotificationSetup() {
   const { data: session } = useSession()
+  const [showBatteryNudge, setShowBatteryNudge] = useState(false)
 
   // Register the caching service worker unconditionally (regardless of login state) so the app is
   // installable for anonymous visitors too — not just users who've already signed in.
@@ -65,6 +69,12 @@ export function PushNotificationSetup() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token }),
         })
+
+        // Android background-delivery reliability depends on the OS not freezing the app —
+        // nudge the user toward exempting it from battery optimization, once, on Android only.
+        if (getPlatformInfo().isAndroid && !hasBatteryNudgeBeenSeen()) {
+          setShowBatteryNudge(true)
+        }
       } catch {
         // Silently fail — push is optional
       }
@@ -73,6 +83,17 @@ export function PushNotificationSetup() {
     setup()
     return () => unsubscribe?.()
   }, [session?.user?.id])
+
+  if (showBatteryNudge) {
+    return (
+      <BatteryOptimizationNudge
+        onClose={() => {
+          markBatteryNudgeSeen()
+          setShowBatteryNudge(false)
+        }}
+      />
+    )
+  }
 
   return null
 }
