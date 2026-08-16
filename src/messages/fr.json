@@ -652,6 +652,9 @@
     "openInSafari": "Ouvrez ce lien dans Safari pour installer l'application sur votre appareil.",
     "downloadApp": "Télécharger l'application",
     "downloadAppDesc": "Installez StarBox sur votre appareil",
-    "installUnavailable": "L'installation n'est pas prise en charge sur ce navigateur."
+    "installUnavailable": "L'installation n'est pas prise en charge sur ce navigateur.",
+    "batteryTitle": "Fiabilisez vos notifications",
+    "batteryDesc": "Certains téléphones mettent les applications en pause en arrière-plan pour économiser la batterie, ce qui peut retarder les notifications de commande. Autorisez StarBox à fonctionner en arrière-plan pour des alertes instantanées.",
+    "batteryOpenSettings": "Ouvrir les paramètres de batterie"
   }
 }

@@ -35,7 +35,9 @@ export async function notifyUser(userId: string, payload: NotifyPayload) {
     data: payload.params,
     url: payload.url,
   })
-  sendPushToUser(userId, { title, body, url: payload.url }).catch(() => {})
+  sendPushToUser(userId, { title, body, url: payload.url }).catch((err) =>
+    console.error('[notify] sendPushToUser failed', err)
+  )
 }
 
 export async function notifyRole(role: 'admin' | 'delivery', payload: NotifyPayload, excludeUserId?: string) {
@@ -56,5 +58,5 @@ export async function notifyRole(role: 'admin' | 'delivery', payload: NotifyPayl
   await Notification.insertMany(docs)
   sendPushToUsers(
     docs.map((d) => ({ userId: d.user.toString(), payload: { title: d.title, body: d.body, url: d.url } }))
-  ).catch(() => {})
+  ).catch((err) => console.error('[notify] sendPushToUsers failed', err))
 }

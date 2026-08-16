@@ -652,6 +652,9 @@
     "openInSafari": "Open this link in Safari to install the app on your device.",
     "downloadApp": "Download app",
     "downloadAppDesc": "Install StarBox on your device",
-    "installUnavailable": "Installation isn't supported in this browser."
+    "installUnavailable": "Installation isn't supported in this browser.",
+    "batteryTitle": "Keep notifications reliable",
+    "batteryDesc": "Some phones pause apps in the background to save battery, which can delay order notifications. Allow StarBox to run in the background for instant alerts.",
+    "batteryOpenSettings": "Open Battery Settings"
   }
 }
