@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import { Box } from '@/models/Box'
 import { getRequestLocale, resolveLocalized } from '@/lib/localized'
-import { activeBoxFilter } from '@/lib/boxAvailability'
+import { activeBoxFilter, isBoxOutOfStock } from '@/lib/boxAvailability'
 
 export async function GET(
   _req: Request,
@@ -14,14 +14,14 @@ export async function GET(
     const locale = await getRequestLocale()
 
     const box = await Box.findOne({ _id: id, ...activeBoxFilter() })
-      .populate('products.product', 'name price images')
+      .populate('products.product', 'name price images quantity')
       .lean<{
         _id: unknown
         name: Record<string, string | undefined>
         price: number
         coverImage?: string
         products: {
-          product: { _id: unknown; name: Record<string, string | undefined>; price: number; images: string[] } | null
+          product: { _id: unknown; name: Record<string, string | undefined>; price: number; images: string[]; quantity: number } | null
           quantity: number
         }[]
       }>()
@@ -29,6 +29,8 @@ export async function GET(
     if (!box) {
       return NextResponse.json({ error: 'Box not found' }, { status: 404 })
     }
+
+    const outOfStock = isBoxOutOfStock(box.products)
 
     const products = box.products
       .filter((bp) => bp.product)
@@ -47,6 +49,7 @@ export async function GET(
         price: box.price,
         coverImage: box.coverImage,
         products,
+        outOfStock,
       },
     })
   } catch {

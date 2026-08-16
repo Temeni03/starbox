@@ -7,6 +7,7 @@ export interface Box {
   name: string
   price: number
   coverImage?: string
+  outOfStock: boolean
 }
 
 export function useBoxes() {

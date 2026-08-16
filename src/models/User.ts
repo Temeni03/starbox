@@ -8,13 +8,7 @@ export interface IUser extends Document {
   address?: string
   profilePhoto?: string
   language: 'ar' | 'fr' | 'en'
-  pushSubscription?: {
-    endpoint: string
-    keys: {
-      p256dh: string
-      auth: string
-    }
-  }
+  fcmToken?: string
   isActive: boolean
   createdAt: Date
   updatedAt: Date
@@ -34,13 +28,7 @@ const UserSchema = new Schema<IUser>(
     address: { type: String, trim: true },
     profilePhoto: { type: String },
     language: { type: String, enum: ['ar', 'fr', 'en'], default: 'fr' },
-    pushSubscription: {
-      endpoint: String,
-      keys: {
-        p256dh: String,
-        auth: String,
-      },
-    },
+    fcmToken: { type: String },
     isActive: { type: Boolean, default: true },
   },
   { timestamps: true }

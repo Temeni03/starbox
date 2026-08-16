@@ -2,20 +2,14 @@
 
 import { useEffect } from 'react'
 import { useSession } from 'next-auth/react'
-
-function urlBase64ToUint8Array(base64String: string): Uint8Array {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
-  const rawData = window.atob(base64)
-  const output = new Uint8Array(rawData.length)
-  for (let i = 0; i < rawData.length; i++) output[i] = rawData.charCodeAt(i)
-  return output
-}
+import toast from 'react-hot-toast'
+import { getToken, onMessage } from 'firebase/messaging'
+import { getFirebaseMessaging } from '@/lib/firebase-client'
 
 export function PushNotificationSetup() {
   const { data: session } = useSession()
 
-  // Register the service worker unconditionally (regardless of login state) so the app is
+  // Register the caching service worker unconditionally (regardless of login state) so the app is
   // installable for anonymous visitors too — not just users who've already signed in.
   // Disabled outside production to avoid caching headaches while developing (test via
   // `next build && next start`, or a preview deploy, instead of `next dev`).
@@ -29,35 +23,47 @@ export function PushNotificationSetup() {
     })
   }, [])
 
+  // Once logged in: request notification permission, get an FCM token, and save it on the
+  // user. Also listen for foreground pushes — shown as a toast instead of an OS notification,
+  // since the service worker's background handler would otherwise double-notify a user who
+  // already has the app open.
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production') return
     if (!session?.user) return
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return
+    if (!('serviceWorker' in navigator)) return
 
-    const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+    const vapidKey = process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY
     if (!vapidKey) return
+
+    let unsubscribe: (() => void) | undefined
 
     async function setup() {
       try {
-        await navigator.serviceWorker.ready
-        const reg = await navigator.serviceWorker.getRegistration('/')
-        if (!reg) return
+        const messaging = await getFirebaseMessaging()
+        if (!messaging) return
 
-        const existing = await reg.pushManager.getSubscription()
-        if (existing) return // Already subscribed
+        unsubscribe = onMessage(messaging, (payload) => {
+          const title = payload.data?.title ?? 'StarBox'
+          const body = payload.data?.body ?? ''
+          toast(body ? `${title} — ${body}` : title)
+        })
 
         const permission = await Notification.requestPermission()
         if (permission !== 'granted') return
 
-        const subscription = await reg.pushManager.subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(vapidKey!) as unknown as ArrayBuffer,
+        // Registered at a dedicated scope (distinct from /sw.js at '/') so the two
+        // service workers coexist instead of one replacing the other's control.
+        const swReg = await navigator.serviceWorker.register('/firebase-messaging-sw.js', {
+          scope: '/firebase-cloud-messaging-push-scope',
         })
+
+        const token = await getToken(messaging, { vapidKey, serviceWorkerRegistration: swReg })
+        if (!token) return
 
         await fetch('/api/push/subscribe', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(subscription),
+          body: JSON.stringify({ token }),
         })
       } catch {
         // Silently fail — push is optional
@@ -65,6 +71,7 @@ export function PushNotificationSetup() {
     }
 
     setup()
+    return () => unsubscribe?.()
   }, [session?.user?.id])
 
   return null

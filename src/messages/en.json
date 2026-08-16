@@ -13,6 +13,7 @@
     "somethingWrong": "Something went wrong",
     "outOfStock": "Out of stock",
     "lowStock": "Low stock",
+    "boxUnavailable": "Currently unavailable — back soon",
     "addedToCart": "Added to cart",
     "addToCartError": "Failed to add",
     "language": "Language",

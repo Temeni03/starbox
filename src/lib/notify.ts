@@ -1,7 +1,7 @@
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 import { Notification, type NotificationType } from '@/models/Notification'
-import { sendPushToUser, sendPushToUsers } from '@/lib/webpush'
+import { sendPushToUser, sendPushToUsers } from '@/lib/push'
 import { translate } from '@/lib/serverTranslate'
 import { resolveNotificationParams, type NotificationParams } from '@/lib/notificationParams'
 import { defaultLocale, type Locale } from '@/i18n/config'

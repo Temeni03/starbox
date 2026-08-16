@@ -9,7 +9,7 @@ import { Box } from '@/models/Box'
 import { Location } from '@/models/Location'
 import { notifyRole, notifyUser } from '@/lib/notify'
 import { getRequestLocale, resolveLocalized } from '@/lib/localized'
-import { activeBoxFilter } from '@/lib/boxAvailability'
+import { activeBoxFilter, isBoxOutOfStock } from '@/lib/boxAvailability'
 
 const CheckoutSchema = z.object({
   deliveryOption: z.enum(['home', 'pickup']),
@@ -62,10 +62,16 @@ export async function POST(req: Request) {
   const staleItems: { name: string; productId: string }[] = []
   for (const item of cart.items) {
     if (item.itemType === 'Box') {
-      const box = await Box.findOne({ _id: item.product, ...activeBoxFilter() })
+      const box = await Box.findOne({ _id: item.product, ...activeBoxFilter() }).populate('products.product', 'quantity')
       if (!box) {
         staleItems.push({ name: item.name, productId: item.product.toString() })
         continue
+      }
+      if (isBoxOutOfStock(box.products as { product?: { quantity: number } | null }[])) {
+        return NextResponse.json(
+          { error: `"${item.name}" is currently unavailable` },
+          { status: 409 }
+        )
       }
       continue
     }

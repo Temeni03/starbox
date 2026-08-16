@@ -7,21 +7,13 @@ export async function POST(req: Request) {
   const session = await auth()
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
-  const subscription = await req.json()
-  if (!subscription?.endpoint || !subscription?.keys?.p256dh || !subscription?.keys?.auth) {
-    return NextResponse.json({ error: 'Invalid subscription' }, { status: 400 })
+  const { token } = await req.json()
+  if (!token || typeof token !== 'string') {
+    return NextResponse.json({ error: 'Invalid token' }, { status: 400 })
   }
 
   await connectDB()
-  await User.findByIdAndUpdate(session.user.id, {
-    pushSubscription: {
-      endpoint: subscription.endpoint,
-      keys: {
-        p256dh: subscription.keys.p256dh,
-        auth: subscription.keys.auth,
-      },
-    },
-  })
+  await User.findByIdAndUpdate(session.user.id, { fcmToken: token })
 
   return NextResponse.json({ success: true })
 }
@@ -31,6 +23,6 @@ export async function DELETE() {
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   await connectDB()
-  await User.findByIdAndUpdate(session.user.id, { $unset: { pushSubscription: 1 } })
+  await User.findByIdAndUpdate(session.user.id, { $unset: { fcmToken: 1 } })
   return NextResponse.json({ success: true })
 }
