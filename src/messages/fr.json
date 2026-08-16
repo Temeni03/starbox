@@ -655,6 +655,9 @@
     "installUnavailable": "L'installation n'est pas prise en charge sur ce navigateur.",
     "batteryTitle": "Fiabilisez vos notifications",
     "batteryDesc": "Certains téléphones mettent les applications en pause en arrière-plan pour économiser la batterie, ce qui peut retarder les notifications de commande. Autorisez StarBox à fonctionner en arrière-plan pour des alertes instantanées.",
-    "batteryOpenSettings": "Ouvrir les paramètres de batterie"
+    "batteryOpenSettings": "Ouvrir les paramètres de batterie",
+    "iosNotifTitle": "Activer les notifications",
+    "iosNotifDesc": "Soyez informé instantanément de vos commandes.",
+    "iosNotifEnable": "Activer"
   }
 }

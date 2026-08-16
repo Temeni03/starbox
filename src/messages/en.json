@@ -655,6 +655,9 @@
     "installUnavailable": "Installation isn't supported in this browser.",
     "batteryTitle": "Keep notifications reliable",
     "batteryDesc": "Some phones pause apps in the background to save battery, which can delay order notifications. Allow StarBox to run in the background for instant alerts.",
-    "batteryOpenSettings": "Open Battery Settings"
+    "batteryOpenSettings": "Open Battery Settings",
+    "iosNotifTitle": "Enable notifications",
+    "iosNotifDesc": "Get notified about your orders instantly.",
+    "iosNotifEnable": "Enable"
   }
 }
