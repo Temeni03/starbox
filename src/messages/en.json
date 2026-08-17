@@ -228,27 +228,27 @@
     "types": {
       "order_submitted": {
         "title": "StarBox — Order submitted",
-        "body": "Your order {orderNumber} has been sent for review."
+        "body": "Your order has been sent for review."
       },
       "order_confirmed": {
         "title": "StarBox — Order confirmed",
-        "body": "Your order {orderNumber} has been confirmed."
+        "body": "Your order has been confirmed."
       },
       "order_cancelled": {
         "title": "StarBox — Order cancelled",
-        "body": "{hasReason, select, true {Your order {orderNumber} has been cancelled. Reason: {reason}} other {Your order {orderNumber} has been cancelled.}}"
+        "body": "{hasReason, select, true {Your order has been cancelled. Reason: {reason}} other {Your order has been cancelled.}}"
       },
       "order_assigned": {
         "title": "StarBox — Delivery assigned",
-        "body": "Your order {orderNumber} has been handed to a delivery person."
+        "body": "Your order has been handed to a delivery person."
       },
       "order_transit": {
         "title": "StarBox — Order on its way",
-        "body": "Your order {orderNumber} is on its way."
+        "body": "Your order is on its way."
       },
       "order_delivered": {
         "title": "StarBox — Order delivered",
-        "body": "Your order {orderNumber} has been delivered."
+        "body": "Your order has been delivered."
       },
       "promotion": {
         "title": "StarBox — Promotion",
@@ -256,11 +256,11 @@
       },
       "new_order": {
         "title": "StarBox — New Order",
-        "body": "{name} placed order {orderNumber} ({amount} MRU)"
+        "body": "{name} placed an order ({amount} MRU)"
       },
       "payment_submitted": {
         "title": "StarBox — Payment proof submitted",
-        "body": "{name} submitted a bank transfer receipt for order {orderNumber}."
+        "body": "{name} submitted a bank transfer receipt for their order."
       },
       "low_stock": {
         "title": "StarBox — Low stock",
@@ -268,11 +268,11 @@
       },
       "delivery_confirmed": {
         "title": "StarBox — Delivery confirmed",
-        "body": "The customer confirmed receipt of order {orderNumber}."
+        "body": "The customer confirmed receipt of their order."
       },
       "delivery_new_mission": {
         "title": "StarBox — New Delivery",
-        "body": "Order {orderNumber} has been assigned to you."
+        "body": "An order has been assigned to you."
       }
     }
   },
@@ -655,6 +655,9 @@
     "installUnavailable": "Installation isn't supported in this browser.",
     "batteryTitle": "Keep notifications reliable",
     "batteryDesc": "Some phones pause apps in the background to save battery, which can delay order notifications. Allow StarBox to run in the background for instant alerts.",
-    "batteryOpenSettings": "Open Battery Settings"
+    "batteryOpenSettings": "Open Battery Settings",
+    "iosNotifTitle": "Enable notifications",
+    "iosNotifDesc": "Get notified about your orders instantly.",
+    "iosNotifEnable": "Enable"
   }
 }

@@ -228,27 +228,27 @@
     "types": {
       "order_submitted": {
         "title": "StarBox — تم إرسال الطلب",
-        "body": "تم إرسال طلبك {orderNumber} للمراجعة."
+        "body": "تم إرسال طلبك للمراجعة."
       },
       "order_confirmed": {
         "title": "StarBox — تم تأكيد الطلب",
-        "body": "تم تأكيد طلبك {orderNumber}."
+        "body": "تم تأكيد طلبك."
       },
       "order_cancelled": {
         "title": "StarBox — تم إلغاء الطلب",
-        "body": "{hasReason, select, true {تم إلغاء طلبك {orderNumber}. السبب: {reason}} other {تم إلغاء طلبك {orderNumber}.}}"
+        "body": "{hasReason, select, true {تم إلغاء طلبك. السبب: {reason}} other {تم إلغاء طلبك.}}"
       },
       "order_assigned": {
         "title": "StarBox — تم تعيين موصل",
-        "body": "تم تسليم طلبك {orderNumber} إلى موصل."
+        "body": "تم تسليم طلبك إلى موصل."
       },
       "order_transit": {
         "title": "StarBox — الطلب في الطريق",
-        "body": "طلبك {orderNumber} في الطريق إليك."
+        "body": "طلبك في الطريق إليك."
       },
       "order_delivered": {
         "title": "StarBox — تم تسليم الطلب",
-        "body": "تم تسليم طلبك {orderNumber}."
+        "body": "تم تسليم طلبك."
       },
       "promotion": {
         "title": "StarBox — عرض ترويجي",
@@ -256,11 +256,11 @@
       },
       "new_order": {
         "title": "StarBox — طلب جديد",
-        "body": "قام {name} بطلب {orderNumber} ({amount} أوقية)"
+        "body": "قام {name} بطلب جديد ({amount} أوقية)"
       },
       "payment_submitted": {
         "title": "StarBox — تم إرسال إثبات الدفع",
-        "body": "أرسل {name} إيصال تحويل بنكي للطلب {orderNumber}."
+        "body": "أرسل {name} إيصال تحويل بنكي لطلبه."
       },
       "low_stock": {
         "title": "StarBox — مخزون منخفض",
@@ -268,11 +268,11 @@
       },
       "delivery_confirmed": {
         "title": "StarBox — تم تأكيد التسليم",
-        "body": "أكّد العميل استلام الطلب {orderNumber}."
+        "body": "أكّد العميل استلام طلبه."
       },
       "delivery_new_mission": {
         "title": "StarBox — مهمة توصيل جديدة",
-        "body": "تم تعيين الطلب {orderNumber} لك."
+        "body": "تم تعيين طلب لك."
       }
     }
   },
@@ -655,6 +655,9 @@
     "installUnavailable": "التثبيت غير مدعوم في هذا المتصفح.",
     "batteryTitle": "حافظ على موثوقية الإشعارات",
     "batteryDesc": "بعض الهواتف توقف التطبيقات العاملة في الخلفية لتوفير البطارية، مما قد يؤخر إشعارات الطلبات. اسمح لـ StarBox بالعمل في الخلفية لتلقي التنبيهات فورًا.",
-    "batteryOpenSettings": "فتح إعدادات البطارية"
+    "batteryOpenSettings": "فتح إعدادات البطارية",
+    "iosNotifTitle": "تفعيل الإشعارات",
+    "iosNotifDesc": "احصل على إشعار فوري بحالة طلباتك.",
+    "iosNotifEnable": "تفعيل"
   }
 }
