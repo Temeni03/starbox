@@ -228,27 +228,27 @@
     "types": {
       "order_submitted": {
         "title": "StarBox — Commande envoyée",
-        "body": "Votre commande {orderNumber} a été envoyée pour validation."
+        "body": "Votre commande a été envoyée pour validation."
       },
       "order_confirmed": {
         "title": "StarBox — Commande confirmée",
-        "body": "Votre commande {orderNumber} a été confirmée."
+        "body": "Votre commande a été confirmée."
       },
       "order_cancelled": {
         "title": "StarBox — Commande annulée",
-        "body": "{hasReason, select, true {Votre commande {orderNumber} a été annulée. Raison : {reason}} other {Votre commande {orderNumber} a été annulée.}}"
+        "body": "{hasReason, select, true {Votre commande a été annulée. Raison : {reason}} other {Votre commande a été annulée.}}"
       },
       "order_assigned": {
         "title": "StarBox — Livraison assignée",
-        "body": "Votre commande {orderNumber} a été confiée à un livreur."
+        "body": "Votre commande a été confiée à un livreur."
       },
       "order_transit": {
         "title": "StarBox — Commande en route",
-        "body": "Votre commande {orderNumber} est en route."
+        "body": "Votre commande est en route."
       },
       "order_delivered": {
         "title": "StarBox — Commande livrée",
-        "body": "Votre commande {orderNumber} a été livrée."
+        "body": "Votre commande a été livrée."
       },
       "promotion": {
         "title": "StarBox — Promotion",
@@ -256,11 +256,11 @@
       },
       "new_order": {
         "title": "StarBox — Nouvelle commande",
-        "body": "{name} a passé la commande {orderNumber} ({amount} MRU)"
+        "body": "{name} a passé une commande ({amount} MRU)"
       },
       "payment_submitted": {
         "title": "StarBox — Preuve de paiement soumise",
-        "body": "{name} a soumis un reçu de virement pour la commande {orderNumber}."
+        "body": "{name} a soumis un reçu de virement pour sa commande."
       },
       "low_stock": {
         "title": "StarBox — Stock faible",
@@ -268,11 +268,11 @@
       },
       "delivery_confirmed": {
         "title": "StarBox — Livraison confirmée",
-        "body": "Le client a confirmé la réception de la commande {orderNumber}."
+        "body": "Le client a confirmé la réception de sa commande."
       },
       "delivery_new_mission": {
         "title": "StarBox — Nouvelle livraison",
-        "body": "La commande {orderNumber} vous a été assignée."
+        "body": "Une commande vous a été assignée."
       }
     }
   },
