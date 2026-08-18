@@ -4,7 +4,7 @@ import { connectDB } from '@/lib/mongodb'
 import { Cart } from '@/models/Cart'
 import { Product } from '@/models/Product'
 import { Box } from '@/models/Box'
-import { isBoxOutOfStock } from '@/lib/boxAvailability'
+import { isBoxOutOfStock, type BoxLine } from '@/lib/boxAvailability'
 
 export async function PATCH(
   req: Request,
@@ -33,7 +33,7 @@ export async function PATCH(
     if (!box || !(box as any).isActive) {
       return NextResponse.json({ error: 'Box not found' }, { status: 404 })
     }
-    if (isBoxOutOfStock((box as any).products)) {
+    if (isBoxOutOfStock((box as any).products as BoxLine[], quantity)) {
       return NextResponse.json({ error: 'This box is currently unavailable' }, { status: 409 })
     }
   } else {

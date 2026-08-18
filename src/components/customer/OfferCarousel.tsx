@@ -16,7 +16,13 @@ export function OfferCarousel() {
   const trackRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  // Covers whose URL failed to load — they fall back to the brand gradient.
+  const [brokenImages, setBrokenImages] = useState<Set<string>>(new Set())
   const showPeek = boxes.length > 1
+
+  const markImageBroken = useCallback((boxId: string) => {
+    setBrokenImages((prev) => (prev.has(boxId) ? prev : new Set(prev).add(boxId)))
+  }, [])
 
   useEffect(() => {
     const track = trackRef.current
@@ -158,19 +164,22 @@ export function OfferCarousel() {
           <Link
             key={box._id}
             href={`/offers/${box._id}`}
-            className={`group relative shrink-0 snap-center aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container shadow-[0_20px_45px_-15px_rgba(151,49,185,0.45)] ring-1 ring-black/5 transition-shadow duration-500 hover:shadow-[0_25px_55px_-12px_rgba(151,49,185,0.55)] ${
+            className={`group relative isolate shrink-0 snap-center aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container shadow-[0_20px_45px_-15px_rgba(151,49,185,0.45)] ring-1 ring-black/5 transition-shadow duration-500 hover:shadow-[0_25px_55px_-12px_rgba(151,49,185,0.55)] ${
               showPeek ? 'w-[92%]' : 'w-full'
             }`}
           >
-            {/* Image / fallback */}
-            {box.coverImage ? (
+            {/* Image / fallback. The cover is decorative — the name is right below it — so
+                alt stays empty: a missing or broken image shows the brand gradient, never
+                a line of alt text across the card. */}
+            {box.coverImage && !brokenImages.has(box._id) ? (
               <Image
                 src={box.coverImage}
-                alt={box.name}
+                alt=""
                 fill
                 className="z-0 object-cover transition-transform duration-700 ease-out group-hover:scale-[1.06]"
                 sizes="92vw"
                 priority={i === 0}
+                onError={() => markImageBroken(box._id)}
               />
             ) : (
               <div className="absolute inset-0 z-0 flex items-center justify-center">

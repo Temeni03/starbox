@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed": "npx tsx scripts/seed.ts"
+    "seed": "npx tsx scripts/seed.ts",
+    "clone-db": "tsx --env-file=.env.local scripts/clone-db.ts"
   },
   "dependencies": {
     "@vercel/blob": "^2.5.0",

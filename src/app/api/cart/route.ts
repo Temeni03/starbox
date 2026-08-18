@@ -5,7 +5,7 @@ import { Cart } from '@/models/Cart'
 import { Product } from '@/models/Product'
 import { Box } from '@/models/Box'
 import { getRequestLocale, resolveLocalized } from '@/lib/localized'
-import { activeBoxFilter, isBoxOutOfStock } from '@/lib/boxAvailability'
+import { activeBoxFilter, isBoxOutOfStock, type BoxLine } from '@/lib/boxAvailability'
 
 export async function GET() {
   const session = await auth()
@@ -68,13 +68,22 @@ export async function POST(req: Request) {
   if (itemType === 'box') {
     const box = await Box.findOne({ _id: itemId, ...activeBoxFilter() }).populate('products.product', 'quantity')
     if (!box) return NextResponse.json({ error: 'Box not found' }, { status: 404 })
-    if (isBoxOutOfStock(box.products as { product?: { quantity: number } | null }[])) {
+    const lines = box.products as BoxLine[]
+    if (isBoxOutOfStock(lines)) {
       return NextResponse.json({ error: 'This box is currently unavailable' }, { status: 409 })
     }
 
     if (existingIdx >= 0) {
-      cart.items[existingIdx].quantity += quantity
+      const newQty = cart.items[existingIdx].quantity + quantity
+      // The box's contents have to cover every copy in the cart, not just this one.
+      if (isBoxOutOfStock(lines, newQty)) {
+        return NextResponse.json({ error: 'Insufficient stock' }, { status: 409 })
+      }
+      cart.items[existingIdx].quantity = newQty
     } else {
+      if (isBoxOutOfStock(lines, quantity)) {
+        return NextResponse.json({ error: 'Insufficient stock' }, { status: 409 })
+      }
       cart.items.push({
         product: itemId,
         itemType: 'Box',

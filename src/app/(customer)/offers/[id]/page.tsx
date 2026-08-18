@@ -24,6 +24,7 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
 
   const [adding, setAdding] = useState(false)
   const [buying, setBuying] = useState(false)
+  const [coverBroken, setCoverBroken] = useState(false)
 
   if (isLoading) {
     return (
@@ -92,8 +93,18 @@ export default function BoxDetailPage({ params }: { params: Promise<{ id: string
 
       {/* Hero */}
       <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-linear-to-br from-brand-secondary via-brand-primary to-brand-container flex items-center justify-center">
-        {box.coverImage ? (
-          <Image src={box.coverImage} alt={box.name} fill className="object-cover" sizes="(max-width: 640px) 100vw, 512px" priority />
+        {/* Decorative cover — the box name is in the panel below, so alt stays empty and a
+            missing or broken image falls back to the brand gradient, not to alt text. */}
+        {box.coverImage && !coverBroken ? (
+          <Image
+            src={box.coverImage}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, 512px"
+            priority
+            onError={() => setCoverBroken(true)}
+          />
         ) : (
           <Icon name="card_giftcard" size={40} className="text-white/90" />
         )}
