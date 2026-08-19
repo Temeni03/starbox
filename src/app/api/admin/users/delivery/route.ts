@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
+import { PHONE_REGEX, PHONE_ERROR_MESSAGE } from '@/lib/phone'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 
 const DeliverySchema = z.object({
   name: z.string().min(2).max(100).trim(),
-  phone: z.string().regex(/^[234][0-9]{7}$/, 'Phone must be 8 digits starting with 2, 3 or 4'),
+  phone: z.string().regex(PHONE_REGEX, PHONE_ERROR_MESSAGE),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 

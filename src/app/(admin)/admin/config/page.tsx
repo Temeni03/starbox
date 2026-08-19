@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 import useSWR from 'swr'
+import { PHONE_PATTERN, PHONE_LENGTH } from '@/lib/phone'
 import toast from 'react-hot-toast'
 
 const fetcher = (url: string) => fetch(url).then((r) => r.json())
@@ -157,8 +158,8 @@ export default function AdminConfigPage() {
               type="tel"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              pattern="[234][0-9]{7}"
-              maxLength={8}
+              pattern={PHONE_PATTERN}
+              maxLength={PHONE_LENGTH}
               title={t('phoneHint')}
               required
               dir="ltr"

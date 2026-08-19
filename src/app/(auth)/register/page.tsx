@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 import { AuthInput } from '@/components/ui/AuthInput'
+import { PHONE_PATTERN, PHONE_LENGTH } from '@/lib/phone'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import toast from 'react-hot-toast'
 
@@ -100,8 +101,8 @@ export default function RegisterPage() {
             value={form.phone}
             onChange={handleChange}
             placeholder="2XXXXXXX"
-            pattern="[234][0-9]{7}"
-            maxLength={8}
+            pattern={PHONE_PATTERN}
+            maxLength={PHONE_LENGTH}
             title={tProfile('phoneHint')}
             required
             autoComplete="tel"

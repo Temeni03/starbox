@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 import { useLocale, useTranslations } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
+import { PHONE_PATTERN, PHONE_LENGTH } from '@/lib/phone'
 import Image from 'next/image'
 import useSWR, { mutate } from 'swr'
 import toast from 'react-hot-toast'
@@ -214,8 +215,8 @@ export default function ProfilePage() {
             type="tel"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            pattern="[234][0-9]{7}"
-            maxLength={8}
+            pattern={PHONE_PATTERN}
+            maxLength={PHONE_LENGTH}
             title={t('phoneHint')}
             required
             dir="ltr"

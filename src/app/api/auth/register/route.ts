@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
 import { z } from 'zod'
+import { PHONE_REGEX } from '@/lib/phone'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 import { getRequestLocale } from '@/lib/localized'
@@ -8,7 +9,7 @@ import { translate } from '@/lib/serverTranslate'
 
 const RegisterSchema = z.object({
   name: z.string().min(2).max(100).trim(),
-  phone: z.string().regex(/^[234][0-9]{7}$/),
+  phone: z.string().regex(PHONE_REGEX),
   password: z.string().min(6),
 })
 
