@@ -3,6 +3,7 @@ import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 import { Order } from '@/models/Order'
+import { presenceCutoff, PRESENCE_WINDOW_MINUTES } from '@/lib/presence'
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -16,12 +17,26 @@ export async function GET(req: Request) {
   await connectDB()
 
   const users = await User.find({ role })
-    .select('name phone address isActive createdAt profilePhoto')
+    .select('name phone address isActive createdAt profilePhoto lastActiveAt')
     .sort({ createdAt: -1 })
     .lean()
 
+  // "Active now" is presence, not account status: users whose client sent a heartbeat inside the
+  // presence window. `isActive` (account enabled) defaults to true for everyone, which is why
+  // counting it client-side always mirrored the total.
+  const activeCount = await User.countDocuments({
+    role,
+    lastActiveAt: { $gte: presenceCutoff() },
+  })
+
+  const meta = {
+    total: users.length,
+    activeCount,
+    presenceWindowMinutes: PRESENCE_WINDOW_MINUTES,
+  }
+
   if (role !== 'delivery' || users.length === 0) {
-    return NextResponse.json({ users })
+    return NextResponse.json({ users, ...meta })
   }
 
   const counts = await Order.aggregate([
@@ -35,5 +50,5 @@ export async function GET(req: Request) {
     deliveryCount: countByUser.get(String(u._id)) ?? 0,
   }))
 
-  return NextResponse.json({ users: usersWithCounts })
+  return NextResponse.json({ users: usersWithCounts, ...meta })
 }

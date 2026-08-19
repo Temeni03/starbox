@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale, useTranslations } from 'next-intl'
-import { Icon } from '@/components/ui/Icon'
+import { AuthInput } from '@/components/ui/AuthInput'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
 import { isRtl, type Locale } from '@/i18n/config'
 
@@ -19,7 +19,6 @@ export default function LoginPage() {
 
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
-  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -75,54 +74,33 @@ export default function LoginPage() {
         <h2 className="text-headline-md text-neutral-800 mb-6">{t('welcomeBack')}</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1.5">
-            <label htmlFor="phone" className="block text-label-sm text-neutral-500 ms-1">
-              {t('phoneLabel')}
-            </label>
-            <div className="relative">
-              <Icon name="call" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                id="phone"
-                type="tel"
-                dir={dir}
-                value={phone}
-                onChange={e => setPhone(e.target.value)}
-                placeholder={t('phonePlaceholder')}
-                required
-                autoComplete="tel"
-                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-            </div>
-          </div>
+          <AuthInput
+            id="phone"
+            label={t('phoneLabel')}
+            icon="call"
+            type="tel"
+            dir={dir}
+            value={phone}
+            onChange={e => setPhone(e.target.value)}
+            placeholder={t('phonePlaceholder')}
+            required
+            autoComplete="tel"
+          />
 
-          <div className="space-y-1.5">
-            <label htmlFor="password" className="block text-label-sm text-neutral-500 ms-1">
-              {t('passwordLabel')}
-            </label>
-            <div className="relative">
-              <Icon name="lock" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                id="password"
-                type={showPassword ? 'text' : 'password'}
-                dir={dir}
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                autoComplete="current-password"
-                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(prev => !prev)}
-                tabIndex={-1}
-                className="absolute end-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary"
-                aria-label={showPassword ? t('hidePassword') : t('showPassword')}
-              >
-                <Icon name={showPassword ? 'visibility_off' : 'visibility'} size={18} />
-              </button>
-            </div>
-          </div>
+          <AuthInput
+            id="password"
+            label={t('passwordLabel')}
+            icon="lock"
+            type="password"
+            dir={dir}
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="••••••••"
+            required
+            autoComplete="current-password"
+            showPasswordLabel={t('showPassword')}
+            hidePasswordLabel={t('hidePassword')}
+          />
 
           {error && (
             <p className="text-body-md text-danger bg-red-50 border border-red-200 rounded-xl px-3 py-2">

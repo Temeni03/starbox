@@ -305,6 +305,11 @@
   "adminOrders": {
     "title": "Gestion des commandes",
     "allStatus": "Toutes",
+    "filterByDate": "Filtrer par date",
+    "dateFrom": "Du",
+    "dateTo": "Au",
+    "clearDates": "Effacer les dates",
+    "noOrdersInRange": "Aucune commande sur la période sélectionnée",
     "noOrders": "Aucune commande trouvée",
     "updateError": "Échec de la mise à jour de la commande",
     "paymentReceipt": "Reçu de paiement",
@@ -531,6 +536,11 @@
     "addDelivery": "Ajouter un livreur",
     "addDeliveryAria": "Ajouter un livreur",
     "active": "Actifs",
+    "activeNow": "Actifs maintenant",
+    "activeNowHint": "En ligne depuis moins de {minutes} min",
+    "totalHint": "Comptes enregistrés",
+    "onlineNow": "En ligne",
+    "offline": "Hors ligne",
     "totalCustomers": "Total clients",
     "totalStaff": "Total livreurs",
     "noUsersFound": "Aucun utilisateur {type} trouvé",
@@ -624,6 +634,18 @@
     "markInTransit": "Marquer en transit",
     "awaitingConfirmation": "En attente de confirmation du client",
     "awaitingConfirmationDesc": "Le client confirmera une fois qu'il aura physiquement reçu la commande."
+  },
+  "datePicker": {
+    "title": "Choisir une date",
+    "placeholder": "Choisir une date",
+    "today": "Aujourd'hui",
+    "clear": "Effacer",
+    "done": "OK",
+    "chooseMonth": "Choisir le mois et l'année",
+    "previousMonth": "Mois précédent",
+    "nextMonth": "Mois suivant",
+    "previousYear": "Année précédente",
+    "nextYear": "Année suivante"
   },
   "auth": {
     "tagline": "Shopping de luxe sélectionné",

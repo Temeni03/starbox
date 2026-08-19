@@ -4,15 +4,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Icon } from '@/components/ui/Icon'
+import { AuthInput } from '@/components/ui/AuthInput'
 import toast from 'react-hot-toast'
 
 export default function RegisterPage() {
   const router = useRouter()
 
   const [form, setForm] = useState({ name: '', phone: '', password: '', confirm: '' })
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirm, setShowConfirm] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -70,108 +68,66 @@ export default function RegisterPage() {
         <h2 className="text-headline-md text-neutral-800 mb-6">Join Starbox</h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1.5">
-            <label htmlFor="name" className="block text-label-sm text-neutral-500 ms-1">
-              Full name
-            </label>
-            <div className="relative">
-              <Icon name="person" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                id="name"
-                name="name"
-                type="text"
-                value={form.name}
-                onChange={handleChange}
-                placeholder="Ahmed Benali"
-                required
-                autoComplete="name"
-                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-            </div>
-          </div>
+          <AuthInput
+            id="name"
+            name="name"
+            label="Full name"
+            icon="person"
+            type="text"
+            value={form.name}
+            onChange={handleChange}
+            placeholder="Ahmed Benali"
+            required
+            autoComplete="name"
+          />
 
-          <div className="space-y-1.5">
-            <label htmlFor="phone" className="block text-label-sm text-neutral-500 ms-1">
-              Phone number
-            </label>
-            <div className="relative">
-              <Icon name="call" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                value={form.phone}
-                onChange={handleChange}
-                placeholder="2XXXXXXX"
-                pattern="[234][0-9]{7}"
-                maxLength={8}
-                title="8 digits starting with 2, 3 or 4"
-                required
-                autoComplete="tel"
-                className="w-full h-12 ps-12 pe-4 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-            </div>
-          </div>
+          <AuthInput
+            id="phone"
+            name="phone"
+            label="Phone number"
+            icon="call"
+            type="tel"
+            value={form.phone}
+            onChange={handleChange}
+            placeholder="2XXXXXXX"
+            pattern="[234][0-9]{7}"
+            maxLength={8}
+            title="8 digits starting with 2, 3 or 4"
+            required
+            autoComplete="tel"
+          />
 
-          <div className="space-y-1.5">
-            <label htmlFor="password" className="block text-label-sm text-neutral-500 ms-1">
-              Password
-            </label>
-            <div className="relative">
-              <Icon name="lock" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                value={form.password}
-                onChange={handleChange}
-                placeholder="Min. 6 characters"
-                minLength={6}
-                required
-                autoComplete="new-password"
-                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(prev => !prev)}
-                tabIndex={-1}
-                className="absolute end-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary"
-                aria-label={showPassword ? 'Hide password' : 'Show password'}
-              >
-                <Icon name={showPassword ? 'visibility_off' : 'visibility'} size={18} />
-              </button>
-            </div>
-          </div>
+          <AuthInput
+            id="password"
+            name="password"
+            label="Password"
+            icon="lock"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Min. 6 characters"
+            minLength={6}
+            required
+            autoComplete="new-password"
+            showPasswordLabel="Show password"
+            hidePasswordLabel="Hide password"
+          />
 
-          <div className="space-y-1.5">
-            <label htmlFor="confirm" className="block text-label-sm text-neutral-500 ms-1">
-              Confirm password
-            </label>
-            <div className="relative">
-              <Icon name="lock_reset" size={18} className="absolute start-4 top-1/2 -translate-y-1/2 text-neutral-400" />
-              <input
-                id="confirm"
-                name="confirm"
-                type={showConfirm ? 'text' : 'password'}
-                value={form.confirm}
-                onChange={handleChange}
-                placeholder="••••••••"
-                minLength={6}
-                required
-                autoComplete="new-password"
-                className="w-full h-12 ps-12 pe-12 bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirm(prev => !prev)}
-                tabIndex={-1}
-                className="absolute end-4 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-brand-primary"
-                aria-label={showConfirm ? 'Hide password' : 'Show password'}
-              >
-                <Icon name={showConfirm ? 'visibility_off' : 'visibility'} size={18} />
-              </button>
-            </div>
-          </div>
+          <AuthInput
+            id="confirm"
+            name="confirm"
+            label="Confirm password"
+            icon="lock_reset"
+            type="password"
+            value={form.confirm}
+            onChange={handleChange}
+            placeholder="••••••••"
+            minLength={6}
+            required
+            autoComplete="new-password"
+            showPasswordLabel="Show password"
+            hidePasswordLabel="Hide password"
+          />
 
           {error && (
             <p className="text-body-md text-danger bg-red-50 border border-red-200 rounded-xl px-3 py-2">

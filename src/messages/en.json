@@ -305,6 +305,11 @@
   "adminOrders": {
     "title": "Order Management",
     "allStatus": "All",
+    "filterByDate": "Filter by date",
+    "dateFrom": "From",
+    "dateTo": "To",
+    "clearDates": "Clear dates",
+    "noOrdersInRange": "No orders in the selected date range",
     "noOrders": "No orders found",
     "updateError": "Failed to update order",
     "paymentReceipt": "Payment Receipt",
@@ -531,6 +536,11 @@
     "addDelivery": "Add Delivery",
     "addDeliveryAria": "Add delivery staff",
     "active": "Active",
+    "activeNow": "Active Now",
+    "activeNowHint": "Online in the last {minutes} min",
+    "totalHint": "Registered accounts",
+    "onlineNow": "Online now",
+    "offline": "Offline",
     "totalCustomers": "Total Customers",
     "totalStaff": "Total Staff",
     "noUsersFound": "No {type} users found",
@@ -624,6 +634,18 @@
     "markInTransit": "Mark In Transit",
     "awaitingConfirmation": "Awaiting Customer Confirmation",
     "awaitingConfirmationDesc": "The customer will confirm once they've physically received the order."
+  },
+  "datePicker": {
+    "title": "Select a date",
+    "placeholder": "Select a date",
+    "today": "Today",
+    "clear": "Clear",
+    "done": "Done",
+    "chooseMonth": "Choose month and year",
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "previousYear": "Previous year",
+    "nextYear": "Next year"
   },
   "auth": {
     "tagline": "Curated Luxury Shopping",

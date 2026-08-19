@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
 import { Order } from '@/models/Order'
+import { isoDayRangeFilter } from '@/lib/date'
 
 export async function GET(req: Request) {
   const session = await auth()
@@ -11,6 +12,8 @@ export async function GET(req: Request) {
 
   const { searchParams } = new URL(req.url)
   const status = searchParams.get('status')
+  // Inclusive calendar-day bounds from the admin date filter; malformed values are ignored.
+  const createdAt = isoDayRangeFilter(searchParams.get('from'), searchParams.get('to'))
   const page = Math.max(1, parseInt(searchParams.get('page') ?? '1'))
   const limit = Math.min(50, parseInt(searchParams.get('limit') ?? '20'))
   const skip = (page - 1) * limit
@@ -19,6 +22,7 @@ export async function GET(req: Request) {
 
   const filter: Record<string, unknown> = {}
   if (status && status !== 'all') filter.status = status
+  if (createdAt) filter.createdAt = createdAt
 
   const [orders, total] = await Promise.all([
     Order.find(filter)

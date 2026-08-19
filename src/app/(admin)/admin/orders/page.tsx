@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
+import { DatePicker } from '@/components/ui/DatePicker'
+import { toISODate } from '@/lib/date'
 import useSWR from 'swr'
 import toast from 'react-hot-toast'
 import { StatusBadge } from '@/components/ui/StatusBadge'
@@ -26,9 +28,26 @@ export default function AdminOrdersPage() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const status = searchParams.get('status') ?? 'all'
+  const from = searchParams.get('from') ?? ''
+  const to = searchParams.get('to') ?? ''
+  const hasDateFilter = Boolean(from || to)
+  // Orders can never be placed in the future, so both ends of the range stop at today.
+  const todayISO = toISODate(new Date())
+
+  // Filters live in the URL: the view stays shareable/bookmarkable and survives a refresh, which
+  // is how the status tabs already worked.
+  function setParams(next: Record<string, string>) {
+    const params = new URLSearchParams(searchParams.toString())
+    for (const [key, value] of Object.entries(next)) {
+      if (value) params.set(key, value)
+      else params.delete(key)
+    }
+    const query = params.toString()
+    router.push(`/admin/orders${query ? `?${query}` : ''}`)
+  }
 
   const { data, isLoading, mutate } = useSWR(
-    `/api/admin/orders?status=${status}&limit=30`,
+    `/api/admin/orders?status=${status}&from=${from}&to=${to}&limit=30`,
     fetcher,
     { refreshInterval: 15000 }
   )
@@ -58,7 +77,7 @@ export default function AdminOrdersPage() {
         {STATUSES.map((s) => (
           <button
             key={s}
-            onClick={() => router.push(`/admin/orders${s !== 'all' ? `?status=${s}` : ''}`)}
+            onClick={() => setParams({ status: s === 'all' ? '' : s })}
             className={`px-4 py-1.5 rounded-full text-label-sm capitalize transition ${
               status === s
                 ? 'bg-brand-primary text-white'
@@ -68,6 +87,42 @@ export default function AdminOrdersPage() {
             {s === 'all' ? t('allStatus') : tStatus(s as OrderStatus)}
           </button>
         ))}
+      </div>
+
+      {/* Date range filter */}
+      <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-3 sm:p-4 space-y-2">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-label-sm uppercase tracking-wider text-neutral-500 flex items-center gap-1.5 min-w-0">
+            <Icon name="calendar_month" size={16} className="text-brand-primary shrink-0" />
+            <span className="truncate">{t('filterByDate')}</span>
+          </p>
+          {hasDateFilter && (
+            <button
+              onClick={() => setParams({ from: '', to: '' })}
+              className="shrink-0 flex items-center gap-1 text-label-sm text-neutral-500 hover:text-danger transition"
+            >
+              <Icon name="close" size={14} />
+              {t('clearDates')}
+            </button>
+          )}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+          <DatePicker
+            id="orders-from"
+            label={t('dateFrom')}
+            value={from}
+            onChange={(value) => setParams({ from: value })}
+            max={to || todayISO}
+          />
+          <DatePicker
+            id="orders-to"
+            label={t('dateTo')}
+            value={to}
+            onChange={(value) => setParams({ to: value })}
+            min={from || undefined}
+            max={todayISO}
+          />
+        </div>
       </div>
 
       {isLoading ? (
@@ -80,7 +135,9 @@ export default function AdminOrdersPage() {
           ))}
         </div>
       ) : orders.length === 0 ? (
-        <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400 text-body-md">{t('noOrders')}</p>
+        <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400 text-body-md">
+          {hasDateFilter ? t('noOrdersInRange') : t('noOrders')}
+        </p>
       ) : (
         <div className="space-y-3">
           {orders.map((order: any) => {

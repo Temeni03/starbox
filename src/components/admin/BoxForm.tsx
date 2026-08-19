@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
 import toast from 'react-hot-toast'
 import useSWR from 'swr'
+import { DatePicker } from '@/components/ui/DatePicker'
 import { ImageUploadButton } from '@/components/ui/ImageUploadButton'
 import { useBlobUpload } from '@/hooks/useBlobUpload'
 import { locales, localeNames, type Locale } from '@/i18n/config'
@@ -196,26 +197,22 @@ export function BoxForm({ initialData, onSubmit, onDelete, submitLabel }: Props)
 
           <div className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 shadow-sm space-y-4">
             <label className="text-label-sm text-neutral-500 block">{t('scheduleOptional')}</label>
-            <div>
-              <label className="block text-label-sm text-neutral-500 mb-1">{t('startDate')}</label>
-              <input
-                name="startDate"
-                type="date"
-                value={form.startDate}
-                onChange={handleChange}
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-            </div>
-            <div>
-              <label className="block text-label-sm text-neutral-500 mb-1">{t('endDate')}</label>
-              <input
-                name="endDate"
-                type="date"
-                value={form.endDate}
-                onChange={handleChange}
-                className="w-full h-12 px-4 border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition"
-              />
-            </div>
+            <DatePicker
+              id="startDate"
+              name="startDate"
+              label={t('startDate')}
+              value={form.startDate}
+              onChange={(startDate) => setForm((prev) => ({ ...prev, startDate }))}
+              max={form.endDate || undefined}
+            />
+            <DatePicker
+              id="endDate"
+              name="endDate"
+              label={t('endDate')}
+              value={form.endDate}
+              onChange={(endDate) => setForm((prev) => ({ ...prev, endDate }))}
+              min={form.startDate || undefined}
+            />
             <p className="text-label-sm text-neutral-400">{t('scheduleHint')}</p>
           </div>
         </div>
