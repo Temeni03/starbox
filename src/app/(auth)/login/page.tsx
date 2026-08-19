@@ -5,14 +5,12 @@ import { signIn, getSession } from 'next-auth/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useLocale, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { AuthInput } from '@/components/ui/AuthInput'
 import { LocaleSwitcher } from '@/components/ui/LocaleSwitcher'
-import { isRtl, type Locale } from '@/i18n/config'
 
 export default function LoginPage() {
   const t = useTranslations('auth')
-  const dir = isRtl(useLocale() as Locale) ? 'rtl' : 'ltr'
   const router = useRouter()
   const searchParams = useSearchParams()
   const callbackUrl = searchParams.get('callbackUrl')
@@ -79,7 +77,6 @@ export default function LoginPage() {
             label={t('phoneLabel')}
             icon="call"
             type="tel"
-            dir={dir}
             value={phone}
             onChange={e => setPhone(e.target.value)}
             placeholder={t('phonePlaceholder')}
@@ -92,7 +89,6 @@ export default function LoginPage() {
             label={t('passwordLabel')}
             icon="lock"
             type="password"
-            dir={dir}
             value={password}
             onChange={e => setPassword(e.target.value)}
             placeholder="••••••••"

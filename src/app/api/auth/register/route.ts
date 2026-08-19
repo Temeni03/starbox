@@ -4,25 +4,35 @@ import { z } from 'zod'
 import { connectDB } from '@/lib/mongodb'
 import { User } from '@/models/User'
 import { getRequestLocale } from '@/lib/localized'
+import { translate } from '@/lib/serverTranslate'
 
 const RegisterSchema = z.object({
   name: z.string().min(2).max(100).trim(),
-  phone: z
-    .string()
-    .regex(/^[234][0-9]{7}$/, 'Phone must be 8 digits starting with 2, 3 or 4'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  phone: z.string().regex(/^[234][0-9]{7}$/),
+  password: z.string().min(6),
 })
 
+/**
+ * These messages are rendered straight into the sign-up form, so they are returned already
+ * translated for the caller's locale instead of as English validation text.
+ */
+const FIELD_ERROR_KEYS: Record<string, string> = {
+  name: 'nameInvalid',
+  phone: 'phoneInvalid',
+  password: 'passwordTooShort',
+}
+
 export async function POST(req: Request) {
+  const locale = await getRequestLocale()
+
   try {
     const body = await req.json()
     const parsed = RegisterSchema.safeParse(body)
 
     if (!parsed.success) {
-      return NextResponse.json(
-        { error: parsed.error.errors[0].message },
-        { status: 400 }
-      )
+      const field = String(parsed.error.errors[0]?.path[0] ?? '')
+      const key = FIELD_ERROR_KEYS[field] ?? 'registrationFailed'
+      return NextResponse.json({ error: await translate(locale, 'auth', key) }, { status: 400 })
     }
 
     const { name, phone, password } = parsed.data
@@ -32,17 +42,19 @@ export async function POST(req: Request) {
     const existing = await User.findOne({ phone })
     if (existing) {
       return NextResponse.json(
-        { error: 'Phone number already registered' },
+        { error: await translate(locale, 'auth', 'phoneAlreadyRegistered') },
         { status: 409 }
       )
     }
 
     const hashed = await bcrypt.hash(password, 12)
-    const language = await getRequestLocale()
-    await User.create({ name, phone, password: hashed, role: 'customer', language })
+    await User.create({ name, phone, password: hashed, role: 'customer', language: locale })
 
     return NextResponse.json({ success: true }, { status: 201 })
   } catch {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+    return NextResponse.json(
+      { error: await translate(locale, 'auth', 'serverError') },
+      { status: 500 }
+    )
   }
 }
