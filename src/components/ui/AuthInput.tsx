@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { useLocale } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
+import { isRtl, type Locale } from '@/i18n/config'
 
 interface AuthInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'id' | 'type'> {
   id: string
@@ -36,6 +38,10 @@ export function AuthInput({
 }: AuthInputProps) {
   const [revealed, setRevealed] = useState(false)
   const isPassword = type === 'password'
+  // Browsers force `direction: ltr` on tel/email/url inputs, which pins their text and
+  // placeholder to the left even on an RTL page while every other field flips. Stamping the
+  // page direction on the field puts them all on the same side; callers can still override it.
+  const dir = isRtl(useLocale() as Locale) ? 'rtl' : 'ltr'
 
   return (
     <div className="space-y-1.5">
@@ -48,6 +54,7 @@ export function AuthInput({
         </span>
         <input
           id={id}
+          dir={dir}
           type={isPassword && revealed ? 'text' : type}
           className={`w-full h-12 ps-12 ${isPassword ? 'pe-12' : 'pe-4'} bg-white border border-neutral-200 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-brand-primary focus:border-transparent transition ${className}`}
           {...inputProps}
