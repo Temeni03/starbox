@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { Icon } from '@/components/ui/Icon'
+import { PHONE_PATTERN, PHONE_LENGTH } from '@/lib/phone'
 import toast from 'react-hot-toast'
 
 export default function NewDeliveryPage() {
@@ -51,7 +52,7 @@ export default function NewDeliveryPage() {
       <form onSubmit={handleSubmit} className="bg-white/70 backdrop-blur-md border border-brand-light/60 rounded-2xl p-5 space-y-4">
         {[
           { name: 'name', label: t('fullName'), type: 'text', placeholder: 'Karim Benali' },
-          { name: 'phone', label: t('phoneNumber'), type: 'tel', placeholder: '2XXXXXXX', pattern: '[234][0-9]{7}', maxLength: 8, title: tProfile('phoneHint') },
+          { name: 'phone', label: t('phoneNumber'), type: 'tel', placeholder: '2XXXXXXX', pattern: PHONE_PATTERN, maxLength: PHONE_LENGTH, title: tProfile('phoneHint') },
           { name: 'password', label: t('password'), type: 'password', placeholder: t('passwordPlaceholder'), minLength: 6 },
         ].map(({ name, label, type, placeholder, pattern, maxLength, minLength, title }) => (
           <div key={name}>

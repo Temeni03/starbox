@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/Icon";
 import { isOnline } from "@/lib/presence";
+import { PHONE_PATTERN, PHONE_LENGTH } from '@/lib/phone';
 import useSWR from "swr";
 import toast from "react-hot-toast";
 
@@ -260,7 +261,7 @@ export default function AdminUsersPage() {
             </h2>
             {[
               { key: "name", label: t("fullName"), type: "text" },
-              { key: "phone", label: t("phoneNumber"), type: "tel", pattern: "[234][0-9]{7}", maxLength: 8, title: tProfile("phoneHint") },
+              { key: "phone", label: t("phoneNumber"), type: "tel", pattern: PHONE_PATTERN, maxLength: PHONE_LENGTH, title: tProfile("phoneHint") },
             ].map(({ key, label, type, pattern, maxLength, title }) => (
               <div key={key}>
                 <label className="block text-label-sm text-neutral-500 mb-1">

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
+import { PHONE_REGEX, PHONE_ERROR_MESSAGE } from '@/lib/phone'
 import bcrypt from 'bcryptjs'
 import { auth } from '@/lib/auth'
 import { connectDB } from '@/lib/mongodb'
@@ -9,7 +10,7 @@ import { deleteBlob } from '@/lib/blob'
 const ProfileSchema = z
   .object({
     name: z.string().min(2).max(100).trim().optional(),
-    phone: z.string().regex(/^[234][0-9]{7}$/, 'Phone must be 8 digits starting with 2, 3 or 4').optional(),
+    phone: z.string().regex(PHONE_REGEX, PHONE_ERROR_MESSAGE).optional(),
     language: z.enum(['ar', 'fr', 'en']).optional(),
     profilePhoto: z.string().url().nullable().optional(),
     currentPassword: z.string().optional(),
