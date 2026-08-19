@@ -143,7 +143,13 @@ html[dir="rtl"] {
   text-transform: none;
   white-space: nowrap;
   word-wrap: normal;
-  direction: ltr;
+  /* `unicode-bidi: isolate` keeps the ligature name (e.g. `lock_reset`) out of the surrounding
+     bidi run — the reason the Material recipe sets `direction: ltr` — WITHOUT forcing the
+     element's own direction. Forcing it broke every logical utility applied to an icon
+     (`start-*`, `end-*`, `ms-*`, `me-*` resolve against the element's own `direction`), which
+     is why the lock/phone/person icons stayed on the left in RTL while the eye icon — sitting
+     on a <button> that inherits the page direction — flipped correctly. */
+  unicode-bidi: isolate;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -156,10 +162,16 @@ html[dir="rtl"] {
 html {
   -webkit-text-size-adjust: 100%;
   height: 100%;
+  /* Set on the root (not body) so it propagates to the viewport without turning any element
+     into a scroll container — position: sticky keeps working. Stops off-canvas drawers and
+     stray wide children from producing page-level horizontal scrolling on phones. */
+  overflow-x: hidden;
 }
 
 body {
   min-height: 100%;
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   background-color: #FAFAFA;
   color: #171717;

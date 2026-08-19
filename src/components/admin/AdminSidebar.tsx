@@ -118,8 +118,8 @@ export function AdminSidebar({ userName }: { userName: string }) {
       </aside>
 
       {/* Mobile top bar */}
-      <header className="sm:hidden fixed top-0 inset-x-0 z-40 bg-white/90 backdrop-blur-md border-b border-neutral-200/60 h-14 flex items-center px-4 justify-between">
-        <div className="flex items-center gap-2.5">
+      <header className="sm:hidden fixed top-0 inset-x-0 z-40 max-w-full bg-white/90 backdrop-blur-md border-b border-neutral-200/60 h-14 flex items-center gap-2 px-4 justify-between">
+        <div className="flex items-center gap-2.5 min-w-0">
           <Image
             src="/logo.jpg"
             alt=""
@@ -127,13 +127,13 @@ export function AdminSidebar({ userName }: { userName: string }) {
             height={36}
             className="rounded-full object-cover shrink-0"
           />
-          <span className="text-headline-lg text-brand-primary tracking-tight leading-none">Starbox</span>
+          <span className="text-headline-lg text-brand-primary tracking-tight leading-none truncate">Starbox</span>
         </div>
         <button
           onClick={() => setMobileOpen(true)}
           aria-label={t('openMenuAria')}
           aria-expanded={mobileOpen}
-          className="relative w-10 h-10 flex items-center justify-center rounded-full text-neutral-500 hover:bg-surface-high transition"
+          className="relative w-10 h-10 shrink-0 flex items-center justify-center rounded-full text-neutral-500 hover:bg-surface-high transition"
         >
           <Icon name="menu" size={20} />
           {unreadCount > 0 && (
@@ -141,9 +141,6 @@ export function AdminSidebar({ userName }: { userName: string }) {
           )}
         </button>
       </header>
-
-      {/* Mobile spacer */}
-      <div className="sm:hidden h-14" />
 
       {/* Mobile drawer */}
       <div

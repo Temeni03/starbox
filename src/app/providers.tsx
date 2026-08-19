@@ -6,6 +6,7 @@ import NextTopLoader from 'nextjs-toploader'
 import { useLocale } from 'next-intl'
 import { isRtl, type Locale } from '@/i18n/config'
 import { PushNotificationSetup } from '@/components/PushNotificationSetup'
+import { PresenceHeartbeat } from '@/components/PresenceHeartbeat'
 import { InstallPrompt } from '@/components/pwa/InstallPrompt'
 import { PwaInstallProvider } from '@/lib/pwa/InstallPromptContext'
 
@@ -17,6 +18,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <PwaInstallProvider>
         <NextTopLoader color="#9731B9" height={3} showSpinner={false} />
         <PushNotificationSetup />
+        <PresenceHeartbeat />
         <InstallPrompt />
         {children}
       </PwaInstallProvider>

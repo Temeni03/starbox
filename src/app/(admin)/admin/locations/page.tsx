@@ -132,11 +132,11 @@ export default function AdminLocationsPage() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800">{t('title')}</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-headline-lg-mobile md:text-headline-lg text-neutral-800 min-w-0 truncate">{t('title')}</h1>
         <button
           onClick={openAddForm}
-          className="flex items-center gap-2 bg-brand-primary text-white px-4 py-2 rounded-xl text-label-lg hover:bg-brand-secondary transition"
+          className="shrink-0 flex items-center gap-2 whitespace-nowrap bg-brand-primary text-white px-4 py-2 rounded-xl text-label-lg hover:bg-brand-secondary transition"
         >
           <Icon name="add" size={16} />
           {t('addLocation')}
@@ -171,22 +171,22 @@ export default function AdminLocationsPage() {
           <p className="bg-white rounded-2xl border border-neutral-200 px-5 py-12 text-center text-neutral-400">{t('noMatch', { query: search })}</p>
         ) : (
           filteredLocations.map((l) => (
-            <div key={l._id} className={`bg-white rounded-2xl border border-neutral-200 flex items-center gap-4 p-4 ${!l.isActive ? 'opacity-50' : ''}`}>
+            <div key={l._id} className={`bg-white rounded-2xl border border-neutral-200 flex items-center gap-3 sm:gap-4 p-3 sm:p-4 ${!l.isActive ? 'opacity-50' : ''}`}>
               <div className="w-11 h-11 rounded-xl bg-brand-container/20 flex items-center justify-center shrink-0 text-brand-primary">
                 <Icon name="location_on" size={18} />
               </div>
 
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 min-w-0">
                   <p className="text-label-lg text-neutral-800 truncate">
                     {resolveLocalized(l.name, locale)}
                   </p>
-                  {!l.isActive && <span className="text-label-sm text-neutral-400">{t('hidden')}</span>}
+                  {!l.isActive && <span className="text-label-sm text-neutral-400 shrink-0">{t('hidden')}</span>}
                 </div>
                 <p className="text-label-sm text-neutral-400">{l.price.toLocaleString()} MRU</p>
               </div>
 
-              <div className="flex items-center gap-1 shrink-0">
+              <div className="flex items-center gap-0.5 sm:gap-1 shrink-0">
                 <button
                   onClick={() => openEditForm(l)}
                   className="p-2 text-neutral-400 hover:text-brand-primary hover:bg-brand-light/40 rounded-lg transition"
@@ -215,8 +215,8 @@ export default function AdminLocationsPage() {
       </div>
 
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
-          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full p-5 space-y-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4 py-6">
+          <div className="bg-white rounded-2xl border border-neutral-200 max-w-sm w-full max-h-full overflow-y-auto p-5 space-y-4">
             <div className="flex items-center justify-between">
               <h2 className="text-headline-md text-neutral-800">
                 {editing ? t('editLocation') : t('addLocationTitle')}

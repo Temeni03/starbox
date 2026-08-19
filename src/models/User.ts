@@ -10,6 +10,8 @@ export interface IUser extends Document {
   language: 'ar' | 'fr' | 'en'
   fcmToken?: string
   isActive: boolean
+  /** Last heartbeat from a signed-in client — powers the "active now" presence count. */
+  lastActiveAt?: Date
   createdAt: Date
   updatedAt: Date
 }
@@ -30,11 +32,14 @@ const UserSchema = new Schema<IUser>(
     language: { type: String, enum: ['ar', 'fr', 'en'], default: 'fr' },
     fcmToken: { type: String },
     isActive: { type: Boolean, default: true },
+    lastActiveAt: { type: Date },
   },
   { timestamps: true }
 )
 
 UserSchema.index({ phone: 1 })
 UserSchema.index({ role: 1 })
+// Covers the presence count: { role, lastActiveAt: { $gte: cutoff } }
+UserSchema.index({ role: 1, lastActiveAt: -1 })
 
 export const User = mongoose.models.User || mongoose.model<IUser>('User', UserSchema)

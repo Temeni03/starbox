@@ -67,7 +67,7 @@ export default function EditProductPage({
   if (!p) return <div className="text-neutral-400">{t("notFound")}</div>;
 
   return (
-    <div className="max-w-4xl mt-12">
+    <div className="max-w-4xl">
       <nav className="flex items-center gap-1.5 text-label-sm text-neutral-400 mb-2">
         <Link href="/admin" className="hover:text-brand-primary transition">
           {t("breadcrumbAdmin")}

@@ -9,7 +9,13 @@ import { Box } from '@/models/Box'
 import { Location } from '@/models/Location'
 import { notifyRole, notifyUser } from '@/lib/notify'
 import { getRequestLocale, resolveLocalized } from '@/lib/localized'
-import { activeBoxFilter, isBoxOutOfStock } from '@/lib/boxAvailability'
+import {
+  activeBoxFilter,
+  collectStockDecrements,
+  isBoxOutOfStock,
+  type BoxLine,
+  type OrderLine,
+} from '@/lib/boxAvailability'
 
 const CheckoutSchema = z.object({
   deliveryOption: z.enum(['home', 'pickup']),
@@ -60,6 +66,9 @@ export async function POST(req: Request) {
   // holding a stale reference (e.g. it was deleted and re-created) — prune it instead of
   // permanently blocking checkout on an item the customer can't act on.
   const staleItems: { name: string; productId: string }[] = []
+  // Contents of each ordered box, kept from validation so the stock draw-down below
+  // doesn't have to fetch them a second time.
+  const boxContents = new Map<string, BoxLine[]>()
   for (const item of cart.items) {
     if (item.itemType === 'Box') {
       const box = await Box.findOne({ _id: item.product, ...activeBoxFilter() }).populate('products.product', 'quantity')
@@ -67,12 +76,20 @@ export async function POST(req: Request) {
         staleItems.push({ name: item.name, productId: item.product.toString() })
         continue
       }
-      if (isBoxOutOfStock(box.products as { product?: { quantity: number } | null }[])) {
+      const lines = box.products as BoxLine[]
+      if (isBoxOutOfStock(lines)) {
         return NextResponse.json(
           { error: `"${item.name}" is currently unavailable` },
           { status: 409 }
         )
       }
+      if (isBoxOutOfStock(lines, item.quantity)) {
+        return NextResponse.json(
+          { error: `Insufficient stock for "${item.name}"` },
+          { status: 409 }
+        )
+      }
+      boxContents.set(item.product.toString(), lines)
       continue
     }
     const product = await Product.findById(item.product)
@@ -147,17 +164,14 @@ export async function POST(req: Request) {
     ],
   })
 
-  // Decrement stock (products only — boxes don't track their own inventory)
+  // Decrement stock. Boxes don't track their own inventory, so an ordered box draws
+  // down the products it contains — which is what flips it to unavailable once any of
+  // them runs out, and back again when it is restocked.
+  const stockDecrements = collectStockDecrements(cart.items as OrderLine[], boxContents)
   const updatedProducts = await Promise.all(
-    cart.items
-      .filter((item: any) => item.itemType !== 'Box')
-      .map((item: any) =>
-        Product.findByIdAndUpdate(
-          item.product,
-          { $inc: { quantity: -item.quantity } },
-          { new: true }
-        )
-      )
+    [...stockDecrements].map(([productId, units]) =>
+      Product.findByIdAndUpdate(productId, { $inc: { quantity: -units } }, { new: true })
+    )
   )
 
   // Clear cart

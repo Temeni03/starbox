@@ -98,5 +98,7 @@ OrderSchema.index({ customer: 1, createdAt: -1 })
 OrderSchema.index({ status: 1 })
 OrderSchema.index({ assignedTo: 1, status: 1 })
 OrderSchema.index({ orderNumber: 1 })
+// Backs the admin list: default sort by newest, plus the date-range filter.
+OrderSchema.index({ createdAt: -1 })
 
 export const Order = mongoose.models.Order || mongoose.model<IOrder>('Order', OrderSchema)

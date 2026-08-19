@@ -118,7 +118,7 @@ export default function AdminOrderDetailPage({
   );
 
   return (
-    <div className="max-w-2xl space-y-4 mt-16">
+    <div className="max-w-2xl space-y-4">
       <Link
         href="/admin/orders"
         className="flex items-center gap-1 text-body-md text-neutral-500 hover:text-brand-primary transition"

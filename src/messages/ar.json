@@ -305,6 +305,11 @@
   "adminOrders": {
     "title": "إدارة الطلبات",
     "allStatus": "الكل",
+    "filterByDate": "تصفية حسب التاريخ",
+    "dateFrom": "من",
+    "dateTo": "إلى",
+    "clearDates": "مسح التواريخ",
+    "noOrdersInRange": "لا توجد طلبات في الفترة المحددة",
     "noOrders": "لم يتم العثور على طلبات",
     "updateError": "فشل تحديث الطلب",
     "paymentReceipt": "إيصال الدفع",
@@ -531,6 +536,11 @@
     "addDelivery": "إضافة عامل توصيل",
     "addDeliveryAria": "إضافة عامل توصيل",
     "active": "نشط",
+    "activeNow": "النشطون الآن",
+    "activeNowHint": "متصل خلال آخر {minutes} دقائق",
+    "totalHint": "الحسابات المسجلة",
+    "onlineNow": "متصل الآن",
+    "offline": "غير متصل",
     "totalCustomers": "إجمالي العملاء",
     "totalStaff": "إجمالي الموظفين",
     "noUsersFound": "لم يتم العثور على مستخدمين",
@@ -624,6 +634,18 @@
     "markInTransit": "تحديد كقيد التوصيل",
     "awaitingConfirmation": "بانتظار تأكيد العميل",
     "awaitingConfirmationDesc": "سيقوم العميل بالتأكيد بمجرد استلامه الطلب فعليًا."
+  },
+  "datePicker": {
+    "title": "اختر تاريخًا",
+    "placeholder": "اختر تاريخًا",
+    "today": "اليوم",
+    "clear": "مسح",
+    "done": "تم",
+    "chooseMonth": "اختر الشهر والسنة",
+    "previousMonth": "الشهر السابق",
+    "nextMonth": "الشهر التالي",
+    "previousYear": "السنة السابقة",
+    "nextYear": "السنة التالية"
   },
   "auth": {
     "tagline": "تسوق فاخر منتقى بعناية",

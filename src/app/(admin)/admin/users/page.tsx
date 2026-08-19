@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Icon } from "@/components/ui/Icon";
+import { isOnline } from "@/lib/presence";
 import useSWR from "swr";
 import toast from "react-hot-toast";
 
@@ -18,6 +19,8 @@ export default function AdminUsersPage() {
   const { data, isLoading, mutate } = useSWR(
     `/api/admin/users?role=${tab}`,
     fetcher,
+    // Presence goes stale on its own, so keep the "active now" figure moving while the page is open.
+    { refreshInterval: 30000 },
   );
   const users = data?.users ?? [];
   const [search, setSearch] = useState("");
@@ -28,7 +31,9 @@ export default function AdminUsersPage() {
     return users.filter((u: any) => u.name?.toLowerCase().includes(q) || u.phone?.includes(q));
   }, [users, search]);
 
-  const activeCount = useMemo(() => users.filter((u: any) => u.isActive).length, [users]);
+  // Server-computed presence: users whose client sent a heartbeat inside the presence window.
+  const activeCount: number = data?.activeCount ?? 0;
+  const presenceWindowMinutes: number = data?.presenceWindowMinutes ?? 5;
 
   const [editingUser, setEditingUser] = useState<any | null>(null);
   const [editForm, setEditForm] = useState({ name: "", phone: "" });
@@ -141,14 +146,21 @@ export default function AdminUsersPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-brand-container/15 p-5 rounded-2xl border border-brand-container/40">
-          <p className="text-label-sm uppercase tracking-wider text-brand-secondary">{t("active")}</p>
-          <p className="text-headline-xl text-brand-primary">{activeCount} / {users.length}</p>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="bg-brand-container/15 p-4 sm:p-5 rounded-2xl border border-brand-container/40 min-w-0">
+          <p className="text-label-sm uppercase tracking-wider text-brand-secondary">{t("activeNow")}</p>
+          <p className="text-headline-xl-mobile md:text-headline-xl text-brand-primary flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-success shrink-0" />
+            {isLoading ? "..." : activeCount}
+          </p>
+          <p className="text-label-sm text-neutral-500 mt-0.5">
+            {t("activeNowHint", { minutes: presenceWindowMinutes })}
+          </p>
         </div>
-        <div className="bg-surface-high p-5 rounded-2xl border border-neutral-200">
+        <div className="bg-surface-high p-4 sm:p-5 rounded-2xl border border-neutral-200 min-w-0">
           <p className="text-label-sm uppercase tracking-wider text-neutral-500">{tab === 'customer' ? t('totalCustomers') : t('totalStaff')}</p>
-          <p className="text-headline-xl text-neutral-800">{users.length}</p>
+          <p className="text-headline-xl-mobile md:text-headline-xl text-neutral-800">{users.length}</p>
+          <p className="text-label-sm text-neutral-500 mt-0.5">{t("totalHint")}</p>
         </div>
       </div>
 
@@ -182,7 +194,10 @@ export default function AdminUsersPage() {
                       <Icon name="person" size={22} className="text-brand-primary" />
                     )}
                   </div>
-                  <span className={`absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full border-2 border-white ${u.isActive ? 'bg-success' : 'bg-neutral-300'}`} />
+                  <span
+                    className={`absolute bottom-0 end-0 w-3.5 h-3.5 rounded-full border-2 border-white ${isOnline(u.lastActiveAt) ? 'bg-success' : 'bg-neutral-300'}`}
+                    title={isOnline(u.lastActiveAt) ? t("onlineNow") : t("offline")}
+                  />
                 </div>
                 <div className="min-w-0">
                   <h3 className="text-label-lg text-neutral-800 truncate">{u.name}</h3>
