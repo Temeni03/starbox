@@ -1,4 +1,4 @@
-const CACHE_NAME = 'starbox-v2'
+const CACHE_NAME = 'starbox-v3'
 
 // Never cache these — always hit the network. Prevents stale prices, stock,
 // cart contents, or order state from ever being served from cache.
